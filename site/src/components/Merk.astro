@@ -1,0 +1,31 @@
+---
+import { merkId } from './merkteller';
+
+// Vector natrekking van het originele beeldmerk, opgemeten op de 512px-bron van de klant.
+// Het huis is een echte uitsparing, dus de achtergrond schijnt er doorheen.
+const { breedte = 48, klasse = '', titel } = Astro.props;
+const hoogte = Math.round((breedte * 391) / 548);
+const gat = merkId();
+---
+<svg
+  viewBox="-18 59 548 391"
+  width={breedte}
+  height={hoogte}
+  class={klasse}
+  role={titel ? 'img' : undefined}
+  aria-label={titel}
+  aria-hidden={titel ? undefined : 'true'}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <mask id={gat}>
+      <rect x="-18" y="59" width="548" height="391" fill="#fff" />
+      <path d="M256 206 L390 336 L395 346 L366 348 L359 352 L359 470 L153 470 L153 352 L146 348 L117 346 L122 336 Z" fill="#000" />
+    </mask>
+  </defs>
+  <g mask={`url(#${gat})`}>
+    <circle cx="143.15" cy="220.5" r="161" fill="#6aacda" />
+    <circle cx="368.85" cy="220.5" r="161" fill="#6a4d47" />
+  </g>
+  <path fill="#00374f" d="M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L390 336 L256 206 L122 336 L117 346 L146 348 L153 352 L153 449 L148 450 L32 330 Z" />
+</svg>

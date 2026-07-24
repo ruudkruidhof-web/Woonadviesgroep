@@ -1,0 +1,144 @@
+---
+import Merk from './Merk.astro';
+import bedrijf from '../content/bedrijf.json';
+import diensten from '../content/diensten.json';
+
+const jaar = new Date().getFullYear();
+const documenten = [
+  { titel: 'Dienstenwijzer', url: 'https://woonadviesgroep.nl/wp-content/uploads/Dienstenwijzer.pdf' },
+  { titel: 'Vergelijkingskaart Hypotheek', url: 'https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Hypotheek-2.pdf' },
+  { titel: 'Vergelijkingskaart Risico’s afdekken', url: 'https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Risicos-afdekken.pdf' },
+  { titel: 'Vergelijkingskaart Vermogen opbouwen', url: 'https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Vermogen-opbouwen.pdf' },
+];
+---
+<footer class="site-voet">
+  <div class="maat kolommen">
+    <div class="merk">
+      <p class="merk-regel">
+        <span class="merk-zegel"><Merk breedte={34} /></span>
+        <span>WoonAdvies <b>Groep</b></span>
+      </p>
+      <p class="motto">{bedrijf.tagline}</p>
+      <p class="registraties">
+        KvK {bedrijf.kvk} &middot; AFM {bedrijf.afm} &middot; Kifid {bedrijf.kifid}
+      </p>
+    </div>
+    <nav aria-label="Diensten">
+      <h3>Diensten</h3>
+      <ul>
+        {diensten.map((d) => (
+          <li><a href={`/#${d.id}`}>{d.titel}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <nav aria-label="Documenten">
+      <h3>Documenten</h3>
+      <ul>
+        {documenten.map((doc) => (
+          <li><a href={doc.url}>{doc.titel} (pdf)</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div>
+      <h3>Contact</h3>
+      <address>
+        {bedrijf.adres_straat}<br />
+        {bedrijf.adres_plaats}<br />
+        <a href={`tel:${bedrijf.telefoon_link}`}>{bedrijf.telefoon}</a><br />
+        <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
+      </address>
+    </div>
+  </div>
+  <div class="maat onderregel">
+    <p>&copy; {jaar} {bedrijf.naam}</p>
+    <p>Onafhankelijk financieel adviseur, Rotterdam</p>
+  </div>
+</footer>
+
+<style>
+  .site-voet {
+    background: var(--navy);
+    color: #c6d9e6;
+    padding-block: 3.5rem 2rem;
+    font-size: 0.95rem;
+  }
+  .kolommen {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .merk-regel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-kop);
+    font-size: 1.35rem;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .merk-zegel {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--paper);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .merk-regel b {
+    font-weight: 560;
+    color: var(--sky);
+  }
+  .motto {
+    font-family: var(--font-kop);
+    font-size: 1.15rem;
+    color: #fff;
+    margin-top: 1rem;
+    max-width: 22ch;
+  }
+  .registraties {
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    color: #8fb0c4;
+  }
+  h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.9rem;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  a {
+    color: #c6d9e6;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  address {
+    font-style: normal;
+    line-height: 1.9;
+  }
+  .onderregel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(198, 217, 230, 0.2);
+    font-size: 0.85rem;
+    color: #8fb0c4;
+  }
+  @media (min-width: 700px) {
+    .kolommen {
+      grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
+    }
+  }
+</style>

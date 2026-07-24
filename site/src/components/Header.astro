@@ -1,0 +1,260 @@
+---
+import Logo from './Logo.astro';
+import diensten from '../content/diensten.json';
+import bedrijf from '../content/bedrijf.json';
+---
+<header class="site-kop">
+  <div class="maat balk">
+    <a href="/" class="logo-link" aria-label="WoonAdvies Groep, naar home">
+      <Logo />
+    </a>
+    <button class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">
+      <span class="menu-lijnen" aria-hidden="true"></span>
+      Menu
+    </button>
+    <nav id="hoofdmenu" aria-label="Hoofdmenu">
+      <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li class="heeft-sub">
+          <button aria-expanded="false">
+            Diensten
+            <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="submenu">
+            {diensten.map((d) => (
+              <li><a href={`/#${d.id}`}>{d.titel}</a></li>
+            ))}
+          </ul>
+        </li>
+        <li><a href="/#werkwijze">Onze werkwijze</a></li>
+        <li><a href="/#actueel">Nieuws</a></li>
+        <li><a href="/#contact">Contact</a></li>
+        <li class="bel">
+          <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
+            <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
+            {bedrijf.telefoon}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-kop {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .balk {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.8rem;
+  }
+  .logo-link {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .menu-knop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font: inherit;
+    font-weight: 600;
+    color: var(--navy);
+    background: none;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  .menu-lijnen,
+  .menu-lijnen::before,
+  .menu-lijnen::after {
+    display: block;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    content: '';
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .menu-lijnen {
+    position: relative;
+  }
+  .menu-lijnen::before {
+    position: absolute;
+    top: -5px;
+  }
+  .menu-lijnen::after {
+    position: absolute;
+    top: 5px;
+  }
+  :global(.menu-open) .menu-lijnen {
+    background: transparent;
+  }
+  :global(.menu-open) .menu-lijnen::before {
+    transform: translateY(5px) rotate(45deg);
+  }
+  :global(.menu-open) .menu-lijnen::after {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+  nav {
+    display: none;
+  }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  nav a[aria-current='page'] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--sky);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
+  }
+  .heeft-sub > button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font: inherit;
+    font-weight: 500;
+    color: var(--navy);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  :global(.menu-open) nav {
+    display: block;
+    position: absolute;
+    inset: 100% 0 auto 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 40px -24px rgba(0, 56, 80, 0.25);
+  }
+  :global(.menu-open) nav > ul {
+    width: var(--maat);
+    margin-inline: auto;
+    padding-block: 1rem 1.5rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+  :global(.menu-open) nav a,
+  :global(.menu-open) .heeft-sub > button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.55rem 0;
+    font-size: 1.05rem;
+  }
+  .submenu {
+    display: none;
+    padding-left: 1rem;
+    border-left: 2px solid var(--sky-wash);
+  }
+  .heeft-sub > button[aria-expanded='true'] + .submenu {
+    display: block;
+  }
+  .heeft-sub > button[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  .bel {
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .menu-knop {
+      display: none;
+    }
+    nav {
+      display: block;
+    }
+    nav > ul {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+    nav > ul > li > a:hover,
+    .heeft-sub > button:hover {
+      color: var(--sky-deep);
+    }
+    .heeft-sub {
+      position: relative;
+    }
+    .submenu {
+      position: absolute;
+      top: calc(100% + 0.9rem);
+      left: 50%;
+      translate: -50% 0;
+      min-width: 13rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 40px -20px rgba(0, 56, 80, 0.3);
+      padding: 0.5rem;
+    }
+    .heeft-sub > button[aria-expanded='true'] + .submenu {
+      display: grid;
+    }
+    .submenu a {
+      display: block;
+      padding: 0.55rem 0.9rem;
+      border-radius: 8px;
+    }
+    .submenu a:hover {
+      background: var(--sky-wash);
+    }
+    .bel {
+      margin: 0;
+    }
+    .bel .knop {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<script>
+  const kop = document.querySelector('.site-kop');
+  const menuKnop = kop.querySelector('.menu-knop');
+  menuKnop.addEventListener('click', () => {
+    const open = kop.classList.toggle('menu-open');
+    menuKnop.setAttribute('aria-expanded', String(open));
+  });
+
+  const subKnop = kop.querySelector('.heeft-sub > button');
+  subKnop.addEventListener('click', () => {
+    const open = subKnop.getAttribute('aria-expanded') === 'true';
+    subKnop.setAttribute('aria-expanded', String(!open));
+  });
+  document.addEventListener('click', (e) => {
+    if (!subKnop.parentElement.contains(e.target)) {
+      subKnop.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      subKnop.setAttribute('aria-expanded', 'false');
+      kop.classList.remove('menu-open');
+      menuKnop.setAttribute('aria-expanded', 'false');
+    }
+  });
+  kop.querySelectorAll('nav a').forEach((a) => {
+    a.addEventListener('click', () => {
+      kop.classList.remove('menu-open');
+      menuKnop.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

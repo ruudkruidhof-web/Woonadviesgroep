@@ -1,0 +1,140 @@
+:root {
+  --navy: #003850;
+  --navy-soft: #2c4f63;
+  --sky: #6aabda;
+  --sky-deep: #35709e;
+  --sky-wash: #e9f2f9;
+  --brown: #6a4d47;
+  --brown-deep: #533c37;
+  --paper: #fbfaf8;
+  --ice: #f0f6fb;
+  --line: #dbe6ef;
+  --font-kop: 'Ibarra Real Nova Variable', Georgia, serif;
+  --font-tekst: 'Nunito Sans Variable', 'Segoe UI', sans-serif;
+  --maat: min(1160px, calc(100vw - 2.5rem));
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  font-family: var(--font-tekst);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--navy-soft);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--sky);
+  color: #fff;
+}
+
+a, button, summary, input, select, textarea {
+  touch-action: manipulation;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-kop);
+  font-optical-sizing: auto;
+  font-weight: 540;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4.2vw, 2.5rem);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--sky-deep);
+}
+
+.maat {
+  width: var(--maat);
+  margin-inline: auto;
+}
+
+.knop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.knop:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -12px rgba(0, 56, 80, 0.45);
+}
+
+.knop:active {
+  transform: scale(0.98);
+}
+
+.knop-vol {
+  background: var(--navy);
+  color: #fff;
+}
+
+.knop-vol:hover,
+.knop-vol:focus-visible {
+  background: #0c4a67;
+}
+
+.knop-lijn {
+  border-color: var(--line);
+  color: var(--navy);
+  background: #fff;
+}
+
+.knop-lijn:hover,
+.knop-lijn:focus-visible {
+  border-color: var(--sky);
+  color: var(--sky-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--sky-deep);
+  outline-offset: 3px;
+}
+
+html.heeft-js .reveal {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.heeft-js .reveal {
+    opacity: 1;
+  }
+}

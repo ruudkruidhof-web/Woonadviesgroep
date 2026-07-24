@@ -1,0 +1,38 @@
+[
+  {
+    "id": "hypotheken",
+    "titel": "Hypotheken",
+    "tekst": "Uw eerste koopwoning, een volgende stap of oversluiten: wij vergelijken onafhankelijk en adviseren aanbieders met een goede prijs én goede voorwaarden.",
+    "punten": ["Uw eerste koopwoning", "Oversluiten of verbouwen", "Rentevaste periode loopt af"],
+    "beeld": "/beeld/voordeur.webp",
+    "beeld_alt": "Voordeur met sleutel in het slot",
+    "link": "/hypotheken/"
+  },
+  {
+    "id": "pensioenen",
+    "titel": "Pensioenen",
+    "tekst": "Het appeltje voor de dorst. We brengen in kaart wat u straks nodig heeft en wat er al staat, en vullen aan waar dat nodig is.",
+    "punten": ["Uw pensioenoverzicht compleet", "Aanvullend opbouwen", "Eerder stoppen met werken"],
+    "beeld": "/beeld/appel.webp",
+    "beeld_alt": "Appel op een lichte vensterbank",
+    "link": "/pensioenen/"
+  },
+  {
+    "id": "verzekeringen",
+    "titel": "Verzekeringen",
+    "tekst": "Goed verzekerd zijn betekent niet álles verzekeren. We kijken kritisch naar wat u echt nodig heeft, tegen goede voorwaarden.",
+    "punten": ["Risico's afdekken", "Wonen en inboedel", "Uw portefeuille doorlichten"],
+    "beeld": "/beeld/paraplu.webp",
+    "beeld_alt": "Donkerblauwe paraplu tegen een lichte muur",
+    "link": "/verzekeringen/"
+  },
+  {
+    "id": "financien",
+    "titel": "Financiën",
+    "tekst": "Als u het wenst, adviseren we u over uw complete financiële huishouding. Het doel: een helder beeld, voor nu en in de toekomst.",
+    "punten": ["Vermogen opbouwen", "Financiële planning", "Uw complete huishouding"],
+    "beeld": "/beeld/notitieboek.webp",
+    "beeld_alt": "Notitieboek met vulpen en kompas op een houten bureau",
+    "link": "/financien/"
+  }
+]

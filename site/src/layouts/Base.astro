@@ -1,0 +1,73 @@
+---
+import '@fontsource-variable/ibarra-real-nova';
+import '@fontsource-variable/ibarra-real-nova/wght-italic.css';
+import '@fontsource-variable/nunito-sans';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import bedrijf from '../content/bedrijf.json';
+
+const { titel, omschrijving } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FinancialService',
+  name: bedrijf.naam,
+  slogan: bedrijf.tagline,
+  telephone: bedrijf.telefoon_link,
+  email: bedrijf.email,
+  url: Astro.site?.toString(),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: bedrijf.adres_straat,
+    addressLocality: 'Rotterdam',
+    postalCode: '3063 AV',
+    addressCountry: 'NL',
+  },
+  areaServed: 'Rotterdam',
+  foundingDate: bedrijf.sinds,
+};
+---
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    <meta name="description" content={omschrijving} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={titel} />
+    <meta property="og:description" content={omschrijving} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="nl_NL" />
+    <script is:inline>document.documentElement.classList.add('heeft-js');</script>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script src="https://cms-denhaag.vercel.app/preview-bridge.js" defer></script>
+  </head>
+  <body>
+    <a href="#inhoud" class="skiplink">Naar de inhoud</a>
+    <Header />
+    <main id="inhoud">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .skiplink {
+    position: absolute;
+    left: -100vw;
+    top: 0.5rem;
+    z-index: 100;
+    background: var(--navy);
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+  }
+  .skiplink:focus {
+    left: 0.5rem;
+  }
+</style>
