@@ -15,7 +15,15 @@ const { thema = 'fris' } = Astro.props;
 const datumFmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 const [hoofdartikel, ...restartikelen] = nieuws;
 const manifestTekst1 = thema === 'groen' ? varianten.manifest_tekst_1_groen : home.manifest_tekst_1;
-const marquee = [...reviews.marquee, ...reviews.marquee];
+
+const googleReviews = reviews.items.map((r) => ({ ...r, bron: 'Google' }));
+const advieskeuzeReviews = reviews.uitgelicht.filter((r) => r.bron === 'Advieskeuze');
+const railReviews = [];
+for (let i = 0; i < Math.max(googleReviews.length, advieskeuzeReviews.length); i++) {
+  if (googleReviews[i]) railReviews.push(googleReviews[i]);
+  if (advieskeuzeReviews[i]) railReviews.push(advieskeuzeReviews[i]);
+}
+
 const zekerheden = [
   'Volledig onafhankelijk',
   `AFM-geregistreerd (${bedrijf.afm})`,
@@ -87,7 +95,7 @@ const stapIconen = [
         <span data-cms-field="stat_tekst">{varianten.stat_tekst}</span>
       </span>
       <span class="stempel" aria-hidden="true">
-        <Merk breedte={44} klasse="stempel-merk" />
+        <Merk breedte={40} klasse="stempel-merk" />
         <svg viewBox="0 0 120 120">
           <defs>
             <path id="stempel-rond" d="M60 13 a47 47 0 1 1 -0.01 0" />
@@ -109,90 +117,101 @@ const stapIconen = [
   </ul>
 </section>
 
-<section class="diensten" id="diensten" aria-labelledby="diensten-kop">
+<section class="register" id="diensten" aria-labelledby="register-kop">
   <div class="maat">
-    <div class="sectie-kop">
-      <span class="eyebrow">{varianten.diensten_label}</span>
-      <h2 id="diensten-kop" class="reveal" data-cms-field="diensten_titel">{home.diensten_titel}</h2>
+    <div class="register-kop">
+      <h2 id="register-kop" class="reveal" data-cms-field="diensten_titel">{home.diensten_titel}</h2>
       <p class="reveal" data-cms-field="diensten_tekst">{home.diensten_tekst}</p>
     </div>
-    <ul class="dienst-rooster" data-cms-collection="diensten">
-      {diensten.map((d, i) => (
-        <li class="dienst-tegel reveal" id={d.id} data-cms-item={d.id}>
-          <img src={d.beeld} alt="" width="900" height="700" loading="lazy" />
-          <span class="tegel-floep" aria-hidden="true"></span>
-          <div class="tegel-paneel">
-            <span class="tegel-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <h3 data-cms-field="titel">{d.titel}</h3>
-            <div class="tegel-extra">
-              <div>
-                <p data-cms-field="tekst">{d.tekst}</p>
-                <ul>
-                  {d.punten.map((punt) => (
-                    <li>
-                      <svg width="12" height="9" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      {punt}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
+    <div class="register-grid">
+      <ol class="register-rijen" data-cms-collection="diensten">
+        {diensten.map((d, i) => (
+          <li class="reveal" id={d.id} data-cms-item={d.id} data-index={i}>
+            <details open={i === 0}>
+              <summary>
+                <span class="register-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 data-cms-field="titel">{d.titel}</h3>
+                <span class="register-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="register-klep">
+                <div class="register-inhoud">
+                  <p data-cms-field="tekst">{d.tekst}</p>
+                  <ul>
+                    {d.punten.map((punt) => (
+                      <li>
+                        <svg width="12" height="9" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        {punt}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
+                </div>
               </div>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
+            </details>
+          </li>
+        ))}
+      </ol>
+      <figure class="register-beeld" aria-hidden="true">
+        {diensten.map((d, i) => (
+          <img src={d.beeld} alt="" width="900" height="1200" loading="lazy" class={i === 0 ? 'actief' : ''} data-index={i} />
+        ))}
+      </figure>
+    </div>
   </div>
 </section>
 
-<section class="stemmen" aria-labelledby="stemmen-kop">
-  <div class="maat">
-    <div class="stemmen-kop">
-      <div>
-        <span class="eyebrow">Reviews</span>
-        <h2 id="stemmen-kop" class="reveal" data-cms-field="reviews_titel">{varianten.reviews_titel}</h2>
-        <p class="stemmen-intro reveal" data-cms-field="reviews_tekst">{varianten.reviews_tekst}</p>
-        <span class="stemmen-badge reveal" data-cms-field="reviews_badge">
-          <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13-6.2M20 12a8 8 0 0 1-13 6.2M17 4v4h-4M7 20v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          {varianten.reviews_badge}
+<section class="reviews" aria-labelledby="reviews-kop">
+  <div class="maat reviews-grid">
+    <div class="score-kaart reveal">
+      <span class="google-g" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      </span>
+      <p class="score-getal" aria-label={`Beoordeeld met ${reviews.score} van 5 op Google`}>{reviews.score}</p>
+      <span class="sterren" aria-hidden="true">
+        {[1, 2, 3, 4, 5].map(() => (
+          <svg width="19" height="18" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+        ))}
+      </span>
+      <h2 id="reviews-kop">Wat klanten zeggen</h2>
+      <p class="score-sub">Alle {reviews.aantal} Google-reviews geven ons vijf sterren.</p>
+      <div class="score-tweede">
+        <span class="badge-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
+        <span>
+          <b>{reviews.advieskeuze_score}<i>/10</i> op Advieskeuze</b>
+          <small>Gemiddeld uit {reviews.advieskeuze_aantal} beoordelingen</small>
         </span>
       </div>
-      <div class="stemmen-scores reveal">
-        <a class="scorekaart" href={reviews.google_url}>
-          <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          <b>{reviews.score}</b>
-          <span class="sterren" aria-hidden="true">
-            {[1, 2, 3, 4, 5].map(() => (
-              <svg width="13" height="12" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
-            ))}
-          </span>
-          <small>{reviews.aantal} reviews</small>
-        </a>
-        <a class="scorekaart" href={reviews.advieskeuze_url}>
-          <span class="badge-tien groot" aria-hidden="true">{reviews.advieskeuze_score}</span>
-          <b>{reviews.advieskeuze_score}<i>/10</i></b>
-          <small>{reviews.advieskeuze_aantal} reviews</small>
-        </a>
+      <div class="score-links">
+        <a href={reviews.google_url}>Bekijk op Google</a>
+        <a href={reviews.advieskeuze_url}>Bekijk op Advieskeuze</a>
       </div>
     </div>
-  </div>
-  <div class="marquee" aria-label="Reviews van klanten">
-    <ul class="marquee-spoor">
-      {marquee.map((r, i) => (
-        <li aria-hidden={i >= reviews.marquee.length ? 'true' : undefined}>
-          <span class="rev-kop">
-            <span class="sterren klein" aria-hidden="true">
-              {[1, 2, 3, 4, 5].map(() => (
-                <svg width="13" height="12" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
-              ))}
+    <div class="rail-wrap">
+      <ul class="rail" data-cms-collection="reviews" tabindex="0" aria-label="Reviews van klanten, horizontaal te scrollen">
+        {railReviews.map((r) => (
+          <li data-cms-item={r.id}>
+            <span class="rail-kop">
+              <span class="sterren klein" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <svg width="14" height="13" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+                ))}
+              </span>
+              <span class={`bron bron-${r.bron.toLowerCase()}`}>{r.bron}</span>
             </span>
-            <span class={`bron bron-${r.bron.toLowerCase()}`}>{r.bron}</span>
-          </span>
-          <p>{r.tekst}</p>
-          <span class="rev-naam">{r.naam}</span>
-        </li>
-      ))}
-    </ul>
+            <blockquote data-cms-field="tekst">{r.tekst}</blockquote>
+            <p class="review-naam"><span data-cms-field="naam">{r.naam}</span> <span class="review-bron">{r.wanneer}</span></p>
+          </li>
+        ))}
+      </ul>
+      <div class="rail-knoppen">
+        <button type="button" class="rail-knop" data-richting="-1" aria-label="Vorige reviews">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2.5 4.5 8 10 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="rail-knop" data-richting="1" aria-label="Volgende reviews">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.5 11.5 8 6 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -203,7 +222,6 @@ const stapIconen = [
       <blockquote data-cms-field="verhaal_quote">{home.verhaal_quote}</blockquote>
     </figure>
     <div class="verhaal-tekst">
-      <span class="eyebrow">Onze belofte</span>
       <h2 id="verhaal-kop" class="reveal" data-cms-field="verhaal_titel">{home.verhaal_titel}</h2>
       <p class="reveal" data-cms-field="verhaal_tekst_1">{home.verhaal_tekst_1}</p>
       <p class="reveal" data-cms-field="verhaal_tekst_2">{home.verhaal_tekst_2}</p>
@@ -213,7 +231,6 @@ const stapIconen = [
 
 <section class="route" id="werkwijze" aria-labelledby="route-kop">
   <div class="maat">
-    <span class="eyebrow eyebrow-licht">Stap voor stap</span>
     <h2 id="route-kop" class="reveal" data-cms-field="werkwijze_titel">{home.werkwijze_titel}</h2>
     <p class="route-intro reveal" data-cms-field="werkwijze_tekst_kort">{varianten.werkwijze_tekst_kort}</p>
     <div class="route-vlak">
@@ -248,7 +265,6 @@ const stapIconen = [
 <section class="situaties" id="voorwie" aria-labelledby="situaties-kop">
   <div class="maat">
     <div class="sectie-kop">
-      <span class="eyebrow">Voor wie</span>
       <h2 id="situaties-kop" class="reveal" data-cms-field="voorwie_titel">{varianten.voorwie_titel}</h2>
       <p class="reveal" data-cms-field="voorwie_tekst">{varianten.voorwie_tekst}</p>
     </div>
@@ -270,7 +286,6 @@ const stapIconen = [
 
 <section class="actueel" id="actueel" aria-labelledby="actueel-kop">
   <div class="maat">
-    <span class="eyebrow">Actueel</span>
     <h2 id="actueel-kop" class="reveal" data-cms-field="actueel_titel">{home.actueel_titel}</h2>
     <div class="artikelen" data-cms-collection="nieuws">
       <article class="artikel-groot reveal" data-cms-item={hoofdartikel.id}>
@@ -300,13 +315,12 @@ const stapIconen = [
 <section class="manifest" aria-labelledby="manifest-kop">
   <div class="maat manifest-grid">
     <div class="manifest-tekst-blok">
-      <span class="manifest-merk reveal"><Merk breedte={112} /></span>
+      <span class="manifest-merk reveal"><Merk breedte={104} /></span>
       <h2 id="manifest-kop" class="reveal" data-cms-field="manifest_titel">{home.manifest_titel}</h2>
       <p class="reveal" data-cms-field="manifest_tekst_1">{manifestTekst1}</p>
       <p class="reveal" data-cms-field="manifest_tekst_2">{home.manifest_tekst_2}</p>
     </div>
     <div class="faq reveal">
-      <span class="eyebrow">{varianten.faq_label}</span>
       <h3 data-cms-field="faq_titel">{varianten.faq_titel}</h3>
       <div class="faq-lijst" data-cms-collection="faq">
         {faq.map((item, i) => (
@@ -422,31 +436,6 @@ const stapIconen = [
 </dialog>
 
 <style>
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-tekst);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brown);
-    margin-bottom: 0.9rem;
-  }
-  .eyebrow::before {
-    content: '';
-    width: 1.7rem;
-    height: 2px;
-    background: var(--brown);
-    border-radius: 2px;
-  }
-  .eyebrow-licht {
-    color: var(--sky);
-  }
-  .eyebrow-licht::before {
-    background: var(--sky);
-  }
   .sectie-kop {
     display: grid;
     max-width: 56ch;
@@ -461,7 +450,7 @@ const stapIconen = [
   .hero {
     position: relative;
     overflow: clip;
-    padding-block: 3rem 4rem;
+    padding-block: 2.4rem 3rem;
     background: linear-gradient(180deg, var(--ice) 0%, var(--paper) 96%);
   }
   .hero-blob {
@@ -486,10 +475,10 @@ const stapIconen = [
   .hero-grid {
     position: relative;
     display: grid;
-    gap: 3.5rem;
+    gap: 2.6rem;
   }
   h1 {
-    font-size: clamp(2.9rem, 8vw, 4.6rem);
+    font-size: clamp(2.7rem, 7vw, 4.1rem);
     font-weight: 500;
     max-width: 12ch;
   }
@@ -516,23 +505,23 @@ const stapIconen = [
     display: inline-block;
   }
   .intro {
-    margin-top: 1.4rem;
-    font-size: 1.13rem;
+    margin-top: 1.1rem;
+    font-size: 1.08rem;
     max-width: 44ch;
   }
   .hero-acties {
     display: grid;
-    gap: 0.8rem;
-    margin-top: 2rem;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
     max-width: 30rem;
   }
   .hero-acties-rij {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
+    gap: 0.7rem;
   }
   .hero-acties .knop {
-    padding: 0.85rem 1.35rem;
+    padding: 0.8rem 1.3rem;
     font-size: 0.95rem;
   }
   .knop-primair {
@@ -544,13 +533,13 @@ const stapIconen = [
   .hero-scores {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.7rem 1.6rem;
-    margin-top: 1.8rem;
+    gap: 0.6rem 1.5rem;
+    margin-top: 1.4rem;
   }
   .hero-score {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.55rem;
     text-decoration: none;
     color: var(--navy);
   }
@@ -560,7 +549,7 @@ const stapIconen = [
   }
   .hero-score b {
     font-family: var(--font-kop);
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     font-weight: 600;
   }
   .hero-score b i {
@@ -569,19 +558,13 @@ const stapIconen = [
     color: var(--navy-soft);
   }
   .hero-score small {
-    font-size: 0.76rem;
+    font-size: 0.75rem;
     color: var(--navy-soft);
   }
   .mini-sterren {
     display: inline-flex;
     gap: 0.08rem;
     color: #dfa437;
-    margin-left: 0.15rem;
-  }
-  .hero-score b + .mini-sterren {
-    margin-left: 0;
-  }
-  .hero-score > span .mini-sterren {
     margin-top: 0.05rem;
   }
   .badge-tien {
@@ -600,8 +583,8 @@ const stapIconen = [
   }
   .zekerheden {
     list-style: none;
-    margin: 2.8rem auto 0;
-    padding: 1.4rem 0 0;
+    margin: 2.2rem auto 0;
+    padding: 1.2rem 0 0;
     border-top: 1px solid var(--line);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -625,7 +608,7 @@ const stapIconen = [
   .hero-beeld {
     position: relative;
     justify-self: center;
-    width: min(84%, 21.5rem);
+    width: min(76%, 19rem);
     border-radius: 999px 999px var(--radius) var(--radius);
     box-shadow: 0 36px 70px -34px rgba(0, 56, 80, 0.45);
   }
@@ -642,33 +625,33 @@ const stapIconen = [
   .hero-beeld > img {
     width: 100%;
     height: auto;
-    aspect-ratio: 2 / 3;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 62% center;
     border-radius: inherit;
   }
   .hero-stat {
     position: absolute;
-    top: 4.2rem;
-    right: -1.6rem;
+    top: 2.4rem;
+    right: -1.4rem;
     display: grid;
     justify-items: start;
     gap: 0.1rem;
     background: var(--paper);
     border-radius: var(--radius);
-    padding: 0.85rem 1.1rem;
+    padding: 0.8rem 1rem;
     rotate: 2deg;
     box-shadow: 0 18px 36px -18px rgba(0, 56, 80, 0.45);
   }
   .hero-stat b {
     font-family: var(--font-kop);
     font-style: italic;
-    font-size: 1.7rem;
+    font-size: 1.55rem;
     line-height: 1;
     color: var(--navy);
   }
   .hero-stat span {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--navy-soft);
     max-width: 13ch;
@@ -676,10 +659,10 @@ const stapIconen = [
   }
   .stempel {
     position: absolute;
-    left: -2.4rem;
-    bottom: 1.6rem;
-    width: 7.25rem;
-    height: 7.25rem;
+    left: -2rem;
+    bottom: 1.4rem;
+    width: 6.5rem;
+    height: 6.5rem;
     display: grid;
     place-items: center;
     background: var(--paper);
@@ -712,285 +695,263 @@ const stapIconen = [
     padding-top: 5.5rem;
   }
 
-  .dienst-rooster {
-    list-style: none;
-    margin: 2.6rem 0 0;
-    padding: 0;
+  .register-kop {
     display: grid;
-    gap: 1.1rem;
+    gap: 0.9rem;
+    max-width: 56ch;
   }
-  .dienst-tegel {
-    position: relative;
-    overflow: hidden;
-    border-radius: calc(var(--radius) * 1.3);
-    aspect-ratio: 16 / 11;
-    box-shadow: 0 26px 50px -30px rgba(0, 56, 80, 0.55);
-    isolation: isolate;
+  .register-grid {
+    display: grid;
+    gap: 3rem;
+    margin-top: 2.2rem;
+    align-items: start;
   }
-  .dienst-tegel > img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  .register-rijen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
-  .tegel-floep {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 40, 58, 0.05) 20%, rgba(0, 40, 58, 0.55) 62%, rgba(0, 32, 46, 0.92));
-    transition: background 0.4s ease;
+  .register-rijen > li {
+    border-top: 1px solid var(--line);
   }
-  .dienst-tegel:hover > img,
-  .dienst-tegel:focus-within > img {
-    scale: 1.06;
+  .register-rijen > li:last-child {
+    border-bottom: 1px solid var(--line);
   }
-  .tegel-paneel {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: 1.5rem 1.6rem 1.6rem;
-    color: #fff;
-    z-index: 1;
+  summary {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr auto;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-block: 1.4rem;
+    cursor: pointer;
+    list-style: none;
   }
-  .tegel-nr {
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .register-nr {
     font-family: var(--font-kop);
     font-style: italic;
-    font-size: 0.95rem;
-    color: var(--sky);
+    font-size: 1.05rem;
+    color: var(--brown);
   }
-  .tegel-paneel h3 {
-    color: #fff;
-    font-size: clamp(1.5rem, 3vw, 1.9rem);
+  summary h3 {
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
     font-weight: 500;
-    margin-top: 0.15rem;
+    transition: color 0.25s ease, translate 0.25s ease;
   }
-  .tegel-extra {
-    display: grid;
-    grid-template-rows: 0fr;
-    opacity: 0;
-    transition: grid-template-rows 0.42s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.35s ease;
+  summary:hover h3,
+  details[open] summary h3 {
+    color: var(--sky-deep);
+    translate: 0.4rem 0;
   }
-  .tegel-extra > div {
+  .register-plus {
+    position: relative;
+    width: 1.05rem;
+    height: 1.05rem;
+    align-self: center;
+  }
+  .register-plus::before,
+  .register-plus::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--brown);
+    transition: rotate 0.3s ease;
+  }
+  .register-plus::after {
+    rotate: 90deg;
+  }
+  details[open] .register-plus::after {
+    rotate: 0deg;
+  }
+  .register-klep {
     overflow: hidden;
   }
-  .dienst-tegel:hover .tegel-extra,
-  .dienst-tegel:focus-within .tegel-extra {
-    grid-template-rows: 1fr;
-    opacity: 1;
+  .register-inhoud {
+    padding: 0.2rem 0 1.8rem 3.2rem;
+    max-width: 34rem;
   }
-  .tegel-extra p {
-    margin-top: 0.7rem;
-    font-size: 0.95rem;
-    color: #dcebf4;
-    max-width: 40ch;
+  .register-inhoud p {
+    font-size: 0.98rem;
   }
-  .tegel-extra ul {
+  .register-inhoud ul {
     list-style: none;
-    margin: 0.9rem 0 0;
+    margin: 1.1rem 0 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.1rem;
-    font-size: 0.88rem;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.95rem;
     font-weight: 600;
+    color: var(--navy);
   }
-  .tegel-extra ul li {
+  .register-inhoud ul li {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.6rem;
   }
-  .tegel-extra ul svg {
-    color: var(--sky);
+  .register-inhoud ul svg {
+    color: var(--brown);
     flex-shrink: 0;
   }
-  .tegel-extra > div > a {
+  .register-inhoud > a {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     margin-top: 1rem;
+    padding-block: 0.35rem 0.15rem;
     font-weight: 700;
-    font-size: 0.92rem;
-    color: #fff;
+    color: var(--sky-deep);
     text-decoration: none;
-    border-bottom: 1.5px solid var(--sky);
-    padding-bottom: 0.1rem;
+    border-bottom: 1.5px solid currentColor;
   }
-  .tegel-extra > div > a::after {
+  .register-inhoud > a::after {
     content: '→';
     transition: translate 0.2s ease;
   }
-  .tegel-extra > div > a:hover::after {
+  .register-inhoud > a:hover::after {
     translate: 0.25rem 0;
   }
-  @media (hover: none), (max-width: 719px) {
-    .dienst-tegel {
-      aspect-ratio: auto;
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-      border: 1px solid var(--line);
-    }
-    .dienst-tegel > img {
-      position: relative;
-      height: 12.5rem;
-    }
-    .tegel-floep {
-      inset: auto 0 auto 0;
-      top: 0;
-      height: 12.5rem;
-      background: linear-gradient(180deg, transparent 55%, rgba(0, 32, 46, 0.55));
-    }
-    .tegel-paneel {
-      position: static;
-      color: var(--navy);
-      padding: 1.3rem 1.5rem 1.5rem;
-    }
-    .tegel-paneel h3 {
-      color: var(--navy);
-    }
-    .tegel-nr {
-      color: var(--brown);
-    }
-    .tegel-extra {
-      grid-template-rows: 1fr;
-      opacity: 1;
-    }
-    .tegel-extra p {
-      color: var(--navy-soft);
-    }
-    .tegel-extra ul {
-      color: var(--navy);
-    }
-    .tegel-extra ul svg {
-      color: var(--brown);
-    }
-    .tegel-extra > div > a {
-      color: var(--sky-deep);
-      border-color: var(--sky);
-    }
+  .register-beeld {
+    display: none;
   }
 
-  .stemmen {
+  .reviews {
     overflow: clip;
   }
-  .stemmen-kop {
+  .reviews-grid {
     display: grid;
-    gap: 2rem;
-    align-items: end;
+    gap: 2.25rem;
   }
-  .stemmen-intro {
-    margin-top: 0.9rem;
-    max-width: 42ch;
-  }
-  .stemmen-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.2rem;
-    padding: 0.4rem 0.9rem;
-    border-radius: 999px;
-    background: var(--wash-warm);
-    color: var(--brown-deep);
-    font-size: 0.82rem;
-    font-weight: 700;
-  }
-  .stemmen-badge svg {
-    color: var(--brown);
-  }
-  .stemmen-scores {
-    display: flex;
-    gap: 1rem;
-  }
-  .scorekaart {
+  .score-kaart {
+    position: relative;
     display: grid;
     justify-items: start;
-    gap: 0.35rem;
-    flex: 1;
-    max-width: 12rem;
+    gap: 0.55rem;
+    background: linear-gradient(160deg, var(--wash-warm), var(--wash-warm-licht));
+    border: 1px solid color-mix(in srgb, var(--brown) 14%, transparent);
+    border-radius: calc(var(--radius) * 1.4);
+    padding: 2.3rem 2.1rem;
+  }
+  .google-g {
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
     background: #fff;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 1.2rem 1.3rem;
-    text-decoration: none;
-    color: var(--navy);
-    box-shadow: 0 18px 34px -26px rgba(0, 56, 80, 0.5);
-    transition: translate 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 50%;
+    box-shadow: 0 10px 24px -12px rgba(0, 56, 80, 0.35);
   }
-  .scorekaart:hover {
-    translate: 0 -0.25rem;
-    box-shadow: 0 26px 44px -26px rgba(0, 56, 80, 0.55);
-  }
-  .scorekaart b {
+  .score-getal {
     font-family: var(--font-kop);
     font-style: italic;
-    font-size: 2rem;
+    font-size: 4.25rem;
     line-height: 1;
-  }
-  .scorekaart b i {
-    font-style: normal;
-    font-size: 1rem;
-    color: var(--navy-soft);
-  }
-  .scorekaart small {
-    font-size: 0.82rem;
-    color: var(--navy-soft);
-  }
-  .badge-tien.groot {
-    width: 2.2rem;
-    height: 2.2rem;
-    font-size: 1.05rem;
+    color: var(--navy);
   }
   .sterren {
     display: inline-flex;
-    gap: 0.12rem;
+    gap: 0.2rem;
     color: #dfa437;
   }
-  .marquee {
-    margin-top: 3rem;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  .score-kaart h2 {
+    margin-top: 1rem;
+    font-size: 1.65rem;
   }
-  .marquee-spoor {
+  .score-sub {
+    font-size: 0.98rem;
+    max-width: 26ch;
+  }
+  .score-tweede {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
+    width: 100%;
+  }
+  .score-tweede > span {
+    display: grid;
+    line-height: 1.25;
+  }
+  .score-tweede b {
+    font-family: var(--font-kop);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--navy);
+  }
+  .score-tweede b i {
+    font-style: normal;
+  }
+  .score-tweede small {
+    font-size: 0.82rem;
+    color: var(--navy-soft);
+  }
+  .score-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    margin-top: 1.4rem;
+  }
+  .score-links a {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--sky-deep);
+    text-decoration: none;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 0.1rem;
+  }
+  .rail-wrap {
+    min-width: 0;
+    margin-inline: calc((100vw - var(--maat)) / -2);
+  }
+  .rail {
     list-style: none;
     margin: 0;
-    padding: 0.5rem 0;
+    padding: 0.5rem calc((100vw - var(--maat)) / 2) 1rem;
     display: flex;
-    gap: 1.2rem;
-    width: max-content;
-    animation: marquee-schuif 66s linear infinite;
+    gap: 1.1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: calc((100vw - var(--maat)) / 2);
+    scrollbar-width: none;
   }
-  .marquee:hover .marquee-spoor {
-    animation-play-state: paused;
+  .rail::-webkit-scrollbar {
+    display: none;
   }
-  @keyframes marquee-schuif {
-    to {
-      transform: translateX(-50%);
-    }
+  .rail:focus-visible {
+    outline: 2px solid var(--sky-deep);
+    outline-offset: -2px;
   }
-  .marquee-spoor > li {
-    flex: 0 0 20rem;
+  .rail li {
+    position: relative;
+    flex: 0 0 min(82vw, 21.5rem);
     display: grid;
     align-content: start;
-    gap: 0.7rem;
+    gap: 0.85rem;
+    scroll-snap-align: start;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1.5rem 1.6rem;
-    box-shadow: 0 18px 34px -28px rgba(0, 56, 80, 0.5);
+    padding: 1.7rem 1.7rem 1.5rem;
+    box-shadow: 0 22px 40px -30px rgba(0, 56, 80, 0.55);
   }
-  .rev-kop {
+  .rail-kop {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .sterren.klein {
-    color: #dfa437;
-  }
   .bron {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    padding: 0.2rem 0.55rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 999px;
   }
   .bron-google {
@@ -1001,19 +962,56 @@ const stapIconen = [
     background: var(--wash-warm);
     color: var(--brown-deep);
   }
-  .marquee-spoor p {
-    font-size: 0.96rem;
-    line-height: 1.55;
-    color: var(--navy-soft);
+  .rail blockquote {
+    margin: 0;
+    font-size: 0.97rem;
+    line-height: 1.6;
   }
-  .rev-naam {
-    font-weight: 700;
-    font-size: 0.9rem;
+  .review-naam {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
     color: var(--navy);
+  }
+  .review-bron {
+    display: block;
+    margin-top: 0.15rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: #7f95a5;
+  }
+  .rail-knoppen {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-inline: calc((100vw - var(--maat)) / 2);
+  }
+  .rail-knop {
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    color: var(--navy);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  }
+  .rail-knop:hover:not(:disabled) {
+    border-color: var(--sky);
+    color: var(--sky-deep);
+  }
+  .rail-knop:disabled {
+    opacity: 0.35;
+    cursor: default;
   }
 
   .verhaal {
+    background: linear-gradient(160deg, var(--wash-warm), var(--wash-warm-licht));
     margin-top: 5.5rem;
+    padding-block: 5rem 5.5rem;
   }
   .verhaal-grid {
     display: grid;
@@ -1339,43 +1337,54 @@ const stapIconen = [
   }
   .manifest-grid {
     display: grid;
-    gap: 3rem;
-    padding-bottom: 1rem;
+    gap: 1.6rem;
+  }
+  .manifest-tekst-blok {
+    background: linear-gradient(160deg, var(--sky-wash), color-mix(in srgb, var(--sky-wash) 40%, var(--paper)));
+    border-radius: calc(var(--radius) * 1.4);
+    padding: 2.4rem 2.2rem;
   }
   .manifest-merk {
     display: block;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.2rem;
   }
   .manifest-tekst-blok h2 {
     max-width: 14ch;
   }
   .manifest-tekst-blok p {
-    font-size: 1.02rem;
+    font-size: 1rem;
     max-width: 46ch;
     margin-top: 1rem;
   }
+  .faq {
+    background: var(--navy);
+    color: #cfe0ec;
+    border-radius: calc(var(--radius) * 1.4);
+    padding: 2.4rem 2.2rem;
+  }
   .faq h3 {
+    color: #fff;
     font-size: 1.6rem;
     margin-bottom: 0.4rem;
   }
   .faq-lijst {
     margin-top: 1.2rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(133, 176, 205, 0.28);
   }
   .faq details {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(133, 176, 205, 0.28);
   }
   .faq summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.1rem 0;
+    padding: 1.05rem 0;
     cursor: pointer;
     list-style: none;
     font-family: var(--font-kop);
-    font-size: 1.15rem;
-    color: var(--navy);
+    font-size: 1.12rem;
+    color: #fff;
   }
   .faq summary::-webkit-details-marker {
     display: none;
@@ -1393,7 +1402,7 @@ const stapIconen = [
     inset: 50% 0 auto 0;
     height: 2px;
     border-radius: 1px;
-    background: var(--brown);
+    background: var(--sky);
     transition: rotate 0.3s ease;
   }
   .faq-teken::after {
@@ -1403,8 +1412,10 @@ const stapIconen = [
     rotate: 0deg;
   }
   .faq details p {
-    padding: 0 0 1.2rem;
-    font-size: 0.97rem;
+    padding: 0 0 1.15rem;
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: #b6cddd;
     max-width: 52ch;
   }
 
@@ -1756,20 +1767,12 @@ const stapIconen = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .stempel svg,
-    .marquee-spoor {
+    .stempel svg {
       animation: none;
-    }
-    .marquee {
-      overflow-x: auto;
     }
   }
 
   @media (min-width: 720px) {
-    .dienst-rooster {
-      grid-template-columns: 1fr 1fr;
-      gap: 1.3rem;
-    }
     .situatie-kaarten {
       grid-template-columns: repeat(2, 1fr);
       gap: 1.2rem;
@@ -1778,24 +1781,24 @@ const stapIconen = [
 
   @media (min-width: 900px) {
     .hero {
-      padding-block: 2.25rem 2.75rem;
+      padding-block: 2rem 2.5rem;
     }
     .hero-grid {
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 3rem;
       align-items: center;
     }
     .hero-beeld {
       justify-self: end;
-      width: min(100%, 23.5rem);
+      width: min(100%, 20.5rem);
       rotate: 1.2deg;
       margin-right: 0.5rem;
     }
     .zekerheden {
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
-      margin-top: 1.75rem;
-      font-size: 0.92rem;
+      margin-top: 1.6rem;
+      font-size: 0.9rem;
     }
     .zekerheden li + li {
       padding-left: 1.5rem;
@@ -1804,12 +1807,61 @@ const stapIconen = [
     section:not(.hero) {
       padding-top: 6.5rem;
     }
-    .stemmen-kop {
-      grid-template-columns: 1fr auto;
+    .register-grid {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 4.5rem;
+    }
+    .register-beeld {
+      display: block;
+      position: sticky;
+      top: 7rem;
+      width: min(100%, 22rem);
+      justify-self: end;
+      aspect-ratio: 3 / 4;
+      border-radius: 999px 999px var(--radius) var(--radius);
+      overflow: hidden;
+      box-shadow: 0 30px 60px -30px rgba(0, 56, 80, 0.4);
+    }
+    .register-beeld img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .register-beeld img.actief {
+      opacity: 1;
+    }
+    summary {
+      grid-template-columns: 3.2rem 1fr auto;
+      padding-block: 1.8rem;
+    }
+    .reviews-grid {
+      grid-template-columns: 19.5rem minmax(0, 1fr);
       gap: 3rem;
+      align-items: stretch;
+    }
+    .score-kaart {
+      align-content: start;
+    }
+    .rail-wrap {
+      margin-inline: 0 calc((100vw - var(--maat)) / -2);
+    }
+    .rail {
+      padding: 0.5rem calc((100vw - var(--maat)) / 2) 1rem 0;
+      scroll-padding-inline: 0;
+    }
+    .rail li {
+      flex-basis: 22.5rem;
+    }
+    .rail-knoppen {
+      padding-inline: 0;
     }
     .verhaal {
       margin-top: 6.5rem;
+      padding-block: 6rem 6.5rem;
     }
     .verhaal-grid {
       grid-template-columns: 0.9fr 1.1fr;
@@ -1858,10 +1910,39 @@ const stapIconen = [
       margin-top: 0;
       justify-self: end;
     }
-    .manifest-grid {
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 4.5rem;
+    .situatie-kaarten {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+    .artikelen {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 3.5rem;
+    }
+    .artikel-groot img {
+      aspect-ratio: 4 / 3;
+    }
+    .artikel-groot h3 {
+      font-size: 1.8rem;
+    }
+    .artikelen-rest {
+      gap: 3rem;
+    }
+    .artikelen-rest article {
+      display: grid;
+      grid-template-columns: 9.5rem 1fr;
+      gap: 1.4rem;
       align-items: start;
+    }
+    .artikelen-rest img {
+      aspect-ratio: 1;
+    }
+    .artikelen-rest time {
+      margin-top: 0;
+    }
+    .manifest-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 2rem;
+      align-items: stretch;
     }
     .contact {
       margin-top: 7rem;
@@ -1895,15 +1976,6 @@ const stapIconen = [
       padding: 3.2rem 2.6rem;
     }
   }
-
-  @media (min-width: 1100px) {
-    .dienst-rooster {
-      gap: 1.5rem;
-    }
-    .situatie-kaarten {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
 </style>
 
 <script>
@@ -1917,10 +1989,10 @@ const stapIconen = [
   mm.add('(prefers-reduced-motion: no-preference)', () => {
     gsap.from('.hero h1 .regel, .hero .intro, .hero-acties, .hero-scores, .zekerheden, .hero-beeld', {
       opacity: 0,
-      y: 26,
+      y: 24,
       duration: 0.9,
       ease: 'power2.out',
-      stagger: 0.08,
+      stagger: 0.07,
     });
     gsap.from('.stempel', { opacity: 0, scale: 0.6, duration: 0.7, ease: 'back.out(1.6)', delay: 1 });
     gsap.from('.hero-stat', { opacity: 0, y: -14, rotate: -4, duration: 0.7, ease: 'back.out(1.6)', delay: 1.2 });
@@ -1985,11 +2057,87 @@ const stapIconen = [
     gsap.set('.reveal, .route-pad', { opacity: 1, clearProps: 'clipPath' });
   });
 
+  const beelden = document.querySelectorAll('.register-beeld img');
+  const kies = (index) => {
+    beelden.forEach((b) => b.classList.toggle('actief', b.dataset.index === index));
+  };
+
+  const rijen = [...document.querySelectorAll('.register-rijen > li')];
+  const animatieOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  const sluit = (details) => {
+    const klep = details.querySelector('.register-klep');
+    if (!animatieOk) {
+      details.open = false;
+      return;
+    }
+    gsap.to(klep, {
+      height: 0,
+      opacity: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        details.open = false;
+        gsap.set(klep, { clearProps: 'all' });
+      },
+    });
+  };
+
+  const openen = (details) => {
+    details.open = true;
+    const klep = details.querySelector('.register-klep');
+    if (!animatieOk) return;
+    gsap.fromTo(
+      klep,
+      { height: 0, opacity: 0 },
+      { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(klep, { clearProps: 'all' }) }
+    );
+  };
+
+  rijen.forEach((rij) => {
+    const details = rij.querySelector('details');
+    rij.querySelector('summary').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (details.open) {
+        sluit(details);
+        return;
+      }
+      rijen.forEach((andere) => {
+        const d = andere.querySelector('details');
+        if (d !== details && d.open) sluit(d);
+      });
+      openen(details);
+      kies(rij.dataset.index);
+    });
+    rij.addEventListener('mouseenter', () => kies(rij.dataset.index));
+    rij.addEventListener('focusin', () => kies(rij.dataset.index));
+  });
+
+  const rail = document.querySelector('.rail');
+  const railKnoppen = [...document.querySelectorAll('.rail-knop')];
+  const railStap = () => {
+    const kaart = rail.querySelector('li');
+    return kaart ? kaart.getBoundingClientRect().width + 18 : 340;
+  };
+  const railStatus = () => {
+    const max = rail.scrollWidth - rail.clientWidth - 4;
+    railKnoppen.forEach((k) => {
+      k.disabled = k.dataset.richting === '-1' ? rail.scrollLeft <= 4 : rail.scrollLeft >= max;
+    });
+  };
+  railKnoppen.forEach((k) => {
+    k.addEventListener('click', () => {
+      rail.scrollBy({ left: railStap() * Number(k.dataset.richting), behavior: animatieOk ? 'smooth' : 'auto' });
+    });
+  });
+  rail.addEventListener('scroll', railStatus, { passive: true });
+  window.addEventListener('resize', railStatus);
+  railStatus();
+
   const dialoog = document.getElementById('plan-dialoog');
   const formulier = dialoog.querySelector('form');
   const succes = dialoog.querySelector('.dialoog-succes');
   const onderwerp = formulier.querySelector('select');
-  const animatieOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
   document.querySelectorAll('[data-plan-open]').forEach((knop) => {
     knop.addEventListener('click', (e) => {
