@@ -10,72 +10,84 @@
       "id": "m-tim",
       "naam": "Tim Dubbelaar",
       "bron": "Advieskeuze",
+      "wanneer": "april 2026",
       "tekst": "Duidelijk en to-the-point, en reageert snel. Waar ik ook naartoe verhuis, ik kies altijd voor WoonAdvies Groep."
     },
     {
       "id": "m-sofie",
       "naam": "Sofie",
       "bron": "Advieskeuze",
+      "wanneer": "augustus 2025",
       "tekst": "In drie weken een hypotheek met goede voorwaarden rond, waar onze vorige adviseur er in zeven weken niet uitkwam."
     },
     {
       "id": "m-jennifer",
       "naam": "Jennifer",
       "bron": "Google",
+      "wanneer": "maart 2026",
       "tekst": "Altijd netjes en snel geholpen. Marijke denkt met ons mee en is heel professioneel. Zeker een aanrader."
     },
     {
       "id": "m-mostafa",
       "naam": "Mostafa Yosofi",
       "bron": "Google",
+      "wanneer": "oktober 2025",
       "tekst": "Het gaf enorm veel rust dat hij zoveel zaken voor ons uit handen nam en altijd het overzicht hield."
     },
     {
       "id": "m-juliette",
       "naam": "Juliette",
       "bron": "Advieskeuze",
+      "wanneer": "september 2025",
       "tekst": "Laagdrempelig bereikbaar via WhatsApp, mail of telefoon. Reageerde altijd snel en nam ruim de tijd."
     },
     {
       "id": "m-mh",
       "naam": "MH",
       "bron": "Advieskeuze",
+      "wanneer": "augustus 2025",
       "tekst": "Fantastisch geholpen met de hypotheek van mijn eerste huis. Adequaat, snel en met veel aandacht."
     },
     {
       "id": "m-angela",
       "naam": "Angela",
       "bron": "Google",
+      "wanneer": "2024",
       "tekst": "Ze weet niet alleen wat ze doet, ze is ook heel betrokken. Ze levert echt maatwerk en je voelt je gehoord."
     },
     {
       "id": "m-marit",
       "naam": "Marit en Ruben",
       "bron": "Advieskeuze",
+      "wanneer": "juli 2024",
       "tekst": "Oog voor de menselijke kant achter het nogal zakelijke verhaal van een hypotheek aanvragen."
     },
     {
       "id": "m-sam",
       "naam": "Sam C.",
       "bron": "Google",
+      "wanneer": "2025",
       "tekst": "Ontzettend behulpzaam. Dankzij haar expertise verliep het hele proces heel gemakkelijk en soepel."
     },
     {
       "id": "m-jr",
       "naam": "jR",
       "bron": "Advieskeuze",
+      "wanneer": "april 2020",
       "tekst": "Geen ingewikkelde verhalen, neutraal en heel vriendelijk. Reageert direct bij vragen, kortom: top!"
     },
     {
       "id": "m-carlos",
       "naam": "Carlos van de Leuv",
       "bron": "Google",
+      "wanneer": "2023",
       "tekst": "Vastberaden, punctueel en duidelijk, met een positieve blik op de toekomst. Wij zijn Marijke dankbaar."
     },
     {
       "id": "m-celine",
       "naam": "Celine",
       "bron": "Advieskeuze",
+      "wanneer": "december 2025",
       "tekst": "Een betrokken, behulpzame en no-nonsens adviseur. Hij doet dat stapje extra en neemt de tijd."
     }
   ],

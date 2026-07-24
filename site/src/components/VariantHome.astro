@@ -139,7 +139,7 @@ const stapIconen = [
                       </li>
                     ))}
                   </ul>
-                  <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
+                  <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek je situatie</a>
                 </div>
               </div>
             </details>
@@ -159,7 +159,7 @@ const stapIconen = [
   <div class="maat reviews-grid">
     <div class="reviews-tekst">
       <h2 id="reviews-kop" class="reveal">Wat klanten zeggen</h2>
-      <p class="reveal">Echte beoordelingen van mensen die we hielpen met hun hypotheek. U leest ze terug op Google en Advieskeuze.</p>
+      <p class="reveal">Echte beoordelingen van mensen die we hielpen met hun hypotheek. Je leest ze terug op Google en Advieskeuze.</p>
       <dl class="reviews-scores reveal">
         <div>
           <dt>
@@ -196,7 +196,7 @@ const stapIconen = [
     </div>
     <figure class="uitgelicht reveal">
       <img src="/beeld/adviseurs.webp" alt="Dennis en Marijke van WoonAdvies Groep" width="1200" height="1200" loading="lazy" />
-      <span class="uitgelicht-wie">Dennis &amp; Marijke &middot; uw adviseurs</span>
+      <span class="uitgelicht-wie">Dennis &amp; Marijke &middot; je adviseurs</span>
       <figcaption>
         <span class="sterren" aria-hidden="true">
           {[1, 2, 3, 4, 5].map(() => (
@@ -204,7 +204,7 @@ const stapIconen = [
           ))}
         </span>
         <blockquote>{featured.tekst}</blockquote>
-        <cite>{featured.naam} <span>via {featured.bron}</span></cite>
+        <cite>{featured.naam} <span>via {featured.bron} &middot; {featured.wanneer}</span></cite>
       </figcaption>
     </figure>
     <div class="stroom" aria-label="Meer reviews van klanten">
@@ -220,7 +220,10 @@ const stapIconen = [
               <span class={`bron bron-${r.bron.toLowerCase()}`}>{r.bron}</span>
             </span>
             <p data-cms-field="tekst">{r.tekst}</p>
-            <span class="stroom-naam" data-cms-field="naam">{r.naam}</span>
+            <span class="stroom-voet">
+              <span class="stroom-naam" data-cms-field="naam">{r.naam}</span>
+              <time class="stroom-datum" data-cms-field="wanneer">{r.wanneer}</time>
+            </span>
           </li>
         ))}
       </ul>
@@ -268,7 +271,7 @@ const stapIconen = [
       </p>
     </div>
     <div class="route-cta reveal">
-      <p>Het begint dus gewoon met een kop koffie. Bij u thuis of bij ons aan de Oostmaaslaan.</p>
+      <p>Het begint dus gewoon met een kop koffie. Bij jou thuis of bij ons aan de Oostmaaslaan.</p>
       <a href="#contact" class="knop knop-wit-vol" data-plan-open data-hb-goal="kennismaking">Plan een kennismaking</a>
       <a href={`tel:${bedrijf.telefoon_link}`} class="route-bel">Of bel {bedrijf.telefoon}</a>
     </div>
@@ -408,7 +411,7 @@ const stapIconen = [
     <img class="dialoog-foto" src="/beeld/adviseurs.webp" alt="Dennis en Marijke van WoonAdvies Groep" width="1200" height="1200" />
     <div class="dialoog-merk-inhoud">
       <p class="dialoog-motto">{bedrijf.tagline}</p>
-      <p class="dialoog-wie">U maakt kennis met Dennis &amp; Marijke.</p>
+      <p class="dialoog-wie">Je maakt kennis met Dennis &amp; Marijke.</p>
       <p class="dialoog-sub">Liever direct iemand spreken?</p>
       <a href={`tel:${bedrijf.telefoon_link}`}>Bel {bedrijf.telefoon}</a>
       <a href={`https://wa.me/${bedrijf.whatsapp}`}>Of stuur een WhatsApp</a>
@@ -419,9 +422,9 @@ const stapIconen = [
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
     <h3>Plan een kennismaking</h3>
-    <p class="dialoog-intro">Vrijblijvend en kosteloos, bij u thuis of bij ons op kantoor.</p>
+    <p class="dialoog-intro">Vrijblijvend en kosteloos, bij jou thuis of bij ons op kantoor.</p>
     <label>
-      Uw naam
+      Je naam
       <input type="text" name="naam" autocomplete="name" required />
     </label>
     <label>
@@ -438,15 +441,15 @@ const stapIconen = [
       </select>
     </label>
     <label>
-      Uw vraag <span>(niet verplicht)</span>
+      Je vraag <span>(niet verplicht)</span>
       <textarea name="bericht" rows="3"></textarea>
     </label>
     <button type="submit" class="knop knop-vol">Plan de kennismaking</button>
   </form>
   <div class="dialoog-succes" hidden>
     <svg width="44" height="41" viewBox="0 0 34 32" aria-hidden="true"><path d="M17 3 32 18h-5v11H7V18H2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-    <h3>Dank u wel!</h3>
-    <p>We nemen binnen één werkdag contact met u op om een moment te vinden dat u schikt.</p>
+    <h3>Dank je wel!</h3>
+    <p>We nemen binnen één werkdag contact met je op om een moment te vinden dat jou uitkomt.</p>
     <button type="button" class="knop knop-lijn dialoog-sluit-2">Sluiten</button>
   </div>
 </dialog>
@@ -1032,10 +1035,21 @@ const stapIconen = [
     line-height: 1.55;
     color: var(--navy-soft);
   }
+  .stroom-voet {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
   .stroom-naam {
     font-weight: 700;
     font-size: 0.88rem;
     color: var(--navy);
+  }
+  .stroom-datum {
+    font-size: 0.76rem;
+    color: var(--navy-soft);
+    white-space: nowrap;
   }
   .bron {
     font-size: 0.68rem;
