@@ -5,6 +5,7 @@ import varianten from '../content/teksten/varianten.json';
 import voorwie from '../content/voorwie.json';
 import diensten from '../content/diensten.json';
 import werkwijze from '../content/werkwijze.json';
+import faq from '../content/faq.json';
 import nieuws from '../content/nieuws.json';
 import reviews from '../content/reviews.json';
 import bedrijf from '../content/bedrijf.json';
@@ -13,8 +14,8 @@ const { thema = 'fris' } = Astro.props;
 
 const datumFmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 const [hoofdartikel, ...restartikelen] = nieuws;
-const totaalReviews = reviews.aantal + reviews.advieskeuze_aantal;
 const manifestTekst1 = thema === 'groen' ? varianten.manifest_tekst_1_groen : home.manifest_tekst_1;
+const marquee = [...reviews.marquee, ...reviews.marquee];
 const zekerheden = [
   'Volledig onafhankelijk',
   `AFM-geregistreerd (${bedrijf.afm})`,
@@ -27,6 +28,11 @@ const situatieIconen = {
   'scheiding': 'M6 26V15l10-8 10 8v11Z M16 11v15',
   'oversluiten': 'M9 23 23 9M13.5 11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM23.5 21a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z',
 };
+const stapIconen = [
+  'M7 10h10v7a5 5 0 0 1-10 0Z M17 11h2a2 2 0 0 1 0 4h-2 M7 20h10 M9 4v3 M12 3v4 M15 4v3',
+  'M13 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z M18 18l4 4 M9 12h8 M13 8v8',
+  'M5 14 16 4l11 10 M8 12v11h6v-6h4v6h6V12',
+];
 ---
 <section class="hero">
   <div class="hero-blob hero-blob-blauw" aria-hidden="true"></div>
@@ -40,11 +46,37 @@ const situatieIconen = {
       </h1>
       <p class="intro" data-cms-field="hero_tekst">{home.hero_tekst}</p>
       <div class="hero-acties">
-        <a href="#contact" class="knop knop-vol" data-plan-open data-hb-goal="kennismaking">{home.hero_knop}</a>
-        <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">Bel {bedrijf.telefoon}</a>
-        <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn knop-app" data-hb-goal="whatsapp">
-          <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
-          WhatsApp
+        <a href="#contact" class="knop knop-vol knop-primair" data-plan-open data-hb-goal="kennismaking">{home.hero_knop}</a>
+        <div class="hero-acties-rij">
+          <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
+            Bel {bedrijf.telefoon}
+          </a>
+          <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn knop-app" data-hb-goal="whatsapp">
+            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="hero-scores">
+        <a class="hero-score" href={reviews.google_url}>
+          <svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <span>
+            <b>{reviews.score}</b>
+            <span class="mini-sterren" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map(() => (
+                <svg width="11" height="10" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+              ))}
+            </span>
+            <small>{reviews.aantal} Google-reviews</small>
+          </span>
+        </a>
+        <a class="hero-score" href={reviews.advieskeuze_url}>
+          <span class="badge-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
+          <span>
+            <b>{reviews.advieskeuze_score}<i>/10</i></b>
+            <small>{reviews.advieskeuze_aantal} op Advieskeuze</small>
+          </span>
         </a>
       </div>
     </div>
@@ -77,123 +109,90 @@ const situatieIconen = {
   </ul>
 </section>
 
-<section class="situaties" id="voorwie" aria-labelledby="situaties-kop">
+<section class="diensten" id="diensten" aria-labelledby="diensten-kop">
   <div class="maat">
-    <div class="situaties-kop">
-      <h2 id="situaties-kop" class="reveal" data-cms-field="voorwie_titel">{varianten.voorwie_titel}</h2>
-      <p class="reveal" data-cms-field="voorwie_tekst">{varianten.voorwie_tekst}</p>
+    <div class="sectie-kop">
+      <span class="eyebrow">{varianten.diensten_label}</span>
+      <h2 id="diensten-kop" class="reveal" data-cms-field="diensten_titel">{home.diensten_titel}</h2>
+      <p class="reveal" data-cms-field="diensten_tekst">{home.diensten_tekst}</p>
     </div>
-    <ul class="situatie-kaarten" data-cms-collection="voorwie">
-      {voorwie.map((s) => (
-        <li class="reveal" data-cms-item={s.id}>
-          <span class="situatie-icoon" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 32 32"><path d={situatieIconen[s.id]} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <h3 data-cms-field="titel">{s.titel}</h3>
-          <p data-cms-field="tekst">{s.tekst}</p>
-          <a href="#contact" data-plan-open data-dienst={s.dienst} data-hb-goal="situatie-interesse">{varianten.voorwie_knop}</a>
+    <ul class="dienst-rooster" data-cms-collection="diensten">
+      {diensten.map((d, i) => (
+        <li class="dienst-tegel reveal" id={d.id} data-cms-item={d.id}>
+          <img src={d.beeld} alt="" width="900" height="700" loading="lazy" />
+          <span class="tegel-floep" aria-hidden="true"></span>
+          <div class="tegel-paneel">
+            <span class="tegel-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 data-cms-field="titel">{d.titel}</h3>
+            <div class="tegel-extra">
+              <div>
+                <p data-cms-field="tekst">{d.tekst}</p>
+                <ul>
+                  {d.punten.map((punt) => (
+                    <li>
+                      <svg width="12" height="9" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      {punt}
+                    </li>
+                  ))}
+                </ul>
+                <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
+              </div>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
   </div>
 </section>
 
-<section class="register" id="diensten" aria-labelledby="register-kop">
-  <div class="maat">
-    <div class="register-kop">
-      <h2 id="register-kop" class="reveal" data-cms-field="diensten_titel">{home.diensten_titel}</h2>
-      <p class="reveal" data-cms-field="diensten_tekst">{home.diensten_tekst}</p>
-    </div>
-    <div class="register-grid">
-      <ol class="register-rijen" data-cms-collection="diensten">
-        {diensten.map((d, i) => (
-          <li class="reveal" id={d.id} data-cms-item={d.id} data-index={i}>
-            <details open={i === 0}>
-              <summary>
-                <span class="register-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h3 data-cms-field="titel">{d.titel}</h3>
-                <span class="register-plus" aria-hidden="true"></span>
-              </summary>
-              <div class="register-klep">
-                <div class="register-inhoud">
-                  <p data-cms-field="tekst">{d.tekst}</p>
-                  <ul>
-                    {d.punten.map((punt) => (
-                      <li>
-                        <svg width="12" height="9" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        {punt}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
-                </div>
-              </div>
-            </details>
-          </li>
-        ))}
-      </ol>
-      <figure class="register-beeld" aria-hidden="true">
-        {diensten.map((d, i) => (
-          <img src={d.beeld} alt="" width="900" height="1200" loading="lazy" class={i === 0 ? 'actief' : ''} data-index={i} />
-        ))}
-      </figure>
-    </div>
-  </div>
-</section>
-
 <section class="stemmen" aria-labelledby="stemmen-kop">
   <div class="maat">
-    <div class="stemmen-vlak">
-      <div class="stemmen-scores">
+    <div class="stemmen-kop">
+      <div>
+        <span class="eyebrow">Reviews</span>
         <h2 id="stemmen-kop" class="reveal" data-cms-field="reviews_titel">{varianten.reviews_titel}</h2>
         <p class="stemmen-intro reveal" data-cms-field="reviews_tekst">{varianten.reviews_tekst}</p>
-        <dl class="scorelijst reveal">
-          <div class="score-rij">
-            <dt>
-              <span class="score-logo" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-              </span>
-              Google
-            </dt>
-            <dd>
-              <b>{reviews.score}</b>
-              <span class="sterren" aria-hidden="true">
-                {[1, 2, 3, 4, 5].map(() => (
-                  <svg width="15" height="14" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
-                ))}
-              </span>
-              <a href={reviews.google_url}>{reviews.aantal} reviews</a>
-            </dd>
-          </div>
-          <div class="score-rij">
-            <dt>
-              <span class="score-logo score-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
-              Advieskeuze
-            </dt>
-            <dd>
-              <b>{reviews.advieskeuze_score}<span class="score-van">/10</span></b>
-              <a href={reviews.advieskeuze_url}>{reviews.advieskeuze_aantal} reviews</a>
-            </dd>
-          </div>
-        </dl>
-        <p class="score-som reveal">Samen {totaalReviews} beoordelingen van klanten die ons vooraf niet kenden.</p>
+        <span class="stemmen-badge reveal" data-cms-field="reviews_badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13-6.2M20 12a8 8 0 0 1-13 6.2M17 4v4h-4M7 20v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {varianten.reviews_badge}
+        </span>
       </div>
-      <div class="stemmen-quote reveal">
-        <ul class="quote-wissel" data-cms-collection="reviews-uitgelicht">
-          {reviews.uitgelicht.map((r, i) => (
-            <li class={i === 0 ? 'actief' : ''} data-cms-item={r.id}>
-              <blockquote data-cms-field="tekst">{r.tekst}</blockquote>
-              <p class="quote-naam"><span data-cms-field="naam">{r.naam}</span> <span class="quote-bron">via {r.bron}, {r.wanneer}</span></p>
-            </li>
-          ))}
-        </ul>
-        <div class="quote-dots">
-          {reviews.uitgelicht.map((r, i) => (
-            <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Review van ${r.naam}`} data-index={i}></button>
-          ))}
-        </div>
+      <div class="stemmen-scores reveal">
+        <a class="scorekaart" href={reviews.google_url}>
+          <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <b>{reviews.score}</b>
+          <span class="sterren" aria-hidden="true">
+            {[1, 2, 3, 4, 5].map(() => (
+              <svg width="13" height="12" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+            ))}
+          </span>
+          <small>{reviews.aantal} reviews</small>
+        </a>
+        <a class="scorekaart" href={reviews.advieskeuze_url}>
+          <span class="badge-tien groot" aria-hidden="true">{reviews.advieskeuze_score}</span>
+          <b>{reviews.advieskeuze_score}<i>/10</i></b>
+          <small>{reviews.advieskeuze_aantal} reviews</small>
+        </a>
       </div>
     </div>
+  </div>
+  <div class="marquee" aria-label="Reviews van klanten">
+    <ul class="marquee-spoor">
+      {marquee.map((r, i) => (
+        <li aria-hidden={i >= reviews.marquee.length ? 'true' : undefined}>
+          <span class="rev-kop">
+            <span class="sterren klein" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map(() => (
+                <svg width="13" height="12" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+              ))}
+            </span>
+            <span class={`bron bron-${r.bron.toLowerCase()}`}>{r.bron}</span>
+          </span>
+          <p>{r.tekst}</p>
+          <span class="rev-naam">{r.naam}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
@@ -204,6 +203,7 @@ const situatieIconen = {
       <blockquote data-cms-field="verhaal_quote">{home.verhaal_quote}</blockquote>
     </figure>
     <div class="verhaal-tekst">
+      <span class="eyebrow">Onze belofte</span>
       <h2 id="verhaal-kop" class="reveal" data-cms-field="verhaal_titel">{home.verhaal_titel}</h2>
       <p class="reveal" data-cms-field="verhaal_tekst_1">{home.verhaal_tekst_1}</p>
       <p class="reveal" data-cms-field="verhaal_tekst_2">{home.verhaal_tekst_2}</p>
@@ -213,6 +213,7 @@ const situatieIconen = {
 
 <section class="route" id="werkwijze" aria-labelledby="route-kop">
   <div class="maat">
+    <span class="eyebrow eyebrow-licht">Stap voor stap</span>
     <h2 id="route-kop" class="reveal" data-cms-field="werkwijze_titel">{home.werkwijze_titel}</h2>
     <p class="route-intro reveal" data-cms-field="werkwijze_tekst_kort">{varianten.werkwijze_tekst_kort}</p>
     <div class="route-vlak">
@@ -222,7 +223,10 @@ const situatieIconen = {
       <ol class="stations" data-cms-collection="werkwijze">
         {werkwijze.map((stap, i) => (
           <li class="station reveal" data-cms-item={stap.id}>
-            <span class="station-nr" aria-hidden="true">{i + 1}</span>
+            <span class="station-nr" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 32 32"><path d={stapIconen[i]} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <i>{i + 1}</i>
+            </span>
             <h3 data-cms-field="titel">{stap.titel}</h3>
             <p data-cms-field="kort">{stap.kort}</p>
           </li>
@@ -233,34 +237,40 @@ const situatieIconen = {
         <span data-cms-field="werkwijze_einde">{home.werkwijze_einde}</span>
       </p>
     </div>
-    <div class="route-slot">
-      <aside class="briefje reveal">
-        <span class="briefje-merk"><Merk breedte={46} /></span>
-        <h3 data-cms-field="kosten_titel">{home.kosten_titel}</h3>
-        <p data-cms-field="werkwijze_kosten">{home.werkwijze_kosten}</p>
-      </aside>
-      <div class="route-cta reveal">
-        <p>Het begint dus gewoon met een kop koffie. Bij u thuis of bij ons aan de Oostmaaslaan.</p>
-        <a href="#contact" class="knop knop-vol" data-plan-open data-hb-goal="kennismaking">Plan een kennismaking</a>
-        <a href={`tel:${bedrijf.telefoon_link}`} class="route-bel">Of bel {bedrijf.telefoon}</a>
-      </div>
+    <div class="route-cta reveal">
+      <p>Het begint dus gewoon met een kop koffie. Bij u thuis of bij ons aan de Oostmaaslaan.</p>
+      <a href="#contact" class="knop knop-wit-vol" data-plan-open data-hb-goal="kennismaking">Plan een kennismaking</a>
+      <a href={`tel:${bedrijf.telefoon_link}`} class="route-bel">Of bel {bedrijf.telefoon}</a>
     </div>
   </div>
 </section>
 
-<section class="manifest" aria-labelledby="manifest-kop">
-  <div class="maat manifest-strip">
-    <span class="manifest-merk reveal"><Merk breedte={124} /></span>
-    <h2 id="manifest-kop" class="reveal" data-cms-field="manifest_titel">{home.manifest_titel}</h2>
-    <div class="manifest-tekst">
-      <p class="reveal" data-cms-field="manifest_tekst_1">{manifestTekst1}</p>
-      <p class="reveal" data-cms-field="manifest_tekst_2">{home.manifest_tekst_2}</p>
+<section class="situaties" id="voorwie" aria-labelledby="situaties-kop">
+  <div class="maat">
+    <div class="sectie-kop">
+      <span class="eyebrow">Voor wie</span>
+      <h2 id="situaties-kop" class="reveal" data-cms-field="voorwie_titel">{varianten.voorwie_titel}</h2>
+      <p class="reveal" data-cms-field="voorwie_tekst">{varianten.voorwie_tekst}</p>
     </div>
+    <ul class="situatie-kaarten" data-cms-collection="voorwie">
+      {voorwie.map((s, i) => (
+        <li class="reveal" data-cms-item={s.id}>
+          <span class="situatie-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="situatie-icoon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 32 32"><path d={situatieIconen[s.id]} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 data-cms-field="titel">{s.titel}</h3>
+          <p data-cms-field="tekst">{s.tekst}</p>
+          <a href="#contact" data-plan-open data-dienst={s.dienst} data-hb-goal="situatie-interesse">{varianten.voorwie_knop}</a>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
 <section class="actueel" id="actueel" aria-labelledby="actueel-kop">
   <div class="maat">
+    <span class="eyebrow">Actueel</span>
     <h2 id="actueel-kop" class="reveal" data-cms-field="actueel_titel">{home.actueel_titel}</h2>
     <div class="artikelen" data-cms-collection="nieuws">
       <article class="artikel-groot reveal" data-cms-item={hoofdartikel.id}>
@@ -281,6 +291,32 @@ const situatieIconen = {
               <p data-cms-field="tekst">{artikel.tekst}</p>
             </div>
           </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="manifest" aria-labelledby="manifest-kop">
+  <div class="maat manifest-grid">
+    <div class="manifest-tekst-blok">
+      <span class="manifest-merk reveal"><Merk breedte={112} /></span>
+      <h2 id="manifest-kop" class="reveal" data-cms-field="manifest_titel">{home.manifest_titel}</h2>
+      <p class="reveal" data-cms-field="manifest_tekst_1">{manifestTekst1}</p>
+      <p class="reveal" data-cms-field="manifest_tekst_2">{home.manifest_tekst_2}</p>
+    </div>
+    <div class="faq reveal">
+      <span class="eyebrow">{varianten.faq_label}</span>
+      <h3 data-cms-field="faq_titel">{varianten.faq_titel}</h3>
+      <div class="faq-lijst" data-cms-collection="faq">
+        {faq.map((item, i) => (
+          <details data-cms-item={item.id} open={i === 0}>
+            <summary>
+              <span data-cms-field="vraag">{item.vraag}</span>
+              <span class="faq-teken" aria-hidden="true"></span>
+            </summary>
+            <p data-cms-field="antwoord">{item.antwoord}</p>
+          </details>
         ))}
       </div>
     </div>
@@ -309,29 +345,32 @@ const situatieIconen = {
       <p class="kaartje-voet">KvK {bedrijf.kvk} &middot; AFM {bedrijf.afm} &middot; Kifid {bedrijf.kifid}</p>
     </aside>
     <div class="kanalen reveal">
-      <a href={`tel:${bedrijf.telefoon_link}`} class="kanaal" data-hb-goal="bellen">
+      <a href={`tel:${bedrijf.telefoon_link}`} class="kanaal kanaal-bel" data-hb-goal="bellen">
         <span class="kanaal-icoon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 16 16"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
+          <svg width="24" height="24" viewBox="0 0 16 16"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
         </span>
         <span class="kanaal-titel" data-cms-field="contact_bel_titel">{varianten.contact_bel_titel}</span>
         <span class="kanaal-detail">{bedrijf.telefoon}</span>
         <span class="kanaal-sub" data-cms-field="contact_bel_tekst">{varianten.contact_bel_tekst}</span>
+        <span class="kanaal-pijl" aria-hidden="true">→</span>
       </a>
-      <a href={`https://wa.me/${bedrijf.whatsapp}`} class="kanaal" data-hb-goal="whatsapp">
+      <a href={`https://wa.me/${bedrijf.whatsapp}`} class="kanaal kanaal-app" data-hb-goal="whatsapp">
         <span class="kanaal-icoon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
         </span>
         <span class="kanaal-titel" data-cms-field="contact_app_titel">{varianten.contact_app_titel}</span>
         <span class="kanaal-detail">{bedrijf.telefoon}</span>
         <span class="kanaal-sub" data-cms-field="contact_app_tekst">{varianten.contact_app_tekst}</span>
+        <span class="kanaal-pijl" aria-hidden="true">→</span>
       </a>
-      <button type="button" class="kanaal" data-plan-open data-hb-goal="kennismaking">
+      <button type="button" class="kanaal kanaal-plan" data-plan-open data-hb-goal="kennismaking">
         <span class="kanaal-icoon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 6h16v14H4Z M4 10h16 M8 3v4 M16 3v4 M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v14H4Z M4 10h16 M8 3v4 M16 3v4 M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
         <span class="kanaal-titel" data-cms-field="contact_plan_titel">{varianten.contact_plan_titel}</span>
         <span class="kanaal-detail">Via het formulier</span>
         <span class="kanaal-sub" data-cms-field="contact_plan_tekst">{varianten.contact_plan_tekst}</span>
+        <span class="kanaal-pijl" aria-hidden="true">→</span>
       </button>
     </div>
   </div>
@@ -383,6 +422,42 @@ const situatieIconen = {
 </dialog>
 
 <style>
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-tekst);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brown);
+    margin-bottom: 0.9rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.7rem;
+    height: 2px;
+    background: var(--brown);
+    border-radius: 2px;
+  }
+  .eyebrow-licht {
+    color: var(--sky);
+  }
+  .eyebrow-licht::before {
+    background: var(--sky);
+  }
+  .sectie-kop {
+    display: grid;
+    max-width: 56ch;
+  }
+  .sectie-kop p {
+    margin-top: 0.9rem;
+  }
+  h2 {
+    font-size: clamp(2rem, 5vw, 2.9rem);
+  }
+
   .hero {
     position: relative;
     overflow: clip;
@@ -405,8 +480,8 @@ const situatieIconen = {
     width: clamp(280px, 36vw, 560px);
     height: clamp(280px, 36vw, 560px);
     background: radial-gradient(circle, var(--blob-warm), transparent 70%);
-    top: 32%;
-    right: 22%;
+    top: 34%;
+    right: 24%;
   }
   .hero-grid {
     position: relative;
@@ -446,17 +521,82 @@ const situatieIconen = {
     max-width: 44ch;
   }
   .hero-acties {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 0.8rem;
     margin-top: 2rem;
+    max-width: 30rem;
+  }
+  .hero-acties-rij {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
   }
   .hero-acties .knop {
-    padding: 0.8rem 1.35rem;
+    padding: 0.85rem 1.35rem;
     font-size: 0.95rem;
+  }
+  .knop-primair {
+    box-shadow: 0 16px 34px -16px rgba(0, 56, 80, 0.6);
   }
   .knop-app svg {
     color: #128c4b;
+  }
+  .hero-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.6rem;
+    margin-top: 1.8rem;
+  }
+  .hero-score {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .hero-score > span {
+    display: grid;
+    line-height: 1.15;
+  }
+  .hero-score b {
+    font-family: var(--font-kop);
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .hero-score b i {
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--navy-soft);
+  }
+  .hero-score small {
+    font-size: 0.76rem;
+    color: var(--navy-soft);
+  }
+  .mini-sterren {
+    display: inline-flex;
+    gap: 0.08rem;
+    color: #dfa437;
+    margin-left: 0.15rem;
+  }
+  .hero-score b + .mini-sterren {
+    margin-left: 0;
+  }
+  .hero-score > span .mini-sterren {
+    margin-top: 0.05rem;
+  }
+  .badge-tien {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--brown);
+    color: #fff;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
   }
   .zekerheden {
     list-style: none;
@@ -567,361 +707,313 @@ const situatieIconen = {
       rotate: 360deg;
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .stempel svg {
-      animation: none;
-    }
-  }
 
   section:not(.hero) {
     padding-top: 5.5rem;
   }
 
-  .situaties-kop {
-    display: grid;
-    gap: 0.9rem;
-    max-width: 56ch;
-  }
-  h2 {
-    font-size: clamp(2rem, 5vw, 2.9rem);
-  }
-  .situatie-kaarten {
+  .dienst-rooster {
     list-style: none;
-    margin: 2.4rem 0 0;
+    margin: 2.6rem 0 0;
     padding: 0;
     display: grid;
     gap: 1.1rem;
   }
-  .situatie-kaarten > li {
+  .dienst-tegel {
     position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--radius) * 1.3);
+    aspect-ratio: 16 / 11;
+    box-shadow: 0 26px 50px -30px rgba(0, 56, 80, 0.55);
+    isolation: isolate;
+  }
+  .dienst-tegel > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .tegel-floep {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 40, 58, 0.05) 20%, rgba(0, 40, 58, 0.55) 62%, rgba(0, 32, 46, 0.92));
+    transition: background 0.4s ease;
+  }
+  .dienst-tegel:hover > img,
+  .dienst-tegel:focus-within > img {
+    scale: 1.06;
+  }
+  .tegel-paneel {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1.5rem 1.6rem 1.6rem;
+    color: #fff;
+    z-index: 1;
+  }
+  .tegel-nr {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--sky);
+  }
+  .tegel-paneel h3 {
+    color: #fff;
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    font-weight: 500;
+    margin-top: 0.15rem;
+  }
+  .tegel-extra {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.42s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.35s ease;
+  }
+  .tegel-extra > div {
+    overflow: hidden;
+  }
+  .dienst-tegel:hover .tegel-extra,
+  .dienst-tegel:focus-within .tegel-extra {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .tegel-extra p {
+    margin-top: 0.7rem;
+    font-size: 0.95rem;
+    color: #dcebf4;
+    max-width: 40ch;
+  }
+  .tegel-extra ul {
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  .tegel-extra ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .tegel-extra ul svg {
+    color: var(--sky);
+    flex-shrink: 0;
+  }
+  .tegel-extra > div > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--sky);
+    padding-bottom: 0.1rem;
+  }
+  .tegel-extra > div > a::after {
+    content: '→';
+    transition: translate 0.2s ease;
+  }
+  .tegel-extra > div > a:hover::after {
+    translate: 0.25rem 0;
+  }
+  @media (hover: none), (max-width: 719px) {
+    .dienst-tegel {
+      aspect-ratio: auto;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .dienst-tegel > img {
+      position: relative;
+      height: 12.5rem;
+    }
+    .tegel-floep {
+      inset: auto 0 auto 0;
+      top: 0;
+      height: 12.5rem;
+      background: linear-gradient(180deg, transparent 55%, rgba(0, 32, 46, 0.55));
+    }
+    .tegel-paneel {
+      position: static;
+      color: var(--navy);
+      padding: 1.3rem 1.5rem 1.5rem;
+    }
+    .tegel-paneel h3 {
+      color: var(--navy);
+    }
+    .tegel-nr {
+      color: var(--brown);
+    }
+    .tegel-extra {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .tegel-extra p {
+      color: var(--navy-soft);
+    }
+    .tegel-extra ul {
+      color: var(--navy);
+    }
+    .tegel-extra ul svg {
+      color: var(--brown);
+    }
+    .tegel-extra > div > a {
+      color: var(--sky-deep);
+      border-color: var(--sky);
+    }
+  }
+
+  .stemmen {
+    overflow: clip;
+  }
+  .stemmen-kop {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+  }
+  .stemmen-intro {
+    margin-top: 0.9rem;
+    max-width: 42ch;
+  }
+  .stemmen-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: var(--wash-warm);
+    color: var(--brown-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .stemmen-badge svg {
+    color: var(--brown);
+  }
+  .stemmen-scores {
+    display: flex;
+    gap: 1rem;
+  }
+  .scorekaart {
+    display: grid;
+    justify-items: start;
+    gap: 0.35rem;
+    flex: 1;
+    max-width: 12rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.3rem;
+    text-decoration: none;
+    color: var(--navy);
+    box-shadow: 0 18px 34px -26px rgba(0, 56, 80, 0.5);
+    transition: translate 0.2s ease, box-shadow 0.2s ease;
+  }
+  .scorekaart:hover {
+    translate: 0 -0.25rem;
+    box-shadow: 0 26px 44px -26px rgba(0, 56, 80, 0.55);
+  }
+  .scorekaart b {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .scorekaart b i {
+    font-style: normal;
+    font-size: 1rem;
+    color: var(--navy-soft);
+  }
+  .scorekaart small {
+    font-size: 0.82rem;
+    color: var(--navy-soft);
+  }
+  .badge-tien.groot {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.05rem;
+  }
+  .sterren {
+    display: inline-flex;
+    gap: 0.12rem;
+    color: #dfa437;
+  }
+  .marquee {
+    margin-top: 3rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-spoor {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    display: flex;
+    gap: 1.2rem;
+    width: max-content;
+    animation: marquee-schuif 66s linear infinite;
+  }
+  .marquee:hover .marquee-spoor {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-schuif {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-spoor > li {
+    flex: 0 0 20rem;
     display: grid;
     align-content: start;
     gap: 0.7rem;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1.8rem 1.6rem 1.6rem;
-    transition: translate 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    padding: 1.5rem 1.6rem;
+    box-shadow: 0 18px 34px -28px rgba(0, 56, 80, 0.5);
   }
-  .situatie-kaarten > li:hover {
-    translate: 0 -0.3rem;
-    border-color: var(--sky);
-    box-shadow: 0 24px 44px -28px rgba(0, 56, 80, 0.4);
-  }
-  .situatie-icoon {
-    display: grid;
-    place-items: center;
-    width: 3.1rem;
-    height: 3.1rem;
-    border-radius: 12px;
-    background: var(--sky-wash);
-    color: var(--sky-deep);
-  }
-  .situatie-kaarten > li:nth-child(even) .situatie-icoon {
-    background: var(--wash-warm);
-    color: var(--brown);
-  }
-  .situatie-kaarten h3 {
-    font-size: 1.35rem;
-    font-weight: 500;
-  }
-  .situatie-kaarten p {
-    font-size: 0.95rem;
-  }
-  .situatie-kaarten a {
-    justify-self: start;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 0.3rem;
-    font-size: 0.93rem;
-    font-weight: 700;
-    color: var(--sky-deep);
-    text-decoration: none;
-    border-bottom: 1.5px solid currentColor;
-    padding-bottom: 0.1rem;
-  }
-  .situatie-kaarten a::after {
-    content: '→';
-    transition: translate 0.2s ease;
-  }
-  .situatie-kaarten a:hover::after {
-    translate: 0.25rem 0;
-  }
-
-  .register-kop {
-    display: grid;
-    gap: 0.9rem;
-    max-width: 56ch;
-  }
-  .register-grid {
-    display: grid;
-    gap: 3rem;
-    margin-top: 2.2rem;
-    align-items: start;
-  }
-  .register-rijen {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .register-rijen > li {
-    border-top: 1px solid var(--line);
-  }
-  .register-rijen > li:last-child {
-    border-bottom: 1px solid var(--line);
-  }
-  summary {
-    display: grid;
-    grid-template-columns: 2.6rem 1fr auto;
-    align-items: baseline;
-    gap: 0.6rem;
-    padding-block: 1.4rem;
-    cursor: pointer;
-    list-style: none;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  .register-nr {
-    font-family: var(--font-kop);
-    font-style: italic;
-    font-size: 1.05rem;
-    color: var(--brown);
-  }
-  summary h3 {
-    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
-    font-weight: 500;
-    transition: color 0.25s ease, translate 0.25s ease;
-  }
-  summary:hover h3,
-  details[open] summary h3 {
-    color: var(--sky-deep);
-    translate: 0.4rem 0;
-  }
-  .register-plus {
-    position: relative;
-    width: 1.05rem;
-    height: 1.05rem;
-    align-self: center;
-  }
-  .register-plus::before,
-  .register-plus::after {
-    content: '';
-    position: absolute;
-    inset: 50% 0 auto 0;
-    height: 2px;
-    border-radius: 1px;
-    background: var(--brown);
-    transition: rotate 0.3s ease;
-  }
-  .register-plus::after {
-    rotate: 90deg;
-  }
-  details[open] .register-plus::after {
-    rotate: 0deg;
-  }
-  .register-klep {
-    overflow: hidden;
-  }
-  .register-inhoud {
-    padding: 0.2rem 0 1.8rem 3.2rem;
-    max-width: 34rem;
-  }
-  .register-inhoud p {
-    font-size: 0.98rem;
-  }
-  .register-inhoud ul {
-    list-style: none;
-    margin: 1.1rem 0 0;
-    padding: 0;
-    display: grid;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .register-inhoud ul li {
+  .rev-kop {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: space-between;
   }
-  .register-inhoud ul svg {
-    color: var(--brown);
-    flex-shrink: 0;
-  }
-  .register-inhoud > a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 1rem;
-    padding-block: 0.35rem 0.15rem;
-    font-weight: 700;
-    color: var(--sky-deep);
-    text-decoration: none;
-    border-bottom: 1.5px solid currentColor;
-  }
-  .register-inhoud > a::after {
-    content: '→';
-    transition: translate 0.2s ease;
-  }
-  .register-inhoud > a:hover::after {
-    translate: 0.25rem 0;
-  }
-  .register-beeld {
-    display: none;
-  }
-
-  .stemmen-vlak {
-    display: grid;
-    gap: 2.75rem;
-    background: linear-gradient(160deg, var(--wash-warm), var(--wash-warm-licht));
-    border-radius: calc(var(--radius) * 1.6);
-    padding: 2.6rem 1.8rem;
-  }
-  .stemmen-intro {
-    margin-top: 0.9rem;
-    font-size: 0.98rem;
-    max-width: 34ch;
-  }
-  .scorelijst {
-    display: grid;
-    gap: 1.1rem;
-    margin: 1.8rem 0 0;
-  }
-  .score-rij {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 0.4rem 1.2rem;
-    padding-bottom: 1.1rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
-  }
-  .score-rij dt {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .score-logo {
-    display: grid;
-    place-items: center;
-    width: 2.3rem;
-    height: 2.3rem;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 8px 18px -10px rgba(0, 56, 80, 0.35);
-  }
-  .score-tien {
-    font-family: var(--font-kop);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--brown);
-  }
-  .score-rij dd {
-    margin: 0;
-    justify-self: end;
-    display: flex;
-    align-items: baseline;
-    gap: 0.7rem;
-  }
-  .score-rij dd b {
-    font-family: var(--font-kop);
-    font-style: italic;
-    font-size: 1.9rem;
-    font-weight: 600;
-    line-height: 1;
-    color: var(--navy);
-  }
-  .score-van {
-    font-size: 1.05rem;
-    color: var(--navy-soft);
-  }
-  .sterren {
-    display: inline-flex;
-    gap: 0.15rem;
+  .sterren.klein {
     color: #dfa437;
   }
-  .score-rij dd a {
-    font-size: 0.88rem;
-    color: var(--navy-soft);
-  }
-  .score-som {
-    margin-top: 1.4rem;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--navy);
-    max-width: 30ch;
-  }
-  .stemmen-quote {
-    display: grid;
-    align-content: center;
-    gap: 1.6rem;
-  }
-  .quote-wissel {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-  }
-  .quote-wissel > li {
-    grid-area: 1 / 1;
-    opacity: 0;
-    transition: opacity 0.7s ease;
-    pointer-events: none;
-  }
-  .quote-wissel > li.actief {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .quote-wissel blockquote {
-    margin: 0;
-    font-family: var(--font-kop);
-    font-style: italic;
-    font-size: clamp(1.35rem, 3vw, 1.8rem);
-    line-height: 1.45;
-    color: var(--navy);
-    text-wrap: pretty;
-  }
-  .quote-wissel blockquote::before {
-    content: '\201E';
-    margin-right: 0.1em;
-    color: var(--brown);
-  }
-  .quote-wissel blockquote::after {
-    content: '\201D';
-    margin-left: 0.05em;
-    color: var(--brown);
-  }
-  .quote-naam {
-    margin-top: 1.1rem;
+  .bron {
+    font-size: 0.72rem;
     font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--navy);
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
   }
-  .quote-bron {
-    font-weight: 400;
+  .bron-google {
+    background: #eef4fd;
+    color: #3367d6;
+  }
+  .bron-advieskeuze {
+    background: var(--wash-warm);
+    color: var(--brown-deep);
+  }
+  .marquee-spoor p {
+    font-size: 0.96rem;
+    line-height: 1.55;
     color: var(--navy-soft);
   }
-  .quote-dots {
-    display: flex;
-    gap: 0.5rem;
+  .rev-naam {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--navy);
   }
-  .quote-dots button {
-    width: 0.6rem;
-    height: 0.6rem;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--brown) 28%, transparent);
-    cursor: pointer;
-    transition: background-color 0.25s ease, scale 0.25s ease;
-  }
-  .quote-dots button[aria-pressed='true'] {
-    background: var(--brown);
-    scale: 1.25;
+
+  .verhaal {
+    margin-top: 5.5rem;
   }
   .verhaal-grid {
     display: grid;
@@ -983,16 +1075,16 @@ const situatieIconen = {
   }
   .route-vlak {
     position: relative;
-    margin-top: 3.2rem;
+    margin-top: 3.4rem;
   }
   .route-pad {
     display: none;
     position: absolute;
-    top: 0.05rem;
+    top: 1.4rem;
     left: 0;
     width: 100%;
     height: 3.4rem;
-    color: rgba(106, 171, 218, 0.75);
+    color: rgba(106, 171, 218, 0.6);
     pointer-events: none;
   }
   .stations {
@@ -1001,38 +1093,49 @@ const situatieIconen = {
     padding: 0;
     position: relative;
     display: grid;
-    gap: 2.6rem;
-  }
-  .stations::before {
-    content: '';
-    position: absolute;
-    left: 1.55rem;
-    top: 0.5rem;
-    bottom: -1.5rem;
-    border-left: 2px dashed rgba(106, 171, 218, 0.6);
+    gap: 1.4rem;
   }
   .station {
     position: relative;
-    padding-left: 4.7rem;
+    padding: 1.9rem 1.8rem 1.7rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(133, 176, 205, 0.22);
+    border-radius: var(--radius);
+    backdrop-filter: blur(2px);
   }
   .station-nr {
-    position: absolute;
-    left: 0;
-    top: -0.2rem;
+    position: relative;
     display: grid;
     place-items: center;
     width: 3.2rem;
     height: 3.2rem;
     border-radius: 50%;
-    background: #003850;
+    background: linear-gradient(150deg, #0d4a66, #003850);
     border: 1.5px solid var(--sky);
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .station-nr i {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--sky);
+    color: #012c40;
     font-family: var(--font-kop);
     font-style: italic;
-    font-size: 1.5rem;
-    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
   }
   .station:nth-child(2) .station-nr {
-    border-color: color-mix(in srgb, var(--brown) 60%, #fff 20%);
+    border-color: color-mix(in srgb, var(--brown) 55%, #fff 25%);
+  }
+  .station:nth-child(2) .station-nr i {
+    background: color-mix(in srgb, var(--brown) 55%, #fff 25%);
   }
   .station h3 {
     font-size: 1.5rem;
@@ -1042,15 +1145,13 @@ const situatieIconen = {
   .station p {
     margin-top: 0.55rem;
     font-size: 0.97rem;
-    max-width: 30rem;
     color: #b6cddd;
   }
   .route-einde {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    margin: 2.4rem 0 0 0.45rem;
+    margin: 2rem 0 0 0.3rem;
     font-family: var(--font-kop);
     font-style: italic;
     font-size: 1.55rem;
@@ -1060,40 +1161,13 @@ const situatieIconen = {
     color: var(--sky);
     flex-shrink: 0;
   }
-
-  .route-slot {
+  .route-cta {
     display: grid;
-    gap: 2.5rem;
-    margin-top: 4rem;
-    align-items: center;
-  }
-  .briefje {
-    position: relative;
-    background: var(--paper);
-    border-radius: var(--radius);
-    padding: 2.4rem 1.9rem 1.7rem;
-    rotate: -1.1deg;
-    box-shadow: 0 30px 60px -28px rgba(0, 20, 30, 0.7);
-  }
-  .briefje-merk {
-    position: absolute;
-    top: -1.45rem;
-    left: 1.9rem;
-    display: grid;
-    place-items: center;
-    width: 2.9rem;
-    height: 2.9rem;
-    background: var(--paper);
-    border-radius: 50%;
-    box-shadow: 0 10px 20px -10px rgba(0, 20, 30, 0.6);
-  }
-  .briefje h3 {
-    font-size: 1.25rem;
-  }
-  .briefje p {
-    margin-top: 0.55rem;
-    font-size: 0.98rem;
-    color: var(--navy-soft);
+    justify-items: start;
+    gap: 0.4rem;
+    margin-top: 3rem;
+    padding-top: 2.4rem;
+    border-top: 1px solid rgba(133, 176, 205, 0.2);
   }
   .route-cta p {
     font-family: var(--font-kop);
@@ -1101,19 +1175,18 @@ const situatieIconen = {
     font-size: 1.35rem;
     line-height: 1.4;
     color: #fff;
-    max-width: 24ch;
+    max-width: 34ch;
   }
-  .route-cta .knop {
-    margin-top: 1.4rem;
+  .knop-wit-vol {
+    margin-top: 1.1rem;
     background: #fff;
     color: var(--navy);
   }
-  .route-cta .knop:hover {
+  .knop-wit-vol:hover {
     background: var(--sky-wash);
   }
   .route-bel {
-    display: block;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-size: 0.95rem;
     color: #9fbdd2;
     text-decoration: none;
@@ -1122,25 +1195,103 @@ const situatieIconen = {
     color: #fff;
   }
 
-  .manifest {
-    overflow: clip;
+  .situaties {
+    background: linear-gradient(180deg, var(--wash-warm-licht), var(--paper));
   }
-  .manifest-strip {
+  .situatie-kaarten {
+    list-style: none;
+    margin: 2.6rem 0 0;
+    padding: 0;
     display: grid;
-    gap: 1.6rem;
-    justify-items: start;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 4rem;
+    gap: 1.1rem;
   }
-  .manifest-merk {
-    display: block;
+  .situatie-kaarten > li {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.8rem 1.6rem 1.6rem;
+    transition: translate 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
-  .manifest-tekst p {
-    font-size: 1.05rem;
-    max-width: 46ch;
+  .situatie-kaarten > li::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--sky);
+    scale: 1 0;
+    transform-origin: top;
+    transition: scale 0.3s ease;
   }
-  .manifest-tekst p + p {
-    margin-top: 1rem;
+  .situatie-kaarten > li:nth-child(even)::before {
+    background: var(--brown);
+  }
+  .situatie-kaarten > li:hover {
+    translate: 0 -0.35rem;
+    border-color: transparent;
+    box-shadow: 0 26px 48px -28px rgba(0, 56, 80, 0.45);
+  }
+  .situatie-kaarten > li:hover::before {
+    scale: 1 1;
+  }
+  .situatie-nr {
+    position: absolute;
+    top: 0.9rem;
+    right: 1.1rem;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--line);
+    transition: color 0.25s ease;
+  }
+  .situatie-kaarten > li:hover .situatie-nr {
+    color: var(--sky);
+  }
+  .situatie-icoon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    background: var(--sky-wash);
+    color: var(--sky-deep);
+    transition: scale 0.25s ease;
+  }
+  .situatie-kaarten > li:nth-child(even) .situatie-icoon {
+    background: var(--wash-warm);
+    color: var(--brown);
+  }
+  .situatie-kaarten > li:hover .situatie-icoon {
+    scale: 1.08;
+  }
+  .situatie-kaarten h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+  .situatie-kaarten p {
+    font-size: 0.94rem;
+  }
+  .situatie-kaarten a {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.3rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--sky-deep);
+    text-decoration: none;
+  }
+  .situatie-kaarten a::after {
+    content: '→';
+    transition: translate 0.2s ease;
+  }
+  .situatie-kaarten a:hover::after {
+    translate: 0.25rem 0;
   }
 
   .artikelen {
@@ -1183,6 +1334,80 @@ const situatieIconen = {
     gap: 2.5rem;
   }
 
+  .manifest {
+    overflow: clip;
+  }
+  .manifest-grid {
+    display: grid;
+    gap: 3rem;
+    padding-bottom: 1rem;
+  }
+  .manifest-merk {
+    display: block;
+    margin-bottom: 1.4rem;
+  }
+  .manifest-tekst-blok h2 {
+    max-width: 14ch;
+  }
+  .manifest-tekst-blok p {
+    font-size: 1.02rem;
+    max-width: 46ch;
+    margin-top: 1rem;
+  }
+  .faq h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+  }
+  .faq-lijst {
+    margin-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+  .faq details {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-kop);
+    font-size: 1.15rem;
+    color: var(--navy);
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-teken {
+    position: relative;
+    flex-shrink: 0;
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .faq-teken::before,
+  .faq-teken::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--brown);
+    transition: rotate 0.3s ease;
+  }
+  .faq-teken::after {
+    rotate: 90deg;
+  }
+  .faq details[open] .faq-teken::after {
+    rotate: 0deg;
+  }
+  .faq details p {
+    padding: 0 0 1.2rem;
+    font-size: 0.97rem;
+    max-width: 52ch;
+  }
+
   .contact {
     position: relative;
     margin-top: 6.5rem;
@@ -1206,18 +1431,20 @@ const situatieIconen = {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-areas: 'tekst' 'kanalen' 'kaartje';
-    gap: 3rem;
+    grid-template-areas: 'tekst' 'kaartje' 'kanalen';
+    gap: 2.6rem;
     align-items: center;
   }
   .contact-tekst {
     grid-area: tekst;
   }
-  .kanalen {
-    grid-area: kanalen;
-  }
   .contact .kaartje {
     grid-area: kaartje;
+  }
+  .kanalen {
+    grid-area: kanalen;
+    display: grid;
+    gap: 1rem;
   }
   .contact h2 {
     color: #fff;
@@ -1229,18 +1456,19 @@ const situatieIconen = {
     margin-top: 1rem;
     max-width: 46ch;
   }
-  .kanalen {
-    display: grid;
-    gap: 1rem;
-  }
   .kanaal {
+    position: relative;
+    overflow: hidden;
     display: grid;
-    justify-items: start;
-    gap: 0.35rem;
-    background: rgba(251, 250, 248, 0.96);
+    grid-template-columns: auto 1fr;
+    grid-template-areas: 'icoon titel' 'icoon detail' 'sub sub';
+    column-gap: 1rem;
+    row-gap: 0.15rem;
+    align-items: center;
+    background: rgba(251, 250, 248, 0.97);
     border: 0;
     border-radius: var(--radius);
-    padding: 1.5rem 1.5rem 1.35rem;
+    padding: 1.4rem 1.5rem;
     font: inherit;
     text-align: left;
     text-decoration: none;
@@ -1248,41 +1476,85 @@ const situatieIconen = {
     cursor: pointer;
     transition: translate 0.25s ease, box-shadow 0.25s ease;
   }
+  .kanaal::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: var(--kanaal-kleur);
+  }
+  .kanaal::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+  }
   .kanaal:hover {
-    translate: 0 -0.3rem;
-    box-shadow: 0 26px 48px -26px rgba(0, 20, 30, 0.8);
+    translate: 0 -0.35rem;
+    box-shadow: 0 30px 54px -28px rgba(0, 20, 30, 0.85);
+  }
+  .kanaal:hover::after {
+    left: 120%;
+  }
+  .kanaal-bel {
+    --kanaal-kleur: var(--sky-deep);
+  }
+  .kanaal-app {
+    --kanaal-kleur: #128c4b;
+  }
+  .kanaal-plan {
+    --kanaal-kleur: var(--brown);
   }
   .kanaal-icoon {
+    grid-area: icoon;
     display: grid;
     place-items: center;
-    width: 2.8rem;
-    height: 2.8rem;
-    border-radius: 12px;
-    background: var(--sky-wash);
-    color: var(--sky-deep);
-    margin-bottom: 0.4rem;
+    width: 3.1rem;
+    height: 3.1rem;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--kanaal-kleur) 15%, #fff);
+    color: var(--kanaal-kleur);
+    transition: scale 0.25s ease;
   }
-  .kanaal:nth-child(2) .kanaal-icoon {
-    background: #e7f5ec;
-    color: #128c4b;
-  }
-  .kanaal:nth-child(3) .kanaal-icoon {
-    background: var(--wash-warm);
-    color: var(--brown);
+  .kanaal:hover .kanaal-icoon {
+    scale: 1.08;
   }
   .kanaal-titel {
+    grid-area: titel;
     font-family: var(--font-kop);
     font-size: 1.3rem;
     font-weight: 540;
     color: var(--navy);
   }
   .kanaal-detail {
+    grid-area: detail;
     font-weight: 700;
     font-size: 0.95rem;
-    color: var(--sky-deep);
+    color: var(--kanaal-kleur);
   }
   .kanaal-sub {
+    grid-area: sub;
+    margin-top: 0.5rem;
     font-size: 0.88rem;
+  }
+  .kanaal-pijl {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    font-size: 1.1rem;
+    color: var(--kanaal-kleur);
+    opacity: 0;
+    translate: -0.4rem 0;
+    transition: opacity 0.25s ease, translate 0.25s ease;
+  }
+  .kanaal:hover .kanaal-pijl {
+    opacity: 1;
+    translate: 0 0;
   }
 
   .kaartje {
@@ -1342,6 +1614,7 @@ const situatieIconen = {
     letter-spacing: 0.03em;
     color: #7f95a5;
   }
+
   #plan-dialoog {
     width: min(92vw, 56rem);
     max-height: min(92vh, 46rem);
@@ -1482,6 +1755,27 @@ const situatieIconen = {
     max-width: 38ch;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .stempel svg,
+    .marquee-spoor {
+      animation: none;
+    }
+    .marquee {
+      overflow-x: auto;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .dienst-rooster {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.3rem;
+    }
+    .situatie-kaarten {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+  }
+
   @media (min-width: 900px) {
     .hero {
       padding-block: 2.25rem 2.75rem;
@@ -1510,46 +1804,12 @@ const situatieIconen = {
     section:not(.hero) {
       padding-top: 6.5rem;
     }
-    .situatie-kaarten {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.2rem;
-      margin-top: 2.8rem;
+    .stemmen-kop {
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
     }
-    .register-grid {
-      grid-template-columns: 1.35fr 1fr;
-      gap: 4.5rem;
-    }
-    .register-beeld {
-      display: block;
-      position: sticky;
-      top: 7rem;
-      width: min(100%, 22rem);
-      justify-self: end;
-      aspect-ratio: 3 / 4;
-      border-radius: 999px 999px var(--radius) var(--radius);
-      overflow: hidden;
-      box-shadow: 0 30px 60px -30px rgba(0, 56, 80, 0.4);
-    }
-    .register-beeld img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.45s ease;
-    }
-    .register-beeld img.actief {
-      opacity: 1;
-    }
-    summary {
-      grid-template-columns: 3.2rem 1fr auto;
-      padding-block: 1.8rem;
-    }
-    .stemmen-vlak {
-      grid-template-columns: 20rem minmax(0, 1fr);
-      gap: 4.5rem;
-      padding: 3.4rem 3.6rem;
+    .verhaal {
+      margin-top: 6.5rem;
     }
     .verhaal-grid {
       grid-template-columns: 0.9fr 1.1fr;
@@ -1574,79 +1834,34 @@ const situatieIconen = {
     }
     .stations {
       grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-    }
-    .stations::before {
-      display: none;
-    }
-    .station {
-      padding-left: 0;
-      padding-top: 5rem;
-    }
-    .station-nr {
-      top: 0;
-      left: 0;
+      gap: 1.6rem;
     }
     .route-einde {
       position: absolute;
-      top: 0.35rem;
+      top: -3.6rem;
       right: 0;
       margin: 0;
-      padding-left: 0.9rem;
-      background: linear-gradient(90deg, transparent, #012f44 22%, #012f44);
     }
-    .route-slot {
-      grid-template-columns: 1.15fr 1fr;
-      gap: 4rem;
-      margin-top: 5rem;
-    }
-    .briefje {
-      margin: 0;
-    }
-    .manifest-strip {
-      grid-template-columns: auto 1fr;
-      column-gap: 3.5rem;
-      row-gap: 1.8rem;
+    .route-cta {
+      grid-template-columns: 1fr auto;
       align-items: center;
-      padding-bottom: 5rem;
+      gap: 1.5rem 3rem;
     }
-    .manifest-merk {
+    .route-cta p {
       grid-row: span 2;
-      justify-self: center;
     }
-    .manifest-tekst {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      align-items: start;
-    }
-    .manifest-tekst p + p {
+    .knop-wit-vol {
       margin-top: 0;
+      justify-self: end;
     }
-    .artikelen {
-      grid-template-columns: 1.5fr 1fr;
-      gap: 3.5rem;
-    }
-    .artikel-groot img {
-      aspect-ratio: 4 / 3;
-    }
-    .artikel-groot h3 {
-      font-size: 1.8rem;
-    }
-    .artikelen-rest {
-      gap: 3rem;
-    }
-    .artikelen-rest article {
-      display: grid;
-      grid-template-columns: 9.5rem 1fr;
-      gap: 1.4rem;
-      align-items: start;
-    }
-    .artikelen-rest img {
-      aspect-ratio: 1;
-    }
-    .artikelen-rest time {
+    .route-bel {
       margin-top: 0;
+      justify-self: end;
+    }
+    .manifest-grid {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 4.5rem;
+      align-items: start;
     }
     .contact {
       margin-top: 7rem;
@@ -1655,7 +1870,7 @@ const situatieIconen = {
     .contact-inhoud {
       grid-template-columns: 1.25fr 0.75fr;
       grid-template-areas: 'tekst kaartje' 'kanalen kanalen';
-      gap: 4rem;
+      gap: 3.5rem 4rem;
     }
     .kaartje {
       justify-self: end;
@@ -1680,6 +1895,15 @@ const situatieIconen = {
       padding: 3.2rem 2.6rem;
     }
   }
+
+  @media (min-width: 1100px) {
+    .dienst-rooster {
+      gap: 1.5rem;
+    }
+    .situatie-kaarten {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 </style>
 
 <script>
@@ -1691,12 +1915,12 @@ const situatieIconen = {
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: no-preference)', () => {
-    gsap.from('.hero h1 .regel, .hero .intro, .hero-acties, .zekerheden, .hero-beeld', {
+    gsap.from('.hero h1 .regel, .hero .intro, .hero-acties, .hero-scores, .zekerheden, .hero-beeld', {
       opacity: 0,
       y: 26,
       duration: 0.9,
       ease: 'power2.out',
-      stagger: 0.09,
+      stagger: 0.08,
     });
     gsap.from('.stempel', { opacity: 0, scale: 0.6, duration: 0.7, ease: 'back.out(1.6)', delay: 1 });
     gsap.from('.hero-stat', { opacity: 0, y: -14, rotate: -4, duration: 0.7, ease: 'back.out(1.6)', delay: 1.2 });
@@ -1728,25 +1952,16 @@ const situatieIconen = {
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
     });
 
-    const pad = document.querySelector('.route-pad path');
-    const padZichtbaar = () => getComputedStyle(document.querySelector('.route-pad')).display !== 'none';
-    if (pad && padZichtbaar()) {
-      gsap.fromTo(
-        pad,
-        { strokeDasharray: `7 7`, strokeDashoffset: 0, opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.1,
-          scrollTrigger: { trigger: '.route-vlak', start: 'top 95%', once: true },
-        }
-      );
+    const padVlak = document.querySelector('.route-pad');
+    if (padVlak && getComputedStyle(padVlak).display !== 'none') {
       gsap.fromTo(
         '.route-pad',
-        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
         {
           clipPath: 'inset(0 0% 0 0)',
+          opacity: 1,
           ease: 'none',
-          scrollTrigger: { trigger: '.route-vlak', start: 'top 92%', end: 'top 58%', scrub: 0.4 },
+          scrollTrigger: { trigger: '.route-vlak', start: 'top 85%', end: 'top 45%', scrub: 0.4 },
         }
       );
     }
@@ -1770,98 +1985,11 @@ const situatieIconen = {
     gsap.set('.reveal, .route-pad', { opacity: 1, clearProps: 'clipPath' });
   });
 
-  const beelden = document.querySelectorAll('.register-beeld img');
-  const kies = (index) => {
-    beelden.forEach((b) => b.classList.toggle('actief', b.dataset.index === index));
-  };
-
-  const rijen = [...document.querySelectorAll('.register-rijen > li')];
-  const animatieOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
-
-  const sluit = (details) => {
-    const klep = details.querySelector('.register-klep');
-    if (!animatieOk) {
-      details.open = false;
-      return;
-    }
-    gsap.to(klep, {
-      height: 0,
-      opacity: 0,
-      duration: 0.35,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        details.open = false;
-        gsap.set(klep, { clearProps: 'all' });
-      },
-    });
-  };
-
-  const openen = (details) => {
-    details.open = true;
-    const klep = details.querySelector('.register-klep');
-    if (!animatieOk) return;
-    gsap.fromTo(
-      klep,
-      { height: 0, opacity: 0 },
-      { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(klep, { clearProps: 'all' }) }
-    );
-  };
-
-  rijen.forEach((rij) => {
-    const details = rij.querySelector('details');
-    rij.querySelector('summary').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (details.open) {
-        sluit(details);
-        return;
-      }
-      rijen.forEach((andere) => {
-        const d = andere.querySelector('details');
-        if (d !== details && d.open) sluit(d);
-      });
-      openen(details);
-      kies(rij.dataset.index);
-    });
-    rij.addEventListener('mouseenter', () => kies(rij.dataset.index));
-    rij.addEventListener('focusin', () => kies(rij.dataset.index));
-  });
-
-  const quotes = [...document.querySelectorAll('.quote-wissel > li')];
-  const dots = [...document.querySelectorAll('.quote-dots button')];
-  let quoteIndex = 0;
-  let quoteTimer;
-
-  const toonQuote = (i) => {
-    quoteIndex = i;
-    quotes.forEach((q, j) => q.classList.toggle('actief', j === i));
-    dots.forEach((d, j) => d.setAttribute('aria-pressed', String(j === i)));
-  };
-  const startQuotes = () => {
-    if (!animatieOk || quotes.length < 2) return;
-    quoteTimer = setInterval(() => toonQuote((quoteIndex + 1) % quotes.length), 7000);
-  };
-  const stopQuotes = () => clearInterval(quoteTimer);
-
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      stopQuotes();
-      toonQuote(Number(dot.dataset.index));
-      startQuotes();
-    });
-  });
-  const stemmenVlak = document.querySelector('.stemmen-vlak');
-  stemmenVlak.addEventListener('mouseenter', stopQuotes);
-  stemmenVlak.addEventListener('mouseleave', startQuotes);
-  stemmenVlak.addEventListener('focusin', stopQuotes);
-  new IntersectionObserver(([zichtbaar]) => {
-    stopQuotes();
-    if (zichtbaar.isIntersecting) startQuotes();
-  }, { threshold: 0.35 }).observe(stemmenVlak);
-
   const dialoog = document.getElementById('plan-dialoog');
   const formulier = dialoog.querySelector('form');
   const succes = dialoog.querySelector('.dialoog-succes');
   const onderwerp = formulier.querySelector('select');
+  const animatieOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
   document.querySelectorAll('[data-plan-open]').forEach((knop) => {
     knop.addEventListener('click', (e) => {

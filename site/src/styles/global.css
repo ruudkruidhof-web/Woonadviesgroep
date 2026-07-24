@@ -25,9 +25,10 @@
   --brown: #2e6b51;
   --brown-deep: #235240;
   --merk-rechts: #5ba57f;
-  --wash-warm: #e9f2ec;
-  --wash-warm-licht: #f3f8f4;
-  --blob-warm: rgba(46, 107, 81, 0.22);
+  --wash-warm: #e4f0e8;
+  --wash-warm-licht: #eef6f0;
+  --blob-warm: rgba(46, 107, 81, 0.24);
+  --ice: #e7f3ec;
 }
 
 * {
