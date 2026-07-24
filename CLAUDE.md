@@ -17,6 +17,19 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 - Alle content staat CMS-klaar als JSON in `src/content/`; preview-bridge script zit in de layout.
 - Concept-mail aan Marijke is opgesteld (in de sessie van 16 juli), nog niet verstuurd.
 
+## Routing (sinds vierde feedbackronde, 24 jul 2026)
+
+- **`/`** = de Fris-variant (hoofdpagina, indexeerbaar). **`/groen`** = groene variant (noindex). **`/v1`** = de oorspronkelijke v8-homepage, als archief/referentie (noindex). `/fris` redirect naar `/`.
+- Preview-switchbalk (fixed, onderaan) op alle variantpagina's: Fris / Groen / v1. Aangestuurd door de `variant`-prop op `Base.astro`; interne nav/anchors via `basis`.
+- Sitemap bevat alleen `/`; sluit `/groen` en `/v1` uit.
+
+## Vierde feedbackronde (24 jul 2026, commits dd3eae3 + 7cc6ce8)
+
+- **Reviews herontworpen** naar klant-inspiratie (Framify-stijl): links scores/tekst (Google 5,0 + Advieskeuze 10/10), midden een uitgelichte testimonial met de **echte foto van Dennis & Marijke** (`public/beeld/adviseurs.webp`, uit de aangeleverde FB-foto `66b5f8cb-...jpg` in de klantmap-root; quote van Sofie die beiden noemt), rechts een **verticaal auto-scrollende stroom** met fade boven/onder. Data: `reviews.marquee` (stroom) + `reviews.uitgelicht` (featured).
+- **Groen logo**: groen vector-icoon + **exact origineel woordmerk** (`public/logo-woordmerk.webp`, uit `logo.webp` gecropt met sharp), niet meer de Ibarra-tekst. Header-branch `vector` in `Header.astro`.
+- **Alle eyebrows verwijderd**; **FAQ-titel** als duidelijke kop met sky-accent; **contact-CTA's** compacter zonder zijlijn; **hero-strook** onderaan gefixt (ambient blobs hoger, geen clip-rand); **groene witte strook** tussen verhaal en werkwijze weg (`.route margin-top:0`).
+- **Frisse hero-foto** via Higgsfield (`nano_banana_pro`, lichte Rotterdamse woonkamer met kanaalzicht, blauw/groene accenten) → `public/beeld/woonkamer-fris.webp`, alleen op de varianten (v1 houdt origineel). Higgsfield is nu gekoppeld/geautoriseerd. **Nog te doen op verzoek**: diensten-, verhaal- en contactbeelden in dezelfde frisse stijl vervangen.
+
 ## Belangrijke beslissingen
 
 - **Ontwerp**: concept "rust + warmte", kleuren uit het logo (navy #003850, hemelsblauw #6aabda, bruin #6a4d47). Ritme licht/donker is bewust: werkwijze-sectie diep navy tussen crème secties.
