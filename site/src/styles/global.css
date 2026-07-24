@@ -9,10 +9,25 @@
   --paper: #fbfaf8;
   --ice: #f0f6fb;
   --line: #dbe6ef;
+  --merk-links: #6aacda;
+  --merk-rechts: #6a4d47;
+  --merk-huis: #00374f;
+  --wash-warm: #f5ece5;
+  --wash-warm-licht: #faf3ed;
+  --blob-warm: rgba(106, 77, 71, 0.28);
   --font-kop: 'Ibarra Real Nova Variable', Georgia, serif;
   --font-tekst: 'Nunito Sans Variable', 'Segoe UI', sans-serif;
   --maat: min(1160px, calc(100vw - 2.5rem));
   --radius: 14px;
+}
+
+[data-thema='groen'] {
+  --brown: #2e6b51;
+  --brown-deep: #235240;
+  --merk-rechts: #5ba57f;
+  --wash-warm: #e9f2ec;
+  --wash-warm-licht: #f3f8f4;
+  --blob-warm: rgba(46, 107, 81, 0.22);
 }
 
 * {

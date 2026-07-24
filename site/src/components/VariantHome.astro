@@ -1,0 +1,1891 @@
+---
+import Merk from './Merk.astro';
+import home from '../content/teksten/home.json';
+import varianten from '../content/teksten/varianten.json';
+import voorwie from '../content/voorwie.json';
+import diensten from '../content/diensten.json';
+import werkwijze from '../content/werkwijze.json';
+import nieuws from '../content/nieuws.json';
+import reviews from '../content/reviews.json';
+import bedrijf from '../content/bedrijf.json';
+
+const { thema = 'fris' } = Astro.props;
+
+const datumFmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+const [hoofdartikel, ...restartikelen] = nieuws;
+const totaalReviews = reviews.aantal + reviews.advieskeuze_aantal;
+const manifestTekst1 = thema === 'groen' ? varianten.manifest_tekst_1_groen : home.manifest_tekst_1;
+const zekerheden = [
+  'Volledig onafhankelijk',
+  `AFM-geregistreerd (${bedrijf.afm})`,
+  'Aangesloten bij Kifid',
+  `Sinds ${bedrijf.sinds} in Rotterdam`,
+];
+const situatieIconen = {
+  'eerste-woning': 'M6 26V15l10-8 10 8v11h-7v-6h-6v6Z',
+  'doorstarters': 'M6 26v-8l7-6 7 6v8h-5v-5h-4v5Z M23 13V5m0 0-3 3m3-3 3 3',
+  'scheiding': 'M6 26V15l10-8 10 8v11Z M16 11v15',
+  'oversluiten': 'M9 23 23 9M13.5 11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM23.5 21a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z',
+};
+---
+<section class="hero">
+  <div class="hero-blob hero-blob-blauw" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-warm" aria-hidden="true"></div>
+  <div class="maat hero-grid">
+    <div class="hero-tekst">
+      <h1>
+        <span class="regel" data-cms-field="hero_titel_voor">{home.hero_titel_voor}</span>
+        <em class="regel rust" data-cms-field="hero_titel_accent">{home.hero_titel_accent}<svg class="rust-lijn" viewBox="0 0 140 14" preserveAspectRatio="none" aria-hidden="true"><path d="M6 10 C 40 3, 95 13, 134 5" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></em>
+        <span class="regel na" data-cms-field="hero_titel_na">{home.hero_titel_na}</span>
+      </h1>
+      <p class="intro" data-cms-field="hero_tekst">{home.hero_tekst}</p>
+      <div class="hero-acties">
+        <a href="#contact" class="knop knop-vol" data-plan-open data-hb-goal="kennismaking">{home.hero_knop}</a>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">Bel {bedrijf.telefoon}</a>
+        <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn knop-app" data-hb-goal="whatsapp">
+          <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+    <figure class="hero-beeld">
+      <img src={home.hero_beeld} alt={home.hero_beeld_alt} width="1600" height="900" fetchpriority="high" data-cms-field="hero_beeld" />
+      <span class="hero-stat" aria-label={`${varianten.stat_getal} ${varianten.stat_tekst}`}>
+        <b data-cms-field="stat_getal">{varianten.stat_getal}</b>
+        <span data-cms-field="stat_tekst">{varianten.stat_tekst}</span>
+      </span>
+      <span class="stempel" aria-hidden="true">
+        <Merk breedte={44} klasse="stempel-merk" />
+        <svg viewBox="0 0 120 120">
+          <defs>
+            <path id="stempel-rond" d="M60 13 a47 47 0 1 1 -0.01 0" />
+          </defs>
+          <text>
+            <textPath href="#stempel-rond">Financiële rust · sinds 2010 · Rotterdam ·&nbsp;</textPath>
+          </text>
+        </svg>
+      </span>
+    </figure>
+  </div>
+  <ul class="maat zekerheden">
+    {zekerheden.map((z) => (
+      <li>
+        <svg width="15" height="10" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {z}
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section class="situaties" id="voorwie" aria-labelledby="situaties-kop">
+  <div class="maat">
+    <div class="situaties-kop">
+      <h2 id="situaties-kop" class="reveal" data-cms-field="voorwie_titel">{varianten.voorwie_titel}</h2>
+      <p class="reveal" data-cms-field="voorwie_tekst">{varianten.voorwie_tekst}</p>
+    </div>
+    <ul class="situatie-kaarten" data-cms-collection="voorwie">
+      {voorwie.map((s) => (
+        <li class="reveal" data-cms-item={s.id}>
+          <span class="situatie-icoon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 32 32"><path d={situatieIconen[s.id]} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <h3 data-cms-field="titel">{s.titel}</h3>
+          <p data-cms-field="tekst">{s.tekst}</p>
+          <a href="#contact" data-plan-open data-dienst={s.dienst} data-hb-goal="situatie-interesse">{varianten.voorwie_knop}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="register" id="diensten" aria-labelledby="register-kop">
+  <div class="maat">
+    <div class="register-kop">
+      <h2 id="register-kop" class="reveal" data-cms-field="diensten_titel">{home.diensten_titel}</h2>
+      <p class="reveal" data-cms-field="diensten_tekst">{home.diensten_tekst}</p>
+    </div>
+    <div class="register-grid">
+      <ol class="register-rijen" data-cms-collection="diensten">
+        {diensten.map((d, i) => (
+          <li class="reveal" id={d.id} data-cms-item={d.id} data-index={i}>
+            <details open={i === 0}>
+              <summary>
+                <span class="register-nr" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 data-cms-field="titel">{d.titel}</h3>
+                <span class="register-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="register-klep">
+                <div class="register-inhoud">
+                  <p data-cms-field="tekst">{d.tekst}</p>
+                  <ul>
+                    {d.punten.map((punt) => (
+                      <li>
+                        <svg width="12" height="9" viewBox="0 0 16 11" aria-hidden="true"><path d="M2 9.5 8 2l6 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        {punt}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="#contact" data-plan-open data-dienst={d.titel} data-hb-goal="dienst-interesse">Bespreek uw situatie</a>
+                </div>
+              </div>
+            </details>
+          </li>
+        ))}
+      </ol>
+      <figure class="register-beeld" aria-hidden="true">
+        {diensten.map((d, i) => (
+          <img src={d.beeld} alt="" width="900" height="1200" loading="lazy" class={i === 0 ? 'actief' : ''} data-index={i} />
+        ))}
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="stemmen" aria-labelledby="stemmen-kop">
+  <div class="maat">
+    <div class="stemmen-vlak">
+      <div class="stemmen-scores">
+        <h2 id="stemmen-kop" class="reveal" data-cms-field="reviews_titel">{varianten.reviews_titel}</h2>
+        <p class="stemmen-intro reveal" data-cms-field="reviews_tekst">{varianten.reviews_tekst}</p>
+        <dl class="scorelijst reveal">
+          <div class="score-rij">
+            <dt>
+              <span class="score-logo" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              </span>
+              Google
+            </dt>
+            <dd>
+              <b>{reviews.score}</b>
+              <span class="sterren" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <svg width="15" height="14" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+                ))}
+              </span>
+              <a href={reviews.google_url}>{reviews.aantal} reviews</a>
+            </dd>
+          </div>
+          <div class="score-rij">
+            <dt>
+              <span class="score-logo score-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
+              Advieskeuze
+            </dt>
+            <dd>
+              <b>{reviews.advieskeuze_score}<span class="score-van">/10</span></b>
+              <a href={reviews.advieskeuze_url}>{reviews.advieskeuze_aantal} reviews</a>
+            </dd>
+          </div>
+        </dl>
+        <p class="score-som reveal">Samen {totaalReviews} beoordelingen van klanten die ons vooraf niet kenden.</p>
+      </div>
+      <div class="stemmen-quote reveal">
+        <ul class="quote-wissel" data-cms-collection="reviews-uitgelicht">
+          {reviews.uitgelicht.map((r, i) => (
+            <li class={i === 0 ? 'actief' : ''} data-cms-item={r.id}>
+              <blockquote data-cms-field="tekst">{r.tekst}</blockquote>
+              <p class="quote-naam"><span data-cms-field="naam">{r.naam}</span> <span class="quote-bron">via {r.bron}, {r.wanneer}</span></p>
+            </li>
+          ))}
+        </ul>
+        <div class="quote-dots">
+          {reviews.uitgelicht.map((r, i) => (
+            <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Review van ${r.naam}`} data-index={i}></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="verhaal" aria-labelledby="verhaal-kop">
+  <div class="maat verhaal-grid">
+    <figure class="verhaal-beeld reveal">
+      <img src={home.verhaal_beeld} alt={home.verhaal_beeld_alt} width="960" height="1200" loading="lazy" data-cms-field="verhaal_beeld" />
+      <blockquote data-cms-field="verhaal_quote">{home.verhaal_quote}</blockquote>
+    </figure>
+    <div class="verhaal-tekst">
+      <h2 id="verhaal-kop" class="reveal" data-cms-field="verhaal_titel">{home.verhaal_titel}</h2>
+      <p class="reveal" data-cms-field="verhaal_tekst_1">{home.verhaal_tekst_1}</p>
+      <p class="reveal" data-cms-field="verhaal_tekst_2">{home.verhaal_tekst_2}</p>
+    </div>
+  </div>
+</section>
+
+<section class="route" id="werkwijze" aria-labelledby="route-kop">
+  <div class="maat">
+    <h2 id="route-kop" class="reveal" data-cms-field="werkwijze_titel">{home.werkwijze_titel}</h2>
+    <p class="route-intro reveal" data-cms-field="werkwijze_tekst_kort">{varianten.werkwijze_tekst_kort}</p>
+    <div class="route-vlak">
+      <svg class="route-pad" viewBox="0 0 1000 64" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 32 C 90 10, 200 54, 320 32 S 560 10, 680 32 S 920 54, 1000 30" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="7 7" stroke-linecap="round" />
+      </svg>
+      <ol class="stations" data-cms-collection="werkwijze">
+        {werkwijze.map((stap, i) => (
+          <li class="station reveal" data-cms-item={stap.id}>
+            <span class="station-nr" aria-hidden="true">{i + 1}</span>
+            <h3 data-cms-field="titel">{stap.titel}</h3>
+            <p data-cms-field="kort">{stap.kort}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="route-einde reveal">
+        <svg width="30" height="28" viewBox="0 0 34 32" aria-hidden="true"><path d="M17 3 32 18h-5v11H7V18H2Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg>
+        <span data-cms-field="werkwijze_einde">{home.werkwijze_einde}</span>
+      </p>
+    </div>
+    <div class="route-slot">
+      <aside class="briefje reveal">
+        <span class="briefje-merk"><Merk breedte={46} /></span>
+        <h3 data-cms-field="kosten_titel">{home.kosten_titel}</h3>
+        <p data-cms-field="werkwijze_kosten">{home.werkwijze_kosten}</p>
+      </aside>
+      <div class="route-cta reveal">
+        <p>Het begint dus gewoon met een kop koffie. Bij u thuis of bij ons aan de Oostmaaslaan.</p>
+        <a href="#contact" class="knop knop-vol" data-plan-open data-hb-goal="kennismaking">Plan een kennismaking</a>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="route-bel">Of bel {bedrijf.telefoon}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="manifest" aria-labelledby="manifest-kop">
+  <div class="maat manifest-strip">
+    <span class="manifest-merk reveal"><Merk breedte={124} /></span>
+    <h2 id="manifest-kop" class="reveal" data-cms-field="manifest_titel">{home.manifest_titel}</h2>
+    <div class="manifest-tekst">
+      <p class="reveal" data-cms-field="manifest_tekst_1">{manifestTekst1}</p>
+      <p class="reveal" data-cms-field="manifest_tekst_2">{home.manifest_tekst_2}</p>
+    </div>
+  </div>
+</section>
+
+<section class="actueel" id="actueel" aria-labelledby="actueel-kop">
+  <div class="maat">
+    <h2 id="actueel-kop" class="reveal" data-cms-field="actueel_titel">{home.actueel_titel}</h2>
+    <div class="artikelen" data-cms-collection="nieuws">
+      <article class="artikel-groot reveal" data-cms-item={hoofdartikel.id}>
+        <img src={hoofdartikel.beeld} alt={hoofdartikel.beeld_alt} width="1400" height="933" loading="lazy" data-cms-field="beeld" />
+        <div>
+          <time datetime={hoofdartikel.datum}>{datumFmt.format(new Date(hoofdartikel.datum))}</time>
+          <h3 data-cms-field="titel">{hoofdartikel.titel}</h3>
+          <p data-cms-field="tekst">{hoofdartikel.tekst}</p>
+        </div>
+      </article>
+      <div class="artikelen-rest">
+        {restartikelen.map((artikel) => (
+          <article class="reveal" data-cms-item={artikel.id}>
+            <img src={artikel.beeld} alt={artikel.beeld_alt} width="900" height="600" loading="lazy" data-cms-field="beeld" />
+            <div>
+              <time datetime={artikel.datum}>{datumFmt.format(new Date(artikel.datum))}</time>
+              <h3 data-cms-field="titel">{artikel.titel}</h3>
+              <p data-cms-field="tekst">{artikel.tekst}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact" aria-labelledby="contact-kop">
+  <img src={home.contact_beeld} alt="" width="2100" height="900" loading="lazy" class="contact-achtergrond" />
+  <div class="maat contact-inhoud">
+    <div class="contact-tekst">
+      <h2 id="contact-kop" class="reveal" data-cms-field="contact_titel">{home.contact_titel}</h2>
+      <p class="reveal" data-cms-field="contact_tekst">{home.contact_tekst}</p>
+    </div>
+    <aside class="kaartje reveal">
+      <span class="kaartje-merk"><Merk breedte={54} /></span>
+      <p class="kaartje-naam">{bedrijf.naam}</p>
+      <p class="kaartje-motto">{bedrijf.tagline}</p>
+      <dl class="kaartje-gegevens">
+        <dt>Kantoor</dt>
+        <dd>{bedrijf.adres_straat}<br />{bedrijf.adres_plaats}</dd>
+        <dt>Telefoon</dt>
+        <dd><a href={`tel:${bedrijf.telefoon_link}`}>{bedrijf.telefoon}</a></dd>
+        <dt>E-mail</dt>
+        <dd><a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a></dd>
+      </dl>
+      <p class="kaartje-voet">KvK {bedrijf.kvk} &middot; AFM {bedrijf.afm} &middot; Kifid {bedrijf.kifid}</p>
+    </aside>
+    <div class="kanalen reveal">
+      <a href={`tel:${bedrijf.telefoon_link}`} class="kanaal" data-hb-goal="bellen">
+        <span class="kanaal-icoon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 16 16"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
+        </span>
+        <span class="kanaal-titel" data-cms-field="contact_bel_titel">{varianten.contact_bel_titel}</span>
+        <span class="kanaal-detail">{bedrijf.telefoon}</span>
+        <span class="kanaal-sub" data-cms-field="contact_bel_tekst">{varianten.contact_bel_tekst}</span>
+      </a>
+      <a href={`https://wa.me/${bedrijf.whatsapp}`} class="kanaal" data-hb-goal="whatsapp">
+        <span class="kanaal-icoon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 1 1-4.2 15.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8Zm-3 4.3c-.2 0-.5.1-.7.4-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.6-.7c.2-.2.2-.4.1-.6l-.8-1.9c-.2-.5-.4-.5-.6-.5Z"/></svg>
+        </span>
+        <span class="kanaal-titel" data-cms-field="contact_app_titel">{varianten.contact_app_titel}</span>
+        <span class="kanaal-detail">{bedrijf.telefoon}</span>
+        <span class="kanaal-sub" data-cms-field="contact_app_tekst">{varianten.contact_app_tekst}</span>
+      </a>
+      <button type="button" class="kanaal" data-plan-open data-hb-goal="kennismaking">
+        <span class="kanaal-icoon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 6h16v14H4Z M4 10h16 M8 3v4 M16 3v4 M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="kanaal-titel" data-cms-field="contact_plan_titel">{varianten.contact_plan_titel}</span>
+        <span class="kanaal-detail">Via het formulier</span>
+        <span class="kanaal-sub" data-cms-field="contact_plan_tekst">{varianten.contact_plan_tekst}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<dialog id="plan-dialoog">
+  <div class="dialoog-merk">
+    <span class="dialoog-zegel"><Merk breedte={46} /></span>
+    <p class="dialoog-motto">{bedrijf.tagline}</p>
+    <p class="dialoog-sub">Liever direct iemand spreken?</p>
+    <a href={`tel:${bedrijf.telefoon_link}`}>Bel {bedrijf.telefoon}</a>
+    <a href={`https://wa.me/${bedrijf.whatsapp}`}>Of stuur een WhatsApp</a>
+  </div>
+  <form method="dialog" data-hb-lead>
+    <button type="button" class="dialoog-sluit" aria-label="Sluiten">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <h3>Plan een kennismaking</h3>
+    <p class="dialoog-intro">Vrijblijvend en kosteloos, bij u thuis of bij ons op kantoor.</p>
+    <label>
+      Uw naam
+      <input type="text" name="naam" autocomplete="name" required />
+    </label>
+    <label>
+      Telefoon of e-mail
+      <input type="text" name="contact" autocomplete="tel" required />
+    </label>
+    <label>
+      Waar gaat het over?
+      <select name="onderwerp">
+        <option>Kennismaking</option>
+        {diensten.map((d) => (
+          <option>{d.titel}</option>
+        ))}
+      </select>
+    </label>
+    <label>
+      Uw vraag <span>(niet verplicht)</span>
+      <textarea name="bericht" rows="3"></textarea>
+    </label>
+    <button type="submit" class="knop knop-vol">Plan de kennismaking</button>
+  </form>
+  <div class="dialoog-succes" hidden>
+    <svg width="44" height="41" viewBox="0 0 34 32" aria-hidden="true"><path d="M17 3 32 18h-5v11H7V18H2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    <h3>Dank u wel!</h3>
+    <p>We nemen binnen één werkdag contact met u op om een moment te vinden dat u schikt.</p>
+    <button type="button" class="knop knop-lijn dialoog-sluit-2">Sluiten</button>
+  </div>
+</dialog>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    padding-block: 3rem 4rem;
+    background: linear-gradient(180deg, var(--ice) 0%, var(--paper) 96%);
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(3px);
+  }
+  .hero-blob-blauw {
+    width: clamp(320px, 42vw, 640px);
+    height: clamp(320px, 42vw, 640px);
+    background: radial-gradient(circle, rgba(106, 171, 218, 0.28), rgba(106, 171, 218, 0.05) 70%);
+    top: -12%;
+    right: -8%;
+  }
+  .hero-blob-warm {
+    width: clamp(280px, 36vw, 560px);
+    height: clamp(280px, 36vw, 560px);
+    background: radial-gradient(circle, var(--blob-warm), transparent 70%);
+    top: 32%;
+    right: 22%;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    gap: 3.5rem;
+  }
+  h1 {
+    font-size: clamp(2.9rem, 8vw, 4.6rem);
+    font-weight: 500;
+    max-width: 12ch;
+  }
+  .rust {
+    position: relative;
+    font-style: italic;
+    color: var(--brown);
+    margin-left: 0.18em;
+    padding-right: 0.06em;
+  }
+  .rust-lijn {
+    position: absolute;
+    left: -2%;
+    bottom: -0.1em;
+    width: 104%;
+    height: 0.22em;
+    color: var(--brown);
+    overflow: visible;
+  }
+  h1 .na {
+    display: block;
+  }
+  .regel {
+    display: inline-block;
+  }
+  .intro {
+    margin-top: 1.4rem;
+    font-size: 1.13rem;
+    max-width: 44ch;
+  }
+  .hero-acties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  .hero-acties .knop {
+    padding: 0.8rem 1.35rem;
+    font-size: 0.95rem;
+  }
+  .knop-app svg {
+    color: #128c4b;
+  }
+  .zekerheden {
+    list-style: none;
+    margin: 2.8rem auto 0;
+    padding: 1.4rem 0 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 1.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .zekerheden li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .zekerheden svg {
+    color: var(--sky-deep);
+    flex-shrink: 0;
+  }
+  .zekerheden li:nth-child(even) svg {
+    color: var(--brown);
+  }
+  .hero-beeld {
+    position: relative;
+    justify-self: center;
+    width: min(84%, 21.5rem);
+    border-radius: 999px 999px var(--radius) var(--radius);
+    box-shadow: 0 36px 70px -34px rgba(0, 56, 80, 0.45);
+  }
+  .hero-beeld::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    translate: -1.1rem 1.1rem;
+    border-radius: inherit;
+    background: var(--brown);
+    opacity: 0.9;
+    z-index: -1;
+  }
+  .hero-beeld > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    object-position: 62% center;
+    border-radius: inherit;
+  }
+  .hero-stat {
+    position: absolute;
+    top: 4.2rem;
+    right: -1.6rem;
+    display: grid;
+    justify-items: start;
+    gap: 0.1rem;
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.1rem;
+    rotate: 2deg;
+    box-shadow: 0 18px 36px -18px rgba(0, 56, 80, 0.45);
+  }
+  .hero-stat b {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .hero-stat span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--navy-soft);
+    max-width: 13ch;
+    line-height: 1.35;
+  }
+  .stempel {
+    position: absolute;
+    left: -2.4rem;
+    bottom: 1.6rem;
+    width: 7.25rem;
+    height: 7.25rem;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    border-radius: 50%;
+    box-shadow: 0 18px 36px -18px rgba(0, 56, 80, 0.45);
+  }
+  .stempel-merk {
+    position: absolute;
+  }
+  .stempel svg {
+    position: absolute;
+    inset: 0;
+    animation: stempel-draai 28s linear infinite;
+  }
+  .stempel text {
+    font-family: var(--font-tekst);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    fill: var(--navy);
+  }
+  @keyframes stempel-draai {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stempel svg {
+      animation: none;
+    }
+  }
+
+  section:not(.hero) {
+    padding-top: 5.5rem;
+  }
+
+  .situaties-kop {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 56ch;
+  }
+  h2 {
+    font-size: clamp(2rem, 5vw, 2.9rem);
+  }
+  .situatie-kaarten {
+    list-style: none;
+    margin: 2.4rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.1rem;
+  }
+  .situatie-kaarten > li {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.7rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.8rem 1.6rem 1.6rem;
+    transition: translate 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .situatie-kaarten > li:hover {
+    translate: 0 -0.3rem;
+    border-color: var(--sky);
+    box-shadow: 0 24px 44px -28px rgba(0, 56, 80, 0.4);
+  }
+  .situatie-icoon {
+    display: grid;
+    place-items: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    border-radius: 12px;
+    background: var(--sky-wash);
+    color: var(--sky-deep);
+  }
+  .situatie-kaarten > li:nth-child(even) .situatie-icoon {
+    background: var(--wash-warm);
+    color: var(--brown);
+  }
+  .situatie-kaarten h3 {
+    font-size: 1.35rem;
+    font-weight: 500;
+  }
+  .situatie-kaarten p {
+    font-size: 0.95rem;
+  }
+  .situatie-kaarten a {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.3rem;
+    font-size: 0.93rem;
+    font-weight: 700;
+    color: var(--sky-deep);
+    text-decoration: none;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 0.1rem;
+  }
+  .situatie-kaarten a::after {
+    content: '→';
+    transition: translate 0.2s ease;
+  }
+  .situatie-kaarten a:hover::after {
+    translate: 0.25rem 0;
+  }
+
+  .register-kop {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 56ch;
+  }
+  .register-grid {
+    display: grid;
+    gap: 3rem;
+    margin-top: 2.2rem;
+    align-items: start;
+  }
+  .register-rijen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .register-rijen > li {
+    border-top: 1px solid var(--line);
+  }
+  .register-rijen > li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr auto;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-block: 1.4rem;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .register-nr {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--brown);
+  }
+  summary h3 {
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+    font-weight: 500;
+    transition: color 0.25s ease, translate 0.25s ease;
+  }
+  summary:hover h3,
+  details[open] summary h3 {
+    color: var(--sky-deep);
+    translate: 0.4rem 0;
+  }
+  .register-plus {
+    position: relative;
+    width: 1.05rem;
+    height: 1.05rem;
+    align-self: center;
+  }
+  .register-plus::before,
+  .register-plus::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--brown);
+    transition: rotate 0.3s ease;
+  }
+  .register-plus::after {
+    rotate: 90deg;
+  }
+  details[open] .register-plus::after {
+    rotate: 0deg;
+  }
+  .register-klep {
+    overflow: hidden;
+  }
+  .register-inhoud {
+    padding: 0.2rem 0 1.8rem 3.2rem;
+    max-width: 34rem;
+  }
+  .register-inhoud p {
+    font-size: 0.98rem;
+  }
+  .register-inhoud ul {
+    list-style: none;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .register-inhoud ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .register-inhoud ul svg {
+    color: var(--brown);
+    flex-shrink: 0;
+  }
+  .register-inhoud > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    padding-block: 0.35rem 0.15rem;
+    font-weight: 700;
+    color: var(--sky-deep);
+    text-decoration: none;
+    border-bottom: 1.5px solid currentColor;
+  }
+  .register-inhoud > a::after {
+    content: '→';
+    transition: translate 0.2s ease;
+  }
+  .register-inhoud > a:hover::after {
+    translate: 0.25rem 0;
+  }
+  .register-beeld {
+    display: none;
+  }
+
+  .stemmen-vlak {
+    display: grid;
+    gap: 2.75rem;
+    background: linear-gradient(160deg, var(--wash-warm), var(--wash-warm-licht));
+    border-radius: calc(var(--radius) * 1.6);
+    padding: 2.6rem 1.8rem;
+  }
+  .stemmen-intro {
+    margin-top: 0.9rem;
+    font-size: 0.98rem;
+    max-width: 34ch;
+  }
+  .scorelijst {
+    display: grid;
+    gap: 1.1rem;
+    margin: 1.8rem 0 0;
+  }
+  .score-rij {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.4rem 1.2rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
+  }
+  .score-rij dt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .score-logo {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 8px 18px -10px rgba(0, 56, 80, 0.35);
+  }
+  .score-tien {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--brown);
+  }
+  .score-rij dd {
+    margin: 0;
+    justify-self: end;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+  .score-rij dd b {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .score-van {
+    font-size: 1.05rem;
+    color: var(--navy-soft);
+  }
+  .sterren {
+    display: inline-flex;
+    gap: 0.15rem;
+    color: #dfa437;
+  }
+  .score-rij dd a {
+    font-size: 0.88rem;
+    color: var(--navy-soft);
+  }
+  .score-som {
+    margin-top: 1.4rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--navy);
+    max-width: 30ch;
+  }
+  .stemmen-quote {
+    display: grid;
+    align-content: center;
+    gap: 1.6rem;
+  }
+  .quote-wissel {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+  .quote-wissel > li {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
+  }
+  .quote-wissel > li.actief {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .quote-wissel blockquote {
+    margin: 0;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    line-height: 1.45;
+    color: var(--navy);
+    text-wrap: pretty;
+  }
+  .quote-wissel blockquote::before {
+    content: '\201E';
+    margin-right: 0.1em;
+    color: var(--brown);
+  }
+  .quote-wissel blockquote::after {
+    content: '\201D';
+    margin-left: 0.05em;
+    color: var(--brown);
+  }
+  .quote-naam {
+    margin-top: 1.1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy);
+  }
+  .quote-bron {
+    font-weight: 400;
+    color: var(--navy-soft);
+  }
+  .quote-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .quote-dots button {
+    width: 0.6rem;
+    height: 0.6rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--brown) 28%, transparent);
+    cursor: pointer;
+    transition: background-color 0.25s ease, scale 0.25s ease;
+  }
+  .quote-dots button[aria-pressed='true'] {
+    background: var(--brown);
+    scale: 1.25;
+  }
+  .verhaal-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  .verhaal-beeld {
+    position: relative;
+    width: min(100%, 24rem);
+    justify-self: center;
+  }
+  .verhaal-beeld img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 999px 999px var(--radius) var(--radius);
+    box-shadow: 0 30px 60px -30px rgba(83, 60, 55, 0.5);
+  }
+  .verhaal-beeld blockquote {
+    position: absolute;
+    left: -0.75rem;
+    right: 2.5rem;
+    bottom: -1.75rem;
+    background: var(--brown);
+    color: #f6efe9;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.45;
+    padding: 1.2rem 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 40px -20px rgba(83, 60, 55, 0.5);
+  }
+  .verhaal-tekst h2 {
+    margin-bottom: 1.3rem;
+  }
+  .verhaal-tekst p + p {
+    margin-top: 1.05rem;
+  }
+
+  .route {
+    position: relative;
+    margin-top: 6rem;
+    padding-block: 5rem 5.5rem;
+    background:
+      radial-gradient(120% 90% at 12% 0%, #0d4a66 0%, transparent 60%),
+      linear-gradient(165deg, #003850 0%, #012c40 100%);
+    color: #cfe0ec;
+    overflow: clip;
+  }
+  .route h2 {
+    color: #fff;
+  }
+  .route-intro {
+    margin-top: 1rem;
+    max-width: 56ch;
+    color: #b6cddd;
+  }
+  .route-vlak {
+    position: relative;
+    margin-top: 3.2rem;
+  }
+  .route-pad {
+    display: none;
+    position: absolute;
+    top: 0.05rem;
+    left: 0;
+    width: 100%;
+    height: 3.4rem;
+    color: rgba(106, 171, 218, 0.75);
+    pointer-events: none;
+  }
+  .stations {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: grid;
+    gap: 2.6rem;
+  }
+  .stations::before {
+    content: '';
+    position: absolute;
+    left: 1.55rem;
+    top: 0.5rem;
+    bottom: -1.5rem;
+    border-left: 2px dashed rgba(106, 171, 218, 0.6);
+  }
+  .station {
+    position: relative;
+    padding-left: 4.7rem;
+  }
+  .station-nr {
+    position: absolute;
+    left: 0;
+    top: -0.2rem;
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: #003850;
+    border: 1.5px solid var(--sky);
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  .station:nth-child(2) .station-nr {
+    border-color: color-mix(in srgb, var(--brown) 60%, #fff 20%);
+  }
+  .station h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  .station p {
+    margin-top: 0.55rem;
+    font-size: 0.97rem;
+    max-width: 30rem;
+    color: #b6cddd;
+  }
+  .route-einde {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 2.4rem 0 0 0.45rem;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.55rem;
+    color: #fff;
+  }
+  .route-einde svg {
+    color: var(--sky);
+    flex-shrink: 0;
+  }
+
+  .route-slot {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    align-items: center;
+  }
+  .briefje {
+    position: relative;
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 2.4rem 1.9rem 1.7rem;
+    rotate: -1.1deg;
+    box-shadow: 0 30px 60px -28px rgba(0, 20, 30, 0.7);
+  }
+  .briefje-merk {
+    position: absolute;
+    top: -1.45rem;
+    left: 1.9rem;
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    background: var(--paper);
+    border-radius: 50%;
+    box-shadow: 0 10px 20px -10px rgba(0, 20, 30, 0.6);
+  }
+  .briefje h3 {
+    font-size: 1.25rem;
+  }
+  .briefje p {
+    margin-top: 0.55rem;
+    font-size: 0.98rem;
+    color: var(--navy-soft);
+  }
+  .route-cta p {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    color: #fff;
+    max-width: 24ch;
+  }
+  .route-cta .knop {
+    margin-top: 1.4rem;
+    background: #fff;
+    color: var(--navy);
+  }
+  .route-cta .knop:hover {
+    background: var(--sky-wash);
+  }
+  .route-bel {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #9fbdd2;
+    text-decoration: none;
+  }
+  .route-bel:hover {
+    color: #fff;
+  }
+
+  .manifest {
+    overflow: clip;
+  }
+  .manifest-strip {
+    display: grid;
+    gap: 1.6rem;
+    justify-items: start;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 4rem;
+  }
+  .manifest-merk {
+    display: block;
+  }
+  .manifest-tekst p {
+    font-size: 1.05rem;
+    max-width: 46ch;
+  }
+  .manifest-tekst p + p {
+    margin-top: 1rem;
+  }
+
+  .artikelen {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 2.2rem;
+  }
+  .artikelen img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius);
+    transition: scale 0.4s ease;
+  }
+  .artikelen article:hover img {
+    scale: 1.015;
+  }
+  .artikelen time {
+    display: block;
+    margin-top: 1.1rem;
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--brown);
+  }
+  .artikelen h3 {
+    margin-top: 0.45rem;
+    font-size: 1.35rem;
+    font-weight: 500;
+    max-width: 24ch;
+  }
+  .artikelen p {
+    margin-top: 0.55rem;
+    font-size: 0.96rem;
+    max-width: 46ch;
+  }
+  .artikelen-rest {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .contact {
+    position: relative;
+    margin-top: 6.5rem;
+    padding-block: 5.5rem;
+    overflow: hidden;
+  }
+  .contact-achtergrond {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .contact::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, rgba(0, 56, 80, 0.92) 25%, rgba(0, 56, 80, 0.6) 70%, rgba(0, 56, 80, 0.4));
+  }
+  .contact-inhoud {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-areas: 'tekst' 'kanalen' 'kaartje';
+    gap: 3rem;
+    align-items: center;
+  }
+  .contact-tekst {
+    grid-area: tekst;
+  }
+  .kanalen {
+    grid-area: kanalen;
+  }
+  .contact .kaartje {
+    grid-area: kaartje;
+  }
+  .contact h2 {
+    color: #fff;
+    font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+    max-width: 16ch;
+  }
+  .contact-tekst > p {
+    color: #d7e6f0;
+    margin-top: 1rem;
+    max-width: 46ch;
+  }
+  .kanalen {
+    display: grid;
+    gap: 1rem;
+  }
+  .kanaal {
+    display: grid;
+    justify-items: start;
+    gap: 0.35rem;
+    background: rgba(251, 250, 248, 0.96);
+    border: 0;
+    border-radius: var(--radius);
+    padding: 1.5rem 1.5rem 1.35rem;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+    color: var(--navy-soft);
+    cursor: pointer;
+    transition: translate 0.25s ease, box-shadow 0.25s ease;
+  }
+  .kanaal:hover {
+    translate: 0 -0.3rem;
+    box-shadow: 0 26px 48px -26px rgba(0, 20, 30, 0.8);
+  }
+  .kanaal-icoon {
+    display: grid;
+    place-items: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 12px;
+    background: var(--sky-wash);
+    color: var(--sky-deep);
+    margin-bottom: 0.4rem;
+  }
+  .kanaal:nth-child(2) .kanaal-icoon {
+    background: #e7f5ec;
+    color: #128c4b;
+  }
+  .kanaal:nth-child(3) .kanaal-icoon {
+    background: var(--wash-warm);
+    color: var(--brown);
+  }
+  .kanaal-titel {
+    font-family: var(--font-kop);
+    font-size: 1.3rem;
+    font-weight: 540;
+    color: var(--navy);
+  }
+  .kanaal-detail {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--sky-deep);
+  }
+  .kanaal-sub {
+    font-size: 0.88rem;
+  }
+
+  .kaartje {
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 2.2rem 2rem 1.8rem;
+    box-shadow: 0 40px 70px -30px rgba(0, 20, 30, 0.75);
+    rotate: 1deg;
+  }
+  .kaartje-merk {
+    display: block;
+  }
+  .kaartje-naam {
+    margin-top: 1.1rem;
+    font-family: var(--font-kop);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .kaartje-motto {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--brown);
+    margin-top: 0.3rem;
+  }
+  .kaartje-gegevens {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.55rem 1rem;
+    margin: 1.6rem 0 0;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.94rem;
+  }
+  .kaartje-gegevens dt {
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .kaartje-gegevens dd {
+    margin: 0;
+    color: var(--navy-soft);
+  }
+  .kaartje-gegevens a {
+    color: var(--sky-deep);
+    text-decoration: none;
+  }
+  .kaartje-gegevens a:hover {
+    text-decoration: underline;
+  }
+  .kaartje-voet {
+    margin-top: 1.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.76rem;
+    letter-spacing: 0.03em;
+    color: #7f95a5;
+  }
+  #plan-dialoog {
+    width: min(92vw, 56rem);
+    max-height: min(92vh, 46rem);
+    margin: auto;
+    border: 0;
+    border-radius: 22px;
+    padding: 0;
+    background: var(--paper);
+    box-shadow: 0 60px 120px -40px rgba(0, 30, 44, 0.6);
+  }
+  #plan-dialoog::backdrop {
+    background: rgba(0, 30, 44, 0.55);
+    backdrop-filter: blur(4px);
+  }
+  #plan-dialoog[open] {
+    display: grid;
+  }
+  .dialoog-merk {
+    display: none;
+    flex-direction: column;
+    align-items: start;
+    background: linear-gradient(160deg, var(--navy), #0d4a66);
+    color: #d7e6f0;
+    padding: 2.5rem 2.2rem;
+  }
+  .dialoog-zegel {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    background: var(--paper);
+    border-radius: 50%;
+  }
+  .dialoog-motto {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: #fff;
+    margin-top: 1.4rem;
+    margin-bottom: auto;
+    max-width: 16ch;
+  }
+  .dialoog-sub {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .dialoog-merk a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--sky);
+    align-self: start;
+    margin-top: 0.3rem;
+  }
+  .dialoog-merk a + a {
+    margin-top: 0.6rem;
+  }
+  #plan-dialoog form {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding: 2.2rem 1.8rem;
+  }
+  #plan-dialoog form h3 {
+    font-size: 1.7rem;
+  }
+  .dialoog-intro {
+    font-size: 0.95rem;
+    margin-top: -0.5rem;
+  }
+  #plan-dialoog label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  #plan-dialoog label span {
+    font-weight: 400;
+    color: var(--navy-soft);
+  }
+  #plan-dialoog input,
+  #plan-dialoog select,
+  #plan-dialoog textarea {
+    font: inherit;
+    font-weight: 400;
+    color: var(--navy);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+  }
+  #plan-dialoog input:focus-visible,
+  #plan-dialoog select:focus-visible,
+  #plan-dialoog textarea:focus-visible {
+    outline: 2px solid var(--sky-deep);
+    outline-offset: 1px;
+  }
+  #plan-dialoog form .knop {
+    justify-self: start;
+    margin-top: 0.4rem;
+  }
+  .dialoog-sluit {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.1rem;
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--navy);
+    cursor: pointer;
+  }
+  .dialoog-sluit:hover {
+    border-color: var(--sky);
+    color: var(--sky-deep);
+  }
+  .dialoog-succes {
+    display: grid;
+    justify-items: start;
+    gap: 0.8rem;
+    padding: 2.6rem 2.2rem;
+  }
+  .dialoog-succes[hidden] {
+    display: none;
+  }
+  .dialoog-succes svg {
+    color: var(--brown);
+  }
+  .dialoog-succes h3 {
+    font-size: 1.6rem;
+  }
+  .dialoog-succes p {
+    max-width: 38ch;
+  }
+
+  @media (min-width: 900px) {
+    .hero {
+      padding-block: 2.25rem 2.75rem;
+    }
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .hero-beeld {
+      justify-self: end;
+      width: min(100%, 23.5rem);
+      rotate: 1.2deg;
+      margin-right: 0.5rem;
+    }
+    .zekerheden {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.75rem;
+      font-size: 0.92rem;
+    }
+    .zekerheden li + li {
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--line);
+    }
+    section:not(.hero) {
+      padding-top: 6.5rem;
+    }
+    .situatie-kaarten {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.8rem;
+    }
+    .register-grid {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 4.5rem;
+    }
+    .register-beeld {
+      display: block;
+      position: sticky;
+      top: 7rem;
+      width: min(100%, 22rem);
+      justify-self: end;
+      aspect-ratio: 3 / 4;
+      border-radius: 999px 999px var(--radius) var(--radius);
+      overflow: hidden;
+      box-shadow: 0 30px 60px -30px rgba(0, 56, 80, 0.4);
+    }
+    .register-beeld img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .register-beeld img.actief {
+      opacity: 1;
+    }
+    summary {
+      grid-template-columns: 3.2rem 1fr auto;
+      padding-block: 1.8rem;
+    }
+    .stemmen-vlak {
+      grid-template-columns: 20rem minmax(0, 1fr);
+      gap: 4.5rem;
+      padding: 3.4rem 3.6rem;
+    }
+    .verhaal-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 5rem;
+    }
+    .verhaal-beeld {
+      justify-self: start;
+      rotate: -1.2deg;
+    }
+    .verhaal-beeld blockquote {
+      left: auto;
+      right: -3.5rem;
+      bottom: 2.5rem;
+      max-width: 17rem;
+      rotate: 1.2deg;
+    }
+    .route-vlak {
+      margin-top: 4rem;
+    }
+    .route-pad {
+      display: block;
+    }
+    .stations {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .stations::before {
+      display: none;
+    }
+    .station {
+      padding-left: 0;
+      padding-top: 5rem;
+    }
+    .station-nr {
+      top: 0;
+      left: 0;
+    }
+    .route-einde {
+      position: absolute;
+      top: 0.35rem;
+      right: 0;
+      margin: 0;
+      padding-left: 0.9rem;
+      background: linear-gradient(90deg, transparent, #012f44 22%, #012f44);
+    }
+    .route-slot {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 4rem;
+      margin-top: 5rem;
+    }
+    .briefje {
+      margin: 0;
+    }
+    .manifest-strip {
+      grid-template-columns: auto 1fr;
+      column-gap: 3.5rem;
+      row-gap: 1.8rem;
+      align-items: center;
+      padding-bottom: 5rem;
+    }
+    .manifest-merk {
+      grid-row: span 2;
+      justify-self: center;
+    }
+    .manifest-tekst {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .manifest-tekst p + p {
+      margin-top: 0;
+    }
+    .artikelen {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 3.5rem;
+    }
+    .artikel-groot img {
+      aspect-ratio: 4 / 3;
+    }
+    .artikel-groot h3 {
+      font-size: 1.8rem;
+    }
+    .artikelen-rest {
+      gap: 3rem;
+    }
+    .artikelen-rest article {
+      display: grid;
+      grid-template-columns: 9.5rem 1fr;
+      gap: 1.4rem;
+      align-items: start;
+    }
+    .artikelen-rest img {
+      aspect-ratio: 1;
+    }
+    .artikelen-rest time {
+      margin-top: 0;
+    }
+    .contact {
+      margin-top: 7rem;
+      padding-block: 6.5rem;
+    }
+    .contact-inhoud {
+      grid-template-columns: 1.25fr 0.75fr;
+      grid-template-areas: 'tekst kaartje' 'kanalen kanalen';
+      gap: 4rem;
+    }
+    .kaartje {
+      justify-self: end;
+      width: min(100%, 23rem);
+    }
+    .kanalen {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    #plan-dialoog[open] {
+      grid-template-columns: 1fr 1.4fr;
+    }
+    .dialoog-merk {
+      display: flex;
+    }
+    #plan-dialoog form {
+      padding: 2.6rem 2.6rem 2.4rem;
+    }
+    .dialoog-succes {
+      grid-column: 2;
+      padding: 3.2rem 2.6rem;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.from('.hero h1 .regel, .hero .intro, .hero-acties, .zekerheden, .hero-beeld', {
+      opacity: 0,
+      y: 26,
+      duration: 0.9,
+      ease: 'power2.out',
+      stagger: 0.09,
+    });
+    gsap.from('.stempel', { opacity: 0, scale: 0.6, duration: 0.7, ease: 'back.out(1.6)', delay: 1 });
+    gsap.from('.hero-stat', { opacity: 0, y: -14, rotate: -4, duration: 0.7, ease: 'back.out(1.6)', delay: 1.2 });
+
+    const lijn = document.querySelector('.rust-lijn path');
+    const lijnLengte = lijn.getTotalLength();
+    gsap.fromTo(
+      lijn,
+      { strokeDasharray: lijnLengte, strokeDashoffset: lijnLengte },
+      { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut', delay: 0.9 }
+    );
+
+    gsap.to('.hero-beeld', {
+      y: -12,
+      duration: 3.4,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: 1.6,
+    });
+    gsap.to('.hero-blob-blauw', {
+      yPercent: 18,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+    gsap.to('.hero-blob-warm', {
+      yPercent: -14,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+
+    const pad = document.querySelector('.route-pad path');
+    const padZichtbaar = () => getComputedStyle(document.querySelector('.route-pad')).display !== 'none';
+    if (pad && padZichtbaar()) {
+      gsap.fromTo(
+        pad,
+        { strokeDasharray: `7 7`, strokeDashoffset: 0, opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.1,
+          scrollTrigger: { trigger: '.route-vlak', start: 'top 95%', once: true },
+        }
+      );
+      gsap.fromTo(
+        '.route-pad',
+        { clipPath: 'inset(0 100% 0 0)' },
+        {
+          clipPath: 'inset(0 0% 0 0)',
+          ease: 'none',
+          scrollTrigger: { trigger: '.route-vlak', start: 'top 92%', end: 'top 58%', scrub: 0.4 },
+        }
+      );
+    }
+
+    document.querySelectorAll('.reveal').forEach((el) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        }
+      );
+    });
+  });
+
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    gsap.set('.reveal, .route-pad', { opacity: 1, clearProps: 'clipPath' });
+  });
+
+  const beelden = document.querySelectorAll('.register-beeld img');
+  const kies = (index) => {
+    beelden.forEach((b) => b.classList.toggle('actief', b.dataset.index === index));
+  };
+
+  const rijen = [...document.querySelectorAll('.register-rijen > li')];
+  const animatieOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  const sluit = (details) => {
+    const klep = details.querySelector('.register-klep');
+    if (!animatieOk) {
+      details.open = false;
+      return;
+    }
+    gsap.to(klep, {
+      height: 0,
+      opacity: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        details.open = false;
+        gsap.set(klep, { clearProps: 'all' });
+      },
+    });
+  };
+
+  const openen = (details) => {
+    details.open = true;
+    const klep = details.querySelector('.register-klep');
+    if (!animatieOk) return;
+    gsap.fromTo(
+      klep,
+      { height: 0, opacity: 0 },
+      { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(klep, { clearProps: 'all' }) }
+    );
+  };
+
+  rijen.forEach((rij) => {
+    const details = rij.querySelector('details');
+    rij.querySelector('summary').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (details.open) {
+        sluit(details);
+        return;
+      }
+      rijen.forEach((andere) => {
+        const d = andere.querySelector('details');
+        if (d !== details && d.open) sluit(d);
+      });
+      openen(details);
+      kies(rij.dataset.index);
+    });
+    rij.addEventListener('mouseenter', () => kies(rij.dataset.index));
+    rij.addEventListener('focusin', () => kies(rij.dataset.index));
+  });
+
+  const quotes = [...document.querySelectorAll('.quote-wissel > li')];
+  const dots = [...document.querySelectorAll('.quote-dots button')];
+  let quoteIndex = 0;
+  let quoteTimer;
+
+  const toonQuote = (i) => {
+    quoteIndex = i;
+    quotes.forEach((q, j) => q.classList.toggle('actief', j === i));
+    dots.forEach((d, j) => d.setAttribute('aria-pressed', String(j === i)));
+  };
+  const startQuotes = () => {
+    if (!animatieOk || quotes.length < 2) return;
+    quoteTimer = setInterval(() => toonQuote((quoteIndex + 1) % quotes.length), 7000);
+  };
+  const stopQuotes = () => clearInterval(quoteTimer);
+
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      stopQuotes();
+      toonQuote(Number(dot.dataset.index));
+      startQuotes();
+    });
+  });
+  const stemmenVlak = document.querySelector('.stemmen-vlak');
+  stemmenVlak.addEventListener('mouseenter', stopQuotes);
+  stemmenVlak.addEventListener('mouseleave', startQuotes);
+  stemmenVlak.addEventListener('focusin', stopQuotes);
+  new IntersectionObserver(([zichtbaar]) => {
+    stopQuotes();
+    if (zichtbaar.isIntersecting) startQuotes();
+  }, { threshold: 0.35 }).observe(stemmenVlak);
+
+  const dialoog = document.getElementById('plan-dialoog');
+  const formulier = dialoog.querySelector('form');
+  const succes = dialoog.querySelector('.dialoog-succes');
+  const onderwerp = formulier.querySelector('select');
+
+  document.querySelectorAll('[data-plan-open]').forEach((knop) => {
+    knop.addEventListener('click', (e) => {
+      e.preventDefault();
+      formulier.hidden = false;
+      succes.hidden = true;
+      if (knop.dataset.dienst) onderwerp.value = knop.dataset.dienst;
+      dialoog.showModal();
+      formulier.querySelector('input').focus();
+      if (animatieOk) {
+        gsap.from(dialoog, { opacity: 0, y: 18, scale: 0.97, duration: 0.35, ease: 'power2.out' });
+      }
+    });
+  });
+  dialoog.querySelectorAll('.dialoog-sluit, .dialoog-sluit-2').forEach((k) => {
+    k.addEventListener('click', () => dialoog.close());
+  });
+  dialoog.addEventListener('click', (e) => {
+    if (e.target === dialoog) dialoog.close();
+  });
+  formulier.addEventListener('submit', (e) => {
+    // Conceptfase: nog geen backend gekoppeld, de tracker leest het formulier via data-hb-lead
+    e.preventDefault();
+    formulier.hidden = true;
+    succes.hidden = false;
+  });
+</script>

@@ -2,6 +2,53 @@
   "score": "5,0",
   "aantal": 11,
   "google_url": "https://www.google.com/maps/place/WoonAdvies+Groep/@51.9192189,4.5076583,17z",
+  "advieskeuze_score": "10",
+  "advieskeuze_aantal": 44,
+  "advieskeuze_url": "https://www.advieskeuze.nl/advies/3063av/woonadvies-groep/beoordelingen",
+  "uitgelicht": [
+    {
+      "id": "sofie",
+      "naam": "Sofie",
+      "bron": "Advieskeuze",
+      "wanneer": "augustus 2025",
+      "tekst": "Dennis en Marijke zijn beide heel concreet, to the point en snel in reageren. Ze waren goed bereikbaar en konden al mijn vragen beantwoorden."
+    },
+    {
+      "id": "mh",
+      "naam": "MH",
+      "bron": "Advieskeuze",
+      "wanneer": "augustus 2025",
+      "tekst": "Dennis heeft mij fantastisch geholpen met advies rondom hypotheek van mijn eerste huis. Adequaat, snel, zorgvuldig en met veel aandacht."
+    },
+    {
+      "id": "mostafa-kort",
+      "naam": "Mostafa Yosofi",
+      "bron": "Google",
+      "wanneer": "2025",
+      "tekst": "Het gaf enorm veel rust dat hij zoveel zaken voor ons uit handen nam en altijd het overzicht wist te behouden."
+    },
+    {
+      "id": "marit-ruben",
+      "naam": "Marit en Ruben",
+      "bron": "Advieskeuze",
+      "wanneer": "juli 2024",
+      "tekst": "Het was enorm fijn werken met Marijke. Ze heeft oog voor de menselijke kant achter het nogal zakelijke verhaal van een hypotheek aanvragen."
+    },
+    {
+      "id": "jr",
+      "naam": "jR",
+      "bron": "Advieskeuze",
+      "wanneer": "april 2020",
+      "tekst": "Marijke legt alle opties voor, houdt het overzicht wanneer wat moet gebeuren. Geen ingewikkelde verhalen, neutraal en heel vriendelijk. Reageert direct bij vragen, kortom: top!"
+    },
+    {
+      "id": "angela-kort",
+      "naam": "Angela",
+      "bron": "Google",
+      "wanneer": "2024",
+      "tekst": "Ze weet niet alleen wat ze doet, ze is ook heel betrokken. Ze levert echt maatwerk en je voelt je gehoord."
+    }
+  ],
   "items": [
     {
       "id": "timothy",

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eerste-woning",
+    "titel": "Uw eerste woning",
+    "tekst": "Van eerste bezichtiging tot handtekening bij de notaris: we rekenen uit wat u kunt lenen en regelen de hypotheek die daarbij past.",
+    "dienst": "Hypotheken"
+  },
+  {
+    "id": "doorstarters",
+    "titel": "Door naar een volgende woning",
+    "tekst": "Een volgende woning kopen terwijl de huidige nog niet verkocht is? We zetten de scenario's naast elkaar, inclusief de overbrugging.",
+    "dienst": "Hypotheken"
+  },
+  {
+    "id": "scheiding",
+    "titel": "Relatiebreuk of scheiding",
+    "tekst": "Bij een scheiding of relatiebreuk komt er veel op u af. We bekijken in alle rust of één van u de woning kan overnemen, en wat dat betekent.",
+    "dienst": "Financiën"
+  },
+  {
+    "id": "oversluiten",
+    "titel": "Rentevaste periode loopt af",
+    "tekst": "Loopt uw rentevaste periode af, of wilt u verbouwen? We beoordelen onafhankelijk of oversluiten of aanpassen loont.",
+    "dienst": "Hypotheken"
+  }
+]

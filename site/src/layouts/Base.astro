@@ -7,7 +7,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import bedrijf from '../content/bedrijf.json';
 
-const { titel, omschrijving } = Astro.props;
+const { titel, omschrijving, thema, basis = '', noindex = false } = Astro.props;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -29,12 +29,13 @@ const schema = {
 };
 ---
 <!doctype html>
-<html lang="nl">
+<html lang="nl" data-thema={thema}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titel}</title>
     <meta name="description" content={omschrijving} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -48,11 +49,11 @@ const schema = {
   </head>
   <body>
     <a href="#inhoud" class="skiplink">Naar de inhoud</a>
-    <Header />
+    <Header basis={basis} vector={thema === 'groen'} />
     <main id="inhoud">
       <slot />
     </main>
-    <Footer />
+    <Footer basis={basis} />
   </body>
 </html>
 

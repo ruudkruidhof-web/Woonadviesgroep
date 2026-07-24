@@ -3,6 +3,7 @@ import Merk from './Merk.astro';
 import bedrijf from '../content/bedrijf.json';
 import diensten from '../content/diensten.json';
 
+const { basis = '' } = Astro.props;
 const jaar = new Date().getFullYear();
 const documenten = [
   { titel: 'Dienstenwijzer', url: 'https://woonadviesgroep.nl/wp-content/uploads/Dienstenwijzer.pdf' },
@@ -27,7 +28,7 @@ const documenten = [
       <h3>Diensten</h3>
       <ul>
         {diensten.map((d) => (
-          <li><a href={`/#${d.id}`}>{d.titel}</a></li>
+          <li><a href={`${basis}/#${d.id}`}>{d.titel}</a></li>
         ))}
       </ul>
     </nav>

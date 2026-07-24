@@ -5,6 +5,11 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 ## Stand van zaken
 
 - Concept (v8) staat live op https://woonadviesgroep.vercel.app en is gedeeld klaar voor de klant.
+- Na de kennismaking/conceptpresentatie (24 jul 2026, transcriptie op localhost:4747) zijn er twee extra ontwerpvarianten gebouwd voor in de offerte, beide met alle meeting-feedback verwerkt:
+  - `/fris`: frisser en speelser in de bestaande kleuren.
+  - `/groen`: zelfde opzet met duurzaam groen in accenten én in het logo (bruine helft wordt groen via CSS-variabelen `--merk-*`; header toont daar een vector-lockup in plaats van de raster-`logo.webp`).
+  - Verwerkt in beide: compactere werkwijze (`kort`-velden in werkwijze.json), nieuwe "voor wie"-sectie (eerste woning, doorstarters, relatiebreuk/scheiding, oversluiten; voorwie.json), rustige reviewsectie met Google (5,0/11) én Advieskeuze (10/10, 44 reviews) plus wisselende quote (uitgelicht in reviews.json), stat "1.000+ huishoudens sinds 2010" (getal van Ruud, bij livegang verifiëren), contactkanalen bellen/WhatsApp/formulier naast elkaar. Variantpagina's staan op noindex; gedeeld component `VariantHome.astro`, variantteksten in `teksten/varianten.json`.
+- De homepage op `/` is bewust onaangeroerd gebleven als referentie voor de klant.
 - Project in `site/` (Astro 7, GSAP). Git-repo in de klantmap-root, remote: https://github.com/ruudkruidhof-web/Woonadviesgroep (branch `main`). Deploys gaan nog via `vercel deploy --prod --yes` vanuit `site/`; het Vercel-project is niet aan GitHub gekoppeld, dus pushen deployt niet vanzelf.
 - Homepage compleet: hero (USP-balk above the fold), dienstenregister (exclusieve accordion + beeldwissel), Google-reviews (scorekaart + scrollbare rail), verhaal, werkwijze als donkere navy-band met getekende route, logo-manifest, nieuws, contactband met visitekaartje, kennismaak-popup (dialog, `data-hb-lead`, nog geen backend).
 - Alle content staat CMS-klaar als JSON in `src/content/`; preview-bridge script zit in de layout.
@@ -22,9 +27,9 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Volgende stappen
 
-1. Concept-mail naar Marijke sturen (tekst ligt klaar; check aanhef Marijke vs "Mariette"). Versturen alleen na akkoord van Ruud.
-2. Feedbackronde klant verwerken (skill `/feedback` beschikbaar).
-3. Bij akkoord: onderliggende pagina's (diensten, werkwijze, nieuws, contact met werkend formulier), dashboard-meetscript + klantaccount, CMS-koppeling, security-baseline afronden richting livegang op eigen domein.
-4. Higgsfield-connector moet opnieuw geautoriseerd worden (via claude.ai connector-instellingen) voordat er nieuwe sfeerbeelden gegenereerd kunnen worden.
+1. Offerte naar de klant met links naar `/fris` en `/groen` (afspraak uit de meeting: offerte dezelfde middag, klant bekijkt en beslist). Prijs artikelenmodule + Instagram-koppeling en eventuele prijstegemoetkoming nog bepalen (Ruud).
+2. Nieuwe sfeerbeelden via Higgsfield (frisser, Rotterdams, blauw/groen): connector moet eerst opnieuw geautoriseerd worden via claude.ai connector-instellingen. Klant kan ook eigen beeld aanleveren (foto pand). WhatsApp-nummer van de klant opvragen (nu staat het vaste nummer in `bedrijf.json` als `whatsapp`).
+3. Tone of voice (u of je) nog kiezen met de klant; teksten staan nu in de u-vorm van de huidige site.
+4. Bij akkoord: onderliggende pagina's, dashboard-meetscript + klantaccount, CMS-koppeling, formulier-backend, security-baseline afronden richting livegang op eigen domein. Reviews-cijfers bij livegang verversen en het 1.000+-getal bij de klant verifiëren.
 
 Uitgebreide historie en lessen: memory-bestanden `woonadviesgroep-concept` en `design-lat-geen-safe-output`.

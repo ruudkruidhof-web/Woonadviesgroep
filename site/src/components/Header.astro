@@ -1,12 +1,22 @@
 ---
 import Logo from './Logo.astro';
+import Merk from './Merk.astro';
 import diensten from '../content/diensten.json';
 import bedrijf from '../content/bedrijf.json';
+
+const { basis = '', vector = false } = Astro.props;
 ---
 <header class="site-kop">
   <div class="maat balk">
-    <a href="/" class="logo-link" aria-label="WoonAdvies Groep, naar home">
-      <Logo />
+    <a href={`${basis}/`} class="logo-link" aria-label="WoonAdvies Groep, naar home">
+      {vector ? (
+        <span class="logo-vector">
+          <Merk breedte={44} />
+          <span class="logo-naam">WoonAdvies <b>Groep</b></span>
+        </span>
+      ) : (
+        <Logo />
+      )}
     </a>
     <button class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">
       <span class="menu-lijnen" aria-hidden="true"></span>
@@ -14,7 +24,7 @@ import bedrijf from '../content/bedrijf.json';
     </button>
     <nav id="hoofdmenu" aria-label="Hoofdmenu">
       <ul>
-        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href={`${basis}/`} aria-current="page">Home</a></li>
         <li class="heeft-sub">
           <button aria-expanded="false">
             Diensten
@@ -22,13 +32,13 @@ import bedrijf from '../content/bedrijf.json';
           </button>
           <ul class="submenu">
             {diensten.map((d) => (
-              <li><a href={`/#${d.id}`}>{d.titel}</a></li>
+              <li><a href={`${basis}/#${d.id}`}>{d.titel}</a></li>
             ))}
           </ul>
         </li>
-        <li><a href="/#werkwijze">Onze werkwijze</a></li>
-        <li><a href="/#actueel">Nieuws</a></li>
-        <li><a href="/#contact">Contact</a></li>
+        <li><a href={`${basis}/#werkwijze`}>Onze werkwijze</a></li>
+        <li><a href={`${basis}/#actueel`}>Nieuws</a></li>
+        <li><a href={`${basis}/#contact`}>Contact</a></li>
         <li class="bel">
           <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
             <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 1.5h2.1c.4 0 .8.3.9.7l.6 2.2c.1.4 0 .8-.3 1L5.3 6.6a10.5 10.5 0 0 0 4.1 4.1l1.2-1.2c.2-.3.6-.4 1-.3l2.2.6c.4.1.7.5.7.9v2.1c0 .6-.5 1-1 1A13 13 0 0 1 2.2 2.5c0-.5.4-1 1-1z" fill="currentColor"/></svg>
@@ -59,6 +69,22 @@ import bedrijf from '../content/bedrijf.json';
   .logo-link {
     display: inline-flex;
     flex-shrink: 0;
+    text-decoration: none;
+  }
+  .logo-vector {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .logo-naam {
+    font-family: var(--font-kop);
+    font-size: 1.3rem;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .logo-naam b {
+    font-weight: 560;
+    color: var(--brown);
   }
   .menu-knop {
     display: inline-flex;
