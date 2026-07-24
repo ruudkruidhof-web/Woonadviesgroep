@@ -5,7 +5,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 ## Stand van zaken
 
 - Concept (v8) staat live op https://woonadviesgroep.vercel.app en is gedeeld klaar voor de klant.
-- Project in `site/` (Astro 7, GSAP, Vercel CLI-deploys zonder git). Geen git-repo; `vercel deploy --prod --yes` vanuit `site/`.
+- Project in `site/` (Astro 7, GSAP). Git-repo in de klantmap-root, remote: https://github.com/ruudkruidhof-web/Woonadviesgroep (branch `main`). Deploys gaan nog via `vercel deploy --prod --yes` vanuit `site/`; het Vercel-project is niet aan GitHub gekoppeld, dus pushen deployt niet vanzelf.
 - Homepage compleet: hero (USP-balk above the fold), dienstenregister (exclusieve accordion + beeldwissel), Google-reviews (scorekaart + scrollbare rail), verhaal, werkwijze als donkere navy-band met getekende route, logo-manifest, nieuws, contactband met visitekaartje, kennismaak-popup (dialog, `data-hb-lead`, nog geen backend).
 - Alle content staat CMS-klaar als JSON in `src/content/`; preview-bridge script zit in de layout.
 - Concept-mail aan Marijke is opgesteld (in de sessie van 16 juli), nog niet verstuurd.
