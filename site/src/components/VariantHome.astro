@@ -16,13 +16,8 @@ const datumFmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long
 const [hoofdartikel, ...restartikelen] = nieuws;
 const manifestTekst1 = thema === 'groen' ? varianten.manifest_tekst_1_groen : home.manifest_tekst_1;
 
-const googleReviews = reviews.items.map((r) => ({ ...r, bron: 'Google' }));
-const advieskeuzeReviews = reviews.uitgelicht.filter((r) => r.bron === 'Advieskeuze');
-const railReviews = [];
-for (let i = 0; i < Math.max(googleReviews.length, advieskeuzeReviews.length); i++) {
-  if (googleReviews[i]) railReviews.push(googleReviews[i]);
-  if (advieskeuzeReviews[i]) railReviews.push(advieskeuzeReviews[i]);
-}
+const featured = reviews.uitgelicht.find((r) => r.id === 'sofie') || reviews.uitgelicht[0];
+const stroomReviews = [...reviews.marquee, ...reviews.marquee];
 
 const zekerheden = [
   'Volledig onafhankelijk',
@@ -162,55 +157,73 @@ const stapIconen = [
 
 <section class="reviews" aria-labelledby="reviews-kop">
   <div class="maat reviews-grid">
-    <div class="score-kaart reveal">
-      <span class="google-g" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      </span>
-      <p class="score-getal" aria-label={`Beoordeeld met ${reviews.score} van 5 op Google`}>{reviews.score}</p>
-      <span class="sterren" aria-hidden="true">
-        {[1, 2, 3, 4, 5].map(() => (
-          <svg width="19" height="18" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
-        ))}
-      </span>
-      <h2 id="reviews-kop">Wat klanten zeggen</h2>
-      <p class="score-sub">Alle {reviews.aantal} Google-reviews geven ons vijf sterren.</p>
-      <div class="score-tweede">
-        <span class="badge-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
-        <span>
-          <b>{reviews.advieskeuze_score}<i>/10</i> op Advieskeuze</b>
-          <small>Gemiddeld uit {reviews.advieskeuze_aantal} beoordelingen</small>
-        </span>
-      </div>
-      <div class="score-links">
+    <div class="reviews-tekst">
+      <h2 id="reviews-kop" class="reveal">Wat klanten zeggen</h2>
+      <p class="reveal">Echte beoordelingen van mensen die we hielpen met hun hypotheek. U leest ze terug op Google en Advieskeuze.</p>
+      <dl class="reviews-scores reveal">
+        <div>
+          <dt>
+            <span class="score-logo" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            </span>
+            Google
+          </dt>
+          <dd>
+            <b>{reviews.score}</b>
+            <span class="sterren" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map(() => (
+                <svg width="14" height="13" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+              ))}
+            </span>
+            <small>{reviews.aantal} reviews</small>
+          </dd>
+        </div>
+        <div>
+          <dt>
+            <span class="score-logo score-tien" aria-hidden="true">{reviews.advieskeuze_score}</span>
+            Advieskeuze
+          </dt>
+          <dd>
+            <b>{reviews.advieskeuze_score}<i>/10</i></b>
+            <small>{reviews.advieskeuze_aantal} reviews</small>
+          </dd>
+        </div>
+      </dl>
+      <div class="reviews-links reveal">
         <a href={reviews.google_url}>Bekijk op Google</a>
         <a href={reviews.advieskeuze_url}>Bekijk op Advieskeuze</a>
       </div>
     </div>
-    <div class="rail-wrap">
-      <ul class="rail" data-cms-collection="reviews" tabindex="0" aria-label="Reviews van klanten, horizontaal te scrollen">
-        {railReviews.map((r) => (
-          <li data-cms-item={r.id}>
-            <span class="rail-kop">
+    <figure class="uitgelicht reveal">
+      <img src="/beeld/adviseurs.webp" alt="Dennis en Marijke van WoonAdvies Groep" width="1200" height="1200" loading="lazy" />
+      <span class="uitgelicht-wie">Dennis &amp; Marijke &middot; uw adviseurs</span>
+      <figcaption>
+        <span class="sterren" aria-hidden="true">
+          {[1, 2, 3, 4, 5].map(() => (
+            <svg width="16" height="15" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+          ))}
+        </span>
+        <blockquote>{featured.tekst}</blockquote>
+        <cite>{featured.naam} <span>via {featured.bron}</span></cite>
+      </figcaption>
+    </figure>
+    <div class="stroom" aria-label="Meer reviews van klanten">
+      <ul class="stroom-spoor" data-cms-collection="reviews">
+        {stroomReviews.map((r, i) => (
+          <li aria-hidden={i >= reviews.marquee.length ? 'true' : undefined} data-cms-item={r.id}>
+            <span class="stroom-kop">
               <span class="sterren klein" aria-hidden="true">
                 {[1, 2, 3, 4, 5].map(() => (
-                  <svg width="14" height="13" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
+                  <svg width="12" height="11" viewBox="0 0 20 19"><path d="M10 .8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L10 15.1l-5.7 3.1 1.2-6.3L.8 7.5l6.4-.8Z" fill="currentColor"/></svg>
                 ))}
               </span>
               <span class={`bron bron-${r.bron.toLowerCase()}`}>{r.bron}</span>
             </span>
-            <blockquote data-cms-field="tekst">{r.tekst}</blockquote>
-            <p class="review-naam"><span data-cms-field="naam">{r.naam}</span> <span class="review-bron">{r.wanneer}</span></p>
+            <p data-cms-field="tekst">{r.tekst}</p>
+            <span class="stroom-naam" data-cms-field="naam">{r.naam}</span>
           </li>
         ))}
       </ul>
-      <div class="rail-knoppen">
-        <button type="button" class="rail-knop" data-richting="-1" aria-label="Vorige reviews">
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2.5 4.5 8 10 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="rail-knop" data-richting="1" aria-label="Volgende reviews">
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.5 11.5 8 6 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
     </div>
   </div>
 </section>
@@ -459,18 +472,18 @@ const stapIconen = [
     filter: blur(3px);
   }
   .hero-blob-blauw {
-    width: clamp(320px, 42vw, 640px);
-    height: clamp(320px, 42vw, 640px);
-    background: radial-gradient(circle, rgba(106, 171, 218, 0.28), rgba(106, 171, 218, 0.05) 70%);
-    top: -12%;
-    right: -8%;
+    width: clamp(300px, 38vw, 560px);
+    height: clamp(300px, 38vw, 560px);
+    background: radial-gradient(circle, rgba(106, 171, 218, 0.26), rgba(106, 171, 218, 0.04) 68%);
+    top: -18%;
+    right: -6%;
   }
   .hero-blob-warm {
-    width: clamp(280px, 36vw, 560px);
-    height: clamp(280px, 36vw, 560px);
-    background: radial-gradient(circle, var(--blob-warm), transparent 70%);
-    top: 34%;
-    right: 24%;
+    width: clamp(220px, 28vw, 400px);
+    height: clamp(220px, 28vw, 400px);
+    background: radial-gradient(circle, var(--blob-warm), transparent 68%);
+    top: 6%;
+    right: 26%;
   }
   .hero-grid {
     position: relative;
@@ -823,83 +836,84 @@ const stapIconen = [
   }
   .reviews-grid {
     display: grid;
-    gap: 2.25rem;
-  }
-  .score-kaart {
-    position: relative;
-    display: grid;
-    justify-items: start;
-    gap: 0.55rem;
-    background: linear-gradient(160deg, var(--wash-warm), var(--wash-warm-licht));
-    border: 1px solid color-mix(in srgb, var(--brown) 14%, transparent);
-    border-radius: calc(var(--radius) * 1.4);
-    padding: 2.3rem 2.1rem;
-  }
-  .google-g {
-    position: absolute;
-    top: 1.6rem;
-    right: 1.6rem;
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 10px 24px -12px rgba(0, 56, 80, 0.35);
-  }
-  .score-getal {
-    font-family: var(--font-kop);
-    font-style: italic;
-    font-size: 4.25rem;
-    line-height: 1;
-    color: var(--navy);
+    gap: 2.4rem;
   }
   .sterren {
     display: inline-flex;
-    gap: 0.2rem;
+    gap: 0.15rem;
     color: #dfa437;
   }
-  .score-kaart h2 {
-    margin-top: 1rem;
-    font-size: 1.65rem;
+  .reviews-tekst h2 {
+    margin-bottom: 1rem;
   }
-  .score-sub {
-    font-size: 0.98rem;
-    max-width: 26ch;
+  .reviews-tekst > p {
+    max-width: 34ch;
   }
-  .score-tweede {
+  .reviews-scores {
+    display: grid;
+    gap: 1rem;
+    margin: 1.8rem 0 0;
+  }
+  .reviews-scores > div {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: 1.4rem;
-    padding-top: 1.4rem;
-    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
-    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
   }
-  .score-tweede > span {
-    display: grid;
-    line-height: 1.25;
-  }
-  .score-tweede b {
-    font-family: var(--font-kop);
-    font-weight: 600;
-    font-size: 1.05rem;
+  .reviews-scores dt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
     color: var(--navy);
   }
-  .score-tweede b i {
-    font-style: normal;
+  .score-logo {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 8px 18px -10px rgba(0, 56, 80, 0.35);
   }
-  .score-tweede small {
-    font-size: 0.82rem;
+  .score-tien {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brown);
+  }
+  .reviews-scores dd {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+  .reviews-scores dd b {
+    font-family: var(--font-kop);
+    font-style: italic;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .reviews-scores dd b i {
+    font-style: normal;
+    font-size: 0.95rem;
     color: var(--navy-soft);
   }
-  .score-links {
+  .reviews-scores dd small {
+    font-size: 0.8rem;
+    color: var(--navy-soft);
+  }
+  .reviews-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 1.4rem;
     margin-top: 1.4rem;
   }
-  .score-links a {
+  .reviews-links a {
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--sky-deep);
@@ -907,51 +921,124 @@ const stapIconen = [
     border-bottom: 1.5px solid currentColor;
     padding-bottom: 0.1rem;
   }
-  .rail-wrap {
-    min-width: 0;
-    margin-inline: calc((100vw - var(--maat)) / -2);
+
+  .uitgelicht {
+    position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--radius) * 1.5);
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 34px 60px -34px rgba(0, 56, 80, 0.6);
   }
-  .rail {
+  .uitgelicht img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+  }
+  .uitgelicht::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 40, 58, 0.05) 30%, rgba(0, 34, 50, 0.72) 68%, rgba(0, 28, 42, 0.94));
+  }
+  .uitgelicht-wie {
+    position: absolute;
+    top: 1.1rem;
+    left: 1.1rem;
+    z-index: 1;
+    display: inline-flex;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(251, 250, 248, 0.92);
+    backdrop-filter: blur(4px);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .uitgelicht figcaption {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    display: grid;
+    gap: 0.7rem;
+    padding: 1.7rem 1.7rem 1.6rem;
+    color: #fff;
+  }
+  .uitgelicht figcaption .sterren {
+    color: #ffce6a;
+  }
+  .uitgelicht blockquote {
+    margin: 0;
+    font-family: var(--font-kop);
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .uitgelicht cite {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .uitgelicht cite span {
+    font-weight: 400;
+    color: #cfe0ec;
+  }
+
+  .stroom {
+    position: relative;
+    overflow: hidden;
+    height: 24rem;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .stroom-spoor {
     list-style: none;
     margin: 0;
-    padding: 0.5rem calc((100vw - var(--maat)) / 2) 1rem;
+    padding: 0;
     display: flex;
-    gap: 1.1rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: calc((100vw - var(--maat)) / 2);
-    scrollbar-width: none;
+    flex-direction: column;
+    gap: 1rem;
+    animation: stroom-schuif 40s linear infinite;
   }
-  .rail::-webkit-scrollbar {
-    display: none;
+  .stroom:hover .stroom-spoor {
+    animation-play-state: paused;
   }
-  .rail:focus-visible {
-    outline: 2px solid var(--sky-deep);
-    outline-offset: -2px;
+  @keyframes stroom-schuif {
+    to {
+      transform: translateY(-50%);
+    }
   }
-  .rail li {
-    position: relative;
-    flex: 0 0 min(82vw, 21.5rem);
+  .stroom-spoor > li {
     display: grid;
-    align-content: start;
-    gap: 0.85rem;
-    scroll-snap-align: start;
+    gap: 0.6rem;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1.7rem 1.7rem 1.5rem;
-    box-shadow: 0 22px 40px -30px rgba(0, 56, 80, 0.55);
+    padding: 1.3rem 1.4rem;
+    box-shadow: 0 18px 34px -30px rgba(0, 56, 80, 0.5);
   }
-  .rail-kop {
+  .stroom-kop {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+  .stroom-spoor p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--navy-soft);
+  }
+  .stroom-naam {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--navy);
+  }
   .bron {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    padding: 0.2rem 0.6rem;
+    padding: 0.18rem 0.55rem;
     border-radius: 999px;
   }
   .bron-google {
@@ -961,51 +1048,6 @@ const stapIconen = [
   .bron-advieskeuze {
     background: var(--wash-warm);
     color: var(--brown-deep);
-  }
-  .rail blockquote {
-    margin: 0;
-    font-size: 0.97rem;
-    line-height: 1.6;
-  }
-  .review-naam {
-    margin-top: auto;
-    padding-top: 0.4rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--navy);
-  }
-  .review-bron {
-    display: block;
-    margin-top: 0.15rem;
-    font-weight: 400;
-    font-size: 0.85rem;
-    color: #7f95a5;
-  }
-  .rail-knoppen {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 0.5rem;
-    padding-inline: calc((100vw - var(--maat)) / 2);
-  }
-  .rail-knop {
-    display: grid;
-    place-items: center;
-    width: 2.9rem;
-    height: 2.9rem;
-    border-radius: 50%;
-    border: 1.5px solid var(--line);
-    background: #fff;
-    color: var(--navy);
-    cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
-  }
-  .rail-knop:hover:not(:disabled) {
-    border-color: var(--sky);
-    color: var(--sky-deep);
-  }
-  .rail-knop:disabled {
-    opacity: 0.35;
-    cursor: default;
   }
 
   .verhaal {
@@ -1055,7 +1097,7 @@ const stapIconen = [
 
   .route {
     position: relative;
-    margin-top: 6rem;
+    margin-top: 0;
     padding-block: 5rem 5.5rem;
     background:
       radial-gradient(120% 90% at 12% 0%, #0d4a66 0%, transparent 60%),
@@ -1364,12 +1406,21 @@ const stapIconen = [
   }
   .faq h3 {
     color: #fff;
-    font-size: 1.6rem;
-    margin-bottom: 0.4rem;
+    font-size: clamp(1.9rem, 3.5vw, 2.3rem);
+    line-height: 1.1;
+    padding-bottom: 1.1rem;
+  }
+  .faq h3::after {
+    content: '';
+    display: block;
+    width: 2.6rem;
+    height: 3px;
+    margin-top: 0.9rem;
+    border-radius: 2px;
+    background: var(--sky);
   }
   .faq-lijst {
-    margin-top: 1.2rem;
-    border-top: 1px solid rgba(133, 176, 205, 0.28);
+    margin-top: 0.4rem;
   }
   .faq details {
     border-bottom: 1px solid rgba(133, 176, 205, 0.28);
@@ -1468,49 +1519,25 @@ const stapIconen = [
     max-width: 46ch;
   }
   .kanaal {
-    position: relative;
-    overflow: hidden;
     display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas: 'icoon titel' 'icoon detail' 'sub sub';
-    column-gap: 1rem;
-    row-gap: 0.15rem;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'icoon titel pijl' 'icoon detail pijl';
+    column-gap: 0.9rem;
     align-items: center;
     background: rgba(251, 250, 248, 0.97);
     border: 0;
-    border-radius: var(--radius);
-    padding: 1.4rem 1.5rem;
+    border-radius: 14px;
+    padding: 0.95rem 1.15rem;
     font: inherit;
     text-align: left;
     text-decoration: none;
     color: var(--navy-soft);
     cursor: pointer;
-    transition: translate 0.25s ease, box-shadow 0.25s ease;
-  }
-  .kanaal::before {
-    content: '';
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    background: var(--kanaal-kleur);
-  }
-  .kanaal::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -60%;
-    width: 45%;
-    height: 100%;
-    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-    transition: left 0.6s ease;
-    pointer-events: none;
+    transition: translate 0.22s ease, box-shadow 0.22s ease;
   }
   .kanaal:hover {
-    translate: 0 -0.35rem;
-    box-shadow: 0 30px 54px -28px rgba(0, 20, 30, 0.85);
-  }
-  .kanaal:hover::after {
-    left: 120%;
+    translate: 0 -0.25rem;
+    box-shadow: 0 24px 44px -26px rgba(0, 20, 30, 0.85);
   }
   .kanaal-bel {
     --kanaal-kleur: var(--sky-deep);
@@ -1525,43 +1552,37 @@ const stapIconen = [
     grid-area: icoon;
     display: grid;
     place-items: center;
-    width: 3.1rem;
-    height: 3.1rem;
-    border-radius: 14px;
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 12px;
     background: color-mix(in srgb, var(--kanaal-kleur) 15%, #fff);
     color: var(--kanaal-kleur);
-    transition: scale 0.25s ease;
-  }
-  .kanaal:hover .kanaal-icoon {
-    scale: 1.08;
   }
   .kanaal-titel {
     grid-area: titel;
+    align-self: end;
     font-family: var(--font-kop);
-    font-size: 1.3rem;
-    font-weight: 540;
+    font-size: 1.12rem;
+    font-weight: 560;
     color: var(--navy);
   }
   .kanaal-detail {
     grid-area: detail;
+    align-self: start;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     color: var(--kanaal-kleur);
   }
   .kanaal-sub {
-    grid-area: sub;
-    margin-top: 0.5rem;
-    font-size: 0.88rem;
+    display: none;
   }
   .kanaal-pijl {
-    position: absolute;
-    top: 1.4rem;
-    right: 1.4rem;
-    font-size: 1.1rem;
+    grid-area: pijl;
+    font-size: 1.05rem;
     color: var(--kanaal-kleur);
-    opacity: 0;
-    translate: -0.4rem 0;
-    transition: opacity 0.25s ease, translate 0.25s ease;
+    translate: -0.2rem 0;
+    opacity: 0.5;
+    transition: opacity 0.22s ease, translate 0.22s ease;
   }
   .kanaal:hover .kanaal-pijl {
     opacity: 1;
@@ -1767,8 +1788,12 @@ const stapIconen = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .stempel svg {
+    .stempel svg,
+    .stroom-spoor {
       animation: none;
+    }
+    .stroom {
+      overflow-y: auto;
     }
   }
 
@@ -1839,25 +1864,19 @@ const stapIconen = [
       padding-block: 1.8rem;
     }
     .reviews-grid {
-      grid-template-columns: 19.5rem minmax(0, 1fr);
-      gap: 3rem;
+      grid-template-columns: 0.92fr 1.05fr 0.85fr;
+      gap: 2.5rem;
       align-items: stretch;
     }
-    .score-kaart {
-      align-content: start;
+    .reviews-tekst {
+      align-self: center;
     }
-    .rail-wrap {
-      margin-inline: 0 calc((100vw - var(--maat)) / -2);
+    .uitgelicht {
+      aspect-ratio: auto;
+      height: 31rem;
     }
-    .rail {
-      padding: 0.5rem calc((100vw - var(--maat)) / 2) 1rem 0;
-      scroll-padding-inline: 0;
-    }
-    .rail li {
-      flex-basis: 22.5rem;
-    }
-    .rail-knoppen {
-      padding-inline: 0;
+    .stroom {
+      height: 31rem;
     }
     .verhaal {
       margin-top: 6.5rem;
@@ -2112,27 +2131,6 @@ const stapIconen = [
     rij.addEventListener('mouseenter', () => kies(rij.dataset.index));
     rij.addEventListener('focusin', () => kies(rij.dataset.index));
   });
-
-  const rail = document.querySelector('.rail');
-  const railKnoppen = [...document.querySelectorAll('.rail-knop')];
-  const railStap = () => {
-    const kaart = rail.querySelector('li');
-    return kaart ? kaart.getBoundingClientRect().width + 18 : 340;
-  };
-  const railStatus = () => {
-    const max = rail.scrollWidth - rail.clientWidth - 4;
-    railKnoppen.forEach((k) => {
-      k.disabled = k.dataset.richting === '-1' ? rail.scrollLeft <= 4 : rail.scrollLeft >= max;
-    });
-  };
-  railKnoppen.forEach((k) => {
-    k.addEventListener('click', () => {
-      rail.scrollBy({ left: railStap() * Number(k.dataset.richting), behavior: animatieOk ? 'smooth' : 'auto' });
-    });
-  });
-  rail.addEventListener('scroll', railStatus, { passive: true });
-  window.addEventListener('resize', railStatus);
-  railStatus();
 
   const dialoog = document.getElementById('plan-dialoog');
   const formulier = dialoog.querySelector('form');

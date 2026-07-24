@@ -11,8 +11,8 @@ const { basis = '', vector = false } = Astro.props;
     <a href={`${basis}/`} class="logo-link" aria-label="WoonAdvies Groep, naar home">
       {vector ? (
         <span class="logo-vector">
-          <Merk breedte={44} />
-          <span class="logo-naam">WoonAdvies <b>Groep</b></span>
+          <Merk breedte={42} />
+          <img src="/logo-woordmerk.webp" alt="WoonAdvies Groep" width="134" height="43" class="logo-woordmerk" />
         </span>
       ) : (
         <Logo />
@@ -74,17 +74,11 @@ const { basis = '', vector = false } = Astro.props;
   .logo-vector {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.6rem;
   }
-  .logo-naam {
-    font-family: var(--font-kop);
-    font-size: 1.3rem;
-    color: var(--navy);
-    line-height: 1;
-  }
-  .logo-naam b {
-    font-weight: 560;
-    color: var(--brown);
+  .logo-woordmerk {
+    height: 1.7rem;
+    width: auto;
   }
   .menu-knop {
     display: inline-flex;

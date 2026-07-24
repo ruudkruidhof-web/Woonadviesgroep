@@ -3,9 +3,12 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://woonadviesgroep.vercel.app',
+  redirects: {
+    '/fris': '/',
+  },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(fris|groen)\/?$/.test(page),
+      filter: (page) => !/\/(groen|v1)\/?$/.test(page),
     }),
   ],
 });
