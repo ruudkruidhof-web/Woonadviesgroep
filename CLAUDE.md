@@ -4,7 +4,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Stand van zaken
 
-- **v3 in voorbereiding (4 nov 2026):** Ruud wil een derde versie van de homepage die Fris en Groen naar een hoger niveau tilt. Kader: de site is een visitekaartje (bevestigingssite, klanten komen via via), compleet voor een hypotheekadviseur en onderhoudsarm. Stand: richting A (hoofd en hart) gekozen en het ontwerp goedgekeurd door Ruud, met als extra eis veel witruimte en rust, duidelijke hiërarchie en contrast, en dat meteen duidelijk is waar je naar kijkt. Bouwopdracht: `docs/superpowers/specs/2026-11-04-woonadvies-v3-homepage-design.md` (route `/v3`, eigen componenten in `site/src/components/v3/`, Fris/Groen/v1 ongemoeid). Bijstelling in de spec t.o.v. het besproken ontwerp: geen FAQ op de homepage, want de letterlijke antwoorden staan al in andere secties. Tekstbudget: `oogst/teksten.md` (alle pagina's van woonadviesgroep.nl, letterlijk, 4 nov 2026). Nog niets gebouwd. Nagekeken in het transcript van de kennismaking (localhost:4747, item 68aa31515730): de klant beoordeelt zelf een partij op hoe professioneel en gelikt de site oogt plus de Google-reviews, Marijke vindt logo en kleuren prima, en een automatisch gevulde artikelenmodule is als optie in de offerte besproken. De Nieuws-pagina op hun huidige site is een kapotte feed zonder berichten.
+- **v3 live op `/v3` (4 nov 2026, richting A "hoofd en hart"):** derde versie van de homepage als visitekaartje, goedgekeurd ontwerp in `docs/superpowers/specs/2026-11-04-woonadvies-v3-homepage-design.md`. Opbouw: hero met de echte foto van Dennis & Marijke (licht opgepoetst, `public/beeld/adviseurs-v3-*.webp`) en bewijs (Google 5,0, Advieskeuze 10, AFM), hoofd en hart (hun eigen zin, blauw = zakelijk, bruin = persoonlijk, lijnen lopen het exacte logo in), diensten als register met situaties (sky-wash), reviews (wash-warm, stroom met pauzeknop), werkwijze als navy route met kosten, contact met visitekaartje, kanalen en formulier. Geen FAQ, geen nieuws, geen stillevens, geen 1.000+ (wacht op de klant). Componenten in `site/src/components/v3/`, teksten in `site/src/content/teksten/v3.json` en `v3-diensten.json`, herkomst per regel in `oogst/herkomst-v3.md`, oogst van hun site in `oogst/teksten.md`. Nagekeken op de live deploy: hero-poort op 1280x720, 1512x750, 1440x900, 390x844 en 430x932, geen overflow, axe (WCAG 2.1 AA) nul fouten op 1280 en 390, WebKit menu/dialog/accordeon, soepel.mjs groen. Vier kwaliteitspassen (better-typography, taste-eindpoort 7,5 en daarna verwerkt, ui-ux-pro-max, improve-animations) zijn verwerkt. Formulieren tonen bewust een eerlijke conceptmelding, er hangt nog geen backend aan. Nog niet door Ruud beoordeeld.
 - Concept (v8) staat live op https://woonadviesgroep.vercel.app en is gedeeld klaar voor de klant.
 - Na de kennismaking/conceptpresentatie (24 jul 2026, transcriptie op localhost:4747) zijn er twee extra ontwerpvarianten gebouwd voor in de offerte, beide met alle meeting-feedback verwerkt:
   - `/fris`: frisser en speelser in de bestaande kleuren.
@@ -21,8 +21,8 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 ## Routing (sinds vierde feedbackronde, 24 jul 2026)
 
 - **`/`** = de Fris-variant (hoofdpagina, indexeerbaar). **`/groen`** = groene variant (noindex). **`/v1`** = de oorspronkelijke v8-homepage, als archief/referentie (noindex). `/fris` redirect naar `/`.
-- Preview-switchbalk (fixed, onderaan) op alle variantpagina's: Fris / Groen / v1. Aangestuurd door de `variant`-prop op `Base.astro`; interne nav/anchors via `basis`.
-- Sitemap bevat alleen `/`; sluit `/groen` en `/v1` uit.
+- Preview-switchbalk (fixed, onderaan) op alle variantpagina's: Fris / Groen / v1 / v3. **`/v3`** = derde versie (noindex, eigen header en footer via `eigenKader` op `Base.astro`), met `/v3/volgt-na-opdracht` als placeholder voor onderliggende pagina's. Aangestuurd door de `variant`-prop op `Base.astro`; interne nav/anchors via `basis`.
+- Sitemap bevat alleen `/`; sluit `/groen`, `/v1` en `/v3` uit.
 
 ## Vierde feedbackronde (24 jul 2026, commits dd3eae3 + 7cc6ce8)
 
@@ -45,6 +45,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Volgende stappen
 
+0. Ruud beoordeelt `/v3` (op 100% zoom). Vragen voor Marijke die bij v3 horen: klopt 1.000+ huishoudens, wie doet wat (voor Over ons), zijn dienstenwijzer en vergelijkingskaarten actueel, je of u, apart WhatsApp-nummer, foto van het pand of een korte fotoshoot.
 1. Offerte naar de klant met links naar `/fris` en `/groen` (afspraak uit de meeting: offerte dezelfde middag, klant bekijkt en beslist). Prijs artikelenmodule + Instagram-koppeling en eventuele prijstegemoetkoming nog bepalen (Ruud).
 2. Nieuwe sfeerbeelden via Higgsfield (frisser, Rotterdams, blauw/groen): connector moet eerst opnieuw geautoriseerd worden via claude.ai connector-instellingen. Klant kan ook eigen beeld aanleveren (foto pand). WhatsApp-nummer van de klant opvragen (nu staat het vaste nummer in `bedrijf.json` als `whatsapp`).
 3. Tone of voice (u of je) nog kiezen met de klant; teksten staan nu in de u-vorm van de huidige site.
