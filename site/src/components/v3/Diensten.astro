@@ -74,7 +74,7 @@ const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L39
     color: var(--sky-wash);
   }
   .d-kern h3 {
-    font-size: clamp(2.5rem, 1.9rem + 2.4vw, 3.75rem);
+    font-size: clamp(2.25rem, 1.8rem + 1.8vw, 3.25rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
     color: #fff;
@@ -129,9 +129,24 @@ const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L39
     opacity: 0.32;
     transition: translate 0.6s var(--uit), opacity 0.4s ease;
   }
-  .d-kern:hover .d-huis {
-    translate: 0 -0.5rem;
-    opacity: 0.5;
+  @media (hover: hover) and (pointer: fine) {
+    .d-kern:hover .d-huis {
+      translate: 0 -0.5rem;
+      opacity: 0.5;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .d-kamer:target {
+      animation: doel 1.6s var(--uit) 0.3s;
+    }
+  }
+  @keyframes doel {
+    from {
+      box-shadow: 0 0 0 4px var(--sky);
+    }
+    to {
+      box-shadow: 0 0 0 4px transparent;
+    }
   }
 
   .d-zij {

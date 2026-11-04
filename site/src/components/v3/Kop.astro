@@ -109,6 +109,8 @@ const links = [
   }
   .kop-logo {
     display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
     margin-right: auto;
   }
   .kop-logo img {
@@ -170,7 +172,7 @@ const links = [
     opacity: 0;
     visibility: hidden;
     translate: 0 -4px;
-    transition: opacity 0.18s ease, translate 0.22s var(--uit), visibility 0s linear 0.22s;
+    transition: opacity 0.18s var(--uit), translate 0.22s var(--uit), visibility 0s linear 0.22s;
   }
   .kop-sub[data-open] .kop-paneel {
     opacity: 1;

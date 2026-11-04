@@ -4,8 +4,31 @@
     {
       "name": "woonadvies-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "site", "run", "dev", "--", "--port", "4391", "--strictPort"],
+      "runtimeArgs": [
+        "--prefix",
+        "site",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4391",
+        "--strictPort"
+      ],
       "port": 4391
+    },
+    {
+      "name": "woonadvies-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "site",
+        "run",
+        "preview",
+        "--",
+        "--port",
+        "4392"
+      ],
+      "port": 4392
     }
   ]
 }

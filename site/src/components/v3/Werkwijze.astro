@@ -134,7 +134,6 @@ const t = teksten.werkwijze;
   }
   .w-kosten {
     display: grid;
-    grid-template-columns: auto 1fr;
     gap: 1.25rem;
     align-items: start;
   }
@@ -172,6 +171,19 @@ const t = teksten.werkwijze;
   }
   .werkwijze .tekstlink:hover {
     text-decoration-color: #fff;
+  }
+
+  @media (max-width: 47.99rem) {
+    .w-band {
+      margin-inline: -0.75rem;
+      padding: 1.75rem 1.25rem;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .w-kosten {
+      grid-template-columns: auto 1fr;
+    }
   }
 
   @media (min-width: 64rem) {
