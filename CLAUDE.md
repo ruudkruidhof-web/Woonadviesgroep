@@ -4,7 +4,17 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Stand van zaken
 
-- **v3 live op `/v3` (4 nov 2026, richting A "hoofd en hart"):** derde versie van de homepage als visitekaartje, goedgekeurd ontwerp in `docs/superpowers/specs/2026-11-04-woonadvies-v3-homepage-design.md`. Opbouw: hero met de echte foto van Dennis & Marijke (licht opgepoetst, `public/beeld/adviseurs-v3-*.webp`) en bewijs (Google 5,0, Advieskeuze 10, AFM), hoofd en hart (hun eigen zin, blauw = zakelijk, bruin = persoonlijk, lijnen lopen het exacte logo in), diensten als register met situaties (sky-wash), reviews (wash-warm, stroom met pauzeknop), werkwijze als navy route met kosten, contact met visitekaartje, kanalen en formulier. Geen FAQ, geen nieuws, geen stillevens, geen 1.000+ (wacht op de klant). Componenten in `site/src/components/v3/`, teksten in `site/src/content/teksten/v3.json` en `v3-diensten.json`, herkomst per regel in `oogst/herkomst-v3.md`, oogst van hun site in `oogst/teksten.md`. Nagekeken op de live deploy: hero-poort op 1280x720, 1512x750, 1440x900, 390x844 en 430x932, geen overflow, axe (WCAG 2.1 AA) nul fouten op 1280 en 390, WebKit menu/dialog/accordeon, soepel.mjs groen. Vier kwaliteitspassen (better-typography, taste-eindpoort 7,5 en daarna verwerkt, ui-ux-pro-max, improve-animations) zijn verwerkt. Formulieren tonen bewust een eerlijke conceptmelding, er hangt nog geen backend aan. Nog niet door Ruud beoordeeld.
+- **v3 live op `/v3` (4 nov 2026, richting A "hoofd en hart"):** derde versie van de homepage als visitekaartje, goedgekeurd ontwerp in `docs/superpowers/specs/2026-11-04-woonadvies-v3-homepage-design.md`. Opbouw: hero met de echte foto van Dennis & Marijke (licht opgepoetst, `public/beeld/adviseurs-v3-*.webp`) en bewijs (Google 5,0, Advieskeuze 10, AFM), hoofd en hart (hun eigen zin, blauw = zakelijk, bruin = persoonlijk, lijnen lopen het exacte logo in), diensten als register met situaties (sky-wash), reviews (wash-warm, stroom met pauzeknop), werkwijze als navy route met kosten, contact met visitekaartje, kanalen en formulier. Geen FAQ, geen nieuws, geen stillevens, geen 1.000+ (wacht op de klant). Componenten in `site/src/components/v3/`, teksten in `site/src/content/teksten/v3.json` en `v3-diensten.json`, herkomst per regel in `oogst/herkomst-v3.md`, oogst van hun site in `oogst/teksten.md`. Nagekeken op de live deploy: hero-poort op 1280x720, 1512x750, 1440x900, 390x844 en 430x932, geen overflow, axe (WCAG 2.1 AA) nul fouten op 1280 en 390, WebKit menu/dialog/accordeon, soepel.mjs groen. Vier kwaliteitspassen (better-typography, taste-eindpoort 7,5 en daarna verwerkt, ui-ux-pro-max, improve-animations) zijn verwerkt. Formulieren tonen bewust een eerlijke conceptmelding, er hangt nog geen backend aan. Eerste oordeel Ruud zie hieronder.
+- **Feedback Ruud op v3 (4 nov 2026, nog niet verwerkt):** "ziet er al weer beter uit", maar:
+  - **Letter:** Ibarra Real Nova vindt hij "heel knullig en niet zakelijk". v3 krijgt een nieuwe, zakelijkere kopletter (eerst twee of drie opties naast elkaar laten zien; Fraunces en Newsreader zijn eerder al afgekeurd, geen standaard-AI-fonts).
+  - **Geheel:** nog wat saai en statisch. Het mag super high-end zijn, met gevoel en liefde, maar niet overweldigend. Meer ontwerp overheen leggen.
+  - **Hoofd en hart:** idee oké, maar rommelig, het "zweeft over de pagina". Moet een gevatte, ontworpen compositie worden.
+  - **Diensten:** "super saai, geen ontwerp, geen liefde, weinig creativiteit". Opnieuw ontwerpen.
+  - **Wat klanten zeggen:** rommelig, te veel tekst, de bewegende rechterkolom leidt af. Minder elementen, één duidelijk brandpunt.
+  - **Werkwijze:** mag op de schop. Meer hiërarchie, uniformer, netter.
+  - **Contact:** te veel, mag meer gecentreerd.
+  - **Footer:** nog saai.
+  - **Dienstenmenu in de header:** het uitklappaneel is te groot. Compacter, professioneler, zakelijker.
 - Concept (v8) staat live op https://woonadviesgroep.vercel.app en is gedeeld klaar voor de klant.
 - Na de kennismaking/conceptpresentatie (24 jul 2026, transcriptie op localhost:4747) zijn er twee extra ontwerpvarianten gebouwd voor in de offerte, beide met alle meeting-feedback verwerkt:
   - `/fris`: frisser en speelser in de bestaande kleuren.
@@ -36,7 +46,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 ## Belangrijke beslissingen
 
 - **Ontwerp**: concept "rust + warmte", kleuren uit het logo (navy #003850, hemelsblauw #6aabda, bruin #6a4d47). Ritme licht/donker is bewust: werkwijze-sectie diep navy tussen crème secties.
-- **Fonts**: Ibarra Real Nova (koppen) + Nunito Sans (tekst). Fraunces en Newsreader zijn afgekeurd; geen standaard-AI-fonts gebruiken.
+- **Fonts**: Fris, Groen en v1 gebruiken Ibarra Real Nova (koppen) + Nunito Sans (tekst). Voor v3 is Ibarra afgekeurd als "knullig en niet zakelijk" (Ruud, 4 nov 2026); daar komt een zakelijkere kopletter. Fraunces en Newsreader zijn eerder afgekeurd; geen standaard-AI-fonts gebruiken.
 - **Logo**: exact vector-beeldmerk in `src/components/Merk.astro`, pixel-geverifieerd tegen de bron (512px favicon-upload van hun site). Nooit benaderen of nabouwen; huisje is negatieve ruimte, elk exemplaar eigen mask-id (`merkteller.ts`). Op donkere vlakken in een licht zegel plaatsen.
 - **Teksten**: letterlijk van de huidige site overgenomen, niet herschreven (eis Ruud).
 - **Reviews**: 7 van de 11 échte Google-reviews (allemaal 5 sterren) letterlijk geciteerd in `src/content/reviews.json`. Bij livegang score/aantal verversen.
@@ -45,7 +55,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Volgende stappen
 
-0. Ruud beoordeelt `/v3` (op 100% zoom). Vragen voor Marijke die bij v3 horen: klopt 1.000+ huishoudens, wie doet wat (voor Over ons), zijn dienstenwijzer en vergelijkingskaarten actueel, je of u, apart WhatsApp-nummer, foto van het pand of een korte fotoshoot.
+0. Verbeterronde v3 op Ruuds feedback van 4 nov (zie Stand van zaken): eerst brainstorm met letteropties en per sectie een nieuw ontwerpidee, dan bouwen, kwaliteitspassen, live nameten. Vragen voor Marijke die bij v3 horen: klopt 1.000+ huishoudens, wie doet wat (voor Over ons), zijn dienstenwijzer en vergelijkingskaarten actueel, je of u, apart WhatsApp-nummer, foto van het pand of een korte fotoshoot.
 1. Offerte naar de klant met links naar `/fris` en `/groen` (afspraak uit de meeting: offerte dezelfde middag, klant bekijkt en beslist). Prijs artikelenmodule + Instagram-koppeling en eventuele prijstegemoetkoming nog bepalen (Ruud).
 2. Nieuwe sfeerbeelden via Higgsfield (frisser, Rotterdams, blauw/groen): connector moet eerst opnieuw geautoriseerd worden via claude.ai connector-instellingen. Klant kan ook eigen beeld aanleveren (foto pand). WhatsApp-nummer van de klant opvragen (nu staat het vaste nummer in `bedrijf.json` als `whatsapp`).
 3. Tone of voice (u of je) nog kiezen met de klant; teksten staan nu in de u-vorm van de huidige site.
