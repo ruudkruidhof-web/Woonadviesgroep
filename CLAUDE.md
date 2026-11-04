@@ -4,6 +4,7 @@ Vrijblijvend homepage-concept voor lead WoonAdvies Groep (woonadviesgroep.nl), o
 
 ## Stand van zaken
 
+- **v3 in voorbereiding (4 nov 2026):** Ruud wil een derde versie van de homepage die Fris en Groen naar een hoger niveau tilt. Kader: de site is een visitekaartje (bevestigingssite, klanten komen via via), compleet voor een hypotheekadviseur en onderhoudsarm. Stand: brainstorm loopt, diagnose en drie richtingen voorgelegd, nog geen richting gekozen en nog niets gebouwd. Nagekeken in het transcript van de kennismaking (localhost:4747, item 68aa31515730): de klant beoordeelt zelf een partij op hoe professioneel en gelikt de site oogt plus de Google-reviews, Marijke vindt logo en kleuren prima, en een automatisch gevulde artikelenmodule is als optie in de offerte besproken. De Nieuws-pagina op hun huidige site is een kapotte feed zonder berichten.
 - Concept (v8) staat live op https://woonadviesgroep.vercel.app en is gedeeld klaar voor de klant.
 - Na de kennismaking/conceptpresentatie (24 jul 2026, transcriptie op localhost:4747) zijn er twee extra ontwerpvarianten gebouwd voor in de offerte, beide met alle meeting-feedback verwerkt:
   - `/fris`: frisser en speelser in de bestaande kleuren.
