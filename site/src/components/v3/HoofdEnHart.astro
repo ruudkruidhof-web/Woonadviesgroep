@@ -3,6 +3,10 @@ import Merk from '../Merk.astro';
 import teksten from '../../content/teksten/v3.json';
 
 const t = teksten.hoofdhart;
+const kanten = [
+  { id: 'hoofd', woord: t.hoofd_label, sub: t.hoofd_sub, regels: t.hoofd },
+  { id: 'hart', woord: t.hart_label, sub: t.hart_sub, regels: t.hart },
+];
 ---
 <section class="hh sectie" aria-labelledby="hh-titel">
   <div class="maat">
@@ -11,28 +15,23 @@ const t = teksten.hoofdhart;
       <p class="lead" data-onthul>{t.lead}</p>
     </div>
 
-    <div class="hh-raster" data-hh>
-      <div class="hh-kant hh-hoofd" data-hh-kant="hoofd">
-        <h3>{t.hoofd_label}<span>{t.hoofd_sub}</span></h3>
-        <ul>
-          {t.hoofd.map((regel) => <li>{regel}</li>)}
-        </ul>
+    <div class="hh-tweeluik" data-hh>
+      <div class="hh-merk">
+        <span data-hh-merk>
+          <Merk breedte={232} titel="Het beeldmerk van WoonAdvies Groep: een huis midden in een hart" />
+        </span>
       </div>
-
-      <div class="hh-midden">
-        <span class="hh-lijn hh-lijn-hoofd" data-hh-lijn="hoofd"></span>
-        <div class="hh-merk" data-hh-merk>
-          <Merk breedte={260} titel="Het beeldmerk van WoonAdvies Groep: een huis midden in een hart" />
+      {kanten.map((k) => (
+        <div class={`hh-helft hh-${k.id}`} data-hh-kant={k.id}>
+          <h3>
+            <span class="hh-woord">{k.woord}</span>
+            <span class="hh-sub">{k.sub}</span>
+          </h3>
+          <ul>
+            {k.regels.map((regel) => <li>{regel}</li>)}
+          </ul>
         </div>
-        <span class="hh-lijn hh-lijn-hart" data-hh-lijn="hart"></span>
-      </div>
-
-      <div class="hh-kant hh-hart" data-hh-kant="hart">
-        <h3>{t.hart_label}<span>{t.hart_sub}</span></h3>
-        <ul>
-          {t.hart.map((regel) => <li>{regel}</li>)}
-        </ul>
-      </div>
+      ))}
     </div>
 
     <p class="hh-slot" data-onthul>{t.slot}</p>
@@ -40,116 +39,132 @@ const t = teksten.hoofdhart;
 </section>
 
 <style>
-  .hh {
-    background:
-      radial-gradient(60% 70% at 0% 62%, color-mix(in srgb, var(--sky-wash) 85%, transparent), transparent 70%),
-      radial-gradient(60% 70% at 100% 62%, var(--wash-warm-licht), transparent 70%),
-      var(--paper);
+  .hh-kop {
+    max-width: 44rem;
+    margin-inline: auto;
+    text-align: center;
   }
   .hh-kop h2 {
     font-size: clamp(2.5rem, 1.9rem + 2.8vw, 4.25rem);
-    line-height: 1.06;
-    max-width: 20ch;
+    line-height: 1.05;
   }
   .hh-kop p {
-    max-width: 36rem;
-    margin-top: 1.5rem;
+    max-width: 34rem;
+    margin: 1.5rem auto 0;
   }
-  .hh-raster {
+
+  .hh-tweeluik {
+    --boog: 3.25rem;
+    position: relative;
     display: grid;
-    gap: 3rem;
-    margin-top: clamp(3rem, 2.5rem + 2vw, 4rem);
+    margin-top: calc(clamp(3rem, 2rem + 3vw, 4.5rem) + 5rem);
+    text-align: center;
   }
-  .hh-midden {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    order: -1;
+  .hh-merk {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 50%;
+    translate: -50% -42%;
+  }
+  .hh-merk > span {
+    display: block;
   }
   .hh-merk :global(svg) {
-    width: clamp(11rem, 8rem + 10vw, 16.25rem);
+    display: block;
+    width: clamp(9.5rem, 7rem + 8vw, 14.5rem);
     height: auto;
   }
-  .hh-lijn {
-    display: none;
+  .hh-helft {
+    padding: clamp(2.5rem, 2rem + 2vw, 3.5rem) clamp(1.5rem, 1rem + 3vw, 4rem);
   }
-  .hh-kant h3 {
+  .hh-hoofd {
+    padding-top: 8.5rem;
+    border-radius: 50% 50% 0 0 / var(--boog) var(--boog) 0 0;
+    background: var(--sky-wash);
+  }
+  .hh-hart {
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--wash-warm);
+  }
+  .hh-helft h3 {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 2px solid currentColor;
+    align-items: center;
+    gap: 0.6rem;
   }
-  .hh-hoofd h3 {
+  .hh-woord {
+    font-size: clamp(3rem, 2.2rem + 3.4vw, 5.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hh-hoofd .hh-woord {
     color: var(--sky-deep);
   }
-  .hh-hart h3 {
+  .hh-hart .hh-woord {
     color: var(--brown);
   }
-  .hh-kant h3 span {
+  .hh-sub {
     font-family: var(--font-tekst);
     font-size: var(--ui);
     font-weight: 600;
-    color: var(--tekst-zacht);
+    letter-spacing: 0;
+    color: var(--navy);
   }
-  .hh-kant ul {
-    list-style: none;
+  .hh-helft ul {
+    max-width: 24rem;
+    margin: 2rem auto 0;
     padding: 0;
+    list-style: none;
   }
-  .hh-kant li {
-    padding-block: 1.1rem;
+  .hh-helft li {
     color: var(--navy-soft);
   }
-  .hh-kant li + li {
-    border-top: 1px solid var(--line);
+  .hh-helft li + li::before {
+    content: '';
+    display: block;
+    width: 2.5rem;
+    height: 1.5px;
+    margin: 1.25rem auto;
+    background: currentColor;
+    opacity: 0.35;
+  }
+  .hh-hoofd li + li::before {
+    background: var(--sky-deep);
+  }
+  .hh-hart li + li::before {
+    background: var(--brown);
   }
   .hh-slot {
-    max-width: 38rem;
-    margin: clamp(3.5rem, 2.5rem + 4vw, 6rem) auto 0;
+    max-width: 34rem;
+    margin: clamp(3rem, 2.5rem + 2vw, 4.5rem) auto 0;
     font-family: var(--font-kop);
     font-size: var(--h3);
-    line-height: 1.35;
+    line-height: 1.3;
     color: var(--navy);
     text-align: center;
     text-wrap: balance;
   }
 
   @media (min-width: 48rem) {
-    .hh-kop {
-      text-align: center;
+    .hh-tweeluik {
+      --boog: 5.5rem;
+      grid-template-columns: 1fr 1fr;
     }
-    .hh-kop h2,
-    .hh-kop p {
-      margin-inline: auto;
+    .hh-helft {
+      padding-top: 8.5rem;
+      padding-bottom: clamp(3rem, 2.5rem + 2vw, 4.5rem);
     }
-  }
-
-  @media (min-width: 64rem) {
-    .hh-raster {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      align-items: start;
-      gap: 0;
+    .hh-hoofd {
+      position: relative;
+      margin-right: -1px;
+      border-radius: 50% 50% 0 var(--radius) / var(--boog) var(--boog) 0 var(--radius);
     }
-    .hh-midden {
-      order: 0;
-      align-items: flex-start;
-    }
-    .hh-lijn {
-      display: block;
-      width: clamp(2rem, 4vw, 4rem);
-      height: 2px;
-      margin-top: calc(var(--h3) * 1.2 + 0.25rem + var(--ui) * 1.2 + 1.25rem);
-    }
-    .hh-lijn-hoofd {
-      background: var(--sky-deep);
-      transform-origin: left center;
-    }
-    .hh-lijn-hart {
-      background: var(--brown);
-      transform-origin: right center;
+    .hh-hart {
+      border-radius: 50% 50% var(--radius) 0 / var(--boog) var(--boog) var(--radius) 0;
     }
     .hh-merk {
-      padding-inline: 1.25rem;
+      translate: -50% -38%;
     }
   }
 </style>

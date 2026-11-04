@@ -225,6 +225,11 @@ import bedrijf from '../../content/bedrijf.json';
       dialoog.querySelector('input')!.focus();
     });
   });
+  dialoog.querySelector('form')!.addEventListener('submit', (e) => {
+    // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.
+    e.preventDefault();
+    melding.textContent = melding.dataset.tekst ?? '';
+  });
   dialoog.querySelector('[data-sluit]')!.addEventListener('click', () => dialoog.close());
   dialoog.addEventListener('click', (e) => {
     if (e.target === dialoog) dialoog.close();

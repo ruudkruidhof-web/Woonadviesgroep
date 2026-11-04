@@ -1,26 +1,38 @@
 ---
+import Icoon from './Icoon.astro';
 import Merk from '../Merk.astro';
 import diensten from '../../content/v3-diensten.json';
+import teksten from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
+
+const t = teksten.voet;
 ---
 <footer class="voet">
+  <div class="maat voet-top">
+    <p class="voet-zin">{bedrijf.tagline}</p>
+    <a href={`tel:${bedrijf.telefoon_link}`} class="voet-bel">
+      <span class="cijfer">{bedrijf.telefoon}</span>
+      <Icoon naam="dak" maat={18} />
+    </a>
+  </div>
+
   <div class="maat voet-raster">
-    <div class="voet-merk">
-      <span class="voet-zegel"><Merk breedte={40} /></span>
-      <p class="voet-naam">{bedrijf.naam}</p>
-      <p>{bedrijf.tagline}</p>
-    </div>
     <nav aria-label="Diensten">
       <h2>Diensten</h2>
       <ul>
-        {diensten.map((d) => <li><a href="/v3#diensten" data-kies-dienst={d.id}>{d.titel}</a></li>)}
+        {diensten.map((d) => <li><a href={`/v3#dienst-${d.id}`}>{d.titel}</a></li>)}
       </ul>
     </nav>
+    <div>
+      <h2>{t.documenten_titel}</h2>
+      <ul>
+        {t.documenten.map((d) => <li><a href={d.url} target="_blank" rel="noopener">{d.titel}</a></li>)}
+      </ul>
+    </div>
     <div>
       <h2>Contact</h2>
       <address>
         {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}<br />
-        <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a><br />
         <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
       </address>
     </div>
@@ -29,6 +41,7 @@ import bedrijf from '../../content/bedrijf.json';
       <p class="cijfer">KvK {bedrijf.kvk}<br />AFM {bedrijf.afm}<br />Kifid {bedrijf.kifid}</p>
     </div>
   </div>
+
   <div class="maat voet-onder">
     <p>&copy; {new Date().getFullYear()} {bedrijf.naam}</p>
     <ul>
@@ -37,40 +50,70 @@ import bedrijf from '../../content/bedrijf.json';
       <li><a href="https://www.kifid.nl" target="_blank" rel="noopener">Klachten (Kifid)</a></li>
     </ul>
   </div>
+
+  <div class="voet-zegel" aria-hidden="true">
+    <Merk breedte={220} />
+  </div>
 </footer>
 
 <style>
   .voet {
-    padding: clamp(4rem, 3rem + 4vw, 6rem) 0 6rem;
+    position: relative;
+    overflow: clip;
+    padding: clamp(4.5rem, 3rem + 6vw, 8rem) 0 6rem;
     background: #002c40;
     color: #bcd2e1;
     font-size: var(--ui);
   }
-  .voet-raster {
-    display: grid;
-    gap: 2.5rem;
+  .voet > .maat {
+    position: relative;
+    z-index: 1;
   }
-  .voet-zegel {
-    display: grid;
-    place-items: center;
-    width: 3.75rem;
-    height: 3.75rem;
-    border-radius: 50%;
-    background: #fff;
+  .voet-top {
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
-  .voet-naam {
-    margin-top: 1.25rem;
+  .voet-zin {
+    max-width: 15ch;
     font-family: var(--font-kop);
-    font-size: 1.5rem;
+    font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .voet-bel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 2.75rem;
+    margin-top: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+    font-family: var(--font-kop);
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
+    color: var(--sky);
+    text-decoration: none;
+  }
+  .voet-bel :global(.dak) {
+    transition: translate 0.25s var(--uit);
+  }
+  .voet-bel:hover {
     color: #fff;
   }
-  .voet-merk p:last-child {
-    margin-top: 0.25rem;
+  .voet-bel:hover :global(.dak) {
+    translate: 0.25em 0;
+  }
+
+  .voet-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 2.5rem 2rem;
+    padding-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
   }
   .voet h2 {
     font-family: var(--font-tekst);
     font-size: var(--ui);
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 0;
     color: #fff;
   }
   .voet ul {
@@ -81,24 +124,21 @@ import bedrijf from '../../content/bedrijf.json';
   .voet-raster address,
   .voet-raster h2 + p {
     margin-top: 0.9rem;
-  }
-  .voet-raster ul,
-  .voet address,
-  .voet-raster h2 + p {
     line-height: 1.85;
   }
   .voet-raster li a {
     display: inline-block;
     padding-block: 0.3rem;
+    line-height: 1.5;
   }
   .voet address {
     font-style: normal;
   }
-  .voet a {
+  .voet a:not(.voet-bel) {
     color: #bcd2e1;
     text-decoration: none;
   }
-  .voet a:hover {
+  .voet a:not(.voet-bel):hover {
     color: #fff;
     text-decoration: underline;
     text-underline-offset: 0.25em;
@@ -106,7 +146,6 @@ import bedrijf from '../../content/bedrijf.json';
   .voet-onder {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     gap: 1rem 2rem;
     margin-top: 3.5rem;
     padding-top: 1.5rem;
@@ -119,9 +158,37 @@ import bedrijf from '../../content/bedrijf.json';
     gap: 0.5rem 1.5rem;
   }
 
+  .voet-zegel {
+    --d: clamp(10rem, 5rem + 16vw, 21rem);
+    position: absolute;
+    right: max(-2rem, calc(50% - var(--maat) / 2 - 4rem));
+    bottom: calc(var(--d) * -0.36);
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    width: var(--d);
+    aspect-ratio: 1;
+    padding-top: calc(var(--d) * 0.16);
+    border-radius: 50%;
+    background: var(--paper);
+  }
+  .voet-zegel :global(svg) {
+    width: 58%;
+    height: auto;
+  }
+
+  @media (max-width: 47.99rem) {
+    .voet-zegel {
+      right: 0.75rem;
+    }
+    .voet-onder {
+      padding-right: 8rem;
+    }
+  }
   @media (min-width: 48rem) {
     .voet-raster {
-      grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+      grid-template-columns: 1fr 1.6fr 1.4fr 1fr;
+      padding-right: clamp(0rem, 14vw, 13rem);
     }
   }
 </style>

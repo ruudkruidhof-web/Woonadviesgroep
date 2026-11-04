@@ -20,28 +20,24 @@
     "hoofd_sub": "De zakelijke kant",
     "hoofd": [
       "Woonadvies Groep is onafhankelijk. We zijn vrij om aanbieders van financiële producten te kiezen.",
-      "Transparantie is waar we voor staan, in de manier waarop we werken én in de producten waarin we bemiddelen.",
       "Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan."
     ],
     "hart_label": "Hart",
     "hart_sub": "De emotie en het gevoel",
     "hart": [
-      "Persoonlijk contact is bij ons prioriteit nummer één.",
-      "Tijden veranderen, en je ideeën en omstandigheden staan ook geen leven lang vast. Wij zijn daarin graag je partner.",
-      "Ook na je handtekening bij de notaris zijn we er voor je. We denken vooruit en ontzorgen!"
+      "Persoonlijk contact is bij ons prioriteit nummer één. Dat kan bij jou thuis, overdag of ’s avonds.",
+      "Ook daarna zijn we er voor je. We denken vooruit en ontzorgen!"
     ],
-    "slot": "Het is onze kracht om daarin betrokken, persoonlijk en zorgvuldig te komen tot een passende en praktische financiële oplossing."
+    "slot": "Samen komen we tot een passende en praktische financiële oplossing."
   },
   "diensten": {
     "titel": "Onze diensten",
     "lead": "Alle kennis hebben we onder één dak. In een totaalpakket, als je dat wenst.",
-    "situaties_label": "Waar we je bij helpen",
     "knop": "Bespreek je situatie"
   },
   "klanten": {
     "titel": "Wat klanten zeggen",
-    "lead": "Beoordelingen van klanten op Google en Advieskeuze.",
-    "uitgelicht": "sofie"
+    "stapel_label": "Reviews van klanten"
   },
   "werkwijze": {
     "titel": "Onze werkwijze",
@@ -60,7 +56,6 @@
         "tekst": "Als het financiële beeld compleet is, brengen we het plan ten uitvoer. We adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren."
       }
     ],
-    "eind": "Financiële rust",
     "kosten_titel": "Kosten",
     "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
     "start": "Maar laten we beginnen met stap 1!"
@@ -70,6 +65,10 @@
     "lead": "Bel gerust voor een afspraak, of stuur een e-mail. Dan nemen wij contact met je op. Graag tot ziens!",
     "formulier_titel": "Plan een vrijblijvend gesprek",
     "formulier_intro": "Vrijblijvend, bij jou thuis of bij ons op kantoor.",
+    "formulier_knop": "Verstuur je aanvraag"
+  },
+  "concept_melding": "Dit is een conceptversie van de nieuwe site, dus je bericht is nog niet verstuurd. Bel of mail ons gerust, dan helpen we je direct.",
+  "voet": {
     "documenten_titel": "Documenten",
     "documenten": [
       {
@@ -88,8 +87,6 @@
         "titel": "Vergelijkingskaart Vermogen opbouwen",
         "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Vermogen-opbouwen.pdf"
       }
-    ],
-    "formulier_knop": "Verstuur je aanvraag"
-  },
-  "concept_melding": "Dit is een conceptversie van de nieuwe site, dus je bericht is nog niet verstuurd. Bel of mail ons gerust, dan helpen we je direct."
+    ]
+  }
 }

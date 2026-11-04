@@ -1,5 +1,11 @@
+@import '@fontsource-variable/hedvig-letters-serif';
+@import '@fontsource-variable/instrument-sans/wdth.css';
+
 [data-thema='v3'] {
+  --font-kop: 'Hedvig Letters Serif Variable', Georgia, serif;
+  --font-tekst: 'Instrument Sans Variable', 'Segoe UI', sans-serif;
   --tekst-zacht: #536a78;
+  font-synthesis: none;
   --sectie: clamp(5.5rem, 3rem + 8vw, 10rem);
   --display: clamp(2.75rem, 2rem + 3.6vw, 5rem);
   --h2: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
@@ -19,10 +25,12 @@
   color: var(--navy-soft);
 }
 
-[data-thema='v3'] h1,
-[data-thema='v3'] h2,
-[data-thema='v3'] h3 {
-  font-weight: 500;
+[data-thema='v3'] :is(h1, h2, h3, blockquote) {
+  font-weight: 400;
+}
+
+[data-thema='v3'] :is(h1, h2) {
+  letter-spacing: -0.015em;
 }
 
 [data-thema='v3'] h2 {
@@ -37,6 +45,26 @@
 
 .sectie {
   padding-block: var(--sectie);
+}
+
+.kamer {
+  --rand: clamp(0.5rem, 0.2rem + 1vw, 1.25rem);
+  --maat: min(1160px, calc(100vw - 2 * var(--rand) - 2.5rem));
+  margin-inline: var(--rand);
+  border-radius: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+}
+
+.kamer + .kamer {
+  margin-top: var(--rand);
+}
+
+.sr-alleen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .sectie-kop {
@@ -135,7 +163,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .heeft-js:not(.beweging-uit) :is([data-regels], [data-onthul], [data-hh-merk], [data-hh-kant], .w-stap > :not(.w-punt, .w-zegel)) {
+  .heeft-js:not(.beweging-uit) :is([data-regels], [data-onthul], [data-hh-merk], [data-hh-kant], [data-kaartje], .d-kamer, .w-stap) {
     opacity: 0;
   }
 }
@@ -143,10 +171,7 @@
 @media (prefers-reduced-motion: reduce) {
   .kop-paneel,
   .kop-menu,
-  .km,
-  .d-paneel,
-  .d-paneel-inhoud,
-  .c-kanalen a > span {
+  .km {
     translate: none !important;
   }
   .kop,

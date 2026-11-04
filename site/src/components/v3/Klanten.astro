@@ -4,28 +4,28 @@ import teksten from '../../content/teksten/v3.json';
 import reviews from '../../content/reviews.json';
 
 const t = teksten.klanten;
-const uitgelicht = reviews.uitgelicht.find((r) => r.id === t.uitgelicht)!;
-const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
+const kaarten = reviews.uitgelicht;
 ---
-<section id="klanten" class="klanten sectie" aria-labelledby="klanten-titel">
+<section id="klanten" class="klanten sectie kamer" data-kamer aria-labelledby="klanten-titel">
   <div class="maat k-raster">
-    <div class="k-scores">
+    <div class="k-kop">
       <h2 id="klanten-titel" data-regels>{t.titel}</h2>
-      <p class="k-lead" data-onthul>{t.lead}</p>
-      <dl data-onthul>
-        <div class="k-score">
+      <dl class="k-scores" data-onthul>
+        <div>
           <dt>
-            <Icoon naam="google" maat={20} />
-            <a href={reviews.google_url} target="_blank" rel="noopener">{reviews.aantal} reviews op Google</a>
+            <a href={reviews.google_url} target="_blank" rel="noopener">
+              <Icoon naam="google" maat={16} />
+              {reviews.aantal} reviews op Google
+            </a>
           </dt>
           <dd>
             <span class="k-getal cijfer">{reviews.score}</span>
             <span class="k-sterren" role="img" aria-label="5 van de 5 sterren">
-              {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={14} />)}
+              {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={13} />)}
             </span>
           </dd>
         </div>
-        <div class="k-score">
+        <div>
           <dt>
             <a href={reviews.advieskeuze_url} target="_blank" rel="noopener">{reviews.advieskeuze_aantal} reviews op Advieskeuze</a>
           </dt>
@@ -37,34 +37,46 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
       </dl>
     </div>
 
-    <figure class="k-uitgelicht" data-onthul>
-      <span class="k-teken" aria-hidden="true">&ldquo;</span>
-      <blockquote>
-        <p>{uitgelicht.tekst}</p>
-      </blockquote>
-      <figcaption>
-        <strong>{uitgelicht.naam}</strong>
-        <span>via {uitgelicht.bron}, {uitgelicht.wanneer}</span>
-      </figcaption>
-    </figure>
-
-    <div class="k-stroom" data-onthul>
-      <ul class="k-band">
-        {[...stroom, ...stroom].map((r, i) => (
-          <li class="k-kaart" aria-hidden={i >= stroom.length ? 'true' : undefined}>
-            <span class="k-sterren" aria-hidden="true">
-              {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={11} />)}
-            </span>
-            <p>{r.tekst}</p>
-            <p class="k-wie">
+    <div class="k-stapel-vak" data-onthul>
+      <div class="k-stapel" role="region" aria-roledescription="carrousel" aria-label={t.stapel_label} data-stapel>
+        {kaarten.map((r, i) => (
+          <figure
+            class="k-kaart"
+            data-kaart
+            data-p={Math.min(i, 3)}
+            role="group"
+            aria-roledescription="review"
+            aria-label={`${i + 1} van ${kaarten.length}`}
+            aria-hidden={i > 0 ? 'true' : undefined}
+          >
+            <figcaption class="k-kaart-kop">
+              <span class="k-sterren" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={12} />)}
+              </span>
               <strong>{r.naam}</strong>
-              <span>{r.bron}, {r.wanneer}</span>
-            </p>
-          </li>
+              <span class="k-bron">
+                {r.bron === 'Google' && <Icoon naam="google" maat={13} />}
+                {r.bron}, {r.wanneer}
+              </span>
+            </figcaption>
+            <blockquote>
+              <p>{r.tekst}</p>
+            </blockquote>
+          </figure>
         ))}
-      </ul>
+      </div>
+
+      <div class="k-bediening">
+        <button type="button" class="k-knop" data-vorige aria-label="Vorige review">
+          <Icoon naam="dak" maat={13} klasse="k-terug" />
+        </button>
+        <p class="k-teller cijfer" aria-hidden="true"><span data-nu>1</span> / {kaarten.length}</p>
+        <button type="button" class="k-knop" data-volgende aria-label="Volgende review">
+          <Icoon naam="dak" maat={13} />
+        </button>
+        <button type="button" class="k-pauze" data-pauze aria-pressed="false">Pauzeer</button>
+      </div>
     </div>
-    <button type="button" class="k-pauze" aria-pressed="false" data-pauze>Pauzeer de reviews</button>
   </div>
 </section>
 
@@ -74,208 +86,296 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
   }
   .k-raster {
     display: grid;
-    gap: 3.5rem;
+    gap: clamp(3rem, 2rem + 3vw, 4.5rem);
   }
-  .k-lead {
-    margin-top: 1.25rem;
-    font-size: var(--lead);
-    line-height: 1.55;
+  .k-kop h2 {
+    max-width: 9ch;
+    font-size: clamp(2.5rem, 1.9rem + 2.6vw, 4rem);
+    line-height: 1.05;
   }
-  .k-scores dl {
-    margin-top: 2.5rem;
+  .k-scores {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: start;
+    gap: 1.5rem clamp(1.25rem, 0.5rem + 3vw, 2.5rem);
+    margin-top: clamp(1.75rem, 1.25rem + 2vw, 3rem);
   }
-  .k-score {
+  .k-scores > div {
     display: flex;
     flex-direction: column-reverse;
     gap: 0.4rem;
-    padding-block: 1.25rem;
-    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
   }
-  .k-score dt {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--ui);
-  }
-  .k-score a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    color: var(--sky-deep);
-    font-weight: 600;
-    text-underline-offset: 0.25em;
-  }
-  .k-score dd {
+  .k-scores dd {
     display: flex;
     align-items: baseline;
-    gap: 0.75rem;
-    margin: 0;
+    gap: 0.6rem;
   }
   .k-getal {
     font-family: var(--font-kop);
-    font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.625rem);
+    font-size: clamp(3rem, 2.4rem + 2.2vw, 4.25rem);
     line-height: 1;
-    color: var(--navy);
+    color: var(--sky-deep);
   }
   .k-van {
-    color: var(--tekst-zacht);
+    font-size: var(--klein);
+    font-weight: 600;
+    color: var(--sky-deep);
+  }
+  .k-scores a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    font-size: var(--klein);
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+    text-underline-offset: 0.3em;
+  }
+  .k-scores a:hover {
+    text-decoration-color: currentColor;
   }
   .k-sterren {
     display: inline-flex;
     gap: 2px;
-    color: #e2a72e;
+    color: #c98a12;
   }
 
-  .k-uitgelicht {
-    position: relative;
-    margin: 0;
+  .k-stapel-vak {
+    padding-top: 5.25rem;
   }
-  .k-teken {
-    display: block;
-    height: 3.5rem;
-    font-family: var(--font-kop);
-    font-size: 7rem;
-    line-height: 1;
+  .k-stapel {
+    display: grid;
+  }
+  .k-kaart {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 clamp(1.5rem, 1rem + 2vw, 2.75rem) clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(60, 35, 25, 0.07), 0 22px 48px -30px rgba(60, 35, 25, 0.5);
+    transform-origin: 50% 0;
+    transition: transform 0.7s var(--uit), opacity 0.45s ease, background-color 0.45s ease;
+  }
+  .k-kaart[data-p='0'] {
+    z-index: 4;
+  }
+  .k-kaart[data-p='1'] {
+    z-index: 3;
+    transform: translateY(-2.6rem) scale(0.955) rotate(-0.6deg);
+    background: #fdfaf7;
+  }
+  .k-kaart[data-p='2'] {
+    z-index: 2;
+    transform: translateY(-5.1rem) scale(0.91) rotate(0.7deg);
+    background: #fbf6f1;
+  }
+  .k-kaart[data-p='3'] {
+    z-index: 1;
+    transform: translateY(-5.1rem) scale(0.91) rotate(0.7deg);
+    opacity: 0;
+  }
+  .k-kaart[data-p='weg'] {
+    z-index: 5;
+    transform: translate(-12%, 2rem) rotate(-5deg);
+    opacity: 0;
+  }
+  .k-kaart:not([data-p='0']) blockquote {
+    opacity: 0;
+  }
+  .k-kaart blockquote {
+    transition: opacity 0.35s ease;
+  }
+  .k-kaart-kop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.85rem;
+    min-height: 2.6rem;
+    padding-block: 0.7rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--brown) 14%, transparent);
+    font-size: var(--klein);
+  }
+  .k-kaart-kop strong {
     color: var(--brown);
   }
-  .k-uitgelicht blockquote {
-    margin: 0;
+  .k-bron {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+    color: var(--tekst-zacht);
   }
-  .k-uitgelicht blockquote p {
+  .k-kaart blockquote {
+    margin-block: auto;
+    padding-top: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
     font-family: var(--font-kop);
-    font-size: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
+    font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
     line-height: 1.32;
     color: var(--navy);
     text-wrap: pretty;
   }
-  .k-uitgelicht figcaption {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    margin-top: 1.75rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--brown);
+  .k-kaart blockquote p::before {
+    content: '\201C';
+    margin-right: 0.08em;
+    color: var(--brown);
   }
-  .k-uitgelicht figcaption strong {
-    color: var(--navy);
-  }
-  .k-uitgelicht figcaption span {
-    font-size: var(--ui);
-    color: var(--tekst-zacht);
+  .k-kaart blockquote p::after {
+    content: '\201D';
+    color: var(--brown);
   }
 
-  .k-band {
-    padding: 0;
-    list-style: none;
-  }
-  .k-kaart {
-    padding-block: 1.4rem;
-    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
-    font-size: var(--ui);
-    line-height: 1.6;
-  }
-  .k-kaart[aria-hidden='true'],
-  .k-kaart:nth-child(n + 4) {
-    display: none;
-  }
-  .k-kaart p:not(.k-wie) {
-    margin-top: 0.6rem;
-  }
-  .k-wie {
+  .k-bediening {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.1rem 0.5rem;
-    margin-top: 0.9rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .k-knop {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1.5px solid color-mix(in srgb, var(--brown) 35%, transparent);
+    border-radius: 50%;
+    background: none;
+    color: var(--brown);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .k-knop:hover,
+  .k-knop:focus-visible {
+    border-color: var(--brown);
+    background: var(--brown);
+    color: #fff;
+  }
+  .k-knop :global(.k-terug) {
+    rotate: 180deg;
+  }
+  .k-teller {
+    min-width: 3.5rem;
     font-size: var(--klein);
+    font-weight: 600;
+    color: var(--brown);
+    text-align: center;
   }
-  .k-wie strong {
-    color: var(--navy);
+  .k-pauze {
+    min-height: 2.75rem;
+    margin-left: auto;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font-size: var(--klein);
+    font-weight: 600;
+    color: var(--brown);
+    cursor: pointer;
   }
-  .k-wie span {
-    color: var(--tekst-zacht);
+  .k-pauze:hover {
+    background: color-mix(in srgb, var(--brown) 9%, transparent);
   }
 
   @media (min-width: 64rem) {
     .k-raster {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3.2fr);
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
       align-items: center;
-      gap: clamp(2.5rem, 4vw, 4.5rem);
     }
-    .k-stroom {
-      position: relative;
-      height: 34rem;
-      margin: 0;
-      overflow: hidden;
-      mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
-    }
-    .k-kaart:nth-child(n + 4),
-    .k-kaart[aria-hidden='true'] {
-      display: block;
+    .k-stapel-vak {
+      padding-right: 0;
     }
   }
 
-  .k-pauze {
-    display: none;
-  }
-
-  @media (min-width: 64rem) and ((hover: none) or (prefers-reduced-motion: reduce)) {
-    .k-stroom {
-      height: auto;
-      mask-image: none;
-    }
-    .k-kaart:nth-child(n + 4),
-    .k-kaart[aria-hidden='true'] {
-      display: none;
-    }
-  }
-
-  @media (min-width: 64rem) and (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .k-band {
-      animation: stroom 80s linear infinite;
-    }
-    .k-stroom:hover .k-band,
-    .k-stroom:focus-within .k-band,
-    .k-raster[data-gepauzeerd] .k-band {
-      animation-play-state: paused;
-    }
-    .k-raster {
-      grid-template-rows: auto auto;
+  @media (prefers-reduced-motion: reduce) {
+    .k-kaart,
+    .k-kaart > * {
+      transition: none !important;
     }
     .k-pauze {
-      grid-column: 3;
-      justify-self: center;
-      display: inline-flex;
-      align-items: center;
-      min-height: 2.75rem;
-      margin-top: -1.5rem;
-      padding: 0 1rem;
-      border: 0;
-      border-radius: 999px;
-      background: none;
-      font-size: var(--klein);
-      font-weight: 700;
-      color: var(--brown);
-      cursor: pointer;
-    }
-    .k-pauze:hover {
-      background: color-mix(in srgb, var(--brown) 8%, transparent);
-    }
-  }
-
-  @keyframes stroom {
-    to {
-      translate: 0 calc(-50% - 0.5rem);
+      display: none;
     }
   }
 </style>
 
 <script>
-  const knop = document.querySelector<HTMLButtonElement>('[data-pauze]');
-  knop?.addEventListener('click', () => {
-    const raster = knop.closest<HTMLElement>('.k-raster')!;
-    const pauze = !raster.hasAttribute('data-gepauzeerd');
-    raster.toggleAttribute('data-gepauzeerd', pauze);
-    knop.setAttribute('aria-pressed', String(pauze));
-    knop.textContent = pauze ? 'Speel de reviews af' : 'Pauzeer de reviews';
+  const stapel = document.querySelector<HTMLElement>('[data-stapel]')!;
+  const vak = stapel.parentElement!;
+  const kaarten = [...stapel.querySelectorAll<HTMLElement>('[data-kaart]')];
+  const nu = vak.querySelector<HTMLElement>('[data-nu]')!;
+  const pauzeKnop = vak.querySelector<HTMLButtonElement>('[data-pauze]')!;
+  const rustig = matchMedia('(prefers-reduced-motion: reduce)');
+  const volgorde = kaarten.map((_, i) => i);
+  const duur = 7000;
+  let timer = 0;
+  let inBeeld = false;
+  let erboven = false;
+  let gepauzeerd = false;
+
+  const zet = (behalve?: HTMLElement) => {
+    volgorde.forEach((k, p) => {
+      const kaart = kaarten[k];
+      if (kaart !== behalve) kaart.dataset.p = String(Math.min(p, 3));
+      if (p === 0) kaart.removeAttribute('aria-hidden');
+      else kaart.setAttribute('aria-hidden', 'true');
+      kaart.inert = p !== 0;
+    });
+    nu.textContent = String(volgorde[0] + 1);
+  };
+
+  const volgende = () => {
+    const weg = kaarten[volgorde[0]];
+    volgorde.push(volgorde.shift()!);
+    weg.dataset.p = 'weg';
+    zet(weg);
+    setTimeout(() => {
+      weg.style.transition = 'none';
+      weg.dataset.p = '3';
+      weg.offsetHeight;
+      weg.style.transition = '';
+    }, rustig.matches ? 0 : 650);
+  };
+
+  const vorige = () => {
+    const terug = kaarten[volgorde[volgorde.length - 1]];
+    volgorde.unshift(volgorde.pop()!);
+    terug.style.transition = 'none';
+    terug.dataset.p = 'weg';
+    terug.offsetHeight;
+    terug.style.transition = '';
+    zet();
+  };
+
+  const loopt = () => !rustig.matches && inBeeld && !erboven && !gepauzeerd && !document.hidden;
+  const plan = () => {
+    clearTimeout(timer);
+    if (loopt()) timer = window.setTimeout(() => (volgende(), plan()), duur);
+  };
+
+  const handmatig = (stap: () => void) => {
+    stapel.setAttribute('aria-live', 'polite');
+    stap();
+    plan();
+  };
+  vak.querySelector('[data-volgende]')!.addEventListener('click', () => handmatig(volgende));
+  vak.querySelector('[data-vorige]')!.addEventListener('click', () => handmatig(vorige));
+
+  pauzeKnop.addEventListener('click', () => {
+    gepauzeerd = !gepauzeerd;
+    pauzeKnop.setAttribute('aria-pressed', String(gepauzeerd));
+    pauzeKnop.textContent = gepauzeerd ? 'Afspelen' : 'Pauzeer';
+    plan();
   });
+
+  vak.addEventListener('pointerenter', () => ((erboven = true), plan()));
+  vak.addEventListener('pointerleave', () => ((erboven = false), plan()));
+  vak.addEventListener('focusin', () => ((erboven = true), plan()));
+  vak.addEventListener('focusout', (e) => {
+    if (!vak.contains(e.relatedTarget as Node)) (erboven = false), plan();
+  });
+  document.addEventListener('visibilitychange', plan);
+  rustig.addEventListener('change', plan);
+  new IntersectionObserver(([e]) => ((inBeeld = e.isIntersecting), plan()), { threshold: 0.4 }).observe(stapel);
+
+  zet();
 </script>

@@ -26,46 +26,62 @@
       });
     });
 
-    gsap.utils.toArray<HTMLElement>('[data-onthul], .w-stap > :not(.w-punt, .w-zegel)').forEach((el) => {
+    gsap.utils.toArray<HTMLElement>('[data-onthul]').forEach((el) => {
       gsap.fromTo(el, { y: 14, opacity: 0 }, { ...binnen, delay: 0.08, scrollTrigger: { trigger: el, start, once: true } });
     });
+
+    gsap.utils.toArray<HTMLElement>('[data-kamer]').forEach((kamer) => {
+      const r = getComputedStyle(kamer).borderTopLeftRadius;
+      gsap.fromTo(
+        kamer,
+        { clipPath: `inset(3% 2.5% round ${r})` },
+        { clipPath: `inset(0% 0% round ${r})`, duration: 1, ease: 'power3.out', clearProps: 'clipPath', scrollTrigger: { trigger: kamer, start: 'top 92%', once: true } },
+      );
+    });
+
+    const gebouw = document.querySelector('[data-gebouw]');
+    if (gebouw) {
+      gsap.fromTo(gebouw.querySelectorAll('.d-kamer'), { y: 24, opacity: 0 }, { ...binnen, duration: 0.8, stagger: 0.09, scrollTrigger: { trigger: gebouw, start: 'top 82%', once: true } });
+    }
+
+    const kaartje = document.querySelector('[data-kaartje]');
+    if (kaartje) {
+      gsap.fromTo(kaartje, { y: 36, rotate: -1.5, opacity: 0 }, { ...binnen, rotate: 0, duration: 1, scrollTrigger: { trigger: kaartje, start: 'top 88%', once: true } });
+    }
+
+    const foto = document.querySelector('.hero-foto img');
+    if (foto) {
+      gsap.fromTo(foto, { yPercent: -3, scale: 1.08 }, { yPercent: 4, scale: 1.08, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    }
+  });
+
+  mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 48rem)' }, (ctx) => {
+    const { beweging, breed } = ctx.conditions!;
+    if (!beweging) return;
+
+    const hh = document.querySelector('[data-hh]');
+    if (hh) {
+      const kant = (x: number) => ({ opacity: 0, x: breed ? x : 0, y: breed ? 0 : 18 });
+      gsap
+        .timeline({ scrollTrigger: { trigger: hh, start: 'top 78%', once: true } })
+        .fromTo('[data-hh-kant="hoofd"]', kant(-36), { ...binnen, x: 0, duration: 0.9 }, 0)
+        .fromTo('[data-hh-kant="hart"]', kant(36), { ...binnen, x: 0, duration: 0.9 }, breed ? 0 : 0.12)
+        .fromTo('[data-hh-merk]', { opacity: 0, y: -22, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'back.out(1.4)' }, 0.35);
+    }
   });
 
   mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 64rem)' }, (ctx) => {
     const { beweging, breed } = ctx.conditions!;
     if (!beweging) return;
 
-    const hh = document.querySelector('[data-hh]');
-    if (hh) {
-      const kant = (x: number) => ({ opacity: 0, x: breed ? x : 0, y: breed ? 0 : 14 });
-      gsap
-        .timeline({ scrollTrigger: { trigger: hh, start: 'top 75%', once: true } })
-        .fromTo('[data-hh-merk]', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.9, ease: 'power3.out' })
-        .fromTo('[data-hh-kant="hoofd"]', kant(-28), { ...binnen, x: 0, duration: 0.8 }, 0.1)
-        .fromTo('[data-hh-kant="hart"]', kant(28), { ...binnen, x: 0, duration: 0.8 }, breed ? 0.1 : 0.2)
-        .from('[data-hh-lijn]', { scaleX: 0, duration: 0.7, ease: 'power2.inOut' }, 0.5);
-    }
-
     const route = document.querySelector('[data-route]');
     if (route) {
-      const vol = route.querySelector('[data-route-vol]');
-      const punten = [...route.querySelectorAll('.w-punt, .w-zegel')];
-      const drempels = punten.map((_, i) => (i / (punten.length - 1)) * 0.9);
-      const bereikt = new Set<Element>();
       const as = breed ? 'scaleX' : 'scaleY';
-      gsap.set(punten, { opacity: 0.35, scale: 0.86 });
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: route, start: 'top 75%', end: breed ? 'bottom 82%' : 'bottom 78%', scrub: 0.6 },
-        onUpdate() {
-          const voortgang = this.progress();
-          punten.forEach((punt, i) => {
-            if (bereikt.has(punt) || voortgang < drempels[i]) return;
-            bereikt.add(punt);
-            gsap.to(punt, { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' });
-          });
-        },
+      const tl = gsap.timeline({ scrollTrigger: { trigger: route, start: 'top 78%', once: true } });
+      tl.fromTo(route.querySelector('[data-route-vol]'), { [as]: 0 }, { [as]: 1, duration: 1.4, ease: 'power2.inOut' }, 0);
+      route.querySelectorAll('.w-stap').forEach((stap, i) => {
+        tl.fromTo(stap, { y: 16, opacity: 0 }, { ...binnen, duration: 0.8 }, 0.15 + i * 0.4);
       });
-      tl.fromTo(vol, { [as]: 0 }, { [as]: 1, duration: 1, ease: 'none' });
     }
   });
 </script>

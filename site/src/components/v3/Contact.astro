@@ -6,341 +6,162 @@ import bedrijf from '../../content/bedrijf.json';
 
 const t = teksten.contact;
 const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;
-const kanalen = [
-  { naam: 'bel', titel: 'Bel ons', waarde: bedrijf.telefoon, href: `tel:${bedrijf.telefoon_link}` },
-  { naam: 'whatsapp', titel: 'Stuur een WhatsApp', waarde: bedrijf.telefoon, href: `https://wa.me/${bedrijf.whatsapp}` },
-  { naam: 'mail', titel: 'Stuur een e-mail', waarde: bedrijf.email, href: `mailto:${bedrijf.email}` },
-];
 ---
 <section id="contact" class="contact sectie" aria-labelledby="contact-titel">
-  <div class="maat">
-    <div class="sectie-kop">
+  <div class="maat c-vak">
+    <div class="c-kop">
       <h2 id="contact-titel" data-regels>{t.titel}</h2>
-      <p data-onthul>{t.lead}</p>
+      <p class="lead" data-onthul>{t.lead}</p>
     </div>
 
-    <div class="c-raster">
-      <ul class="c-kanalen" data-onthul>
-        {kanalen.map((k) => (
-          <li>
-            <a href={k.href}>
-              <span class="c-icoon"><Icoon naam={k.naam} maat={18} /></span>
-              <span class="c-kanaal">
-                <strong>{k.titel}</strong>
-                <span class="cijfer">{k.waarde}</span>
-              </span>
-              <Icoon naam="dak" maat={13} />
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <form class="c-formulier" data-hb-lead data-concept-formulier data-onthul>
-        <h3>{t.formulier_titel}</h3>
-        <p class="c-intro">{t.formulier_intro}</p>
-        <label>
-          Je naam
-          <input type="text" name="naam" autocomplete="name" required />
-        </label>
-        <label>
-          Telefoon of e-mail
-          <input type="text" name="contact" autocomplete="email" required />
-        </label>
-        <label>
-          Je vraag <span>(niet verplicht)</span>
-          <textarea name="bericht" rows="3"></textarea>
-        </label>
-        <button type="submit" class="knop knop-vol">{teksten.contact.formulier_knop}</button>
-        <p class="c-melding" role="status" data-melding data-tekst={teksten.concept_melding}></p>
-      </form>
-
-      <div class="c-kaart-vak" data-onthul>
-        <div class="c-kaart">
-          <div class="c-kaart-kop">
-            <Merk breedte={52} />
-            <div>
-              <p class="c-naam">{bedrijf.naam}</p>
-              <p class="c-motto">{bedrijf.tagline}</p>
-            </div>
-          </div>
-          <dl>
-            <div>
-              <dt>Kantoor</dt>
-              <dd>
-                {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}
-                <a href={route} target="_blank" rel="noopener" class="tekstlink">Route plannen <Icoon naam="dak" maat={10} /></a>
-              </dd>
-            </div>
-          </dl>
-          <p class="c-reg cijfer">KvK {bedrijf.kvk} · AFM {bedrijf.afm} · Kifid {bedrijf.kifid}</p>
-        </div>
-
-        <div class="c-documenten">
-          <h3>{t.documenten_titel}</h3>
-          <ul>
-            {t.documenten.map((d) => (
-              <li>
-                <a href={d.url} target="_blank" rel="noopener">
-                  <Icoon naam="document" maat={16} />
-                  <span>{d.titel}</span>
-                  <small>pdf</small>
-                </a>
-              </li>
-            ))}
-          </ul>
+    <div class="c-kaart" data-kaartje>
+      <div class="c-kaart-kop">
+        <Merk breedte={64} />
+        <div>
+          <p class="c-naam">{bedrijf.naam}</p>
+          <p class="c-motto">{bedrijf.tagline}</p>
         </div>
       </div>
+      <div class="c-kaart-gegevens">
+        <address>
+          {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}
+          <a href={route} target="_blank" rel="noopener" class="tekstlink">Route plannen <Icoon naam="dak" maat={10} /></a>
+        </address>
+        <p>
+          <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a><br />
+          <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
+        </p>
+      </div>
+      <p class="c-reg cijfer">KvK {bedrijf.kvk} · AFM {bedrijf.afm} · Kifid {bedrijf.kifid}</p>
     </div>
+
+    <ul class="c-acties" data-onthul>
+      <li>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
+          <Icoon naam="bel" maat={15} />
+          Bel ons
+        </a>
+      </li>
+      <li>
+        <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn">
+          <Icoon naam="whatsapp" maat={16} />
+          Stuur een WhatsApp
+        </a>
+      </li>
+      <li>
+        <button type="button" class="knop knop-vol" data-plan-open>
+          {teksten.hero.knop}
+          <Icoon naam="dak" maat={12} />
+        </button>
+      </li>
+    </ul>
   </div>
 </section>
 
 <style>
-  .c-raster {
-    display: grid;
-    gap: 3rem;
-  }
-  .c-kanalen {
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid var(--line);
-  }
-  .c-kanalen a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.15rem 0.25rem;
-    border-bottom: 1px solid var(--line);
-    color: var(--navy);
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-  }
-  .c-kanalen a > span {
-    transition: translate 0.3s var(--uit);
-  }
-  .c-kanalen a:hover {
-    background: var(--wash-warm-licht);
-  }
-  @media (hover: hover) {
-    .c-kanalen a:hover > span {
-      translate: 0.5rem 0;
-    }
-  }
-  .c-icoon {
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background: var(--wash-warm);
-    color: var(--brown);
-  }
-  .c-kanalen a:hover .c-icoon {
-    background: #fff;
-  }
-  .c-kanaal {
+  .c-vak {
     display: flex;
     flex-direction: column;
-    margin-right: auto;
+    align-items: center;
+    text-align: center;
   }
-  .c-kanaal strong {
-    font-size: 1.0625rem;
+  .c-kop h2 {
+    font-size: clamp(2.5rem, 1.9rem + 2.6vw, 4rem);
+    line-height: 1.05;
   }
-  .c-kanaal span {
-    font-size: var(--ui);
-    color: var(--tekst-zacht);
-  }
-  .c-kanalen :global(.dak) {
-    color: var(--brown);
-  }
-  .c-kanalen a:hover :global(.dak) {
-    translate: 0.2em 0;
-  }
-
-  .c-formulier {
-    display: grid;
-    gap: 1.1rem;
-    padding: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
-    border-radius: var(--radius);
-    background: var(--wash-warm);
-  }
-  .c-formulier h3 {
-    font-size: var(--h3);
-  }
-  .c-intro {
-    margin-top: -0.6rem;
-    color: var(--navy-soft);
-  }
-  .c-formulier label {
-    display: block;
-    font-size: var(--ui);
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .c-formulier label span {
-    font-weight: 400;
-    color: var(--tekst-zacht);
-  }
-  .c-formulier input,
-  .c-formulier textarea {
-    display: block;
-    width: 100%;
-    margin-top: 0.4rem;
-    padding: 0.85rem 1rem;
-    border: 1.5px solid color-mix(in srgb, var(--navy) 55%, #fff);
-    border-radius: 10px;
-    background: #fff;
-    font: inherit;
-    font-size: 1.0625rem;
-    color: var(--navy);
-    transition: border-color 0.2s ease;
-  }
-  .c-formulier input:focus,
-  .c-formulier textarea:focus {
-    border-color: var(--sky-deep);
-    outline: none;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sky-deep) 22%, transparent);
-  }
-  .c-formulier textarea {
-    resize: vertical;
-  }
-  .c-formulier .knop {
-    margin-top: 0.4rem;
-  }
-  .c-melding:empty {
-    display: none;
-  }
-  .c-melding {
-    padding: 0.9rem 1rem;
-    border-radius: 10px;
-    background: #fff;
-    border: 1px solid color-mix(in srgb, var(--brown) 25%, transparent);
-    color: var(--navy);
-    font-size: var(--ui);
+  .c-kop p {
+    max-width: 30rem;
+    margin: 1.25rem auto 0;
   }
 
   .c-kaart {
-    padding: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
-    border-radius: 16px;
+    display: grid;
+    gap: 1.75rem;
+    width: min(100%, 36rem);
+    margin-top: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+    padding: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+    border-radius: 18px;
     background: #fff;
-    box-shadow: var(--schaduw-zweef);
+    box-shadow: 0 1px 2px rgba(0, 40, 58, 0.06), 0 30px 60px -34px rgba(0, 40, 58, 0.5);
+    text-align: left;
   }
   .c-kaart-kop {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--line);
+    gap: 1.1rem;
+  }
+  .c-kaart-kop :global(svg) {
+    flex-shrink: 0;
   }
   .c-naam {
     font-family: var(--font-kop);
-    font-size: 1.5rem;
-    line-height: 1.15;
+    font-size: 1.75rem;
+    line-height: 1.1;
     color: var(--navy);
   }
   .c-motto {
-    margin-top: 0.2rem;
-    font-size: var(--ui);
+    margin-top: 0.3rem;
+    font-size: var(--klein);
     color: var(--brown);
   }
-  .c-kaart dl {
+  .c-kaart-gegevens {
     display: grid;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .c-kaart dl div {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr;
-    gap: 1rem;
-  }
-  .c-kaart dt {
-    font-size: var(--ui);
-    font-weight: 700;
-    color: var(--tekst-zacht);
-  }
-  .c-kaart dd {
-    margin: 0;
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
     color: var(--navy);
   }
-  .c-kaart dd a {
-    color: var(--navy);
+  .c-kaart-gegevens address {
+    font-style: normal;
   }
-  .c-kaart dd .tekstlink {
+  .c-kaart-gegevens a:not(.tekstlink) {
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--navy) 25%, transparent);
+    text-underline-offset: 0.25em;
+  }
+  .c-kaart-gegevens a:not(.tekstlink):hover {
+    text-decoration-color: currentColor;
+  }
+  .c-kaart-gegevens .tekstlink {
     display: flex;
     width: fit-content;
-    margin-top: 0.4rem;
+    min-height: 2.5rem;
     font-size: var(--ui);
   }
   .c-reg {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-    font-size: var(--klein);
+    font-size: 0.8125rem;
     color: var(--tekst-zacht);
   }
 
-  .c-documenten {
+  .c-acties {
+    display: grid;
+    gap: 0.75rem;
+    width: min(100%, 22rem);
     margin-top: 2.5rem;
-  }
-  .c-documenten h3 {
-    font-size: var(--h4);
-  }
-  .c-documenten ul {
-    margin-top: 0.75rem;
     padding: 0;
     list-style: none;
   }
-  .c-documenten a {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--line);
-    color: var(--navy);
-    text-decoration: none;
-  }
-  .c-documenten a:hover span {
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-  }
-  .c-documenten :global(svg) {
-    color: var(--sky-deep);
-  }
-  .c-documenten small {
-    margin-left: auto;
-    font-size: var(--klein);
-    color: var(--tekst-zacht);
+  .c-acties .knop {
+    width: 100%;
   }
 
-  @media (min-width: 64rem) {
-    .c-raster {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      grid-template-areas:
-        'kaart kanalen'
-        'kaart formulier';
-      column-gap: clamp(3rem, 7vw, 7rem);
-      row-gap: 2.5rem;
-      align-items: start;
+  @media (min-width: 40rem) {
+    .c-kaart {
+      aspect-ratio: 1.7;
+      align-content: space-between;
     }
-    .c-kanalen {
-      grid-area: kanalen;
+    .c-kaart-gegevens {
+      grid-template-columns: 1fr 1fr;
     }
-    .c-formulier {
-      grid-area: formulier;
+    .c-acties {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: auto;
     }
-    .c-kaart-vak {
-      grid-area: kaart;
+    .c-acties .knop {
+      width: auto;
     }
   }
 </style>
-
-<script>
-  document.querySelectorAll<HTMLFormElement>('[data-concept-formulier]').forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.
-      e.preventDefault();
-      const melding = form.querySelector<HTMLElement>('[data-melding]')!;
-      melding.textContent = melding.dataset.tekst ?? '';
-    });
-  });
-</script>
