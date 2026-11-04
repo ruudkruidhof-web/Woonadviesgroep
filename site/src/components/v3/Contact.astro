@@ -50,8 +50,8 @@ const kanalen = [
           Je vraag <span>(niet verplicht)</span>
           <textarea name="bericht" rows="3"></textarea>
         </label>
-        <button type="submit" class="knop knop-vol">Plan de kennismaking</button>
-        <p class="c-melding" role="status" hidden>{teksten.concept_melding}</p>
+        <button type="submit" class="knop knop-vol">{teksten.contact.formulier_knop}</button>
+        <p class="c-melding" role="status" data-melding data-tekst={teksten.concept_melding}></p>
       </form>
 
       <div class="c-kaart-vak" data-onthul>
@@ -70,14 +70,6 @@ const kanalen = [
                 {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}
                 <a href={route} target="_blank" rel="noopener" class="tekstlink">Route plannen <Icoon naam="dak" maat={10} /></a>
               </dd>
-            </div>
-            <div>
-              <dt>Telefoon</dt>
-              <dd><a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a></dd>
-            </div>
-            <div>
-              <dt>E-mail</dt>
-              <dd><a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a></dd>
             </div>
           </dl>
           <p class="c-reg cijfer">KvK {bedrijf.kvk} · AFM {bedrijf.afm} · Kifid {bedrijf.kifid}</p>
@@ -120,11 +112,18 @@ const kanalen = [
     border-bottom: 1px solid var(--line);
     color: var(--navy);
     text-decoration: none;
-    transition: background-color 0.2s ease, padding 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 0.2s ease;
+  }
+  .c-kanalen a > span {
+    transition: translate 0.3s var(--uit);
   }
   .c-kanalen a:hover {
-    padding-inline: 0.75rem;
-    background: var(--sky-wash);
+    background: var(--wash-warm-licht);
+  }
+  @media (hover: hover) {
+    .c-kanalen a:hover > span {
+      translate: 0.5rem 0;
+    }
   }
   .c-icoon {
     display: grid;
@@ -133,8 +132,8 @@ const kanalen = [
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 50%;
-    background: var(--sky-wash);
-    color: var(--sky-deep);
+    background: var(--wash-warm);
+    color: var(--brown);
   }
   .c-kanalen a:hover .c-icoon {
     background: #fff;
@@ -148,11 +147,11 @@ const kanalen = [
     font-size: 1.0625rem;
   }
   .c-kanaal span {
-    font-size: 0.95rem;
+    font-size: var(--ui);
     color: var(--tekst-zacht);
   }
   .c-kanalen :global(.dak) {
-    color: var(--sky-deep);
+    color: var(--brown);
   }
   .c-kanalen a:hover :global(.dak) {
     translate: 0.2em 0;
@@ -163,10 +162,10 @@ const kanalen = [
     gap: 1.1rem;
     padding: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
     border-radius: var(--radius);
-    background: var(--sky-wash);
+    background: var(--wash-warm);
   }
   .c-formulier h3 {
-    font-size: 1.625rem;
+    font-size: var(--h3);
   }
   .c-intro {
     margin-top: -0.6rem;
@@ -174,7 +173,7 @@ const kanalen = [
   }
   .c-formulier label {
     display: block;
-    font-size: 0.95rem;
+    font-size: var(--ui);
     font-weight: 700;
     color: var(--navy);
   }
@@ -188,7 +187,7 @@ const kanalen = [
     width: 100%;
     margin-top: 0.4rem;
     padding: 0.85rem 1rem;
-    border: 1.5px solid color-mix(in srgb, var(--navy) 16%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--navy) 55%, #fff);
     border-radius: 10px;
     background: #fff;
     font: inherit;
@@ -208,12 +207,15 @@ const kanalen = [
   .c-formulier .knop {
     margin-top: 0.4rem;
   }
+  .c-melding:empty {
+    display: none;
+  }
   .c-melding {
     padding: 0.9rem 1rem;
     border-radius: 10px;
     background: #fff;
     border-left: 3px solid var(--brown);
-    font-size: 0.95rem;
+    font-size: var(--ui);
   }
 
   .c-kaart {
@@ -237,7 +239,7 @@ const kanalen = [
   }
   .c-motto {
     margin-top: 0.2rem;
-    font-size: 0.9rem;
+    font-size: var(--ui);
     color: var(--brown);
   }
   .c-kaart dl {
@@ -251,7 +253,7 @@ const kanalen = [
     gap: 1rem;
   }
   .c-kaart dt {
-    font-size: 0.9rem;
+    font-size: var(--ui);
     font-weight: 700;
     color: var(--tekst-zacht);
   }
@@ -266,13 +268,13 @@ const kanalen = [
     display: flex;
     width: fit-content;
     margin-top: 0.4rem;
-    font-size: 0.9rem;
+    font-size: var(--ui);
   }
   .c-reg {
     margin-top: 1.5rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--line);
-    font-size: 0.85rem;
+    font-size: var(--klein);
     color: var(--tekst-zacht);
   }
 
@@ -280,7 +282,7 @@ const kanalen = [
     margin-top: 2.5rem;
   }
   .c-documenten h3 {
-    font-size: 1.25rem;
+    font-size: var(--h4);
   }
   .c-documenten ul {
     margin-top: 0.75rem;
@@ -305,7 +307,7 @@ const kanalen = [
   }
   .c-documenten small {
     margin-left: auto;
-    font-size: 0.8rem;
+    font-size: var(--klein);
     color: var(--tekst-zacht);
   }
 
@@ -336,7 +338,8 @@ const kanalen = [
     form.addEventListener('submit', (e) => {
       // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.
       e.preventDefault();
-      form.querySelector<HTMLElement>('.c-melding, [data-melding]')!.hidden = false;
+      const melding = form.querySelector<HTMLElement>('[data-melding]')!;
+      melding.textContent = melding.dataset.tekst ?? '';
     });
   });
 </script>

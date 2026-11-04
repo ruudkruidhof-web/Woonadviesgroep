@@ -44,7 +44,7 @@ import bedrijf from '../../content/bedrijf.json';
     padding: clamp(4rem, 3rem + 4vw, 6rem) 0 6rem;
     background: #002c40;
     color: #bcd2e1;
-    font-size: 0.95rem;
+    font-size: var(--ui);
   }
   .voet-raster {
     display: grid;
@@ -69,7 +69,7 @@ import bedrijf from '../../content/bedrijf.json';
   }
   .voet h2 {
     font-family: var(--font-tekst);
-    font-size: 0.95rem;
+    font-size: var(--ui);
     font-weight: 700;
     color: #fff;
   }
@@ -82,12 +82,17 @@ import bedrijf from '../../content/bedrijf.json';
   .voet-raster h2 + p {
     margin-top: 0.9rem;
   }
-  .voet-raster li + li {
-    margin-top: 0.4rem;
+  .voet-raster ul,
+  .voet address,
+  .voet-raster h2 + p {
+    line-height: 1.85;
+  }
+  .voet-raster li a {
+    display: inline-block;
+    padding-block: 0.3rem;
   }
   .voet address {
     font-style: normal;
-    line-height: 1.75;
   }
   .voet a {
     color: #bcd2e1;
@@ -106,7 +111,7 @@ import bedrijf from '../../content/bedrijf.json';
     margin-top: 3.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.14);
-    font-size: 0.875rem;
+    font-size: var(--klein);
   }
   .voet-onder ul {
     display: flex;

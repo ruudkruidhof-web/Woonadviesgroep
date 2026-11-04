@@ -95,7 +95,7 @@ const links = [
   .kop[data-gescrold] {
     border-bottom-color: var(--line);
   }
-  .kop[data-verborgen] {
+  .kop[data-verborgen]:not(:focus-within) {
     translate: 0 -100%;
   }
   .kop-balk {
@@ -133,7 +133,7 @@ const links = [
     border-radius: 999px;
     background: none;
     font: inherit;
-    font-size: 0.98rem;
+    font-size: var(--ui);
     font-weight: 600;
     color: var(--navy);
     text-decoration: none;
@@ -210,7 +210,7 @@ const links = [
   .kop-paneel-tekst {
     display: block;
     margin-top: 0.3rem;
-    font-size: 0.875rem;
+    font-size: var(--klein);
     line-height: 1.5;
     color: var(--tekst-zacht);
   }
@@ -293,7 +293,7 @@ const links = [
     margin-top: 1.5rem;
   }
   .kop-menu-groep {
-    font-size: 0.875rem;
+    font-size: var(--klein);
     font-weight: 700;
     color: var(--tekst-zacht);
   }
@@ -334,7 +334,7 @@ const links = [
       display: inline-flex;
       min-height: 2.75rem;
       padding: 0.5rem 1.15rem;
-      font-size: 0.95rem;
+      font-size: var(--ui);
     }
     .kop-menuknop {
       display: none;
@@ -343,6 +343,12 @@ const links = [
 
   :global(html:has(#kop-menu:popover-open)) {
     overflow: hidden;
+  }
+
+  @supports not (overlay: auto) {
+    .kop-menu {
+      transition: opacity 0.3s ease, translate 0.35s var(--uit);
+    }
   }
 </style>
 
@@ -394,6 +400,12 @@ const links = [
     });
   });
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.hidePopover()));
+  menu.addEventListener('toggle', (e) => {
+    const open = (e as ToggleEvent).newState === 'open';
+    const achter = [kop.querySelector('.kop-balk'), ...document.querySelectorAll('body > :not(.kop, script, dialog)')];
+    achter.forEach((el) => el?.toggleAttribute('inert', open));
+    if (open) menu.querySelector('a')?.focus();
+  });
 
   let vorige = scrollY;
   let bezig = false;
@@ -401,7 +413,7 @@ const links = [
     const y = scrollY;
     const open = sub.hasAttribute('data-open') || menu.matches(':popover-open');
     kop.toggleAttribute('data-gescrold', y > 8);
-    if (!open && y > 320 && y > vorige + 4) kop.setAttribute('data-verborgen', '');
+    if (!open && !kop.contains(document.activeElement) && y > 320 && y > vorige + 4) kop.setAttribute('data-verborgen', '');
     else if (y < vorige - 4 || y <= 320) kop.removeAttribute('data-verborgen');
     vorige = y;
     bezig = false;

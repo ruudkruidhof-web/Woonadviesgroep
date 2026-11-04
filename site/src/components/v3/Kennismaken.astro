@@ -34,8 +34,8 @@ import bedrijf from '../../content/bedrijf.json';
       Je vraag <span>(niet verplicht)</span>
       <textarea name="bericht" rows="3"></textarea>
     </label>
-    <button type="submit" class="knop knop-vol">Plan de kennismaking</button>
-    <p class="km-melding" role="status" data-melding hidden>{teksten.concept_melding}</p>
+    <button type="submit" class="knop knop-vol">{teksten.contact.formulier_knop}</button>
+    <p class="km-melding" role="status" data-melding data-tekst={teksten.concept_melding}></p>
     <p class="km-direct">
       Liever direct iemand spreken?{' '}
       <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">Bel {bedrijf.telefoon}</a>
@@ -114,7 +114,7 @@ import bedrijf from '../../content/bedrijf.json';
   }
   .km label {
     display: block;
-    font-size: 0.95rem;
+    font-size: var(--ui);
     font-weight: 700;
     color: var(--navy);
   }
@@ -129,12 +129,17 @@ import bedrijf from '../../content/bedrijf.json';
     width: 100%;
     margin-top: 0.4rem;
     padding: 0.8rem 1rem;
-    border: 1.5px solid color-mix(in srgb, var(--navy) 16%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--navy) 55%, #fff);
     border-radius: 10px;
     background: #fff;
     font: inherit;
     font-size: 1.0625rem;
     color: var(--navy);
+  }
+  .km select {
+    appearance: none;
+    padding-right: 2.75rem;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 4 6 8.5 10.5 4' fill='none' stroke='%23003850' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 1rem center / 0.75rem;
   }
   .km input:focus,
   .km select:focus,
@@ -143,20 +148,24 @@ import bedrijf from '../../content/bedrijf.json';
     outline: none;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--sky-deep) 22%, transparent);
   }
+  .km-melding:empty {
+    display: none;
+  }
   .km-melding {
     padding: 0.9rem 1rem;
     border-radius: 10px;
     background: var(--wash-warm-licht);
     border-left: 3px solid var(--brown);
-    font-size: 0.95rem;
+    font-size: var(--ui);
   }
   .km-direct {
-    font-size: 0.95rem;
+    font-size: var(--ui);
     color: var(--tekst-zacht);
   }
   .km-direct a {
     color: var(--navy);
     font-weight: 700;
+    white-space: nowrap;
   }
 
   @media (min-width: 48rem) {
@@ -190,6 +199,15 @@ import bedrijf from '../../content/bedrijf.json';
       padding: 2.75rem 2.5rem 2.25rem;
     }
   }
+
+  @supports not (overlay: auto) {
+    .km {
+      transition: opacity 0.3s ease, translate 0.35s var(--uit);
+    }
+    .km::backdrop {
+      transition: background-color 0.3s ease;
+    }
+  }
 </style>
 
 <script>
@@ -200,7 +218,7 @@ import bedrijf from '../../content/bedrijf.json';
   document.querySelectorAll<HTMLElement>('[data-plan-open]').forEach((knop) => {
     knop.addEventListener('click', (e) => {
       e.preventDefault();
-      melding.hidden = true;
+      melding.textContent = '';
       onderwerp.value = knop.dataset.onderwerp ?? 'Kennismaking';
       dialoog.showModal();
       dialoog.querySelector('input')!.focus();

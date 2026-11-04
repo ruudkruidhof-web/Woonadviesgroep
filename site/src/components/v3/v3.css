@@ -1,13 +1,18 @@
 [data-thema='v3'] {
-  --tekst-zacht: #5f7684;
+  --tekst-zacht: #536a78;
   --sectie: clamp(5.5rem, 3rem + 8vw, 10rem);
   --display: clamp(2.75rem, 2rem + 3.6vw, 5rem);
   --h2: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
   --h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
   --lead: clamp(1.1875rem, 1.1rem + 0.35vw, 1.3125rem);
   --schaduw-zweef: 0 1px 2px rgba(0, 40, 58, 0.06), 0 18px 40px -22px rgba(0, 40, 58, 0.35);
+  --h4: 1.25rem;
+  --ui: 0.9375rem;
+  --klein: 0.875rem;
   --kop-hoogte: 4.75rem;
-  scroll-padding-top: 1.5rem;
+  --uit: cubic-bezier(0.22, 1, 0.36, 1);
+  --onthul: cubic-bezier(0.33, 1, 0.68, 1);
+  scroll-padding-top: calc(var(--kop-hoogte) + 1rem);
 }
 
 [data-thema='v3'] body {
@@ -53,6 +58,7 @@
 .tekstlink {
   display: inline-flex;
   align-items: center;
+  min-height: 2.75rem;
   gap: 0.5rem;
   color: var(--navy);
   font-weight: 700;
@@ -110,4 +116,44 @@
 
 :where([data-thema='v3']) button {
   font-family: inherit;
+}
+
+[data-thema='v3'] :is(li, dd, figcaption) {
+  text-wrap: pretty;
+}
+
+.werkwijze :focus-visible,
+.voet :focus-visible,
+.actiebalk :focus-visible {
+  outline-color: var(--sky);
+}
+
+@media (max-width: 47.99rem) {
+  :is(.hero-acties, .w-acties, .d-acties, .volgt-acties) .knop {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .heeft-js:not(.beweging-uit) :is([data-regels], [data-onthul], [data-hh-merk], [data-hh-kant], .w-stap > :not(.w-punt, .w-zegel)) {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kop-paneel,
+  .kop-menu,
+  .km,
+  .d-paneel,
+  .d-paneel-inhoud,
+  .c-kanalen a > span {
+    translate: none !important;
+  }
+  .kop,
+  .actiebalk {
+    transition-property: border-color, visibility !important;
+  }
+  .knop:hover {
+    transform: none !important;
+  }
 }

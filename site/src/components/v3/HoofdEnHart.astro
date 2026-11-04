@@ -47,9 +47,9 @@ const t = teksten.hoofdhart;
       var(--paper);
   }
   .hh-kop h2 {
-    font-size: var(--display);
-    line-height: 1.04;
-    max-width: 15ch;
+    font-size: clamp(2.5rem, 1.9rem + 2.8vw, 4.25rem);
+    line-height: 1.06;
+    max-width: 20ch;
   }
   .hh-kop p {
     max-width: 36rem;
@@ -58,7 +58,7 @@ const t = teksten.hoofdhart;
   .hh-raster {
     display: grid;
     gap: 3rem;
-    margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    margin-top: clamp(3rem, 2.5rem + 2vw, 4rem);
   }
   .hh-midden {
     display: flex;
@@ -88,7 +88,7 @@ const t = teksten.hoofdhart;
   }
   .hh-kant h3 span {
     font-family: var(--font-tekst);
-    font-size: 0.9rem;
+    font-size: var(--ui);
     font-weight: 600;
     color: var(--tekst-zacht);
   }
@@ -132,12 +132,13 @@ const t = teksten.hoofdhart;
     }
     .hh-midden {
       order: 0;
-      align-self: center;
+      align-items: flex-start;
     }
     .hh-lijn {
       display: block;
       width: clamp(2rem, 4vw, 4rem);
       height: 2px;
+      margin-top: calc(var(--h3) * 1.2 + 0.25rem + var(--ui) * 1.2 + 1.25rem);
     }
     .hh-lijn-hoofd {
       background: var(--sky-deep);

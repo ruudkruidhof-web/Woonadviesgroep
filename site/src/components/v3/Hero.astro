@@ -29,7 +29,7 @@ const t = teksten.hero;
           <a href={reviews.google_url} target="_blank" rel="noopener">
             <span class="hero-getal cijfer">
               {reviews.score}
-              <span class="hero-sterren" aria-label="5 van de 5 sterren">
+              <span class="hero-sterren" role="img" aria-label="5 van de 5 sterren">
                 {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={12} />)}
               </span>
             </span>
@@ -120,7 +120,7 @@ const t = teksten.hero;
   }
   .hero-getal {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.5rem;
     font-family: var(--font-kop);
     font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
@@ -128,6 +128,7 @@ const t = teksten.hero;
     color: var(--navy);
   }
   .hero-getal small {
+    margin-left: -0.4rem;
     font-size: 0.55em;
     color: var(--tekst-zacht);
   }
@@ -136,7 +137,7 @@ const t = teksten.hero;
     align-items: center;
     gap: 0.4rem;
     margin-top: 0.35rem;
-    font-size: 0.85rem;
+    font-size: var(--klein);
     line-height: 1.35;
     color: var(--sky-deep);
   }
@@ -145,6 +146,7 @@ const t = teksten.hero;
     text-underline-offset: 0.25em;
   }
   .hero-sterren {
+    align-self: center;
     display: inline-flex;
     gap: 1px;
     color: #e2a72e;
@@ -187,7 +189,7 @@ const t = teksten.hero;
     color: var(--navy);
   }
   .hero-naam strong + span {
-    font-size: 0.85rem;
+    font-size: var(--klein);
     color: var(--tekst-zacht);
   }
 
@@ -212,27 +214,33 @@ const t = teksten.hero;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .hero-tekst > *,
-    .hero-foto,
+    .hero h1 span,
+    .hero-lead,
+    .hero-acties,
+    .hero-bewijs,
     .hero-naam {
-      animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: hero-in 0.7s var(--onthul) both;
+    }
+    .hero h1 span:nth-child(2) {
+      animation-delay: 0.06s;
+    }
+    .hero h1 span:nth-child(3) {
+      animation-delay: 0.12s;
     }
     .hero-lead {
-      animation-delay: 0.08s;
+      animation-delay: 0.18s;
     }
     .hero-acties {
-      animation-delay: 0.16s;
-    }
-    .hero-bewijs {
       animation-delay: 0.24s;
     }
+    .hero-bewijs {
+      animation-delay: 0.3s;
+    }
     .hero-foto {
-      animation-name: hero-foto-in;
-      animation-duration: 1.1s;
-      animation-delay: 0.1s;
+      animation: hero-foto-in 0.9s var(--onthul) 0.1s both;
     }
     .hero-naam {
-      animation-delay: 0.55s;
+      animation-delay: 0.5s;
     }
   }
 

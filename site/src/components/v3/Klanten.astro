@@ -20,7 +20,7 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
           </dt>
           <dd>
             <span class="k-getal cijfer">{reviews.score}</span>
-            <span class="k-sterren" aria-label="5 van de 5 sterren">
+            <span class="k-sterren" role="img" aria-label="5 van de 5 sterren">
               {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={14} />)}
             </span>
           </dd>
@@ -64,6 +64,7 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
         ))}
       </ul>
     </div>
+    <button type="button" class="k-pauze" aria-pressed="false" data-pauze>Pauzeer de reviews</button>
   </div>
 </section>
 
@@ -94,9 +95,12 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.95rem;
+    font-size: var(--ui);
   }
   .k-score a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
     color: var(--sky-deep);
     font-weight: 600;
     text-underline-offset: 0.25em;
@@ -109,7 +113,7 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
   }
   .k-getal {
     font-family: var(--font-kop);
-    font-size: 3.25rem;
+    font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.625rem);
     line-height: 1;
     color: var(--navy);
   }
@@ -139,8 +143,8 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
   }
   .k-uitgelicht blockquote p {
     font-family: var(--font-kop);
-    font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.25rem);
-    line-height: 1.28;
+    font-size: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
+    line-height: 1.32;
     color: var(--navy);
     text-wrap: pretty;
   }
@@ -156,32 +160,22 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
     color: var(--navy);
   }
   .k-uitgelicht figcaption span {
-    font-size: 0.9rem;
+    font-size: var(--ui);
     color: var(--tekst-zacht);
   }
 
-  .k-stroom {
-    margin-inline: calc((100vw - var(--maat)) / -2);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
   .k-band {
-    display: flex;
-    gap: 1rem;
-    padding: 0.25rem calc((100vw - var(--maat)) / 2) 0.5rem;
+    padding: 0;
     list-style: none;
   }
   .k-kaart {
-    flex: 0 0 min(78vw, 20rem);
-    scroll-snap-align: center;
-    padding: 1.4rem 1.4rem 1.25rem;
-    border-radius: 12px;
-    background: #fff;
-    font-size: 0.95rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
+    font-size: var(--ui);
     line-height: 1.6;
   }
-  .k-kaart[aria-hidden='true'] {
+  .k-kaart[aria-hidden='true'],
+  .k-kaart:nth-child(n + 4) {
     display: none;
   }
   .k-kaart p:not(.k-wie) {
@@ -192,7 +186,7 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
     flex-wrap: wrap;
     gap: 0.1rem 0.5rem;
     margin-top: 0.9rem;
-    font-size: 0.85rem;
+    font-size: var(--klein);
   }
   .k-wie strong {
     color: var(--navy);
@@ -214,25 +208,57 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
       overflow: hidden;
       mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
     }
-    .k-band {
-      flex-direction: column;
-      padding: 0;
-    }
-    .k-kaart {
-      flex: none;
-    }
+    .k-kaart:nth-child(n + 4),
     .k-kaart[aria-hidden='true'] {
       display: block;
     }
   }
 
-  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .k-pauze {
+    display: none;
+  }
+
+  @media (min-width: 64rem) and ((hover: none) or (prefers-reduced-motion: reduce)) {
+    .k-stroom {
+      height: auto;
+      mask-image: none;
+    }
+    .k-kaart:nth-child(n + 4),
+    .k-kaart[aria-hidden='true'] {
+      display: none;
+    }
+  }
+
+  @media (min-width: 64rem) and (hover: hover) and (prefers-reduced-motion: no-preference) {
     .k-band {
       animation: stroom 80s linear infinite;
     }
     .k-stroom:hover .k-band,
-    .k-stroom:focus-within .k-band {
+    .k-stroom:focus-within .k-band,
+    .k-raster[data-gepauzeerd] .k-band {
       animation-play-state: paused;
+    }
+    .k-raster {
+      grid-template-rows: auto auto;
+    }
+    .k-pauze {
+      grid-column: 3;
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      margin-top: -1.5rem;
+      padding: 0 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: none;
+      font-size: var(--klein);
+      font-weight: 700;
+      color: var(--brown);
+      cursor: pointer;
+    }
+    .k-pauze:hover {
+      background: color-mix(in srgb, var(--brown) 8%, transparent);
     }
   }
 
@@ -242,3 +268,14 @@ const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
     }
   }
 </style>
+
+<script>
+  const knop = document.querySelector<HTMLButtonElement>('[data-pauze]');
+  knop?.addEventListener('click', () => {
+    const raster = knop.closest<HTMLElement>('.k-raster')!;
+    const pauze = !raster.hasAttribute('data-gepauzeerd');
+    raster.toggleAttribute('data-gepauzeerd', pauze);
+    knop.setAttribute('aria-pressed', String(pauze));
+    knop.textContent = pauze ? 'Speel de reviews af' : 'Pauzeer de reviews';
+  });
+</script>

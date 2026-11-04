@@ -82,7 +82,7 @@ const t = teksten.diensten;
     border: 0;
     background: none;
     font-family: var(--font-kop);
-    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+    font-size: clamp(1.75rem, 1.4rem + 0.8vw, 2.25rem);
     font-weight: 500;
     line-height: 1.15;
     color: var(--tekst-zacht);
@@ -97,14 +97,23 @@ const t = teksten.diensten;
   .d-kop :global(.dak) {
     width: 0.45em;
     height: 0.45em;
+    margin-right: calc(-0.45em - 0.75rem);
     color: var(--sky-deep);
     opacity: 0;
-    margin-right: calc(-0.45em - 0.75rem);
-    transition: opacity 0.25s ease, margin 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    translate: -0.3em 0;
+    transition: opacity 0.25s ease, translate 0.3s var(--uit);
   }
-  .d-kop button[aria-expanded='true'] :global(.dak) {
-    opacity: 1;
-    margin-right: 0;
+  .d-kop button > span {
+    transition: translate 0.3s var(--uit);
+  }
+  @media (min-width: 64rem) {
+    .d-kop button[aria-expanded='true'] :global(.dak) {
+      opacity: 1;
+      translate: 0 0;
+    }
+    .d-kop button[aria-expanded='true'] > span {
+      translate: calc(0.45em + 0.75rem) 0;
+    }
   }
   :global(.d-pijl) {
     margin-left: auto;
@@ -127,7 +136,7 @@ const t = teksten.diensten;
   }
   .d-label {
     margin-top: 1.75rem;
-    font-size: 0.9rem;
+    font-size: var(--ui);
     font-weight: 700;
     color: var(--tekst-zacht);
   }
@@ -186,20 +195,20 @@ const t = teksten.diensten;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      transition: opacity 0.45s ease, translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    @starting-style {
-      .d-paneel {
-        opacity: 0;
-        translate: 0 10px;
-      }
     }
     .d-paneel-inhoud {
       padding: clamp(2rem, 1.5rem + 2vw, 3rem);
+      transition: opacity 0.2s ease, translate 0.3s var(--uit);
+    }
+    @starting-style {
+      .d-paneel-inhoud {
+        opacity: 0;
+        translate: 0 6px;
+      }
     }
     .d-tekst {
-      font-size: var(--lead);
-      line-height: 1.55;
+      font-size: 1.125rem;
+      line-height: 1.65;
       color: var(--navy-soft);
     }
   }
@@ -218,30 +227,30 @@ const t = teksten.diensten;
   const sluit = (k: HTMLButtonElement, animeer: boolean) => {
     const paneel = paneelVan(k);
     k.setAttribute('aria-expanded', 'false');
-    if (!animeer) {
+    gsap.killTweensOf(paneel);
+    const klaar = () => {
       paneel.hidden = true;
-      return;
-    }
-    gsap.to(paneel, {
-      height: 0,
-      opacity: 0,
-      duration: 0.35,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        paneel.hidden = true;
-        gsap.set(paneel, { clearProps: 'height,opacity' });
-      },
-    });
+      gsap.set(paneel, { clearProps: 'height,opacity' });
+    };
+    if (!animeer) return klaar();
+    gsap.to(paneel, { height: 0, opacity: 0, duration: 0.35, ease: 'power2.inOut', onComplete: klaar });
   };
 
   const open = (k: HTMLButtonElement) => {
     const animeer = !breed.matches && !rustig.matches;
-    knoppen.filter((a) => a !== k && a.getAttribute('aria-expanded') === 'true').forEach((a) => sluit(a, animeer));
+    const y0 = k.getBoundingClientRect().top;
+    knoppen
+      .filter((a) => a !== k && a.getAttribute('aria-expanded') === 'true')
+      .forEach((a) => sluit(a, animeer && !(a.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING)));
+    if (animeer) scrollBy({ top: k.getBoundingClientRect().top - y0, behavior: 'instant' });
     const paneel = paneelVan(k);
+    gsap.killTweensOf(paneel);
+    const hoogte = paneel.hidden ? 0 : paneel.offsetHeight;
+    const dekking = paneel.hidden ? 0 : Number(gsap.getProperty(paneel, 'opacity'));
     k.setAttribute('aria-expanded', 'true');
     paneel.hidden = false;
     if (animeer) {
-      gsap.fromTo(paneel, { height: 0, opacity: 0 }, { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(paneel, { clearProps: 'height,opacity' }) });
+      gsap.fromTo(paneel, { height: hoogte, opacity: dekking }, { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(paneel, { clearProps: 'height,opacity' }) });
     }
   };
 
