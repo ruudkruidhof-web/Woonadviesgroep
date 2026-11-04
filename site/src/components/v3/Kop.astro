@@ -1,0 +1,415 @@
+---
+import Icoon from './Icoon.astro';
+import diensten from '../../content/v3-diensten.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const links = [
+  { href: '/v3#werkwijze', label: 'Werkwijze en kosten' },
+  { href: '/v3/volgt-na-opdracht', label: 'Over ons' },
+  { href: '/v3#contact', label: 'Contact' },
+];
+---
+<header class="kop" data-kop>
+  <div class="maat kop-balk">
+    <a href="/v3" class="kop-logo" aria-label="WoonAdvies Groep, naar home">
+      <img src="/logo.webp" alt="WoonAdvies Groep" width="150" height="43" />
+    </a>
+
+    <nav class="kop-nav" aria-label="Hoofdmenu">
+      <ul>
+        <li class="kop-sub" data-sub>
+          <button type="button" aria-expanded="false" aria-controls="kop-diensten">
+            Diensten
+            <Icoon naam="omlaag" maat={11} />
+          </button>
+          <div id="kop-diensten" class="kop-paneel">
+            <ul>
+              {diensten.map((d) => (
+                <li>
+                  <a href={`/v3#diensten`} data-kies-dienst={d.id}>
+                    <span class="kop-paneel-titel">
+                      {d.titel}
+                      <Icoon naam="dak" maat={10} />
+                    </span>
+                    <span class="kop-paneel-tekst">{d.situaties.join(' · ')}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn kop-bel">
+      <Icoon naam="bel" maat={15} />
+      <span class="cijfer">{bedrijf.telefoon}</span>
+    </a>
+
+    <button type="button" class="kop-menuknop" popovertarget="kop-menu" aria-label="Menu openen">
+      <span aria-hidden="true"></span>
+      Menu
+    </button>
+  </div>
+
+  <div id="kop-menu" class="kop-menu" popover>
+    <div class="kop-menu-balk">
+      <img src="/logo.webp" alt="WoonAdvies Groep" width="132" height="38" />
+      <button type="button" class="kop-menu-sluit" popovertarget="kop-menu" popovertargetaction="hide" aria-label="Menu sluiten">
+        <Icoon naam="sluit" maat={14} />
+      </button>
+    </div>
+    <nav aria-label="Menu">
+      <p class="kop-menu-groep">Diensten</p>
+      <ul class="kop-menu-diensten">
+        {diensten.map((d) => <li><a href="/v3#diensten" data-kies-dienst={d.id}>{d.titel}</a></li>)}
+      </ul>
+      <ul class="kop-menu-links">
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="kop-menu-acties">
+      <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-vol">
+        <Icoon naam="bel" maat={15} />
+        Bel <span class="cijfer">{bedrijf.telefoon}</span>
+      </a>
+      <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn">
+        <Icoon naam="whatsapp" maat={16} />
+        Stuur een WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .kop {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+  }
+  .kop[data-gescrold] {
+    border-bottom-color: var(--line);
+  }
+  .kop[data-verborgen] {
+    translate: 0 -100%;
+  }
+  .kop-balk {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    min-height: var(--kop-hoogte);
+  }
+  .kop-logo {
+    display: inline-flex;
+    margin-right: auto;
+  }
+  .kop-logo img {
+    width: 150px;
+    height: auto;
+  }
+  .kop-nav,
+  .kop-bel {
+    display: none;
+  }
+  .kop-nav > ul {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+  }
+  .kop-nav > ul > li > a,
+  .kop-sub > button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.85rem;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .kop-nav > ul > li > a:hover,
+  .kop-sub > button:hover,
+  .kop-sub > button[aria-expanded='true'] {
+    background: var(--sky-wash);
+  }
+  .kop-sub {
+    position: relative;
+  }
+  .kop-sub > button :global(svg) {
+    transition: rotate 0.25s ease;
+  }
+  .kop-sub > button[aria-expanded='true'] :global(svg) {
+    rotate: 180deg;
+  }
+  .kop-paneel {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: -1rem;
+    width: min(40rem, 80vw);
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--schaduw-zweef);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -6px;
+    transition: opacity 0.2s ease, translate 0.25s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.25s;
+  }
+  .kop-sub[data-open] .kop-paneel {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition-delay: 0s;
+  }
+  .kop-paneel ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+  }
+  .kop-paneel a {
+    display: block;
+    padding: 1rem 1.1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .kop-paneel a:hover,
+  .kop-paneel a:focus-visible {
+    background: var(--sky-wash);
+  }
+  .kop-paneel-titel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    color: var(--navy);
+  }
+  .kop-paneel-titel :global(.dak) {
+    color: var(--sky-deep);
+  }
+  .kop-paneel a:hover :global(.dak) {
+    translate: 0.2em 0;
+  }
+  .kop-paneel-tekst {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--tekst-zacht);
+  }
+  .kop-menuknop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border: 1.5px solid color-mix(in srgb, var(--navy) 22%, transparent);
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+  }
+  .kop-menuknop span,
+  .kop-menuknop span::before {
+    display: block;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+  .kop-menuknop span {
+    position: relative;
+    translate: 0 -3px;
+  }
+  .kop-menuknop span::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+  }
+
+  .kop-menu {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0 1.25rem 1.5rem;
+    border: 0;
+    background: var(--paper);
+    flex-direction: column;
+    opacity: 0;
+    translate: 0 -12px;
+    transition: opacity 0.3s ease, translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), display 0.35s allow-discrete, overlay 0.35s allow-discrete;
+  }
+  .kop-menu:popover-open {
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+  }
+  @starting-style {
+    .kop-menu:popover-open {
+      opacity: 0;
+      translate: 0 -12px;
+    }
+  }
+  .kop-menu-balk {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--kop-hoogte);
+  }
+  .kop-menu-sluit {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1.5px solid color-mix(in srgb, var(--navy) 22%, transparent);
+    border-radius: 50%;
+    background: none;
+    color: var(--navy);
+    cursor: pointer;
+  }
+  .kop-menu nav {
+    margin-top: 1.5rem;
+  }
+  .kop-menu-groep {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--tekst-zacht);
+  }
+  .kop-menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  .kop-menu-diensten {
+    margin-top: 0.4rem;
+    padding-bottom: 1rem !important;
+    border-bottom: 1px solid var(--line);
+  }
+  .kop-menu-diensten a,
+  .kop-menu-links a {
+    display: block;
+    padding: 0.45rem 0;
+    font-family: var(--font-kop);
+    font-size: 1.625rem;
+    line-height: 1.25;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .kop-menu-links {
+    margin-top: 1rem;
+  }
+  .kop-menu-acties {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .kop-nav {
+      display: block;
+    }
+    .kop-bel {
+      display: inline-flex;
+      min-height: 2.75rem;
+      padding: 0.5rem 1.15rem;
+      font-size: 0.95rem;
+    }
+    .kop-menuknop {
+      display: none;
+    }
+  }
+
+  :global(html:has(#kop-menu:popover-open)) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const kop = document.querySelector<HTMLElement>('[data-kop]')!;
+  const sub = kop.querySelector<HTMLElement>('[data-sub]')!;
+  const subKnop = sub.querySelector('button')!;
+  const menu = document.getElementById('kop-menu')!;
+  let sluitTimer = 0;
+
+  const zetSub = (open: boolean) => {
+    clearTimeout(sluitTimer);
+    sub.toggleAttribute('data-open', open);
+    subKnop.setAttribute('aria-expanded', String(open));
+  };
+
+  let doorHover = false;
+  subKnop.addEventListener('click', () => {
+    const open = sub.hasAttribute('data-open');
+    zetSub(doorHover ? true : !open);
+    doorHover = false;
+  });
+  if (matchMedia('(hover: hover)').matches) {
+    sub.addEventListener('mouseenter', () => {
+      doorHover = !sub.hasAttribute('data-open');
+      zetSub(true);
+    });
+    sub.addEventListener('mouseleave', () => {
+      sluitTimer = window.setTimeout(() => zetSub(false), 160);
+    });
+  }
+  sub.addEventListener('focusout', (e) => {
+    if (!sub.contains(e.relatedTarget as Node)) zetSub(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sub.hasAttribute('data-open')) {
+      zetSub(false);
+      subKnop.focus();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!sub.contains(e.target as Node)) zetSub(false);
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-kies-dienst]').forEach((a) => {
+    a.addEventListener('click', () => {
+      document.dispatchEvent(new CustomEvent('kies-dienst', { detail: a.dataset.kiesDienst }));
+      zetSub(false);
+    });
+  });
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.hidePopover()));
+
+  let vorige = scrollY;
+  let bezig = false;
+  const opScroll = () => {
+    const y = scrollY;
+    const open = sub.hasAttribute('data-open') || menu.matches(':popover-open');
+    kop.toggleAttribute('data-gescrold', y > 8);
+    if (!open && y > 320 && y > vorige + 4) kop.setAttribute('data-verborgen', '');
+    else if (y < vorige - 4 || y <= 320) kop.removeAttribute('data-verborgen');
+    vorige = y;
+    bezig = false;
+  };
+  addEventListener('scroll', () => {
+    if (!bezig) {
+      bezig = true;
+      requestAnimationFrame(opScroll);
+    }
+  }, { passive: true });
+</script>

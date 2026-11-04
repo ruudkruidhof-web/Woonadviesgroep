@@ -1,0 +1,251 @@
+---
+import Icoon from './Icoon.astro';
+import Merk from '../Merk.astro';
+import teksten from '../../content/teksten/v3.json';
+import bedrijf from '../../content/bedrijf.json';
+import reviews from '../../content/reviews.json';
+
+const t = teksten.hero;
+---
+<section class="hero" aria-labelledby="hero-titel">
+  <div class="maat hero-raster">
+    <div class="hero-tekst">
+      <h1 id="hero-titel">
+        {t.titel_regels.map((r) => <span>{r}</span>)}
+      </h1>
+      <p class="lead hero-lead">{t.lead}</p>
+      <div class="hero-acties">
+        <button type="button" class="knop knop-vol" data-plan-open>
+          {t.knop}
+          <Icoon naam="dak" maat={12} />
+        </button>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+          <Icoon naam="bel" maat={15} />
+          <span>Bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+        </a>
+      </div>
+      <ul class="hero-bewijs">
+        <li>
+          <a href={reviews.google_url} target="_blank" rel="noopener">
+            <span class="hero-getal cijfer">
+              {reviews.score}
+              <span class="hero-sterren" aria-label="5 van de 5 sterren">
+                {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={12} />)}
+              </span>
+            </span>
+            <span class="hero-label"><Icoon naam="google" maat={14} />{reviews.aantal} reviews op Google</span>
+          </a>
+        </li>
+        <li>
+          <a href={reviews.advieskeuze_url} target="_blank" rel="noopener">
+            <span class="hero-getal cijfer">{reviews.advieskeuze_score}<small>/10</small></span>
+            <span class="hero-label">{reviews.advieskeuze_aantal} reviews op Advieskeuze</span>
+          </a>
+        </li>
+        <li>
+          <span class="hero-getal">AFM</span>
+          <span class="hero-label">{t.afm_label}</span>
+        </li>
+      </ul>
+    </div>
+
+    <figure class="hero-beeld">
+      <div class="hero-foto">
+        <img
+          src="/beeld/adviseurs-v3-1400.webp"
+          srcset="/beeld/adviseurs-v3-800.webp 800w, /beeld/adviseurs-v3-1400.webp 1400w"
+          sizes="(min-width: 64rem) 34rem, 92vw"
+          alt={t.beeld_alt}
+          width="1400"
+          height="1400"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="hero-naam">
+        <Merk breedte={44} />
+        <span>
+          <strong>{t.naam}</strong>
+          <span>{t.naam_sub}</span>
+        </span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    padding-block: 2.5rem 0;
+  }
+  .hero-raster {
+    display: grid;
+    gap: 2.75rem;
+  }
+  .hero h1 {
+    font-size: var(--display);
+    line-height: 1.04;
+  }
+  .hero h1 span {
+    display: block;
+  }
+  .hero-lead {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+  }
+  .hero-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2.25rem;
+  }
+  .hero-bewijs {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    column-gap: clamp(0.9rem, 2vw, 1.5rem);
+    margin-top: 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .hero-bewijs li + li {
+    padding-left: clamp(0.9rem, 2vw, 1.5rem);
+    border-left: 1px solid var(--line);
+  }
+  .hero-bewijs a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+  .hero-getal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .hero-getal small {
+    font-size: 0.55em;
+    color: var(--tekst-zacht);
+  }
+  .hero-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    color: var(--sky-deep);
+  }
+  .hero-bewijs a:hover .hero-label {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .hero-sterren {
+    display: inline-flex;
+    gap: 1px;
+    color: #e2a72e;
+  }
+
+  .hero-beeld {
+    position: relative;
+  }
+  .hero-foto {
+    position: relative;
+    aspect-ratio: 24 / 25;
+    border-radius: 50% 50% var(--radius) var(--radius) / 13% 13% var(--radius) var(--radius);
+    overflow: hidden;
+    background: #ece9e4;
+  }
+  .hero-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+  .hero-naam {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.8rem 1.25rem 0.8rem 0.9rem;
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: var(--schaduw-zweef);
+  }
+  .hero-naam strong {
+    display: block;
+    font-family: var(--font-kop);
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+  .hero-naam strong + span {
+    font-size: 0.85rem;
+    color: var(--tekst-zacht);
+  }
+
+  @media (min-width: 64rem) {
+    .hero {
+      padding-block: clamp(1.5rem, 5vh, 4rem);
+    }
+    .hero-raster {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: center;
+      gap: clamp(3rem, 6vw, 6rem);
+      min-height: calc(100svh - var(--kop-hoogte) - clamp(3rem, 10vh, 8rem));
+    }
+    .hero-beeld {
+      justify-self: end;
+      width: min(100%, calc((100svh - var(--kop-hoogte) - 6rem) * 0.96));
+    }
+    .hero-naam {
+      left: -2.5rem;
+      bottom: 2.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-tekst > *,
+    .hero-foto,
+    .hero-naam {
+      animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-lead {
+      animation-delay: 0.08s;
+    }
+    .hero-acties {
+      animation-delay: 0.16s;
+    }
+    .hero-bewijs {
+      animation-delay: 0.24s;
+    }
+    .hero-foto {
+      animation-name: hero-foto-in;
+      animation-duration: 1.1s;
+      animation-delay: 0.1s;
+    }
+    .hero-naam {
+      animation-delay: 0.55s;
+    }
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+  @keyframes hero-foto-in {
+    from {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+</style>

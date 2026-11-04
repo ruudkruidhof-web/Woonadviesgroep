@@ -1,0 +1,273 @@
+---
+import Icoon from './Icoon.astro';
+import diensten from '../../content/v3-diensten.json';
+import teksten from '../../content/teksten/v3.json';
+
+const t = teksten.diensten;
+---
+<section id="diensten" class="diensten sectie" aria-labelledby="diensten-titel">
+  <div class="maat">
+    <div class="sectie-kop">
+      <h2 id="diensten-titel" data-regels>{t.titel}</h2>
+      <p data-onthul>{t.lead}</p>
+    </div>
+
+    <div class="d-raster" data-diensten data-onthul>
+      {diensten.map((d, i) => (
+        <>
+          <h3 class="d-kop" style={`--rij: ${i + 1}`}>
+            <button
+              type="button"
+              id={`dienst-${d.id}`}
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`paneel-${d.id}`}
+              data-dienst={d.id}
+            >
+              <Icoon naam="dak" maat={16} />
+              <span>{d.titel}</span>
+              <Icoon naam="omlaag" maat={14} klasse="d-pijl" />
+            </button>
+          </h3>
+          <div
+            id={`paneel-${d.id}`}
+            class="d-paneel"
+            role="region"
+            aria-labelledby={`dienst-${d.id}`}
+            hidden={i !== 0}
+          >
+            <div class="d-paneel-inhoud">
+              <p class="d-tekst">{d.tekst}</p>
+              <p class="d-label">{t.situaties_label}</p>
+              <ul class="d-situaties">
+                {d.situaties.map((s) => (
+                  <li>
+                    <Icoon naam="dak" maat={11} />
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <div class="d-acties">
+                <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={d.titel}>{t.knop}</button>
+                <a href="/v3/volgt-na-opdracht" class="tekstlink">
+                  Meer over {d.titel.toLowerCase()}
+                  <Icoon naam="dak" maat={11} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .diensten {
+    background: var(--sky-wash);
+    --line: color-mix(in srgb, var(--navy) 13%, transparent);
+  }
+  .d-raster {
+    border-top: 1px solid var(--line);
+  }
+  .d-kop {
+    font-size: inherit;
+    border-bottom: 1px solid var(--line);
+  }
+  .d-kop button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1.25rem 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-kop);
+    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--tekst-zacht);
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.25s ease;
+  }
+  .d-kop button:hover,
+  .d-kop button[aria-expanded='true'] {
+    color: var(--navy);
+  }
+  .d-kop :global(.dak) {
+    width: 0.45em;
+    height: 0.45em;
+    color: var(--sky-deep);
+    opacity: 0;
+    margin-right: calc(-0.45em - 0.75rem);
+    transition: opacity 0.25s ease, margin 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .d-kop button[aria-expanded='true'] :global(.dak) {
+    opacity: 1;
+    margin-right: 0;
+  }
+  :global(.d-pijl) {
+    margin-left: auto;
+    color: var(--navy);
+    transition: rotate 0.3s ease;
+  }
+  .d-kop button[aria-expanded='true'] :global(.d-pijl) {
+    rotate: 180deg;
+  }
+  .d-paneel {
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .d-paneel-inhoud {
+    padding: 0.25rem 0 2rem;
+  }
+  .d-tekst {
+    font-size: 1.0625rem;
+    max-width: 36rem;
+  }
+  .d-label {
+    margin-top: 1.75rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--tekst-zacht);
+  }
+  .d-situaties {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  .d-situaties li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .d-situaties :global(.dak) {
+    color: var(--brown);
+    translate: 0 0.05em;
+  }
+  .d-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 64rem) {
+    .d-raster {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      grid-template-rows: repeat(4, auto) 1fr;
+      column-gap: clamp(3rem, 6vw, 6rem);
+      border-top: 0;
+    }
+    .d-kop {
+      grid-column: 1;
+      grid-row: var(--rij);
+      border-top: 0;
+    }
+    .d-kop:first-of-type {
+      border-top: 1px solid var(--line);
+    }
+    .d-kop button {
+      padding: 1.5rem 0;
+    }
+    .d-kop :global(.d-pijl) {
+      display: none;
+    }
+    .d-paneel {
+      grid-column: 2;
+      grid-row: 1 / span 5;
+      align-self: start;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      transition: opacity 0.45s ease, translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @starting-style {
+      .d-paneel {
+        opacity: 0;
+        translate: 0 10px;
+      }
+    }
+    .d-paneel-inhoud {
+      padding: clamp(2rem, 1.5rem + 2vw, 3rem);
+    }
+    .d-tekst {
+      font-size: var(--lead);
+      line-height: 1.55;
+      color: var(--navy-soft);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const raster = document.querySelector<HTMLElement>('[data-diensten]')!;
+  const knoppen = [...raster.querySelectorAll<HTMLButtonElement>('[data-dienst]')];
+  const breed = matchMedia('(min-width: 64rem)');
+  const rustig = matchMedia('(prefers-reduced-motion: reduce)');
+
+  const paneelVan = (k: HTMLButtonElement) => document.getElementById(k.getAttribute('aria-controls')!)!;
+
+  const sluit = (k: HTMLButtonElement, animeer: boolean) => {
+    const paneel = paneelVan(k);
+    k.setAttribute('aria-expanded', 'false');
+    if (!animeer) {
+      paneel.hidden = true;
+      return;
+    }
+    gsap.to(paneel, {
+      height: 0,
+      opacity: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        paneel.hidden = true;
+        gsap.set(paneel, { clearProps: 'height,opacity' });
+      },
+    });
+  };
+
+  const open = (k: HTMLButtonElement) => {
+    const animeer = !breed.matches && !rustig.matches;
+    knoppen.filter((a) => a !== k && a.getAttribute('aria-expanded') === 'true').forEach((a) => sluit(a, animeer));
+    const paneel = paneelVan(k);
+    k.setAttribute('aria-expanded', 'true');
+    paneel.hidden = false;
+    if (animeer) {
+      gsap.fromTo(paneel, { height: 0, opacity: 0 }, { height: 'auto', opacity: 1, duration: 0.45, ease: 'power2.out', onComplete: () => gsap.set(paneel, { clearProps: 'height,opacity' }) });
+    }
+  };
+
+  knoppen.forEach((k, i) => {
+    k.addEventListener('click', () => {
+      if (k.getAttribute('aria-expanded') === 'true') {
+        if (!breed.matches) sluit(k, !rustig.matches);
+        return;
+      }
+      open(k);
+    });
+    k.addEventListener('keydown', (e) => {
+      if (!breed.matches || !['ArrowDown', 'ArrowUp'].includes(e.key)) return;
+      e.preventDefault();
+      const volgende = knoppen[(i + (e.key === 'ArrowDown' ? 1 : knoppen.length - 1)) % knoppen.length];
+      volgende.focus();
+      open(volgende);
+    });
+  });
+
+  breed.addEventListener('change', () => {
+    if (breed.matches && !knoppen.some((k) => k.getAttribute('aria-expanded') === 'true')) open(knoppen[0]);
+  });
+
+  document.addEventListener('kies-dienst', (e) => {
+    const k = knoppen.find((a) => a.dataset.dienst === (e as CustomEvent).detail);
+    if (k && k.getAttribute('aria-expanded') !== 'true') open(k);
+  });
+</script>

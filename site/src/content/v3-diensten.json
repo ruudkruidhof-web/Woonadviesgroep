@@ -1,0 +1,26 @@
+[
+  {
+    "id": "hypotheken",
+    "titel": "Hypotheken",
+    "tekst": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt. We onderzoeken welke optie het beste past bij jouw persoonlijke situatie. Zo krijg je niet simpelweg de goedkoopste hypotheek, maar juist de hypotheek die het beste bij jouw omstandigheden aansluit.",
+    "situaties": ["Je eerste woning", "Door naar een volgende woning", "Relatiebreuk of scheiding"]
+  },
+  {
+    "id": "pensioenen",
+    "titel": "Pensioenen",
+    "tekst": "Wanneer je de pensioenleeftijd bereikt, wil je je geen zorgen meer hoeven maken om je oudedagsvoorziening. Daarom is het belangrijk dat je je pensioen alvast geregeld hebt, zelfs als het nog decennia weg is. Samen komen we erachter wat het beste plan van aanpak is.",
+    "situaties": ["Welk vermogen heb je nodig als je stopt met werken?", "Hoe krijg je dat op tijd bij elkaar?"]
+  },
+  {
+    "id": "verzekeringen",
+    "titel": "Verzekeringen",
+    "tekst": "Tegenwoordig is er voor van alles een verzekering. Soms is het moeilijk om erachter te komen welke voor jou van belang zijn. Wij ontdekken welke verzekeringen voor jou van toepassing zijn en vergelijken de aanbiedingen van de verzekeringsmaatschappijen.",
+    "situaties": ["Je woning en inboedel", "Aansprakelijkheid", "Overlijdensrisico"]
+  },
+  {
+    "id": "financien",
+    "titel": "Financiën",
+    "tekst": "Je financiën zijn voortdurend in beweging. Van het ene op het andere moment kunnen je lasten zomaar veranderen. Wij doen er alles aan om je te helpen je financiën op orde te krijgen, ongeacht je situatie.",
+    "situaties": ["Een krediet aanvragen", "Een spaarrekening openen", "Een schuld aflossen", "Een schenking ontvangen"]
+  }
+]

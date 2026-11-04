@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Kop from '../components/v3/Kop.astro';
+import Hero from '../components/v3/Hero.astro';
+import HoofdEnHart from '../components/v3/HoofdEnHart.astro';
+import Diensten from '../components/v3/Diensten.astro';
+import Klanten from '../components/v3/Klanten.astro';
+import Werkwijze from '../components/v3/Werkwijze.astro';
+import Contact from '../components/v3/Contact.astro';
+import Voet from '../components/v3/Voet.astro';
+import Kennismaken from '../components/v3/Kennismaken.astro';
+import Actiebalk from '../components/v3/Actiebalk.astro';
+import Beweging from '../components/v3/Beweging.astro';
+import '../components/v3/v3.css';
+---
+<Base
+  titel="WoonAdvies Groep | Onafhankelijk financieel advies in Rotterdam"
+  omschrijving="Onafhankelijk advies over hypotheken, pensioenen, verzekeringen en financiën. Persoonlijk en transparant, vanuit Rotterdam. Financiële rust voor nu en in de toekomst."
+  thema="v3"
+  basis="/v3"
+  variant="v3"
+  noindex
+  eigenKader
+>
+  <Kop slot="kop" />
+  <Hero />
+  <HoofdEnHart />
+  <Diensten />
+  <Klanten />
+  <Werkwijze />
+  <Contact />
+  <Kennismaken />
+  <Actiebalk />
+  <Beweging />
+  <Voet slot="voet" />
+</Base>

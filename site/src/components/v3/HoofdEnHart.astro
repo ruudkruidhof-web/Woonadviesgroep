@@ -1,0 +1,154 @@
+---
+import Merk from '../Merk.astro';
+import teksten from '../../content/teksten/v3.json';
+
+const t = teksten.hoofdhart;
+---
+<section class="hh sectie" aria-labelledby="hh-titel">
+  <div class="maat">
+    <div class="hh-kop">
+      <h2 id="hh-titel" data-regels>{t.titel}</h2>
+      <p class="lead" data-onthul>{t.lead}</p>
+    </div>
+
+    <div class="hh-raster" data-hh>
+      <div class="hh-kant hh-hoofd" data-hh-kant="hoofd">
+        <h3>{t.hoofd_label}<span>{t.hoofd_sub}</span></h3>
+        <ul>
+          {t.hoofd.map((regel) => <li>{regel}</li>)}
+        </ul>
+      </div>
+
+      <div class="hh-midden">
+        <span class="hh-lijn hh-lijn-hoofd" data-hh-lijn="hoofd"></span>
+        <div class="hh-merk" data-hh-merk>
+          <Merk breedte={260} titel="Het beeldmerk van WoonAdvies Groep: een huis midden in een hart" />
+        </div>
+        <span class="hh-lijn hh-lijn-hart" data-hh-lijn="hart"></span>
+      </div>
+
+      <div class="hh-kant hh-hart" data-hh-kant="hart">
+        <h3>{t.hart_label}<span>{t.hart_sub}</span></h3>
+        <ul>
+          {t.hart.map((regel) => <li>{regel}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="hh-slot" data-onthul>{t.slot}</p>
+  </div>
+</section>
+
+<style>
+  .hh {
+    background:
+      radial-gradient(60% 70% at 0% 62%, color-mix(in srgb, var(--sky-wash) 85%, transparent), transparent 70%),
+      radial-gradient(60% 70% at 100% 62%, var(--wash-warm-licht), transparent 70%),
+      var(--paper);
+  }
+  .hh-kop h2 {
+    font-size: var(--display);
+    line-height: 1.04;
+    max-width: 15ch;
+  }
+  .hh-kop p {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+  }
+  .hh-raster {
+    display: grid;
+    gap: 3rem;
+    margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  }
+  .hh-midden {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: -1;
+  }
+  .hh-merk :global(svg) {
+    width: clamp(11rem, 8rem + 10vw, 16.25rem);
+    height: auto;
+  }
+  .hh-lijn {
+    display: none;
+  }
+  .hh-kant h3 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid currentColor;
+  }
+  .hh-hoofd h3 {
+    color: var(--sky-deep);
+  }
+  .hh-hart h3 {
+    color: var(--brown);
+  }
+  .hh-kant h3 span {
+    font-family: var(--font-tekst);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .hh-kant ul {
+    list-style: none;
+    padding: 0;
+  }
+  .hh-kant li {
+    padding-block: 1.1rem;
+    color: var(--navy-soft);
+  }
+  .hh-kant li + li {
+    border-top: 1px solid var(--line);
+  }
+  .hh-slot {
+    max-width: 38rem;
+    margin: clamp(3.5rem, 2.5rem + 4vw, 6rem) auto 0;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.35;
+    color: var(--navy);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 48rem) {
+    .hh-kop {
+      text-align: center;
+    }
+    .hh-kop h2,
+    .hh-kop p {
+      margin-inline: auto;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hh-raster {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: start;
+      gap: 0;
+    }
+    .hh-midden {
+      order: 0;
+      align-self: center;
+    }
+    .hh-lijn {
+      display: block;
+      width: clamp(2rem, 4vw, 4rem);
+      height: 2px;
+    }
+    .hh-lijn-hoofd {
+      background: var(--sky-deep);
+      transform-origin: left center;
+    }
+    .hh-lijn-hart {
+      background: var(--brown);
+      transform-origin: right center;
+    }
+    .hh-merk {
+      padding-inline: 1.25rem;
+    }
+  }
+</style>

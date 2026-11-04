@@ -1,0 +1,244 @@
+---
+import Icoon from './Icoon.astro';
+import teksten from '../../content/teksten/v3.json';
+import reviews from '../../content/reviews.json';
+
+const t = teksten.klanten;
+const uitgelicht = reviews.uitgelicht.find((r) => r.id === t.uitgelicht)!;
+const stroom = reviews.marquee.filter((r) => r.naam !== uitgelicht.naam);
+---
+<section id="klanten" class="klanten sectie" aria-labelledby="klanten-titel">
+  <div class="maat k-raster">
+    <div class="k-scores">
+      <h2 id="klanten-titel" data-regels>{t.titel}</h2>
+      <p class="k-lead" data-onthul>{t.lead}</p>
+      <dl data-onthul>
+        <div class="k-score">
+          <dt>
+            <Icoon naam="google" maat={20} />
+            <a href={reviews.google_url} target="_blank" rel="noopener">{reviews.aantal} reviews op Google</a>
+          </dt>
+          <dd>
+            <span class="k-getal cijfer">{reviews.score}</span>
+            <span class="k-sterren" aria-label="5 van de 5 sterren">
+              {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={14} />)}
+            </span>
+          </dd>
+        </div>
+        <div class="k-score">
+          <dt>
+            <a href={reviews.advieskeuze_url} target="_blank" rel="noopener">{reviews.advieskeuze_aantal} reviews op Advieskeuze</a>
+          </dt>
+          <dd>
+            <span class="k-getal cijfer">{reviews.advieskeuze_score}</span>
+            <span class="k-van">van de 10</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <figure class="k-uitgelicht" data-onthul>
+      <span class="k-teken" aria-hidden="true">&ldquo;</span>
+      <blockquote>
+        <p>{uitgelicht.tekst}</p>
+      </blockquote>
+      <figcaption>
+        <strong>{uitgelicht.naam}</strong>
+        <span>via {uitgelicht.bron}, {uitgelicht.wanneer}</span>
+      </figcaption>
+    </figure>
+
+    <div class="k-stroom" data-onthul>
+      <ul class="k-band">
+        {[...stroom, ...stroom].map((r, i) => (
+          <li class="k-kaart" aria-hidden={i >= stroom.length ? 'true' : undefined}>
+            <span class="k-sterren" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={11} />)}
+            </span>
+            <p>{r.tekst}</p>
+            <p class="k-wie">
+              <strong>{r.naam}</strong>
+              <span>{r.bron}, {r.wanneer}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .klanten {
+    background: var(--wash-warm);
+  }
+  .k-raster {
+    display: grid;
+    gap: 3.5rem;
+  }
+  .k-lead {
+    margin-top: 1.25rem;
+    font-size: var(--lead);
+    line-height: 1.55;
+  }
+  .k-scores dl {
+    margin-top: 2.5rem;
+  }
+  .k-score {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid color-mix(in srgb, var(--brown) 18%, transparent);
+  }
+  .k-score dt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .k-score a {
+    color: var(--sky-deep);
+    font-weight: 600;
+    text-underline-offset: 0.25em;
+  }
+  .k-score dd {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .k-getal {
+    font-family: var(--font-kop);
+    font-size: 3.25rem;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .k-van {
+    color: var(--tekst-zacht);
+  }
+  .k-sterren {
+    display: inline-flex;
+    gap: 2px;
+    color: #e2a72e;
+  }
+
+  .k-uitgelicht {
+    position: relative;
+    margin: 0;
+  }
+  .k-teken {
+    display: block;
+    height: 3.5rem;
+    font-family: var(--font-kop);
+    font-size: 7rem;
+    line-height: 1;
+    color: var(--brown);
+  }
+  .k-uitgelicht blockquote {
+    margin: 0;
+  }
+  .k-uitgelicht blockquote p {
+    font-family: var(--font-kop);
+    font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.25rem);
+    line-height: 1.28;
+    color: var(--navy);
+    text-wrap: pretty;
+  }
+  .k-uitgelicht figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 1.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--brown);
+  }
+  .k-uitgelicht figcaption strong {
+    color: var(--navy);
+  }
+  .k-uitgelicht figcaption span {
+    font-size: 0.9rem;
+    color: var(--tekst-zacht);
+  }
+
+  .k-stroom {
+    margin-inline: calc((100vw - var(--maat)) / -2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .k-band {
+    display: flex;
+    gap: 1rem;
+    padding: 0.25rem calc((100vw - var(--maat)) / 2) 0.5rem;
+    list-style: none;
+  }
+  .k-kaart {
+    flex: 0 0 min(78vw, 20rem);
+    scroll-snap-align: center;
+    padding: 1.4rem 1.4rem 1.25rem;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .k-kaart[aria-hidden='true'] {
+    display: none;
+  }
+  .k-kaart p:not(.k-wie) {
+    margin-top: 0.6rem;
+  }
+  .k-wie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.5rem;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+  }
+  .k-wie strong {
+    color: var(--navy);
+  }
+  .k-wie span {
+    color: var(--tekst-zacht);
+  }
+
+  @media (min-width: 64rem) {
+    .k-raster {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3.2fr);
+      align-items: center;
+      gap: clamp(2.5rem, 4vw, 4.5rem);
+    }
+    .k-stroom {
+      position: relative;
+      height: 34rem;
+      margin: 0;
+      overflow: hidden;
+      mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
+    }
+    .k-band {
+      flex-direction: column;
+      padding: 0;
+    }
+    .k-kaart {
+      flex: none;
+    }
+    .k-kaart[aria-hidden='true'] {
+      display: block;
+    }
+  }
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    .k-band {
+      animation: stroom 80s linear infinite;
+    }
+    .k-stroom:hover .k-band,
+    .k-stroom:focus-within .k-band {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes stroom {
+    to {
+      translate: 0 calc(-50% - 0.5rem);
+    }
+  }
+</style>

@@ -1,0 +1,58 @@
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  const binnen = { y: 14, opacity: 0, duration: 0.7, ease: 'power3.out' };
+  const mm = gsap.matchMedia();
+
+  mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 64rem)' }, (ctx) => {
+    const { beweging, breed } = ctx.conditions!;
+    if (!beweging) return;
+
+    document.fonts.ready.then(() => {
+      document.querySelectorAll<HTMLElement>('[data-regels]').forEach((kop) => {
+        SplitText.create(kop, {
+          type: 'lines',
+          autoSplit: true,
+          onSplit: (self) =>
+            gsap.from(self.lines, {
+              ...binnen,
+              stagger: 0.06,
+              scrollTrigger: { trigger: kop, start: 'top 88%', once: true },
+            }),
+        });
+      });
+    });
+
+    gsap.utils.toArray<HTMLElement>('[data-onthul]').forEach((el) => {
+      gsap.from(el, { ...binnen, delay: 0.08, scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+    });
+
+    const hh = document.querySelector('[data-hh]');
+    if (hh) {
+      gsap
+        .timeline({ scrollTrigger: { trigger: hh, start: 'top 75%', once: true } })
+        .from('[data-hh-merk]', { opacity: 0, scale: 0.94, duration: 0.9, ease: 'power3.out' })
+        .from('[data-hh-kant="hoofd"]', { opacity: 0, x: breed ? -28 : 0, y: breed ? 0 : 14, duration: 0.8, ease: 'power3.out' }, 0.1)
+        .from('[data-hh-kant="hart"]', { opacity: 0, x: breed ? 28 : 0, y: breed ? 0 : 14, duration: 0.8, ease: 'power3.out' }, breed ? 0.1 : 0.2)
+        .from('[data-hh-lijn]', { scaleX: 0, duration: 0.7, ease: 'power2.inOut' }, 0.5);
+    }
+
+    const route = document.querySelector('[data-route]');
+    if (route) {
+      const vol = route.querySelector('[data-route-vol]');
+      const stappen = route.querySelectorAll('[data-stap]');
+      const as = breed ? 'scaleX' : 'scaleY';
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: route, start: 'top 72%', end: breed ? 'bottom 62%' : 'bottom 75%', scrub: 0.6 },
+      });
+      tl.fromTo(vol, { [as]: 0 }, { [as]: 1, duration: 1, ease: 'none' }, 0);
+      stappen.forEach((stap, i) => {
+        tl.from(stap, { opacity: 0.22, duration: 0.12, ease: 'none' }, (i / (stappen.length - 1)) * 0.9);
+      });
+    }
+  });
+</script>

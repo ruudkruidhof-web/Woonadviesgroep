@@ -1,0 +1,122 @@
+---
+import Merk from '../Merk.astro';
+import diensten from '../../content/v3-diensten.json';
+import bedrijf from '../../content/bedrijf.json';
+---
+<footer class="voet">
+  <div class="maat voet-raster">
+    <div class="voet-merk">
+      <span class="voet-zegel"><Merk breedte={40} /></span>
+      <p class="voet-naam">{bedrijf.naam}</p>
+      <p>{bedrijf.tagline}</p>
+    </div>
+    <nav aria-label="Diensten">
+      <h2>Diensten</h2>
+      <ul>
+        {diensten.map((d) => <li><a href="/v3#diensten" data-kies-dienst={d.id}>{d.titel}</a></li>)}
+      </ul>
+    </nav>
+    <div>
+      <h2>Contact</h2>
+      <address>
+        {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}<br />
+        <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a><br />
+        <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
+      </address>
+    </div>
+    <div>
+      <h2>Registraties</h2>
+      <p class="cijfer">KvK {bedrijf.kvk}<br />AFM {bedrijf.afm}<br />Kifid {bedrijf.kifid}</p>
+    </div>
+  </div>
+  <div class="maat voet-onder">
+    <p>&copy; {new Date().getFullYear()} {bedrijf.naam}</p>
+    <ul>
+      <li><a href="/v3/volgt-na-opdracht">Privacyverklaring</a></li>
+      <li><a href="/v3/volgt-na-opdracht">Cookiebeleid</a></li>
+      <li><a href="https://www.kifid.nl" target="_blank" rel="noopener">Klachten (Kifid)</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .voet {
+    padding: clamp(4rem, 3rem + 4vw, 6rem) 0 6rem;
+    background: #002c40;
+    color: #bcd2e1;
+    font-size: 0.95rem;
+  }
+  .voet-raster {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .voet-zegel {
+    display: grid;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .voet-naam {
+    margin-top: 1.25rem;
+    font-family: var(--font-kop);
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  .voet-merk p:last-child {
+    margin-top: 0.25rem;
+  }
+  .voet h2 {
+    font-family: var(--font-tekst);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .voet ul {
+    padding: 0;
+    list-style: none;
+  }
+  .voet-raster ul,
+  .voet-raster address,
+  .voet-raster h2 + p {
+    margin-top: 0.9rem;
+  }
+  .voet-raster li + li {
+    margin-top: 0.4rem;
+  }
+  .voet address {
+    font-style: normal;
+    line-height: 1.75;
+  }
+  .voet a {
+    color: #bcd2e1;
+    text-decoration: none;
+  }
+  .voet a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .voet-onder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.875rem;
+  }
+  .voet-onder ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .voet-raster {
+      grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+    }
+  }
+</style>

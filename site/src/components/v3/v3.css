@@ -1,0 +1,113 @@
+[data-thema='v3'] {
+  --tekst-zacht: #5f7684;
+  --sectie: clamp(5.5rem, 3rem + 8vw, 10rem);
+  --display: clamp(2.75rem, 2rem + 3.6vw, 5rem);
+  --h2: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
+  --h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --lead: clamp(1.1875rem, 1.1rem + 0.35vw, 1.3125rem);
+  --schaduw-zweef: 0 1px 2px rgba(0, 40, 58, 0.06), 0 18px 40px -22px rgba(0, 40, 58, 0.35);
+  --kop-hoogte: 4.75rem;
+  scroll-padding-top: 1.5rem;
+}
+
+[data-thema='v3'] body {
+  color: var(--navy-soft);
+}
+
+[data-thema='v3'] h1,
+[data-thema='v3'] h2,
+[data-thema='v3'] h3 {
+  font-weight: 500;
+}
+
+[data-thema='v3'] h2 {
+  font-size: var(--h2);
+  line-height: 1.1;
+}
+
+[data-thema='v3'] h3 {
+  font-size: var(--h3);
+  line-height: 1.2;
+}
+
+.sectie {
+  padding-block: var(--sectie);
+}
+
+.sectie-kop {
+  max-width: 40rem;
+  margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.sectie-kop p {
+  margin-top: 1.25rem;
+  font-size: var(--lead);
+  line-height: 1.55;
+}
+
+.lead {
+  font-size: var(--lead);
+  line-height: 1.55;
+}
+
+.tekstlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.3em;
+  text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+  transition: text-decoration-color 0.2s ease;
+}
+
+.tekstlink:hover {
+  text-decoration-color: currentColor;
+}
+
+.dak {
+  flex-shrink: 0;
+  width: 0.6em;
+  height: 0.6em;
+  transition: translate 0.2s ease;
+}
+
+.tekstlink:hover .dak,
+.knop:hover .dak {
+  translate: 0.2em 0;
+}
+
+[data-thema='v3'] .knop {
+  min-height: 3.25rem;
+}
+
+[data-thema='v3'] .knop-lijn {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--navy) 22%, transparent);
+}
+
+[data-thema='v3'] .knop-lijn:hover,
+[data-thema='v3'] .knop-lijn:focus-visible {
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+.knop-licht {
+  background: #fff;
+  color: var(--navy);
+}
+
+.knop-licht:hover,
+.knop-licht:focus-visible {
+  background: var(--sky-wash);
+}
+
+.cijfer {
+  font-variant-numeric: tabular-nums;
+}
+
+:where([data-thema='v3']) button {
+  font-family: inherit;
+}

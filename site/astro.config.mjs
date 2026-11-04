@@ -8,7 +8,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(groen|v1)\/?$/.test(page),
+      filter: (page) => !/\/(groen|v1|v3)(\/|$)/.test(new URL(page).pathname),
     }),
   ],
 });

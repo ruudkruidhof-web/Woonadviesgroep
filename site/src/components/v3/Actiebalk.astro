@@ -1,0 +1,99 @@
+---
+import Icoon from './Icoon.astro';
+import bedrijf from '../../content/bedrijf.json';
+---
+<div class="actiebalk" data-actiebalk>
+  <a href={`tel:${bedrijf.telefoon_link}`}>
+    <Icoon naam="bel" maat={16} />
+    Bel
+  </a>
+  <a href={`https://wa.me/${bedrijf.whatsapp}`}>
+    <Icoon naam="whatsapp" maat={17} />
+    WhatsApp
+  </a>
+  <button type="button" data-plan-open>Plan een gesprek</button>
+</div>
+
+<style>
+  .actiebalk {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    z-index: 55;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    gap: 0.4rem;
+    padding: 0.4rem;
+    border-radius: 999px;
+    background: rgba(0, 44, 64, 0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 40px -16px rgba(0, 20, 30, 0.7);
+    translate: 0 calc(100% + 1.5rem);
+    transition: translate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .actiebalk[data-zichtbaar] {
+    translate: 0 0;
+  }
+  .actiebalk a,
+  .actiebalk button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .actiebalk button {
+    background: #fff;
+    color: var(--navy);
+  }
+  :global(html:has(.actiebalk[data-zichtbaar]) .variant-switch) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (min-width: 64rem) {
+    .actiebalk {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const balk = document.querySelector<HTMLElement>('[data-actiebalk]')!;
+  const hero = document.querySelector<HTMLElement>('.hero');
+  let vorige = scrollY;
+  let stilTimer = 0;
+  let bezig = false;
+
+  const voorbijHero = () => scrollY > (hero ? hero.offsetTop + hero.offsetHeight * 0.8 : 600);
+  const bijVoet = () => innerHeight + scrollY > document.documentElement.scrollHeight - 160;
+
+  const opScroll = () => {
+    const y = scrollY;
+    clearTimeout(stilTimer);
+    if (!voorbijHero() || bijVoet()) balk.removeAttribute('data-zichtbaar');
+    else if (y < vorige - 6) balk.setAttribute('data-zichtbaar', '');
+    else if (y > vorige + 6) balk.removeAttribute('data-zichtbaar');
+    stilTimer = window.setTimeout(() => {
+      if (voorbijHero() && !bijVoet()) balk.setAttribute('data-zichtbaar', '');
+    }, 2500);
+    vorige = y;
+    bezig = false;
+  };
+
+  addEventListener('scroll', () => {
+    if (!bezig) {
+      bezig = true;
+      requestAnimationFrame(opScroll);
+    }
+  }, { passive: true });
+</script>

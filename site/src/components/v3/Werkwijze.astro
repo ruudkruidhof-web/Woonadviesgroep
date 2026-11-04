@@ -1,0 +1,213 @@
+---
+import Icoon from './Icoon.astro';
+import Merk from '../Merk.astro';
+import teksten from '../../content/teksten/v3.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const t = teksten.werkwijze;
+---
+<section id="werkwijze" class="werkwijze sectie" aria-labelledby="werkwijze-titel">
+  <div class="maat">
+    <div class="sectie-kop">
+      <h2 id="werkwijze-titel" data-regels>{t.titel}</h2>
+      <p data-onthul>{t.lead}</p>
+    </div>
+
+    <ol class="w-route" data-route>
+      <li class="w-spoor" aria-hidden="true"><span data-route-vol></span></li>
+      {t.stappen.map((s, i) => (
+        <li class="w-stap" data-stap>
+          <span class="w-punt cijfer">{i + 1}</span>
+          <h3>{s.titel}</h3>
+          <p>{s.tekst}</p>
+        </li>
+      ))}
+      <li class="w-stap w-eind" data-stap>
+        <span class="w-zegel"><Merk breedte={46} /></span>
+        <p class="w-eind-label">{t.eind}</p>
+      </li>
+    </ol>
+
+    <div class="w-onder">
+      <div class="w-kosten" data-onthul>
+        <h3>{t.kosten_titel}</h3>
+        <p>{t.kosten}</p>
+      </div>
+      <div class="w-start" data-onthul>
+        <p class="w-start-titel">{t.start}</p>
+        <div class="w-acties">
+          <button type="button" class="knop knop-licht" data-plan-open>
+            {teksten.hero.knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+          <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+            <Icoon naam="bel" maat={15} />
+            <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .werkwijze {
+    background: var(--navy);
+    color: #bcd2e1;
+  }
+  .werkwijze h2,
+  .werkwijze h3 {
+    color: #fff;
+  }
+  .werkwijze .sectie-kop p {
+    color: var(--sky-wash);
+  }
+
+  .w-route {
+    position: relative;
+    display: grid;
+    gap: 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .w-spoor {
+    position: absolute;
+    top: 1.5rem;
+    bottom: 2.25rem;
+    left: calc(1.5rem - 1px);
+    width: 2px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .w-spoor span {
+    position: absolute;
+    inset: 0;
+    background: var(--sky);
+    transform-origin: top center;
+  }
+  .w-stap {
+    position: relative;
+    padding-left: 4.75rem;
+  }
+  .w-punt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--sky);
+    background: var(--navy);
+    font-family: var(--font-kop);
+    font-size: 1.35rem;
+    color: #fff;
+  }
+  .w-stap h3 {
+    padding-top: 0.55rem;
+  }
+  .w-stap p {
+    max-width: 22rem;
+    margin-top: 0.75rem;
+  }
+  .w-eind {
+    display: flex;
+    align-items: center;
+    min-height: 4.5rem;
+  }
+  .w-zegel {
+    position: absolute;
+    left: -0.75rem;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .w-eind-label {
+    margin: 0 !important;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    color: #fff;
+  }
+
+  .w-onder {
+    display: grid;
+    gap: 3rem;
+    margin-top: clamp(4rem, 3rem + 3vw, 6rem);
+    padding-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .w-kosten h3 {
+    font-size: 1.25rem;
+  }
+  .w-kosten p {
+    max-width: 34rem;
+    margin-top: 0.75rem;
+  }
+  .w-start-titel {
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.25;
+    color: #fff;
+  }
+  .w-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.5rem;
+  }
+  .werkwijze .tekstlink {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .werkwijze .tekstlink:hover {
+    text-decoration-color: #fff;
+  }
+
+  @media (min-width: 64rem) {
+    .w-route {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+      gap: clamp(2rem, 3vw, 3rem);
+    }
+    .w-spoor {
+      top: calc(1.5rem - 1px);
+      bottom: auto;
+      left: 1.5rem;
+      right: 2.25rem;
+      width: auto;
+      height: 2px;
+    }
+    .w-spoor span {
+      transform-origin: left center;
+    }
+    .w-stap {
+      padding: 4.5rem 0 0;
+    }
+    .w-stap h3 {
+      padding-top: 0;
+    }
+    .w-eind {
+      display: block;
+      min-height: 0;
+      min-width: 9rem;
+      padding-top: 5.5rem;
+    }
+    .w-zegel {
+      top: -0.75rem;
+      left: auto;
+      right: 0;
+    }
+    .w-eind-label {
+      text-align: right;
+    }
+    .w-onder {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: end;
+    }
+  }
+</style>

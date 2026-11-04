@@ -7,7 +7,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import bedrijf from '../content/bedrijf.json';
 
-const { titel, omschrijving, thema, basis = '', noindex = false, variant } = Astro.props;
+const { titel, omschrijving, thema, basis = '', noindex = false, variant, eigenKader = false } = Astro.props;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -49,17 +49,18 @@ const schema = {
   </head>
   <body>
     <a href="#inhoud" class="skiplink">Naar de inhoud</a>
-    <Header basis={basis} vector={thema === 'groen'} />
+    {eigenKader ? <slot name="kop" /> : <Header basis={basis} vector={thema === 'groen'} />}
     <main id="inhoud">
       <slot />
     </main>
-    <Footer basis={basis} />
+    {eigenKader ? <slot name="voet" /> : <Footer basis={basis} />}
     {variant && (
       <div class="variant-switch" role="group" aria-label="Ontwerpvariant kiezen">
         <span>Variant</span>
         <a href="/" class={variant === 'fris' ? 'actief' : ''} aria-current={variant === 'fris' ? 'true' : undefined}>Fris</a>
         <a href="/groen" class={variant === 'groen' ? 'actief' : ''} aria-current={variant === 'groen' ? 'true' : undefined}>Groen</a>
         <a href="/v1" class={variant === 'v1' ? 'actief' : ''} aria-current={variant === 'v1' ? 'true' : undefined}>v1</a>
+        <a href="/v3" class={variant === 'v3' ? 'actief' : ''} aria-current={variant === 'v3' ? 'true' : undefined}>v3</a>
       </div>
     )}
   </body>
