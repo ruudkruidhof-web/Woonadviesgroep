@@ -38,7 +38,7 @@ Zoals in de v3-spec, nu in de nieuwe letters, met de lichte beeldbeweging hierbo
   - Hart, de emotie en het gevoel: "Persoonlijk contact is bij ons prioriteit nummer één. Dat kan bij jou thuis, overdag of 's avonds." en "Ook daarna zijn we er voor je. We denken vooruit en ontzorgen!"
 - Onder het vlak, gecentreerd in de kopletter: "Samen komen we tot een passende en praktische financiële oplossing."
 - Beweging: bij binnenkomst schuiven de helften vanaf een kleine afstand naar elkaar toe en zakt het merk op de naad. Eén keer.
-- Mobiel: kop, merk, helft Hoofd, helft Hart onder elkaar in één vlak; de naad wordt horizontaal en het merk zit op die naad.
+- Mobiel: kop, dan één vlak met helft Hoofd boven helft Hart. Hoofd krijgt één boog over de volle breedte en het merk staat bovenop die boog.
 
 ## 3. Onze diensten: kamers onder één dak
 
@@ -57,7 +57,7 @@ Zoals in de v3-spec, nu in de nieuwe letters, met de lichte beeldbeweging hierbo
 
 - Warm ingekaderd vlak (`--wash-warm`).
 - Links: H2 "Wat klanten zeggen" en de twee scores groot in blauw, elk met bron en link (Google 5,0 uit 11, Advieskeuze 10 uit 44).
-- Rechts het brandpunt: een stapel reviewkaartjes, net als het visitekaartje een object. De bovenste is groot en leesbaar (citaat in de kopletter, bruin aanhalingsteken, naam, bron). Twee kaartjes eronder steken licht gedraaid uit, met hun eerste regel zichtbaar, zodat je ziet dat er meer zijn.
+- Rechts het brandpunt: een stapel reviewkaartjes, net als het visitekaartje een object. Elk kaartje heeft een kopregel met sterren, naam, bron en datum, daaronder het citaat in de kopletter met bruine aanhalingstekens. De bovenste is volledig leesbaar; van de twee kaartjes erachter steekt alleen de kopregel boven de stapel uit, licht gedraaid, zodat je meerdere reviews (namen) ziet zonder extra tekst.
 - Inhoud: de zes korte citaten uit `reviews.uitgelicht` (20 tot 25 woorden), letterlijk.
 - Beweging: elke zeven seconden schuift de bovenste kaart weg en gaat achteraan, de volgende komt boven. Pauzeert bij hover, focus, als de sectie uit beeld is en met de pauzeknop. Vorige en volgende plus een teller ("2 / 6"). Bij `prefers-reduced-motion` geen automatische wissel, wel handmatig bladeren.
 - Toegankelijk: de stapel is een `region` met een label, de actieve kaart staat in een `aria-live="polite"` zone alleen bij handmatig bladeren.
@@ -95,6 +95,12 @@ Kennismaak-popup (inhoud gelijk, nieuwe letters), mobiele actiebalk, `/v3/volgt-
 ## Teksten
 
 Alleen uit `oogst/teksten.md`, `reviews.json` en `bedrijf.json`. Nieuwe of gewijzigde regels krijgen een label in `oogst/herkomst-v3.md`. Nieuw in deze ronde: de korte situatieregels in het menu, de één-zinsregels van de drie kleine dienstkamers en de ingekorte werkwijzestappen (allemaal SAMENGESTELD).
+
+## Na de bouw vastgesteld (4 november 2026)
+
+- De kostenband in de werkwijze zet op mobiel het zegel boven de tekst, zodat de alinea niet in een smalle kolom valt.
+- Een klik op een dienst in het menu of de footer gaat naar de kamer (`#dienst-<id>`); die kamer krijgt kort een blauwe ring (`:target`), alleen zonder reduced motion.
+- Alle sectiekoppen hebben één maat (`--h2`, tot 4rem); geen h3 is groter dan zijn h2.
 
 ## Poorten
 
