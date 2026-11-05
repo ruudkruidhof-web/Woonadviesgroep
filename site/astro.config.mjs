@@ -5,6 +5,7 @@ export default defineConfig({
   site: 'https://woonadviesgroep.vercel.app',
   redirects: {
     '/fris': '/',
+    '/v3/volgt-na-opdracht': '/v3',
   },
   integrations: [
     sitemap({

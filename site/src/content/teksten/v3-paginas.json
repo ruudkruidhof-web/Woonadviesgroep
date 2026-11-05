@@ -1,0 +1,323 @@
+{
+  "dienst": {
+    "kruimel": "Diensten",
+    "knop": "Plan een gesprek",
+    "kaart_titel": "Vergelijkingskaart",
+    "andere_titel": "Alle kennis onder één dak",
+    "daarna_titel": "Ook daarna"
+  },
+  "kaart": {
+    "dienst": "Wat we doen",
+    "advies": "Waar je advies krijgt",
+    "onafhankelijk": "Onafhankelijk advies",
+    "vergelijking": "Vergelijking",
+    "onderhoud": "Onderhoud daarna",
+    "kosten": "Kosten",
+    "kosten_tekst": "Vooraf met je afgesproken",
+    "prijzen_titel": "Gemiddelde prijzen",
+    "prijzen_uitleg": "Je vindt hier alleen gemiddelde prijzen. Hoe complexer je financiële situatie, hoe meer je meestal betaalt.",
+    "pdf": "Bekijk de vergelijkingskaart",
+    "geen": "Niet",
+    "ja": "Ja, onafhankelijk",
+    "nee": "Nee, niet onafhankelijk"
+  },
+  "afsluiter": {
+    "titel": "Maar laten we beginnen met stap 1!",
+    "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek."
+  },
+  "werkwijze": {
+    "meta_titel": "Werkwijze en kosten",
+    "omschrijving": "Hoe WoonAdvies Groep werkt, van het vrijblijvende kennismakingsgesprek tot de nazorg, en wat het advies kost.",
+    "titel": "Onze werkwijze",
+    "lead": "Je financiën zijn een zaak van jou en eventueel je partner. Als je met een kantoor in zee gaat voor een hypotheek, een verzekeringsportefeuille of een financiële planning voor later, is vertrouwen het uitgangspunt. Wij onderstrepen dat en stellen in een stappenplan voor wat we voor je in welke fase kunnen betekenen.",
+    "stappen": [
+      {
+        "titel": "Kennismaken",
+        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn."
+      },
+      {
+        "titel": "Verdiepen",
+        "tekst": "In de volgende stap gaan we dieper in op de uitgangspunten die we formuleerden in het kennismakingsgesprek. Met je geïnventariseerde wensen, mogelijkheden en toekomstbeeld bekijken we de huidige financiële situatie. Zijn de gegevens nog actueel? Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan.",
+        "extra": "Als je het wenst, adviseren we je over je complete financiële huishouding. Dat kan complex zijn, want financiële planning is veelomvattend. Het doel is dat voor jou een helder beeld wordt geschetst. Samen komen we zo tot een oplossing voor nu en in de toekomst."
+      },
+      {
+        "titel": "Uitvoeren",
+        "tekst": "Als het financiële beeld compleet is, volgt de volgende fase waarin we het plan ten uitvoer gaan brengen. Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren."
+      },
+      {
+        "titel": "Ook daarna",
+        "tekst": "Wij begeleiden je na aanschaf van het gewenste financiële product. Deze begeleiding bestaat uit het beantwoorden van algemene vragen over het betreffende product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product."
+      }
+    ],
+    "kosten_titel": "Kosten",
+    "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
+    "kosten_regels": [
+      {
+        "wat": "Kennismakingsgesprek",
+        "hoe": "Vrijblijvend"
+      },
+      {
+        "wat": "Hypotheken, pensioenen en complexe levensverzekeringen",
+        "hoe": "Vast tarief"
+      },
+      {
+        "wat": "Betaal- en spaarrekeningen, consumptief krediet",
+        "hoe": "Provisie, geen extra kosten"
+      },
+      {
+        "wat": "Onderhoud van je hypotheek",
+        "hoe": "Geen extra kosten"
+      }
+    ],
+    "kosten_voet": "De hoogte van het tarief hangt af van de exacte inhoud van het dienstenpakket dat je van ons afneemt, niet van het financiële product dat je via ons afsluit.",
+    "vragen_titel": "Wat vragen wij van je?",
+    "vragen_lead": "Om je belangen op het gebied van financiële diensten optimaal te kunnen behartigen, vragen wij ook een aantal zaken van jou.",
+    "vragen": [
+      {
+        "titel": "Juiste en volledige informatie",
+        "tekst": "Voor onze adviezen zijn wij afhankelijk van de informatie die je ons geeft. Vertel het ons bijvoorbeeld als er wijzigingen zijn in je inkomenssituatie, of als je recent grote uitgaven hebt gedaan voor je woning."
+      },
+      {
+        "titel": "Totaalbeeld",
+        "tekst": "Je financiële portefeuille kun je het best vergelijken met een puzzel. Het beeld is pas compleet te maken wanneer alle puzzelstukjes bekend zijn, ook als je bepaalde producten elders hebt afgesloten."
+      },
+      {
+        "titel": "Wijzigingen doorgeven",
+        "tekst": "Denk bijvoorbeeld aan een verhuizing, een andere baan, het aangaan of beëindigen van een relatie, een geboorte, werkloosheid of arbeidsongeschiktheid."
+      },
+      {
+        "titel": "Informatie doornemen",
+        "tekst": "Neem onze informatie aandachtig door en controleer polissen en andere contracten altijd zelf. Vanzelfsprekend controleren wij deze documenten ook."
+      }
+    ],
+    "kaarten_titel": "Vergelijkingskaarten"
+  },
+  "over": {
+    "meta_titel": "Over ons",
+    "omschrijving": "Maak kennis met Dennis Kouwen en Marijke de Jong van WoonAdvies Groep in Rotterdam, en lees wat klanten over hen zeggen.",
+    "titel": "Wie zijn wij?",
+    "lead": "Onze werkwijze kenmerkt zich door een sterk persoonlijke benadering en is gericht op het opbouwen van een langdurige en intensieve adviesrelatie met jou als klant. Met een hoge mate van vakbekwaamheid, betrokkenheid en kwaliteit als uitgangspunt.",
+    "beeld_alt": "Dennis Kouwen en Marijke de Jong van WoonAdvies Groep",
+    "beeld_onderschrift": "Dennis en Marijke, sinds 2010",
+    "kern": "WoonAdvies Groep is een laagdrempelige organisatie waar persoonlijke aandacht bovenaan staat. Wij adviseren natuurlijk op basis van de financiële mogelijkheden maar nemen daarbij jouw persoonlijke levensstijl en wensen als uitgangspunt.",
+    "mensen_titel": "Dennis en Marijke",
+    "rol": "Financieel adviseur",
+    "mensen": [
+      {
+        "naam": "Dennis Kouwen",
+        "kort": "Dennis",
+        "reviews": [
+          "mh",
+          "mostafa-kort"
+        ]
+      },
+      {
+        "naam": "Marijke de Jong",
+        "kort": "Marijke",
+        "reviews": [
+          "jr",
+          "marit-ruben",
+          "angela"
+        ]
+      }
+    ],
+    "over_label": "Wat klanten over {naam} zeggen",
+    "verwachten_titel": "Wat je van ons mag verwachten",
+    "verwachten": [
+      "Transparantie is waar we voor staan. Dat geldt zowel voor de manier waarop we werken als voor de producten waarin we voor je kunnen bemiddelen. In een totaalpakket, als je dat wenst. Alle kennis hebben we onder één dak. En daarin blijven we investeren.",
+      "Tijden veranderen en je ideeën en omstandigheden staan ook geen leven lang op dezelfde manier vast. Financiële rust, dat blijft het uitgangspunt. Ook als tijden soms minder voorspoedig zijn. Wij zijn daarin graag je partner. We denken vooruit en ontzorgen!"
+    ],
+    "samen": "sofie"
+  },
+  "contact": {
+    "meta_titel": "Contact",
+    "omschrijving": "Plan een vrijblijvend gesprek met WoonAdvies Groep: bij jou thuis, op kantoor aan de Oostmaaslaan in Rotterdam of via video.",
+    "titel": "Contact",
+    "lead": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Bel gerust voor een afspraak, of stuur een e-mail. Dan nemen wij contact met je op.",
+    "manieren_titel": "Waar we afspreken",
+    "manieren": [
+      {
+        "id": "thuis",
+        "titel": "Bij jou thuis",
+        "tekst": "Dat kan overdag of ’s avonds."
+      },
+      {
+        "id": "kantoor",
+        "titel": "Op kantoor",
+        "tekst": "We ontvangen je graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam."
+      },
+      {
+        "id": "video",
+        "titel": "Via video",
+        "tekst": "Advies krijgen kan ook in een videogesprek."
+      }
+    ],
+    "formulier_titel": "Plan een vrijblijvend gesprek",
+    "formulier_intro": "Laat je gegevens achter, dan nemen wij contact met je op.",
+    "plek_label": "Waar wil je afspreken?",
+    "groet": "Graag tot ziens!"
+  },
+  "dienstverlening": {
+    "meta_titel": "Onze dienstverlening",
+    "omschrijving": "Hoe WoonAdvies Groep adviseert en beloond wordt, de registraties bij AFM, Kifid en KvK, en wat je doet als je een klacht hebt.",
+    "titel": "Onze dienstverlening",
+    "lead": "Elke klant is voor ons uniek. Wat wij exact voor je kunnen betekenen, hangt af van je specifieke wensen en omstandigheden. In het algemeen ziet onze dienstverlening er als volgt uit.",
+    "inhoud": [
+      {
+        "id": "zo-werken-we",
+        "titel": "Zo werken we"
+      },
+      {
+        "id": "onafhankelijk",
+        "titel": "Onafhankelijk advies"
+      },
+      {
+        "id": "beloning",
+        "titel": "Hoe we beloond worden"
+      },
+      {
+        "id": "registraties",
+        "titel": "Registraties"
+      },
+      {
+        "id": "klachten",
+        "titel": "Als je een klacht hebt"
+      },
+      {
+        "id": "documenten",
+        "titel": "Documenten"
+      }
+    ],
+    "stappen": [
+      {
+        "titel": "Inventarisatie",
+        "tekst": "Wij inventariseren je wensen en mogelijkheden en brengen je financiële situatie in kaart."
+      },
+      {
+        "titel": "Advies",
+        "tekst": "Wij adviseren over mogelijke oplossingen waarlangs je deze wensen kunt realiseren. Met geen enkele bank of verzekeringsmaatschappij zijn wij een verplichting aangegaan om specifieke producten van die instelling te adviseren of te bemiddelen."
+      },
+      {
+        "titel": "Bemiddeling",
+        "tekst": "Wij verzorgen de contacten tussen jou en de financiële instelling waarbij je overweegt een financieel product aan te schaffen."
+      },
+      {
+        "titel": "Nazorg",
+        "tekst": "Wij begeleiden je na aanschaf van het gewenste financiële product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product."
+      }
+    ],
+    "onafhankelijk_lead": "Onafhankelijk advies over producten moet aan twee voorwaarden voldoen: genoeg producten vergelijken, en niet uitsluitend producten van verbonden aanbieders. Dat verschilt per productgroep, zoals ook op onze vergelijkingskaarten staat.",
+    "vrijheid": "Geen enkele financiële instelling, zoals een bank of een verzekeringsmaatschappij, heeft een eigendomsbelang of zeggenschap in onze onderneming.",
+    "beloning": [
+      {
+        "titel": "Vast tarief",
+        "tekst": "Voor hypotheken, pensioenen, complexe levensverzekeringen, producten voor fiscaal banksparen en deelnemingsrechten in beleggingsinstellingen werken wij met vaste tarieven. De hoogte hangt af van de exacte inhoud van het dienstenpakket dat je van ons afneemt, niet van het financiële product dat je via ons afsluit."
+      },
+      {
+        "titel": "Provisie",
+        "tekst": "Van de aanbieders waar wij je betaal- en spaarrekeningen en consumptieve kredieten onderbrengen, ontvangen wij provisie. De provisie is onderdeel van de prijs van het product. Wij brengen geen aanvullende kosten in rekening."
+      }
+    ],
+    "registraties": [
+      {
+        "id": "afm",
+        "naam": "Autoriteit Financiële Markten",
+        "kort": "AFM",
+        "veld": "afm",
+        "tekst": "Houdt namens de overheid toezicht op de deskundigheid en integriteit van financiële dienstverleners.",
+        "url": "https://www.afm.nl/nl-nl/sector/registers",
+        "link": "Register van de AFM"
+      },
+      {
+        "id": "kifid",
+        "naam": "Klachteninstituut Financiële Dienstverlening",
+        "kort": "Kifid",
+        "veld": "kifid",
+        "tekst": "Een onafhankelijke stichting die je klacht kan beoordelen als we er samen niet uitkomen.",
+        "url": "https://www.kifid.nl",
+        "link": "Website van Kifid"
+      },
+      {
+        "id": "kvk",
+        "naam": "Kamer van Koophandel",
+        "kort": "KvK",
+        "veld": "kvk",
+        "tekst": "Ingeschreven in het handelsregister.",
+        "url": "https://www.kvk.nl/zoeken/?source=all&q=50233335",
+        "link": "Handelsregister van de KvK"
+      }
+    ],
+    "klacht_lead": "Wij behartigen je belangen op het gebied van financiële diensten zo goed mogelijk. Maar ook wij kunnen fouten maken. En dat kan ertoe leiden dat je een klacht hebt.",
+    "klacht_stappen": [
+      {
+        "titel": "Eerst bij ons",
+        "tekst": "Maak je klacht eerst kenbaar aan de directie van ons kantoor. In de meeste gevallen kunnen wij je klacht snel verhelpen. We behandelen hem volgens onze klachtenregeling, een vaststaande procedure die waarborgt dat je klacht correct, adequaat en vlot wordt behandeld."
+      },
+      {
+        "titel": "Daarna bij Kifid",
+        "tekst": "Komen we er samen niet uit, dan kun je je altijd wenden tot het Klachteninstituut Financiële Dienstverlening (Kifid), een onafhankelijke stichting die je klacht verder zal beoordelen."
+      }
+    ],
+    "aansprakelijk": "WoonAdvies Groep heeft een beroepsaansprakelijkheidsverzekering. Voor jou geeft dit extra zekerheid.",
+    "inhoud_titel": "Op deze pagina"
+  },
+  "privacy": {
+    "meta_titel": "Privacy en cookies",
+    "omschrijving": "Hoe WoonAdvies Groep omgaat met je gegevens op deze website: alleen wat nodig is om je te helpen, meten zonder cookies en nooit verkopen.",
+    "titel": "Privacy en cookies",
+    "kort_titel": "In het kort",
+    "kort": [
+      "We gebruiken je gegevens alleen om je vraag te beantwoorden en je te adviseren.",
+      "We geven ze niet zonder jouw toestemming aan anderen en verkopen ze nooit.",
+      "We meten het websitebezoek zonder cookies en niet gekoppeld aan je naam."
+    ],
+    "inhoud_titel": "Op deze pagina",
+    "secties": [
+      {
+        "id": "wie",
+        "titel": "Wie we zijn",
+        "alineas": [
+          "WoonAdvies Groep, Oostmaaslaan 241B, 3063 AV Rotterdam, is verantwoordelijk voor de gegevens die via deze website binnenkomen. We staan in het handelsregister van de Kamer van Koophandel onder nummer 50233335. Vragen over je privacy kun je mailen naar info@woonadviesgroep.nl."
+        ]
+      },
+      {
+        "id": "aanvraag",
+        "titel": "Als je contact opneemt",
+        "alineas": [
+          "Vul je het formulier in, dan gebruiken we je naam, je telefoonnummer of e-mailadres en wat je ons schrijft alleen om je te antwoorden en een gesprek te plannen. We gebruiken ze niet voor marketing.",
+          "Aanvragen via het formulier lopen via Haagse Brandmerk, de beheerder van deze website. De inhoud wordt daar 90 dagen bewaard en daarna automatisch gewist."
+        ]
+      },
+      {
+        "id": "klant",
+        "titel": "Als je klant bij ons bent",
+        "alineas": [
+          "Uit hoofde van onze dienstverlening beschikken wij over gegevens van jou als klant. Die stellen we niet zonder jouw toestemming aan derden ter beschikking. Alle gegevens die op jouw situatie betrekking hebben, bewaren wij in een persoonlijk dossier."
+        ]
+      },
+      {
+        "id": "statistiek",
+        "titel": "Websitestatistiek en sessieweergave",
+        "alineas": [
+          "We houden zonder cookies bij welke pagina’s je bekijkt, waar je klikt en via welk kanaal je binnenkwam. Daarvoor wordt een herkenningscode in je browser opgeslagen. Van een bezoek kan een sessieweergave worden vastgelegd, een reconstructie van wat er op het scherm gebeurde, inclusief muisbewegingen.",
+          "Alles wat je in een formulier typt, wordt al in je eigen browser onleesbaar gemaakt. Weergaven zijn niet gekoppeld aan je naam of e-mailadres, alleen zichtbaar voor ons en onze websitebeheerder, en worden na 30 dagen automatisch verwijderd. De ‘Do Not Track’-instelling van je browser wordt gerespecteerd."
+        ]
+      },
+      {
+        "id": "cookies",
+        "titel": "Cookies",
+        "alineas": [
+          "We plaatsen geen advertentie- of trackingcookies. Wat deze website in je browser bewaart, is alleen bedoeld om de website goed te laten werken, bijvoorbeeld om vastgelegde voorkeuren te onthouden. Daarvoor hoeven we je geen toestemming te vragen, en daarom zie je ook geen cookiemelding."
+        ]
+      },
+      {
+        "id": "rechten",
+        "titel": "Je rechten",
+        "alineas": [
+          "Je mag je gegevens altijd inzien, laten corrigeren of laten verwijderen. Mail daarvoor naar info@woonadviesgroep.nl, dan regelen we het. Ben je niet tevreden over hoe we met je gegevens omgaan, dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens."
+        ]
+      }
+    ],
+    "bijgewerkt": "Laatst bijgewerkt op 5 november 2026."
+  }
+}

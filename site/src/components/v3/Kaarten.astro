@@ -1,0 +1,107 @@
+---
+import Icoon from './Icoon.astro';
+import data from '../../content/v3-vergelijkingskaarten.json';
+import teksten from '../../content/teksten/v3.json';
+
+const { licht = false, dienstenwijzer = false } = Astro.props;
+const wijzer = teksten.voet.documenten.find((d) => d.titel === 'Dienstenwijzer')!;
+const items = [
+  ...data.kaarten.map((k) => ({ titel: k.titel, sub: k.sub, url: k.url })),
+  ...(dienstenwijzer ? [{ titel: wijzer.titel, sub: 'Wie zijn wij, onze dienstverlening, kosten en klachten', url: wijzer.url }] : []),
+];
+---
+<ul class:list={['kaarten', { 'kaarten-licht': licht }]}>
+  {items.map((k) => (
+    <li>
+      <a href={k.url} target="_blank" rel="noopener">
+        <Icoon naam="document" maat={18} />
+        <span class="kaarten-titel">
+          {k.titel !== wijzer.titel && <span class="sr-alleen">Vergelijkingskaart </span>}
+          {k.titel}
+        </span>
+        <span class="kaarten-sub">{k.sub}</span>
+        <span class="kaarten-pdf">pdf</span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .kaarten {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0;
+    list-style: none;
+  }
+  .kaarten a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    column-gap: 0.9rem;
+    padding: 1rem 1.15rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--navy-soft);
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, translate 0.2s var(--uit);
+  }
+  .kaarten :global(svg) {
+    grid-row: 1 / span 2;
+    margin-top: 0.15rem;
+    color: var(--sky-deep);
+  }
+  .kaarten-titel {
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--navy);
+  }
+  .kaarten-sub {
+    grid-column: 2;
+    margin-top: 0.15rem;
+    font-size: var(--klein);
+    line-height: 1.45;
+  }
+  .kaarten-pdf {
+    grid-column: 3;
+    grid-row: 1;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .kaarten a:hover {
+    box-shadow: inset 0 0 0 1.5px var(--sky-deep);
+  }
+  .kaarten a:hover .kaarten-titel {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .kaarten-licht a {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    color: #bcd2e1;
+  }
+  .kaarten-licht :global(svg) {
+    color: var(--sky);
+  }
+  .kaarten-licht .kaarten-titel {
+    color: #fff;
+  }
+  .kaarten-licht .kaarten-pdf {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    color: #bcd2e1;
+  }
+  .kaarten-licht a:hover {
+    box-shadow: inset 0 0 0 1.5px var(--sky);
+  }
+
+  @media (min-width: 48rem) {
+    .kaarten:not(.kaarten-licht) {
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+  }
+</style>

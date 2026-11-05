@@ -1,0 +1,110 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import PaginaKop from '../../components/v3/PaginaKop.astro';
+import Inhoud from '../../components/v3/Inhoud.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const t = teksten.privacy;
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <PaginaKop titel={t.titel}>
+    <section class="pv-kort" aria-labelledby="pv-kort-titel">
+      <h2 id="pv-kort-titel">{t.kort_titel}</h2>
+      <ul>
+        {t.kort.map((k) => <li>{k}</li>)}
+      </ul>
+    </section>
+  </PaginaKop>
+
+  <div class="maat pv-raster">
+    <div class="pv-zij">
+      <Inhoud titel={t.inhoud_titel} items={t.secties} />
+    </div>
+    <article class="pv-tekst">
+      {t.secties.map((s) => (
+        <section id={s.id} aria-labelledby={`pv-${s.id}`}>
+          <h2 id={`pv-${s.id}`}>{s.titel}</h2>
+          {s.alineas.map((a) => <p>{a}</p>)}
+        </section>
+      ))}
+      <p class="pv-datum">{t.bijgewerkt}</p>
+    </article>
+  </div>
+</Pagina>
+
+<style>
+  .pv-kort {
+    max-width: 44rem;
+    margin-top: 2rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    border-radius: var(--radius);
+    background: var(--sky-wash);
+  }
+  .pv-kort h2 {
+    font-size: 1.375rem;
+  }
+  .pv-kort ul {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    padding: 0;
+    list-style: none;
+  }
+  .pv-kort li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--navy);
+  }
+  .pv-kort li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 0.6rem;
+    height: 1.5px;
+    background: var(--sky-deep);
+  }
+
+  .pv-raster {
+    display: grid;
+    gap: 2.5rem;
+    padding-bottom: clamp(4.5rem, 3rem + 5vw, 8rem);
+  }
+  .pv-tekst {
+    max-width: 42rem;
+  }
+  .pv-tekst section {
+    padding-block: 2rem;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: calc(var(--kop-hoogte) + 1rem);
+  }
+  .pv-tekst section:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .pv-tekst h2 {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+  }
+  .pv-tekst p {
+    margin-top: 0.9rem;
+    line-height: 1.7;
+  }
+  .pv-datum {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+
+  @media (min-width: 64rem) {
+    .pv-raster {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+    .pv-zij {
+      position: sticky;
+      top: calc(var(--kop-hoogte) + 1.5rem);
+      align-self: start;
+    }
+  }
+</style>

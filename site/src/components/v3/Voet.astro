@@ -20,7 +20,7 @@ const t = teksten.voet;
     <nav aria-label="Diensten">
       <h2>Diensten</h2>
       <ul>
-        {diensten.map((d) => <li><a href={`/v3#dienst-${d.id}`}>{d.titel}</a></li>)}
+        {diensten.map((d) => <li><a href={`/v3/${d.id}`}>{d.titel}</a></li>)}
       </ul>
     </nav>
     <div>
@@ -37,7 +37,7 @@ const t = teksten.voet;
       </address>
     </div>
     <div>
-      <h2>Registraties</h2>
+      <h2><a href="/v3/onze-dienstverlening#registraties">Registraties</a></h2>
       <p class="cijfer">KvK {bedrijf.kvk}<br />AFM {bedrijf.afm}<br />Kifid {bedrijf.kifid}</p>
     </div>
   </div>
@@ -45,9 +45,9 @@ const t = teksten.voet;
   <div class="maat voet-onder">
     <p>&copy; {new Date().getFullYear()} {bedrijf.naam}</p>
     <ul>
-      <li><a href="/v3/volgt-na-opdracht">Privacyverklaring</a></li>
-      <li><a href="/v3/volgt-na-opdracht">Cookiebeleid</a></li>
-      <li><a href="https://www.kifid.nl" target="_blank" rel="noopener">Klachten (Kifid)</a></li>
+      <li><a href="/v3/onze-dienstverlening">Onze dienstverlening</a></li>
+      <li><a href="/v3/onze-dienstverlening#klachten">Klachten</a></li>
+      <li><a href="/v3/privacy-en-cookies">Privacy en cookies</a></li>
     </ul>
   </div>
 
@@ -115,6 +115,9 @@ const t = teksten.voet;
     font-weight: 600;
     letter-spacing: 0;
     color: #fff;
+  }
+  .voet h2 a {
+    color: inherit !important;
   }
   .voet ul {
     padding: 0;

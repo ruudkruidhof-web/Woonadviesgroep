@@ -1,0 +1,93 @@
+---
+const { titel, items } = Astro.props;
+---
+<nav class="inhoud" aria-label={titel} data-inhoud>
+  <p class="inhoud-titel">{titel}</p>
+  <ol>
+    {items.map((i) => <li><a href={`#${i.id}`}>{i.titel}</a></li>)}
+  </ol>
+</nav>
+
+<style>
+  .inhoud {
+    font-size: var(--ui);
+  }
+  .inhoud-titel {
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .inhoud ol {
+    margin-top: 0.5rem;
+    padding: 0;
+    list-style: none;
+    border-left: 1.5px solid var(--line);
+  }
+  .inhoud a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-left: 1rem;
+    color: var(--navy-soft);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .inhoud a::before {
+    content: '';
+    position: absolute;
+    left: -1.5px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1.5px;
+    background: var(--sky-deep);
+    scale: 1 0;
+    transition: scale 0.25s var(--uit);
+  }
+  .inhoud a:hover {
+    color: var(--navy);
+  }
+  .inhoud a[aria-current='true'] {
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .inhoud a[aria-current='true']::before {
+    scale: 1 1;
+  }
+  @media (max-width: 63.99rem) {
+    .inhoud ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.25rem;
+      border-left: 0;
+    }
+    .inhoud a {
+      padding-left: 0;
+      text-decoration: underline;
+      text-decoration-color: color-mix(in srgb, var(--navy) 25%, transparent);
+      text-underline-offset: 0.25em;
+    }
+    .inhoud a::before {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-inhoud]').forEach((nav) => {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const secties = links.map((a) => document.getElementById(a.hash.slice(1))).filter(Boolean) as HTMLElement[];
+    const zichtbaar = new Set<Element>();
+    const markeer = () => {
+      const eerste = secties.find((s) => zichtbaar.has(s));
+      links.forEach((a) => a.setAttribute('aria-current', String(!!eerste && a.hash === `#${eerste.id}`)));
+    };
+    const io = new IntersectionObserver(
+      (items) => {
+        items.forEach((i) => (i.isIntersecting ? zichtbaar.add(i.target) : zichtbaar.delete(i.target)));
+        markeer();
+      },
+      { rootMargin: '-20% 0px -55% 0px' },
+    );
+    secties.forEach((s) => io.observe(s));
+  });
+</script>

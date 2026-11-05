@@ -1,0 +1,73 @@
+---
+import Kruimels from './Kruimels.astro';
+
+const { titel, hier = titel, lead, stappen } = Astro.props;
+---
+<header class="pk">
+  <svg class="pk-boog" viewBox="0 0 680 680" aria-hidden="true">
+    <circle cx="340" cy="340" r="339" pathLength="1" />
+  </svg>
+  <div class="maat">
+    <Kruimels hier={hier} stappen={stappen} />
+    <h1 data-regels>{titel}</h1>
+    {lead && <p class="lead pk-lead" data-onthul>{lead}</p>}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .pk {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  }
+  .pk h1 {
+    max-width: 16ch;
+    margin-top: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+    font-size: clamp(2.75rem, 2rem + 3.2vw, 4.75rem);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+  }
+  .pk-lead {
+    max-width: 40rem;
+    margin-top: 1.5rem;
+  }
+  .pk-boog {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .pk-boog {
+      display: block;
+      position: absolute;
+      z-index: -1;
+      top: clamp(-14rem, -12vw, -8rem);
+      right: max(-16rem, calc(50% - var(--maat) / 2 - 22rem));
+      width: clamp(28rem, 36vw, 40rem);
+      height: auto;
+      overflow: visible;
+    }
+    .pk-boog circle {
+      fill: none;
+      stroke: var(--sky-deep);
+      stroke-width: 1.25;
+      opacity: 0.45;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pk-boog circle {
+      stroke-dasharray: 1 1;
+      animation: pk-teken 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+    }
+  }
+  @keyframes pk-teken {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

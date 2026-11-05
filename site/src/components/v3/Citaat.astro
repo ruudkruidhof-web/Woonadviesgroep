@@ -1,0 +1,75 @@
+---
+import { review } from './merk';
+
+const { id, groot = false } = Astro.props;
+const r = review(id);
+---
+<figure class:list={['citaat', { 'citaat-groot': groot }]}>
+  <blockquote>
+    <p>{r.tekst}</p>
+  </blockquote>
+  <figcaption>
+    <strong>{r.naam}</strong>
+    <span>{r.bron}{r.wanneer && !/geleden/.test(r.wanneer) ? `, ${r.wanneer}` : ''}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .citaat blockquote {
+    position: relative;
+    font-family: var(--font-kop);
+    font-size: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+    line-height: 1.3;
+    color: var(--navy);
+    text-wrap: pretty;
+  }
+  .citaat blockquote::before {
+    content: '“';
+    position: absolute;
+    top: -0.2em;
+    left: -0.55em;
+    font-size: 2.2em;
+    line-height: 1;
+    color: var(--sky);
+  }
+  .citaat figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    margin-top: 1rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .citaat strong {
+    color: var(--navy);
+  }
+  .citaat-groot {
+    max-width: 46rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .citaat-groot blockquote {
+    font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .citaat-groot blockquote::before {
+    position: static;
+    display: block;
+    height: 0.5em;
+    font-size: 1.6em;
+  }
+  .citaat-groot figcaption {
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 47.99rem) {
+    .citaat:not(.citaat-groot) blockquote::before {
+      position: static;
+      display: block;
+      height: 0.55em;
+      font-size: 1.8em;
+    }
+  }
+</style>

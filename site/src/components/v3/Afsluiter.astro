@@ -1,0 +1,88 @@
+---
+import Icoon from './Icoon.astro';
+import Merk from '../Merk.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+import home from '../../content/teksten/v3.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const t = teksten.afsluiter;
+const { onderwerp } = Astro.props;
+---
+<section class="afsluiter kamer" aria-labelledby="afsluiter-titel">
+  <span class="afsluiter-zegel"><Merk breedte={52} /></span>
+  <h2 id="afsluiter-titel">{t.titel}</h2>
+  <p>{t.tekst}</p>
+  <div class="afsluiter-acties">
+    <button type="button" class="knop knop-licht" data-plan-open data-onderwerp={onderwerp}>
+      {home.hero.knop}
+      <Icoon naam="dak" maat={12} />
+    </button>
+    <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+      <Icoon naam="bel" maat={15} />
+      <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .afsluiter {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: clamp(4rem, 3rem + 4vw, 7rem);
+    margin-bottom: var(--rand);
+    padding: clamp(4rem, 3rem + 3vw, 5.5rem) 1.5rem clamp(3rem, 2.5rem + 2vw, 4.5rem);
+    background: var(--navy);
+    color: #bcd2e1;
+    text-align: center;
+  }
+  .afsluiter-zegel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    background: var(--paper);
+    translate: -50% -45%;
+  }
+  .afsluiter h2 {
+    max-width: 16ch;
+    color: #fff;
+  }
+  .afsluiter p {
+    max-width: 30rem;
+    margin-top: 1rem;
+    font-size: var(--lead);
+  }
+  .afsluiter-acties {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2rem;
+  }
+  .afsluiter .tekstlink {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .afsluiter .tekstlink:hover {
+    text-decoration-color: #fff;
+  }
+  .afsluiter :focus-visible {
+    outline-color: var(--sky);
+  }
+  @media (max-width: 47.99rem) {
+    .afsluiter-acties {
+      flex-direction: column;
+      width: 100%;
+    }
+    .afsluiter-acties .knop {
+      width: 100%;
+    }
+  }
+</style>

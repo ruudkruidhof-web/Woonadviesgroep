@@ -1,0 +1,155 @@
+---
+import Icoon from './Icoon.astro';
+import data from '../../content/v3-vergelijkingskaarten.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const { id, klasse = '' } = Astro.props;
+const kaart = data.kaarten.find((k) => k.id === id)!;
+const t = teksten.kaart;
+---
+<aside class:list={['vk', klasse]} aria-labelledby={`vk-${kaart.id}`}>
+  <h2 id={`vk-${kaart.id}`}>
+    <span class="vk-soort">{teksten.dienst.kaart_titel}</span>
+    {kaart.titel}
+  </h2>
+  <dl>
+    <div>
+      <dt>{t.dienst}</dt>
+      <dd>{kaart.dienst}</dd>
+    </div>
+    {kaart.groepen.map((g) => (
+      <div>
+        <dt>{g.titel}</dt>
+        <dd>
+          <ul class="vk-lijst">
+            {g.wel.map((w) => <li>{w}</li>)}
+            {g.geen.map((w) => <li class="vk-geen"><span class="sr-alleen">{t.geen}: </span>{w}</li>)}
+          </ul>
+        </dd>
+      </div>
+    ))}
+    <div>
+      <dt>{t.advies}</dt>
+      <dd>{data.advies}</dd>
+    </div>
+    <div>
+      <dt>{kaart.onafhankelijk ? t.onafhankelijk : t.vergelijking}</dt>
+      <dd>{kaart.vergelijking}</dd>
+    </div>
+    <div>
+      <dt>{t.onderhoud}</dt>
+      <dd>{kaart.onderhoud}</dd>
+    </div>
+    <div>
+      <dt>{t.kosten}</dt>
+      <dd>
+        {data.toon_prijzen ? (
+          <>
+            <span class="vk-prijs cijfer">{kaart.prijs_kort}</span>
+            <span class="vk-klein">{t.prijzen_uitleg}</span>
+          </>
+        ) : t.kosten_tekst}
+      </dd>
+    </div>
+  </dl>
+  <a href={kaart.url} class="vk-pdf" target="_blank" rel="noopener">
+    <Icoon naam="document" maat={16} />
+    <span>{t.pdf} <span class="vk-klein">(pdf)</span></span>
+  </a>
+</aside>
+
+<style>
+  .vk {
+    --accent: var(--sky-deep);
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: inset 0 3px 0 var(--accent), 0 0 0 1px var(--line), 0 24px 48px -36px rgba(0, 40, 58, 0.45);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .vk h2 {
+    font-size: 1.75rem;
+    line-height: 1.1;
+  }
+  .vk-soort {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: var(--font-tekst);
+    font-size: var(--klein);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--tekst-zacht);
+  }
+  .vk dl {
+    margin-top: 1.25rem;
+  }
+  .vk dl > div {
+    padding-block: 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+  .vk dt {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .vk dd {
+    margin-top: 0.2rem;
+    color: var(--navy);
+  }
+  .vk-lijst {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+    padding: 0;
+    list-style: none;
+  }
+  .vk-lijst li {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--sky-wash);
+    font-size: 0.8125rem;
+    color: var(--navy);
+  }
+  .vk-lijst .vk-geen {
+    background: none;
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--tekst-zacht);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
+  }
+  .vk-prijs {
+    display: block;
+    font-family: var(--font-kop);
+    font-size: 1.375rem;
+  }
+  .vk-klein {
+    font-size: 0.8125rem;
+    color: var(--tekst-zacht);
+  }
+  .vk-pdf {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    margin-top: 0.75rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .vk-pdf > span:first-of-type {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+    text-underline-offset: 0.25em;
+  }
+  .vk-pdf:hover > span:first-of-type {
+    text-decoration-color: currentColor;
+  }
+  .vk-pdf :global(svg) {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+</style>

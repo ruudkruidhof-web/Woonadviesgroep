@@ -1,0 +1,336 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import PaginaKop from '../../components/v3/PaginaKop.astro';
+import Inhoud from '../../components/v3/Inhoud.astro';
+import Kaarten from '../../components/v3/Kaarten.astro';
+import Afsluiter from '../../components/v3/Afsluiter.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+import kaarten from '../../content/v3-vergelijkingskaarten.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const t = teksten.dienstverlening;
+const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <PaginaKop titel={t.titel} lead={t.lead} />
+
+  <div class="maat od-raster">
+    <div class="od-zij">
+      <Inhoud titel={t.inhoud_titel} items={t.inhoud} />
+    </div>
+
+    <div class="od-tekst">
+      <section id="zo-werken-we" aria-labelledby="od-zo">
+        <h2 id="od-zo">{kop['zo-werken-we']}</h2>
+        <ol class="od-stappen">
+          {t.stappen.map((s, i) => (
+            <li>
+              <span class="od-nr cijfer" aria-hidden="true">{i + 1}</span>
+              <h3>{s.titel}</h3>
+              <p>{s.tekst}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section id="onafhankelijk" aria-labelledby="od-onafhankelijk">
+        <h2 id="od-onafhankelijk">{kop.onafhankelijk}</h2>
+        <p>{t.onafhankelijk_lead}</p>
+        <dl class="od-groepen">
+          {kaarten.kaarten.map((k) => (
+            <div>
+              <dt>
+                <a href={k.url} target="_blank" rel="noopener">
+                  {k.titel}
+                  <span class="sr-alleen">, vergelijkingskaart (pdf)</span>
+                </a>
+                <span>{k.sub}</span>
+              </dt>
+              <dd class:list={[{ 'od-ja': k.onafhankelijk }]}>
+                <strong>{k.onafhankelijk ? teksten.kaart.ja : teksten.kaart.nee}</strong>
+                {!k.onafhankelijk && <span>{k.vergelijking}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p>{t.vrijheid}</p>
+      </section>
+
+      <section id="beloning" aria-labelledby="od-beloning">
+        <h2 id="od-beloning">{kop.beloning}</h2>
+        <div class="od-twee">
+          {t.beloning.map((b) => (
+            <div>
+              <h3>{b.titel}</h3>
+              <p>{b.tekst}</p>
+            </div>
+          ))}
+        </div>
+        <a href="/v3/werkwijze-en-kosten" class="tekstlink">
+          Werkwijze en kosten
+          <Icoon naam="dak" maat={11} />
+        </a>
+      </section>
+
+      <section id="registraties" aria-labelledby="od-registraties">
+        <h2 id="od-registraties">{kop.registraties}</h2>
+        <ul class="od-registers">
+          {t.registraties.map((r) => (
+            <li>
+              <p class="od-orgaan"><abbr title={r.naam}>{r.kort}</abbr></p>
+              <p class="od-nummer cijfer">{bedrijf[r.veld as 'afm' | 'kifid' | 'kvk']}</p>
+              <p class="od-uitleg">{r.tekst}</p>
+              <a href={r.url} target="_blank" rel="noopener" class="tekstlink">
+                {r.link}
+                <Icoon naam="dak" maat={10} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="klachten" aria-labelledby="od-klachten">
+        <h2 id="od-klachten">{kop.klachten}</h2>
+        <p>{t.klacht_lead}</p>
+        <ol class="od-route">
+          {t.klacht_stappen.map((s, i) => (
+            <li>
+              <span class="od-nr cijfer" aria-hidden="true">{i + 1}</span>
+              <h3>{s.titel}</h3>
+              <p>{s.tekst}</p>
+              {i === 0 ? (
+                <a href={`mailto:${bedrijf.email}`} class="tekstlink">{bedrijf.email}</a>
+              ) : (
+                <a href="https://www.kifid.nl" target="_blank" rel="noopener" class="tekstlink">
+                  kifid.nl
+                  <Icoon naam="dak" maat={10} />
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+        <p>{t.aansprakelijk}</p>
+      </section>
+
+      <section id="documenten" aria-labelledby="od-documenten">
+        <h2 id="od-documenten">{kop.documenten}</h2>
+        <p>{kaarten.uitleg}</p>
+        <div class="od-kaarten">
+          <Kaarten dienstenwijzer />
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <Afsluiter />
+</Pagina>
+
+<style>
+  .od-raster {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .od-tekst {
+    max-width: 46rem;
+  }
+  .od-tekst > section {
+    padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    border-top: 1px solid var(--line);
+    scroll-margin-top: calc(var(--kop-hoogte) + 1rem);
+  }
+  .od-tekst > section:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .od-tekst h2 {
+    font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.625rem);
+  }
+  .od-tekst h2 + p,
+  .od-tekst section > p {
+    margin-top: 1rem;
+  }
+  .od-tekst h3 {
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+  .od-tekst .tekstlink {
+    margin-top: 0.75rem;
+  }
+
+  .od-stappen,
+  .od-route {
+    display: grid;
+    gap: 1.75rem 2.5rem;
+    margin-top: 1.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  .od-stappen li,
+  .od-route li {
+    position: relative;
+    padding-left: 3.25rem;
+  }
+  .od-nr {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px var(--sky-deep);
+    font-family: var(--font-kop);
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .od-stappen h3,
+  .od-route h3 {
+    padding-top: 0.25rem;
+  }
+  .od-stappen p,
+  .od-route p {
+    margin-top: 0.4rem;
+  }
+
+  .od-groepen {
+    margin-top: 1.5rem;
+    border-radius: var(--radius);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .od-groepen > div {
+    display: grid;
+    gap: 0.4rem 2rem;
+    padding: 1.1rem 1.35rem;
+  }
+  .od-groepen > div + div {
+    border-top: 1px solid var(--line);
+  }
+  .od-groepen dt a {
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--navy) 25%, transparent);
+    text-underline-offset: 0.25em;
+  }
+  .od-groepen dt a:hover {
+    text-decoration-color: currentColor;
+  }
+  .od-groepen dt span {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .od-groepen dd strong {
+    display: block;
+    color: var(--brown);
+  }
+  .od-groepen dd.od-ja strong {
+    color: var(--sky-deep);
+  }
+  .od-groepen dd span {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: var(--klein);
+  }
+
+  .od-twee {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    margin-top: 1.5rem;
+  }
+  .od-twee p {
+    margin-top: 0.4rem;
+  }
+
+  .od-registers {
+    display: grid;
+    gap: 10px;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .od-registers li {
+    display: flex;
+    flex-direction: column;
+    padding: 1.4rem 1.4rem 1rem;
+    border-radius: var(--radius);
+    background: var(--sky-wash);
+  }
+  .od-orgaan abbr {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--sky-deep);
+  }
+  .od-nummer {
+    margin-top: 0.15rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+    line-height: 1.15;
+    color: var(--navy);
+  }
+  .od-uitleg {
+    margin-top: 0.6rem;
+    font-size: var(--klein);
+    line-height: 1.5;
+  }
+  .od-registers .tekstlink {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: var(--klein);
+  }
+
+  .od-route li + li::before {
+    content: '';
+    position: absolute;
+    left: 1.125rem;
+    top: -1.75rem;
+    height: 1.75rem;
+    width: 1.5px;
+    translate: -50% 0;
+    background: var(--sky-deep);
+    opacity: 0.4;
+  }
+  .od-kaarten {
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .od-stappen,
+    .od-twee {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .od-groepen > div {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .od-registers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .od-raster {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+    .od-zij {
+      position: sticky;
+      top: calc(var(--kop-hoogte) + 1.5rem);
+      align-self: start;
+    }
+    .od-route {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .od-route li + li::before {
+      left: -2.5rem;
+      top: 1.125rem;
+      width: 2.5rem;
+      height: 1.5px;
+      translate: 0 -50%;
+    }
+  }
+</style>

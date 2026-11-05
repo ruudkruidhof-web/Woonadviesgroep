@@ -1,0 +1,432 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import Kruimels from '../../components/v3/Kruimels.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import Vergelijkingskaart from '../../components/v3/Vergelijkingskaart.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Afsluiter from '../../components/v3/Afsluiter.astro';
+import diensten from '../../content/v3-diensten.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+import bedrijf from '../../content/bedrijf.json';
+
+export function getStaticPaths() {
+  return diensten.map((d) => ({ params: { dienst: d.id }, props: { d } }));
+}
+
+const { d } = Astro.props;
+const p = d.pagina;
+const t = teksten.dienst;
+const situaties = p.vragen ?? d.situaties;
+const anderen = diensten.filter((x) => x.id !== d.id);
+---
+<Pagina titel={d.titel} omschrijving={p.lead}>
+  <section class={`dp-kamer kamer dp-${d.id}`} aria-labelledby="dp-titel">
+    <div class="dp-raster">
+      <div>
+        <Kruimels hier={d.titel} stappen={[{ href: '/v3#diensten', label: t.kruimel }]} />
+        <h1 id="dp-titel">{d.titel}</h1>
+        <p class="dp-lead">{p.lead}</p>
+      </div>
+      <div class="dp-zij">
+        <ul class="dp-situaties">
+          {situaties.map((s) => (
+            <li>
+              <Icoon naam="dak" maat={11} />
+              {s}
+            </li>
+          ))}
+        </ul>
+        <div class="dp-acties">
+          <button type="button" class="knop dp-knop" data-plan-open data-onderwerp={d.titel}>
+            {t.knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+          <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+            <Icoon naam="bel" maat={15} />
+            <span>Bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dp-inhoud sectie" aria-label={`Meer over ${d.titel.toLowerCase()}`}>
+    <div class="maat dp-kolommen">
+      <div class="dp-tekst">
+        {p.alineas.map((a) => <p data-onthul>{a}</p>)}
+
+        {p.uitleg && (
+          <div class="dp-blok" data-onthul>
+            <h2>{p.uitleg_titel}</h2>
+            <dl class="dp-uitleg">
+              {p.uitleg.map((u) => (
+                <div>
+                  <dt>{u.titel}</dt>
+                  <dd>{u.tekst}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        {p.daarna && (
+          <div class="dp-blok" data-onthul>
+            <h2>{t.daarna_titel}</h2>
+            <p>{p.daarna}</p>
+          </div>
+        )}
+
+        <div class="dp-citaat" data-onthul>
+          <Citaat id={p.review} />
+        </div>
+      </div>
+
+      <div class="dp-aside">
+        {p.kaart ? (
+          <Vergelijkingskaart id={p.kaart} klasse="dp-kaart" />
+        ) : (
+          <aside class="dp-beloning" aria-labelledby="dp-beloning-titel">
+            <h2 id="dp-beloning-titel">{p.beloning_titel}</h2>
+            {p.beloning.map((b) => <p>{b}</p>)}
+            <a href="/v3/werkwijze-en-kosten" class="tekstlink">
+              Werkwijze en kosten
+              <Icoon naam="dak" maat={11} />
+            </a>
+          </aside>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="dp-anderen" aria-labelledby="dp-anderen-titel">
+    <div class="maat">
+      <h2 id="dp-anderen-titel" data-regels>{t.andere_titel}</h2>
+      <div class="dp-gebouw" data-gebouw>
+        <svg class="dp-dak" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M8 116 L500 6 L992 116" />
+        </svg>
+        <ul>
+          {anderen.map((x) => (
+            <li class="d-kamer">
+              <a href={`/v3/${x.id}`} class={`dp-ander dp-${x.id}`}>
+                <h3>{x.titel}</h3>
+                <p>{x.menu}</p>
+                <span class="dp-pijl" aria-hidden="true"><Icoon naam="dak" maat={13} /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Afsluiter onderwerp={d.titel} />
+</Pagina>
+
+<style>
+  .dp-kamer {
+    --boog: clamp(4rem, 3rem + 3vw, 6.5rem);
+    --boogbreedte: min(46vw, 34rem);
+    --accent: var(--sky-deep);
+    --knop: var(--navy);
+    --knop-tekst: #fff;
+    padding: calc(var(--boog) * 0.75) clamp(1.5rem, 1rem + 3vw, 4rem) clamp(2.5rem, 2rem + 2.5vw, 4rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    color: var(--navy-soft);
+  }
+  .dp-hypotheken {
+    --accent: var(--sky);
+    --knop: #fff;
+    --knop-tekst: var(--navy);
+    background: var(--navy);
+    color: var(--sky-wash);
+  }
+  .dp-pensioenen {
+    background: var(--sky-wash);
+  }
+  .dp-verzekeringen {
+    --accent: var(--brown);
+    background: var(--wash-warm);
+  }
+  .dp-financien {
+    --accent: var(--navy);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .dp-raster {
+    display: grid;
+    gap: 2rem;
+    max-width: 1160px;
+    margin-inline: auto;
+  }
+  .dp-kamer h1 {
+    max-width: 12ch;
+    margin-top: 1rem;
+    font-size: clamp(3rem, 2rem + 4.4vw, 5.75rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .dp-hypotheken h1,
+  .dp-hypotheken .dp-situaties li {
+    color: #fff;
+  }
+  .dp-hypotheken :global(.kruimels ol) {
+    color: #bcd2e1;
+  }
+  .dp-hypotheken :global(.kruimels a:hover) {
+    color: #fff;
+  }
+  .dp-lead {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    font-size: var(--lead);
+    line-height: 1.55;
+  }
+  .dp-situaties {
+    display: grid;
+    padding: 0;
+    list-style: none;
+  }
+  .dp-situaties li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding-block: 0.8rem;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--navy);
+  }
+  .dp-situaties :global(.dak) {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .dp-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+    margin-top: 2rem;
+  }
+  .dp-knop {
+    background: var(--knop);
+    color: var(--knop-tekst);
+  }
+  .dp-knop:hover,
+  .dp-knop:focus-visible {
+    background: color-mix(in srgb, var(--knop), var(--sky) 18%);
+  }
+  .dp-hypotheken .tekstlink {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .dp-hypotheken :focus-visible {
+    outline-color: var(--sky);
+  }
+
+  .dp-inhoud {
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem) clamp(4rem, 3rem + 4vw, 7rem);
+  }
+  .dp-kolommen {
+    display: grid;
+    gap: clamp(3rem, 2rem + 4vw, 5rem);
+  }
+  .dp-tekst {
+    max-width: 40rem;
+  }
+  .dp-tekst > p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  .dp-tekst > p + p {
+    margin-top: 1.25rem;
+  }
+  .dp-blok {
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+  .dp-blok h2,
+  .dp-beloning h2 {
+    font-size: var(--h3);
+    line-height: 1.2;
+  }
+  .dp-blok > p {
+    margin-top: 0.75rem;
+  }
+  .dp-uitleg {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .dp-uitleg > div {
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--sky);
+  }
+  .dp-uitleg dt {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .dp-uitleg dd {
+    margin-top: 0.25rem;
+  }
+  .dp-citaat {
+    margin-top: clamp(3rem, 2.5rem + 2vw, 4.5rem);
+    padding-top: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+    border-top: 1px solid var(--line);
+  }
+  .dp-beloning {
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+    border-radius: var(--radius);
+    background: var(--ice);
+  }
+  .dp-beloning p {
+    margin-top: 0.9rem;
+    font-size: 0.9375rem;
+  }
+  .dp-beloning .tekstlink {
+    margin-top: 0.75rem;
+  }
+
+  .dp-anderen {
+    padding-top: clamp(1rem, 0.5rem + 2vw, 3rem);
+  }
+  .dp-anderen h2 {
+    max-width: 18ch;
+    font-size: clamp(2rem, 1.6rem + 1.8vw, 3rem);
+  }
+  .dp-gebouw {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .dp-dak {
+    display: block;
+    width: 100%;
+    height: clamp(3rem, 1.5rem + 6vw, 7.5rem);
+    overflow: visible;
+  }
+  .dp-dak path {
+    fill: none;
+    stroke: var(--navy);
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.55;
+  }
+  .dp-gebouw ul {
+    --accent: var(--sky-deep);
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 0;
+    list-style: none;
+  }
+  .dp-ander {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-content: start;
+    column-gap: 1.25rem;
+    height: 100%;
+    padding: clamp(1.4rem, 1rem + 1.2vw, 2rem);
+    border-radius: var(--radius);
+    color: var(--navy-soft);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .dp-ander h3 {
+    font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem);
+    line-height: 1.1;
+  }
+  .dp-ander p {
+    grid-column: 1;
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .dp-pijl {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    color: var(--accent);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .dp-ander:hover .dp-pijl,
+  .dp-ander:focus-visible .dp-pijl {
+    background: var(--accent);
+    color: #fff;
+  }
+  .dp-ander.dp-hypotheken h3 {
+    color: #fff;
+  }
+  .dp-ander.dp-hypotheken {
+    color: #bcd2e1;
+  }
+  .dp-ander.dp-hypotheken .dp-pijl {
+    color: var(--sky);
+  }
+  .dp-ander.dp-hypotheken:hover .dp-pijl {
+    color: var(--navy);
+    background: var(--sky);
+  }
+  .dp-ander.dp-hypotheken:focus-visible {
+    outline-color: var(--sky);
+    outline-offset: 3px;
+  }
+  .dp-ander.dp-pensioenen:hover {
+    background: color-mix(in srgb, var(--sky-wash), var(--sky) 16%);
+  }
+  .dp-ander.dp-verzekeringen:hover {
+    background: color-mix(in srgb, var(--wash-warm), var(--brown) 9%);
+  }
+  .dp-ander.dp-financien:hover {
+    background: var(--ice);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dp-kamer .dp-raster > * {
+      animation: dp-in 0.8s var(--uit) both;
+    }
+    .dp-kamer .dp-zij {
+      animation-delay: 0.12s;
+    }
+    @keyframes dp-in {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .dp-gebouw ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .dp-kamer {
+      padding-top: calc(var(--boog) + 1.5rem);
+      padding-bottom: clamp(3.5rem, 3rem + 2vw, 5rem);
+      border-radius: var(--boogbreedte) var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
+    }
+    .dp-pensioenen,
+    .dp-financien {
+      border-radius: var(--radius) var(--boogbreedte) var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
+    }
+    .dp-raster {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      align-items: end;
+      gap: clamp(3rem, 6vw, 7rem);
+    }
+    .dp-kolommen {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 23rem);
+      align-items: start;
+    }
+    .dp-aside {
+      position: sticky;
+      top: calc(var(--kop-hoogte) + 1.5rem);
+    }
+  }
+</style>

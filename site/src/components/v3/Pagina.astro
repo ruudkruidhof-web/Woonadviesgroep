@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Kop from './Kop.astro';
+import Voet from './Voet.astro';
+import Kennismaken from './Kennismaken.astro';
+import Actiebalk from './Actiebalk.astro';
+import Beweging from './Beweging.astro';
+import './v3.css';
+
+const { titel, omschrijving } = Astro.props;
+---
+<Base titel={`${titel} | WoonAdvies Groep`} omschrijving={omschrijving} thema="v3" basis="/v3" variant="v3" noindex eigenKader>
+  <Kop slot="kop" />
+  <slot />
+  <Kennismaken />
+  <Actiebalk />
+  <Beweging />
+  <Voet slot="voet" />
+</Base>

@@ -1,0 +1,40 @@
+---
+const { stappen = [], hier } = Astro.props;
+---
+<nav class="kruimels" aria-label="Kruimelpad">
+  <ol>
+    <li><a href="/v3">Home</a></li>
+    {stappen.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+    <li aria-current="page">{hier}</li>
+  </ol>
+</nav>
+
+<style>
+  .kruimels ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.5rem;
+    padding: 0;
+    list-style: none;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .kruimels li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+    opacity: 0.5;
+  }
+  .kruimels a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .kruimels a:hover {
+    color: var(--navy);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+</style>

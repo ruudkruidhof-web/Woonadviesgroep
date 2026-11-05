@@ -5,10 +5,13 @@ import bedrijf from '../../content/bedrijf.json';
 import teksten from '../../content/teksten/v3.json';
 
 const links = [
-  { href: '/v3#werkwijze', label: 'Werkwijze en kosten' },
-  { href: '/v3/volgt-na-opdracht', label: 'Over ons' },
-  { href: '/v3#contact', label: 'Contact' },
+  { href: '/v3/werkwijze-en-kosten', label: 'Werkwijze en kosten' },
+  { href: '/v3/over-ons', label: 'Over ons' },
+  { href: '/v3/contact', label: 'Contact' },
 ];
+const pad = Astro.url.pathname.replace(/\/$/, '');
+const huidig = (href: string) => (pad === href ? 'page' : undefined);
+const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
 ---
 <header class="kop" data-kop>
   <div class="maat kop-balk">
@@ -19,7 +22,7 @@ const links = [
     <nav class="kop-nav" aria-label="Hoofdmenu">
       <ul>
         <li class="kop-sub" data-sub>
-          <button type="button" aria-expanded="false" aria-controls="kop-diensten">
+          <button type="button" aria-expanded="false" aria-controls="kop-diensten" data-actief={inDiensten || undefined}>
             Diensten
             <Icoon naam="omlaag" maat={11} />
           </button>
@@ -27,7 +30,7 @@ const links = [
             <ul>
               {diensten.map((d) => (
                 <li>
-                  <a href={`/v3#dienst-${d.id}`}>
+                  <a href={`/v3/${d.id}`} aria-current={huidig(`/v3/${d.id}`)}>
                     <span class="kop-paneel-titel">{d.titel}</span>
                     <span class="kop-paneel-tekst">{d.menu}</span>
                     <Icoon naam="dak" maat={11} />
@@ -41,7 +44,7 @@ const links = [
             </div>
           </div>
         </li>
-        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {links.map((l) => <li><a href={l.href} aria-current={huidig(l.href)}>{l.label}</a></li>)}
       </ul>
     </nav>
 
@@ -66,10 +69,10 @@ const links = [
     <nav aria-label="Menu">
       <p class="kop-menu-groep">Diensten</p>
       <ul class="kop-menu-diensten">
-        {diensten.map((d) => <li><a href={`/v3#dienst-${d.id}`}>{d.titel}</a></li>)}
+        {diensten.map((d) => <li><a href={`/v3/${d.id}`} aria-current={huidig(`/v3/${d.id}`)}>{d.titel}</a></li>)}
       </ul>
       <ul class="kop-menu-links">
-        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {links.map((l) => <li><a href={l.href} aria-current={huidig(l.href)}>{l.label}</a></li>)}
       </ul>
     </nav>
     <div class="kop-menu-acties">
@@ -149,6 +152,19 @@ const links = [
   .kop-sub > button:hover,
   .kop-sub > button[aria-expanded='true'] {
     background: var(--sky-wash);
+  }
+  .kop-nav > ul > li > a[aria-current='page'],
+  .kop-sub > button[data-actief] {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: var(--sky);
+    text-underline-offset: 0.45em;
+  }
+  .kop-paneel a[aria-current='page'] {
+    background: var(--sky-wash);
+  }
+  .kop-menu a[aria-current='page'] {
+    color: var(--sky-deep);
   }
   .kop-sub {
     position: relative;

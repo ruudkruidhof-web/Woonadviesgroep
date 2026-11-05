@@ -158,7 +158,7 @@
 }
 
 @media (max-width: 47.99rem) {
-  :is(.hero-acties, .w-acties, .d-acties, .volgt-acties) .knop {
+  :is(.hero-acties, .w-acties, .d-acties) .knop {
     width: 100%;
   }
 }

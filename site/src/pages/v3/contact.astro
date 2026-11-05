@@ -1,0 +1,300 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import PaginaKop from '../../components/v3/PaginaKop.astro';
+import Visitekaartje from '../../components/v3/Visitekaartje.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+import home from '../../content/teksten/v3.json';
+import diensten from '../../content/v3-diensten.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const t = teksten.contact;
+const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <PaginaKop titel={t.titel} lead={t.lead} />
+
+  <section class="ct-manieren" aria-labelledby="ct-manieren-titel">
+    <div class="maat">
+      <h2 id="ct-manieren-titel" class="sr-alleen">{t.manieren_titel}</h2>
+      <ul class="ct-kamers" data-gebouw>
+        {t.manieren.map((m) => (
+          <li class={`d-kamer ct-kamer ct-${m.id}`}>
+            <span class="ct-icoon" aria-hidden="true">
+              {m.id === 'thuis' && <svg viewBox="0 0 24 24"><path d="M3.5 11.2 12 3.8l8.5 7.4M6 9.6v10.6h4.5v-5.4h3v5.4H18V9.6" /></svg>}
+              {m.id === 'kantoor' && <svg viewBox="0 0 24 24"><path d="M12 21.5s-7-6.2-7-11.7a7 7 0 0 1 14 0c0 5.5-7 11.7-7 11.7Z" /><circle cx="12" cy="9.8" r="2.6" /></svg>}
+              {m.id === 'video' && <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5" /><path d="m15.5 10.6 6-3.1v9l-6-3.1" /></svg>}
+            </span>
+            <h3>{m.titel}</h3>
+            <p>{m.tekst}</p>
+            <div class="ct-kamer-acties">
+              <a href="#plan" class="tekstlink" data-plek={m.titel}>
+                Plan {m.id === 'video' ? 'een videogesprek' : 'een gesprek'}
+                <Icoon naam="dak" maat={11} />
+              </a>
+              {m.id === 'kantoor' && (
+                <a href={route} class="tekstlink" target="_blank" rel="noopener">
+                  Route plannen
+                  <Icoon naam="dak" maat={11} />
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="plan" class="ct-plan" aria-labelledby="ct-plan-titel">
+    <div class="maat ct-plan-raster">
+      <div class="ct-direct">
+        <Visitekaartje />
+        <ul class="ct-knoppen">
+          <li>
+            <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
+              <Icoon naam="bel" maat={15} />
+              Bel ons
+            </a>
+          </li>
+          <li>
+            <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn">
+              <Icoon naam="whatsapp" maat={16} />
+              Stuur een WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${bedrijf.email}`} class="knop knop-lijn">
+              <Icoon naam="mail" maat={16} />
+              Stuur een e-mail
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <form class="ct-form" data-hb-lead data-ct-form>
+        <h2 id="ct-plan-titel">{t.formulier_titel}</h2>
+        <p class="ct-intro">{t.formulier_intro}</p>
+        <label>
+          Je naam
+          <input type="text" name="naam" autocomplete="name" required />
+        </label>
+        <label>
+          Telefoon of e-mail
+          <input type="text" name="contact" autocomplete="email" required />
+        </label>
+        <div class="ct-twee">
+          <label>
+            {t.plek_label}
+            <select name="plek" data-ct-plek>
+              {t.manieren.map((m) => <option>{m.titel}</option>)}
+            </select>
+          </label>
+          <label>
+            Waar gaat het over?
+            <select name="onderwerp">
+              <option>Kennismaking</option>
+              {diensten.map((d) => <option>{d.titel}</option>)}
+            </select>
+          </label>
+        </div>
+        <label>
+          Je vraag <span>(niet verplicht)</span>
+          <textarea name="bericht" rows="4"></textarea>
+        </label>
+        <button type="submit" class="knop knop-vol">{home.contact.formulier_knop}</button>
+        <p class="ct-melding" role="status" data-ct-melding data-tekst={home.concept_melding}></p>
+        <p class="ct-groet">{t.groet}</p>
+      </form>
+    </div>
+  </section>
+</Pagina>
+
+<style>
+  .ct-kamers {
+    --boog: clamp(2.75rem, 2rem + 2.5vw, 4.25rem);
+    display: grid;
+    gap: 10px;
+    padding: 0;
+    list-style: none;
+  }
+  .ct-kamer {
+    display: flex;
+    flex-direction: column;
+    padding: calc(var(--boog) + 0.25rem) clamp(1.5rem, 1rem + 1.5vw, 2.25rem) clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+  }
+  .ct-thuis {
+    --accent: var(--brown);
+    background: var(--wash-warm);
+  }
+  .ct-kantoor {
+    --accent: var(--sky-deep);
+    background: var(--sky-wash);
+  }
+  .ct-video {
+    --accent: var(--navy);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .ct-icoon svg {
+    display: block;
+    width: 2.75rem;
+    height: 2.75rem;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .ct-kamer h3 {
+    margin-top: 1.25rem;
+    font-size: clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem);
+  }
+  .ct-kamer p {
+    margin-top: 0.5rem;
+  }
+  .ct-kamer-acties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .ct-plan {
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .ct-plan-raster {
+    display: grid;
+    gap: 3rem;
+  }
+  .ct-knoppen {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .ct-knoppen .knop {
+    width: 100%;
+  }
+
+  .ct-form {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .ct-form h2 {
+    font-size: clamp(1.875rem, 1.6rem + 1vw, 2.375rem);
+  }
+  .ct-intro {
+    margin-top: -0.4rem;
+  }
+  .ct-twee {
+    display: grid;
+    gap: 1rem;
+  }
+  .ct-form label {
+    display: block;
+    font-size: var(--ui);
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .ct-form label span {
+    font-weight: 400;
+    color: var(--tekst-zacht);
+  }
+  .ct-form :is(input, select, textarea) {
+    display: block;
+    width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid color-mix(in srgb, var(--navy) 55%, #fff);
+    border-radius: 10px;
+    background: #fff;
+    font: inherit;
+    font-size: 1.0625rem;
+    color: var(--navy);
+  }
+  .ct-form select {
+    appearance: none;
+    padding-right: 2.75rem;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 4 6 8.5 10.5 4' fill='none' stroke='%23003850' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 1rem center / 0.75rem;
+  }
+  .ct-form :is(input, select, textarea):focus {
+    border-color: var(--sky-deep);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sky-deep) 22%, transparent);
+  }
+  .ct-form .knop {
+    justify-self: start;
+    margin-top: 0.25rem;
+  }
+  .ct-melding:empty {
+    display: none;
+  }
+  .ct-melding {
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    background: var(--wash-warm-licht);
+    border: 1px solid color-mix(in srgb, var(--brown) 25%, transparent);
+    color: var(--navy);
+    font-size: var(--ui);
+  }
+  .ct-groet {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    color: var(--brown);
+  }
+
+  @media (max-width: 47.99rem) {
+    .ct-form .knop {
+      justify-self: stretch;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .ct-kamers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .ct-twee {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .ct-plan-raster {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+      gap: clamp(3rem, 6vw, 6rem);
+    }
+    .ct-direct {
+      position: sticky;
+      top: calc(var(--kop-hoogte) + 1.5rem);
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-ct-form]')!;
+  const plek = form.querySelector<HTMLSelectElement>('[data-ct-plek]')!;
+  const melding = form.querySelector<HTMLElement>('[data-ct-melding]')!;
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-plek]').forEach((link) => {
+    link.addEventListener('click', () => {
+      plek.value = link.dataset.plek!;
+      setTimeout(() => form.querySelector('input')!.focus({ preventScroll: true }), 450);
+    });
+  });
+  form.addEventListener('submit', (e) => {
+    // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.
+    e.preventDefault();
+    melding.textContent = melding.dataset.tekst ?? '';
+  });
+</script>

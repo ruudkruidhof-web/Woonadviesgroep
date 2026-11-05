@@ -2,11 +2,10 @@
 import Icoon from './Icoon.astro';
 import diensten from '../../content/v3-diensten.json';
 import teksten from '../../content/teksten/v3.json';
+import { huis, huisViewBox } from './merk';
 
 const t = teksten.diensten;
 const [kern, ...kamers] = diensten;
-// Het huis uit het beeldmerk (zelfde pad als in Merk.astro), hier als lijn.
-const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L390 336 L256 206 L122 336 L117 346 L146 348 L153 352 L153 449 L148 450 L32 330 Z';
 ---
 <section id="diensten" class="diensten sectie" aria-labelledby="diensten-titel">
   <div class="maat">
@@ -17,7 +16,7 @@ const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L39
 
     <div class="d-gebouw" data-gebouw>
       <article id={`dienst-${kern.id}`} class="d-kamer d-kern" aria-labelledby={`dienst-${kern.id}-titel`}>
-        <svg class="d-huis" viewBox="20 96 472 366" aria-hidden="true"><path d={huis} /></svg>
+        <svg class="d-huis" viewBox={huisViewBox} aria-hidden="true"><path d={huis} /></svg>
         <h3 id={`dienst-${kern.id}-titel`}>{kern.titel}</h3>
         <p class="d-tekst">{kern.tekst}</p>
         <ul class="d-situaties">
@@ -33,7 +32,7 @@ const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L39
             {t.knop}
             <Icoon naam="dak" maat={12} />
           </button>
-          <a href="/v3/volgt-na-opdracht" class="tekstlink">
+          <a href={`/v3/${kern.id}`} class="tekstlink">
             Meer over {kern.titel.toLowerCase()}
             <Icoon naam="dak" maat={11} />
           </a>
@@ -41,7 +40,7 @@ const huis = 'M256 108 L480 330 L364 450 L359 449 L359 352 L366 348 L395 346 L39
       </article>
 
       {kamers.map((d) => (
-        <a id={`dienst-${d.id}`} href="/v3/volgt-na-opdracht" class={`d-kamer d-zij d-${d.id}`}>
+        <a id={`dienst-${d.id}`} href={`/v3/${d.id}`} class={`d-kamer d-zij d-${d.id}`}>
           <h3>{d.titel}</h3>
           <p>{d.kort}</p>
           <span class="d-pijl" aria-hidden="true"><Icoon naam="dak" maat={13} /></span>

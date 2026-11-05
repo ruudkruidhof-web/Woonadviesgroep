@@ -1,0 +1,239 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import Kruimels from '../../components/v3/Kruimels.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Afsluiter from '../../components/v3/Afsluiter.astro';
+import Merk from '../../components/Merk.astro';
+import { review } from '../../components/v3/merk';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const t = teksten.over;
+const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <header class="oo-kop">
+    <div class="maat oo-kop-raster">
+      <div>
+        <Kruimels hier={t.meta_titel} />
+        <h1 data-regels>{t.titel}</h1>
+        <p class="lead" data-onthul>{t.lead}</p>
+      </div>
+      <figure class="oo-foto">
+        <img
+          src="/beeld/adviseurs-v3-800.webp"
+          srcset="/beeld/adviseurs-v3-800.webp 800w, /beeld/adviseurs-v3-1400.webp 1400w"
+          sizes="(min-width: 64rem) 22rem, 80vw"
+          alt={t.beeld_alt}
+          width="800"
+          height="800"
+        />
+        <figcaption>{t.beeld_onderschrift}</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <section class="oo-kern" aria-label="Waar we voor staan">
+    <div class="maat">
+      <span class="oo-zegel"><Merk breedte={56} /></span>
+      <p data-onthul>{t.kern}</p>
+    </div>
+  </section>
+
+  <section class="oo-mensen" aria-labelledby="oo-mensen-titel">
+    <div class="maat">
+      <h2 id="oo-mensen-titel" data-regels>{t.mensen_titel}</h2>
+      <div class="oo-tweetal">
+        {mensen.map((m) => (
+          <article class="oo-mens" aria-labelledby={`oo-${m.kort}`} data-onthul>
+            <h3 id={`oo-${m.kort}`}>{m.naam}</h3>
+            <p class="oo-rol">{t.rol}</p>
+            <h4>{t.over_label.replace('{naam}', m.kort)}</h4>
+            <ul>
+              {m.reviews.map((r) => (
+                <li>
+                  <blockquote>{r.tekst}</blockquote>
+                  <p class="oo-bron"><strong>{r.naam}</strong> {r.bron}</p>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="oo-verwachten kamer" data-kamer aria-labelledby="oo-verwachten-titel">
+    <div class="maat oo-verwachten-raster">
+      <h2 id="oo-verwachten-titel" data-regels>{t.verwachten_titel}</h2>
+      <div>
+        {t.verwachten.map((a) => <p data-onthul>{a}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="oo-samen" aria-label="Wat klanten over Dennis en Marijke samen zeggen">
+    <div class="maat" data-onthul>
+      <Citaat id={t.samen} groot />
+    </div>
+  </section>
+
+  <Afsluiter />
+</Pagina>
+
+<style>
+  .oo-kop {
+    padding-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  }
+  .oo-kop-raster {
+    display: grid;
+    gap: 3rem;
+  }
+  .oo-kop h1 {
+    margin-top: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+    font-size: clamp(2.75rem, 2rem + 3.2vw, 4.75rem);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+  }
+  .oo-kop .lead {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+  }
+  .oo-foto {
+    width: min(100%, 17rem);
+  }
+  .oo-foto img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 50% 50% var(--radius) var(--radius) / 28% 28% var(--radius) var(--radius);
+    background: #ece9e4;
+  }
+  .oo-foto figcaption {
+    margin-top: 0.75rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+
+  .oo-kern {
+    padding-block: clamp(2rem, 1rem + 3vw, 4rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+    text-align: center;
+  }
+  .oo-zegel {
+    display: inline-grid;
+  }
+  .oo-kern p {
+    max-width: 44rem;
+    margin: 1.75rem auto 0;
+    font-family: var(--font-kop);
+    font-size: clamp(1.625rem, 1.25rem + 1.6vw, 2.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+
+  .oo-mensen h2 {
+    text-align: center;
+  }
+  .oo-tweetal {
+    --boog: clamp(3rem, 2rem + 3vw, 5rem);
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+  .oo-mens {
+    padding: calc(var(--boog) + 0.5rem) clamp(1.5rem, 1rem + 2.5vw, 3.25rem) clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+    text-align: center;
+  }
+  .oo-mens h3 {
+    font-size: clamp(2.125rem, 1.7rem + 1.8vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .oo-rol {
+    margin-top: 0.4rem;
+    font-weight: 600;
+    color: var(--sky-deep);
+  }
+  .oo-mens h4 {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--klein);
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .oo-mens ul {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .oo-mens blockquote {
+    font-family: var(--font-kop);
+    font-size: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+    line-height: 1.4;
+    color: var(--navy);
+    text-wrap: pretty;
+  }
+  .oo-mens blockquote::before {
+    content: '“';
+  }
+  .oo-mens blockquote::after {
+    content: '”';
+  }
+  .oo-bron {
+    margin-top: 0.5rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .oo-bron strong {
+    color: var(--navy);
+  }
+
+  .oo-verwachten {
+    margin-top: clamp(4.5rem, 3rem + 5vw, 8rem);
+    padding-block: clamp(4rem, 3rem + 4vw, 7rem);
+    background: var(--sky-wash);
+  }
+  .oo-verwachten-raster {
+    display: grid;
+    gap: 1.75rem 4rem;
+  }
+  .oo-verwachten p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  .oo-verwachten p + p {
+    margin-top: 1.25rem;
+  }
+
+  .oo-samen {
+    padding-top: clamp(4.5rem, 3rem + 5vw, 8rem);
+  }
+
+  @media (min-width: 48rem) {
+    .oo-tweetal {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .oo-foto {
+      width: 100%;
+    }
+    .oo-kop-raster {
+      grid-template-columns: minmax(0, 1fr) 22rem;
+      align-items: end;
+      gap: clamp(3rem, 7vw, 8rem);
+    }
+    .oo-verwachten-raster {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+  }
+</style>

@@ -1,0 +1,128 @@
+{
+  "toon_prijzen": false,
+  "uitleg": "Op een vergelijkingskaart staat informatie over onze financiële dienstverlening. Als je meerdere vergelijkingskaarten verzamelt, kun je financiële dienstverleners met elkaar vergelijken.",
+  "samengesteld": "29 september 2023",
+  "advies": "Bij ons op kantoor, bij jou thuis of via video",
+  "kaarten": [
+    {
+      "id": "hypotheek",
+      "titel": "Hypotheek",
+      "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Hypotheek-2.pdf",
+      "dienst": "Advies geven én contract regelen",
+      "groepen": [
+        {
+          "titel": "Hypotheken",
+          "wel": [
+            "Annuïteitenhypotheek",
+            "Lineaire hypotheek",
+            "Spaarhypotheek",
+            "Beleggingshypotheek",
+            "Aflossingsvrije hypotheek",
+            "Levenhypotheek"
+          ],
+          "geen": [
+            "Krediethypotheek"
+          ]
+        },
+        {
+          "titel": "Verzekeringen bij de hypotheek",
+          "wel": [
+            "Overlijdensrisicoverzekering",
+            "Betalingsbeschermer"
+          ],
+          "geen": []
+        }
+      ],
+      "onafhankelijk": true,
+      "vergelijking": "Ja, onafhankelijk. We vergelijken genoeg hypotheken en verzekeringen.",
+      "onderhoud": "Ja, zonder extra kosten",
+      "prijzen": [
+        {
+          "situatie": "In loondienst, eerste woning",
+          "bedrag": "€ 2.450"
+        },
+        {
+          "situatie": "In loondienst, eerder een woning gekocht",
+          "bedrag": "€ 2.950"
+        },
+        {
+          "situatie": "Zelfstandig ondernemer, eerste woning",
+          "bedrag": "€ 2.950"
+        },
+        {
+          "situatie": "Zelfstandig ondernemer, eerder een woning gekocht",
+          "bedrag": "€ 3.450"
+        }
+      ],
+      "prijs_kort": "€ 2.450 tot € 3.450",
+      "sub": "Hypotheken en verzekeringen bij de hypotheek"
+    },
+    {
+      "id": "risicos",
+      "titel": "Risico’s afdekken",
+      "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Risicos-afdekken.pdf",
+      "dienst": "Advies geven én contract regelen",
+      "groepen": [
+        {
+          "titel": "Verzekeringen",
+          "wel": [
+            "Overlijdensrisicoverzekering",
+            "Betalingsbeschermer",
+            "Uitvaartverzekering",
+            "Arbeidsongeschiktheidsverzekering"
+          ],
+          "geen": []
+        }
+      ],
+      "onafhankelijk": true,
+      "vergelijking": "Ja, onafhankelijk. We vergelijken genoeg verzekeringen.",
+      "onderhoud": "Ja, via een abonnement",
+      "prijzen": [
+        {
+          "situatie": "Consument",
+          "bedrag": "€ 395"
+        },
+        {
+          "situatie": "Ondernemer",
+          "bedrag": "€ 595"
+        }
+      ],
+      "prijs_kort": "€ 395 of € 595",
+      "sub": "Overlijdensrisico, betalingsbeschermer, uitvaart en arbeidsongeschiktheid"
+    },
+    {
+      "id": "vermogen",
+      "titel": "Vermogen opbouwen",
+      "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Vermogen-opbouwen.pdf",
+      "dienst": "Advies geven én contract regelen",
+      "groepen": [
+        {
+          "titel": "Vermogensopbouwproducten",
+          "wel": [
+            "Spaarverzekering",
+            "Lijfrente"
+          ],
+          "geen": [
+            "Beleggingsinstelling of icbe",
+            "Beleggingsobject"
+          ]
+        }
+      ],
+      "onafhankelijk": false,
+      "vergelijking": "Wij nemen een geselecteerd aantal producten mee in onze vergelijking en advies.",
+      "onderhoud": "Ja, via een abonnement",
+      "prijzen": [
+        {
+          "situatie": "Consument",
+          "bedrag": "€ 395"
+        },
+        {
+          "situatie": "Ondernemer",
+          "bedrag": "€ 595"
+        }
+      ],
+      "prijs_kort": "€ 395 of € 595",
+      "sub": "Spaarverzekering en lijfrente"
+    }
+  ]
+}

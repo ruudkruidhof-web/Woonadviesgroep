@@ -19,7 +19,7 @@
     "hoofd_label": "Hoofd",
     "hoofd_sub": "De zakelijke kant",
     "hoofd": [
-      "Woonadvies Groep is onafhankelijk. We zijn vrij om aanbieders van financiële producten te kiezen.",
+      "Bij hypotheken en verzekeringen is Woonadvies Groep onafhankelijk. We vergelijken genoeg aanbieders en zijn vrij om te kiezen.",
       "Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan."
     ],
     "hart_label": "Hart",
@@ -58,7 +58,9 @@
     ],
     "kosten_titel": "Kosten",
     "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
-    "start": "Maar laten we beginnen met stap 1!"
+    "start": "Maar laten we beginnen met stap 1!",
+    "kaarten_titel": "Vergelijkingskaarten",
+    "meer": "Meer over werkwijze en kosten"
   },
   "contact": {
     "titel": "Contact",
