@@ -285,10 +285,16 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     line-height: 1.5;
   }
   .od-registers .tekstlink {
-    width: fit-content;
+    display: inline-block;
+    align-self: start;
     margin-top: auto;
-    padding-top: 0.5rem;
+    padding-block: 0.7rem;
     font-size: var(--klein);
+    line-height: 1.6;
+  }
+  .od-registers .tekstlink :global(svg) {
+    margin-left: 0.3rem;
+    vertical-align: -0.05em;
   }
 
   .od-route li:first-child::after {
