@@ -244,3 +244,9 @@ Financiële rust voor nu en in de toekomst. Bel (010) 81 88 222
 https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Hypotheek-2.pdf
 https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Risicos-afdekken.pdf
 https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Vermogen-opbouwen.pdf
+
+
+## Pdf's van hun site (opgehaald 5 november 2026)
+
+Volledige tekst in `oogst/pdf/*.txt`, de pdf's ernaast. Vergelijkingskaarten Hypotheek, Risico's afdekken en Vermogen opbouwen (alle drie samengesteld op 29 september 2023, gestandaardiseerd AFM-format) en de dienstenwijzer (mei 2015, verouderd: oud telefoonnummer, Wet bescherming persoonsgegevens). Let op: Vermogen opbouwen zegt "Nee, niet onafhankelijk", Hypotheek en Risico's afdekken "Ja, onafhankelijk".
+

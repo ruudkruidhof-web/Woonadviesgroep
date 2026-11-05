@@ -11,7 +11,7 @@ Nieuw materiaal. Hun eigen vergelijkingskaart Hypotheek (29 september 2023) en d
 | **Vergelijkingskaarten** (Hypotheek, Risico's afdekken, Vermogen opbouwen) | Sinds 1 oktober 2023 verplicht voor advies over producten onder het provisieverbod (art. 4:25b Wft, art. 86f Bgfo). Moet goed vindbaar zijn op de pagina's over de dienstverlening, de kosten en het product zelf. Alleen in de footer of onder "juridisch" telt volgens de AFM als slecht vindbaar. | De drie kaarten zijn de nieuwe versie (2023). In v3 staan ze nu alleen in de footer, dus ze moeten ook bij de werkwijze en kosten en op de dienstpagina's komen. |
 | **Klachtenprocedure en Kifid** | Aansluiting bij Kifid is verplicht (art. 4:17 Wft). De klant moet vooraf weten waar hij met een klacht terechtkan, bij het kantoor en bij Kifid (art. 57 Bgfo); de AFM noemt de website als geschikte plek. | Kifid-nummer staat erop. De klachtenregeling zelf staat alleen in de dienstenwijzer van 2015. Komt op de pagina over de dienstverlening. |
 | **Informatie vooraf**: wie je bent, adres, registratie, beloning | Art. 57 Bgfo. De dienstenwijzer als document is niet verplicht, de informatie wel. | Staat in de dienstenwijzer, maar die is verouderd (oud telefoonnummer, nog de Wet bescherming persoonsgegevens van vóór de AVG). |
-| **"Onafhankelijk"** | Mag alleen als je genoeg producten vergelijkt en niet alleen van verbonden aanbieders (art. 86f Bgfo, Nrgfo bijlage 7). | Hun vergelijkingskaart Hypotheek zegt "Ja, onafhankelijk" voor hypotheken en verzekeringen bij de hypotheek. De claim is dus onderbouwd. |
+| **"Onafhankelijk"** | Mag alleen als je genoeg producten vergelijkt en niet alleen van verbonden aanbieders (art. 86f Bgfo, Nrgfo bijlage 7). | Per productgroep verschillend. Hypotheek en Risico's afdekken: "Ja, onafhankelijk". **Vermogen opbouwen (spaarverzekering, lijfrente): "Nee, niet onafhankelijk"** ("Wij nemen een geselecteerd aantal producten mee"). Een algemene claim als "Woonadvies Groep is onafhankelijk" moet dus worden afgebakend tot hypotheken en verzekeringen, en de pagina Pensioenen mag het niet zeggen. Voorleggen aan Marijke. |
 | **Bedrijfsgegevens**: naam, bezoekadres, e-mail, telefoon, KvK-nummer | Handelsregisterbesluit; een klachtenregeling vermeld je ook als je die hebt (KVK). | Staat er. Btw-nummer alleen als ze er een hebben (financieel advies is vaak btw-vrijgesteld, vraag). |
 | **Privacyverklaring** | AVG art. 13, zodra je gegevens verwerkt (formulier, meting). Bij een formulier kort uitleggen wat je met de gegevens doet en naar de verklaring linken (advies Autoriteit Persoonsgegevens). | Hun site heeft er geen. Wij maken hem op ons standaardsjabloon. |
 | **Cookies** | Telecommunicatiewet art. 11.7a: uitleg over cookies; toestemming alleen voor niet-functionele cookies. | Hun cookietekst bestaat. Wij gebruiken alleen functionele opslag en een cookieloze meting, dus geen banner (besluit Ruud 19 juli). |
@@ -44,7 +44,8 @@ Op de homepage verandert daardoor ook iets kleins: de kostenband bij de werkwijz
 
 ## 4. Vragen voor Marijke
 
-1. Kloppen de bedragen op de vergelijkingskaart Hypotheek nog, en mogen ze op de site?
+1. Kloppen de bedragen op de vergelijkingskaarten nog (hypotheek € 2.450 tot € 3.450, risico's afdekken en vermogen opbouwen € 395 of € 595), en mogen ze op de site?
+1. Akkoord met afgebakende tekst over onafhankelijkheid (hypotheken en verzekeringen wel, vermogensopbouw en pensioen niet, zoals op jullie eigen vergelijkingskaarten)?
 2. Staan jullie nog als Erkend Hypotheekadviseur ingeschreven?
 3. Wie doet wat, en willen jullie elk een paar zinnen over jezelf geven (achtergrond, sinds wanneer)?
 4. Wanneer zijn jullie bereikbaar (dagen en tijden)?
