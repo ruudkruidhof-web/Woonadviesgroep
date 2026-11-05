@@ -1,6 +1,5 @@
 ---
 import Icoon from './Icoon.astro';
-import Merk from '../Merk.astro';
 import teksten from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
 import reviews from '../../content/reviews.json';
@@ -8,240 +7,304 @@ import reviews from '../../content/reviews.json';
 const t = teksten.hero;
 ---
 <section class="hero" aria-labelledby="hero-titel">
-  <div class="maat hero-raster">
+  <div class="hero-podium">
+    <div class="hero-figuur" aria-hidden="true">
+      <svg class="hero-lijnen" viewBox="0 0 1156.6 680" preserveAspectRatio="none" focusable="false">
+        <path class="hero-hoofd" d="M578.3 97.5A340 340 0 1 0 578.3 582.5A340 340 0 0 0 578.3 97.5" pathLength="1" />
+        <path class="hero-hart" d="M578.3 97.5A340 340 0 1 1 578.3 582.5A340 340 0 0 1 578.3 97.5" pathLength="1" />
+      </svg>
+      <span class="hero-knoop"></span>
+      <span class="hero-knoop hero-knoop-onder"></span>
+      <span class="hero-woord hero-woord-hoofd">{t.hoofd}</span>
+      <span class="hero-woord hero-woord-hart">{t.hart}</span>
+    </div>
+
     <div class="hero-tekst">
       <h1 id="hero-titel">
         {t.titel_regels.map((r) => <span>{r}</span>)}
       </h1>
-      <p class="lead hero-lead">{t.lead}</p>
+      <p class="hero-lead">{t.lead}</p>
       <div class="hero-acties">
         <button type="button" class="knop knop-vol" data-plan-open>
           {t.knop}
           <Icoon naam="dak" maat={12} />
         </button>
         <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
-          <Icoon naam="bel" maat={15} />
           <span>Bel <span class="cijfer">{bedrijf.telefoon}</span></span>
         </a>
       </div>
-      <ul class="hero-bewijs">
-        <li>
-          <a href={reviews.google_url} target="_blank" rel="noopener">
-            <span class="hero-getal cijfer">
-              {reviews.score}
-              <span class="hero-sterren" role="img" aria-label="5 van de 5 sterren">
-                {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={12} />)}
-              </span>
-            </span>
-            <span class="hero-label"><Icoon naam="google" maat={14} />{reviews.aantal} reviews op Google</span>
-          </a>
-        </li>
-        <li>
-          <a href={reviews.advieskeuze_url} target="_blank" rel="noopener">
-            <span class="hero-getal cijfer">{reviews.advieskeuze_score}<small>/10</small></span>
-            <span class="hero-label">{reviews.advieskeuze_aantal} reviews op Advieskeuze</span>
-          </a>
-        </li>
-        <li>
-          <span class="hero-getal">AFM</span>
-          <span class="hero-label">{t.afm_label}</span>
-        </li>
-      </ul>
     </div>
-
-    <figure class="hero-beeld">
-      <div class="hero-foto">
-        <img
-          src="/beeld/adviseurs-v3-1400.webp"
-          srcset="/beeld/adviseurs-v3-800.webp 800w, /beeld/adviseurs-v3-1400.webp 1400w"
-          sizes="(min-width: 64rem) 34rem, 92vw"
-          alt={t.beeld_alt}
-          width="1400"
-          height="1400"
-          fetchpriority="high"
-        />
-      </div>
-      <figcaption class="hero-naam">
-        <Merk breedte={44} />
-        <span>
-          <strong>{t.naam}</strong>
-          <span>{t.naam_sub}</span>
-        </span>
-      </figcaption>
-    </figure>
   </div>
+
+  <ul class="hero-bewijs">
+    <li>
+      <a href={reviews.google_url} target="_blank" rel="noopener">
+        <b class="cijfer">{reviews.score}</b>
+        <span class="hero-sterren" role="img" aria-label="5 van de 5 sterren">
+          {[1, 2, 3, 4, 5].map(() => <Icoon naam="ster" maat={10} />)}
+        </span>
+        Google
+      </a>
+    </li>
+    <li>
+      <a href={reviews.advieskeuze_url} target="_blank" rel="noopener">
+        <b class="cijfer">{reviews.advieskeuze_score}/10</b> Advieskeuze
+      </a>
+    </li>
+    <li>
+      <a href="/v3/onze-dienstverlening#registraties"><b>AFM</b> {t.afm}</a>
+    </li>
+    <li><b>Onafhankelijk</b> {t.onafhankelijk}</li>
+  </ul>
 </section>
 
 <style>
   .hero {
+    --r: min(340px, calc((100svh - var(--kop-hoogte) - 5.5rem) / 2), calc((100vw - 6rem) / 3.4018));
+    --titel: clamp(2.375rem, 1.5rem + 4vw, 3.25rem);
     position: relative;
-    overflow: clip;
-    padding-block: 2.5rem 0;
-  }
-  .hero-raster {
     display: grid;
-    gap: 2.75rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    min-height: calc(100svh - var(--kop-hoogte) - 1px);
+    overflow: clip;
+  }
+  .hero-podium {
+    position: relative;
+    display: grid;
+    place-items: center;
+    align-self: center;
+    padding-block: 8rem;
+  }
+  .hero-figuur {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    aspect-ratio: 1156.6 / 680;
+    translate: -50% 0;
+    pointer-events: none;
+  }
+  .hero-lijnen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .hero-lijnen path {
+    fill: none;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+  }
+  .hero-hoofd {
+    stroke: var(--sky-deep);
+    opacity: 0.6;
+  }
+  .hero-hart {
+    stroke: var(--brown);
+    opacity: 0.55;
+  }
+  .hero-knoop {
+    position: absolute;
+    left: 50%;
+    top: 14.34%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--navy);
+    translate: -50% -50%;
+  }
+  .hero-knoop-onder {
+    top: 85.66%;
+  }
+  .hero-woord {
+    position: absolute;
+    top: 3.01%;
+    padding: 0.25rem 0.6rem;
+    background: var(--paper);
+    font-family: var(--font-kop);
+    font-size: 1.0625rem;
+    line-height: 1;
+    translate: -50% -50%;
+  }
+  .hero-woord-hoofd {
+    left: 39.45%;
+    color: var(--sky-deep);
+  }
+  .hero-woord-hart {
+    left: 60.55%;
+    color: var(--brown);
+  }
+
+  .hero-tekst {
+    position: relative;
+    isolation: isolate;
+    width: min(100% - 3rem, 40rem);
+    text-align: center;
+  }
+  .hero-tekst::before {
+    content: '';
+    position: absolute;
+    inset: calc(-0.25rem - 0.2 * var(--titel)) -0.25rem -0.25rem;
+    z-index: -1;
+    border-radius: 1.5rem;
+    background: var(--paper);
+    box-shadow: 0 0 1rem 0.5rem var(--paper);
   }
   .hero h1 {
-    font-size: var(--display);
+    font-size: var(--titel);
     line-height: 1.04;
+    text-wrap: balance;
   }
   .hero h1 span {
     display: block;
   }
   .hero-lead {
-    max-width: 34rem;
-    margin-top: 1.5rem;
+    max-width: 32rem;
+    margin: 1.1rem auto 0;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    text-wrap: balance;
   }
   .hero-acties {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem 1.75rem;
-    margin-top: 2.25rem;
+    gap: 0.35rem;
+    margin-top: 1.6rem;
   }
+
   .hero-bewijs {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: start;
-    column-gap: clamp(0.9rem, 2vw, 1.5rem);
-    margin-top: 2.5rem;
-    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 0.9rem;
+    margin: 0;
+    padding: 0 0.5rem 1.75rem;
     list-style: none;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: var(--navy-soft);
+    white-space: nowrap;
   }
-  .hero-bewijs li + li {
-    padding-left: clamp(0.9rem, 2vw, 1.5rem);
-    border-left: 1px solid var(--line);
+  .hero-bewijs li,
+  .hero-bewijs a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
   }
   .hero-bewijs a {
-    display: block;
+    min-height: 1.75rem;
     color: inherit;
     text-decoration: none;
   }
-  .hero-getal {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    font-family: var(--font-kop);
-    font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
-    line-height: 1.1;
-    color: var(--navy);
-  }
-  .hero-getal small {
-    margin-left: -0.4rem;
-    font-size: 0.55em;
-    color: var(--tekst-zacht);
-  }
-  .hero-label {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.35rem;
-    font-size: var(--klein);
-    line-height: 1.35;
-    color: var(--sky-deep);
-  }
-  .hero-bewijs a:hover .hero-label {
+  .hero-bewijs a:hover {
     text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
     text-underline-offset: 0.25em;
+  }
+  .hero-bewijs b {
+    font-family: var(--font-kop);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--navy);
   }
   .hero-sterren {
     align-self: center;
     display: inline-flex;
     gap: 1px;
-    color: #e2a72e;
+    color: #c98a12;
   }
 
-  .hero-beeld {
-    position: relative;
-  }
-  .hero-foto {
-    position: relative;
-    aspect-ratio: 24 / 25;
-    border-radius: 50% 50% var(--radius) var(--radius) / 13% 13% var(--radius) var(--radius);
-    overflow: hidden;
-    background: #ece9e4;
-  }
-  .hero-foto img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 30%;
-  }
-  .hero-naam {
-    position: absolute;
-    left: 1rem;
-    bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.8rem 1.25rem 0.8rem 0.9rem;
-    border-radius: var(--radius);
-    background: #fff;
-    box-shadow: var(--schaduw-zweef);
-  }
-  .hero-naam strong {
-    display: block;
-    font-family: var(--font-kop);
-    font-size: 1.2rem;
-    font-weight: 400;
-    line-height: 1.2;
-    color: var(--navy);
-  }
-  .hero-naam strong + span {
-    font-size: var(--klein);
-    color: var(--tekst-zacht);
+  @media (min-width: 48rem) {
+    .hero-bewijs {
+      gap: 0.6rem clamp(1.5rem, 3vw, 2.6rem);
+      padding-bottom: 2rem;
+      font-size: 0.84375rem;
+    }
+    .hero-bewijs b {
+      font-size: 1.25rem;
+    }
+    .hero-acties {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem 1.6rem;
+    }
   }
 
   @media (min-width: 64rem) {
     .hero {
-      padding-block: clamp(1.5rem, 5vh, 4rem);
+      --titel: calc(var(--r) * 0.3 - 30px);
     }
-    .hero-raster {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      align-items: center;
-      gap: clamp(3rem, 6vw, 6rem);
-      min-height: calc(100svh - var(--kop-hoogte) - clamp(3rem, 10vh, 8rem));
+    .hero-podium {
+      height: calc(var(--r) * 2);
+      padding-block: 0;
     }
-    .hero-beeld {
-      justify-self: end;
-      width: min(100%, calc((100svh - var(--kop-hoogte) - 6rem) * 0.96));
+    .hero-woord {
+      top: 50%;
+      padding: 0.3rem 0.8rem;
+      font-size: max(1.0625rem, calc(var(--r) * 0.062));
     }
-    .hero-naam {
-      left: -2.5rem;
-      bottom: 2.25rem;
+    .hero-woord-hoofd {
+      left: 0;
+    }
+    .hero-woord-hart {
+      left: 100%;
+    }
+
+    .hero-lead {
+      margin-top: calc(var(--r) * 0.055);
+      font-size: max(1.0625rem, calc(var(--r) * 0.0559));
+    }
+    .hero-acties {
+      margin-top: calc(var(--r) * 0.085);
     }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .hero h1 span,
-    .hero-lead,
-    .hero-acties,
-    .hero-bewijs,
-    .hero-naam {
-      animation: hero-in 0.7s var(--onthul) both;
+    .hero-tekst > *,
+    .hero-bewijs {
+      animation: hero-in 0.9s var(--uit) both;
     }
-    .hero h1 span:nth-child(2) {
-      animation-delay: 0.06s;
+    .hero-woord,
+    .hero-knoop {
+      animation: hero-verschijn 0.6s ease-out both;
     }
-    .hero h1 span:nth-child(3) {
-      animation-delay: 0.12s;
+    .hero h1 {
+      animation-delay: 0.15s;
     }
     .hero-lead {
-      animation-delay: 0.18s;
-    }
-    .hero-acties {
-      animation-delay: 0.24s;
-    }
-    .hero-bewijs {
       animation-delay: 0.3s;
     }
-    .hero-foto {
-      animation: hero-foto-in 0.9s var(--onthul) 0.1s both;
+    .hero-acties {
+      animation-delay: 0.45s;
     }
-    .hero-naam {
-      animation-delay: 0.5s;
+    .hero-knoop {
+      animation-delay: 0.3s;
     }
+    .hero-woord {
+      animation-delay: 1.05s;
+    }
+    .hero-knoop-onder,
+    .hero-bewijs {
+      animation-delay: 2.4s;
+    }
+    .hero-lijnen path {
+      stroke-dasharray: 1 1;
+      animation: hero-teken 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s both;
+    }
+    @media (min-width: 64rem) {
+      .hero-woord {
+        animation-delay: 1.5s;
+      }
+    }
+  }
+
+  :global(html[data-bij-bewijs] .variant-switch) {
+    opacity: 0;
+    pointer-events: none;
   }
 
   @keyframes hero-in {
@@ -250,10 +313,24 @@ const t = teksten.hero;
       translate: 0 14px;
     }
   }
-  @keyframes hero-foto-in {
+  @keyframes hero-verschijn {
     from {
       opacity: 0;
-      scale: 0.97;
+    }
+  }
+  @keyframes hero-teken {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
     }
   }
 </style>
+
+<script>
+  const bewijs = document.querySelector('.hero-bewijs');
+  if (bewijs) {
+    new IntersectionObserver(([e]) => document.documentElement.toggleAttribute('data-bij-bewijs', e.isIntersecting)).observe(bewijs);
+  }
+</script>

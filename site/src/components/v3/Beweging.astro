@@ -48,11 +48,6 @@
     if (kaartje) {
       gsap.fromTo(kaartje, { y: 36, rotate: -1.5, opacity: 0 }, { ...binnen, rotate: 0, duration: 1, scrollTrigger: { trigger: kaartje, start: 'top 88%', once: true } });
     }
-
-    const foto = document.querySelector('.hero-foto img');
-    if (foto) {
-      gsap.fromTo(foto, { yPercent: -3, scale: 1.08 }, { yPercent: 4, scale: 1.08, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    }
   });
 
   mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 48rem)' }, (ctx) => {
