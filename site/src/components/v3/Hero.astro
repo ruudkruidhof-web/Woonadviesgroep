@@ -61,7 +61,7 @@ const t = teksten.hero;
 <style>
   .hero {
     --r: min(340px, calc((100svh - var(--kop-hoogte) - 5.5rem) / 2), calc((100vw - 6rem) / 3.4018));
-    --titel: clamp(2.375rem, 1.5rem + 4vw, 3.25rem);
+    --titel: clamp(2.5rem, 1.6rem + 4.6vw, 3.5rem);
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -179,11 +179,11 @@ const t = teksten.hero;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.35rem 0.9rem;
+    gap: 0 0.9rem;
     margin: 0;
-    padding: 0 0.5rem 1.75rem;
+    padding: 0 0.5rem 1.25rem;
     list-style: none;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.3;
     color: var(--navy-soft);
     white-space: nowrap;
@@ -191,11 +191,16 @@ const t = teksten.hero;
   .hero-bewijs li,
   .hero-bewijs a {
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
     align-items: baseline;
     gap: 0.4rem;
   }
+  .hero-bewijs li {
+    min-height: 2.75rem;
+  }
   .hero-bewijs a {
-    min-height: 1.75rem;
+    min-height: 2.75rem;
     color: inherit;
     text-decoration: none;
   }
@@ -218,6 +223,18 @@ const t = teksten.hero;
     color: #c98a12;
   }
 
+  @media (max-width: 23.5rem) {
+    .hero-bewijs {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 47.99rem) and (max-height: 50rem) {
+    .hero-podium {
+      padding-block: 7.5rem;
+    }
+  }
+
   @media (min-width: 48rem) {
     .hero-bewijs {
       gap: 0.6rem clamp(1.5rem, 3vw, 2.6rem);
@@ -236,7 +253,7 @@ const t = teksten.hero;
 
   @media (min-width: 64rem) {
     .hero {
-      --titel: calc(var(--r) * 0.3 - 30px);
+      --titel: max(3.75rem, calc(var(--r) * 0.3 - 30px));
     }
     .hero-podium {
       height: calc(var(--r) * 2);
@@ -287,9 +304,11 @@ const t = teksten.hero;
     .hero-woord {
       animation-delay: 1.05s;
     }
-    .hero-knoop-onder,
+    .hero-knoop-onder {
+      animation-delay: 1.8s;
+    }
     .hero-bewijs {
-      animation-delay: 2.4s;
+      animation-delay: 1.9s;
     }
     .hero-lijnen path {
       stroke-dasharray: 1 1;

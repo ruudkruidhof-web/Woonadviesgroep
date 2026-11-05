@@ -15,14 +15,14 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
     <div class="maat oo-kop-raster">
       <div>
         <Kruimels hier={t.meta_titel} />
-        <h1 data-regels>{t.titel}</h1>
-        <p class="lead" data-onthul>{t.lead}</p>
+        <h1>{t.titel}</h1>
+        <p class="lead">{t.lead}</p>
       </div>
       <figure class="oo-foto">
         <img
           src="/beeld/adviseurs-v3-800.webp"
           srcset="/beeld/adviseurs-v3-800.webp 800w, /beeld/adviseurs-v3-1400.webp 1400w"
-          sizes="(min-width: 64rem) 22rem, 80vw"
+          sizes="(min-width: 64rem) 20rem, 17rem"
           alt={t.beeld_alt}
           width="800"
           height="800"
@@ -90,7 +90,7 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
   }
   .oo-kop h1 {
     margin-top: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
-    font-size: clamp(2.75rem, 2rem + 3.2vw, 4.75rem);
+    font-size: var(--h1-pagina);
     line-height: 1.03;
     letter-spacing: -0.02em;
   }
@@ -103,9 +103,10 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
   }
   .oo-foto img {
     width: 100%;
+    height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: 50% 30%;
+    object-position: 55% 20%;
     border-radius: 50% 50% var(--radius) var(--radius) / 28% 28% var(--radius) var(--radius);
     background: #ece9e4;
   }
@@ -117,7 +118,6 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
 
   .oo-kern {
     padding-block: clamp(2rem, 1rem + 3vw, 4rem) clamp(4.5rem, 3rem + 5vw, 8rem);
-    text-align: center;
   }
   .oo-zegel {
     display: inline-grid;
@@ -130,7 +130,7 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
     line-height: 1.25;
     letter-spacing: -0.01em;
     color: var(--navy);
-    text-wrap: balance;
+    text-wrap: pretty;
   }
 
   .oo-mensen h2 {
@@ -143,11 +143,15 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
     margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
   }
   .oo-mens {
+    align-self: start;
     padding: calc(var(--boog) + 0.5rem) clamp(1.5rem, 1rem + 2.5vw, 3.25rem) clamp(2rem, 1.5rem + 2vw, 3rem);
     border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
     background: #fff;
-    box-shadow: inset 0 0 0 1px var(--line);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 22%, transparent);
     text-align: center;
+  }
+  .oo-mens ul {
+    text-align: left;
   }
   .oo-mens h3 {
     font-size: clamp(2.125rem, 1.7rem + 1.8vw, 3.25rem);
@@ -205,6 +209,9 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
     display: grid;
     gap: 1.75rem 4rem;
   }
+  .oo-verwachten h2 {
+    font-size: var(--h2-blok);
+  }
   .oo-verwachten p {
     font-size: 1.125rem;
     line-height: 1.7;
@@ -215,6 +222,26 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
 
   .oo-samen {
     padding-top: clamp(4.5rem, 3rem + 5vw, 8rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .oo-kop h1,
+    .oo-kop .lead,
+    .oo-foto {
+      animation: oo-in 0.8s var(--uit) both;
+    }
+    .oo-kop .lead {
+      animation-delay: 0.12s;
+    }
+    .oo-foto {
+      animation-delay: 0.2s;
+    }
+  }
+  @keyframes oo-in {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
   }
 
   @media (min-width: 48rem) {
@@ -228,12 +255,15 @@ const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));
       width: 100%;
     }
     .oo-kop-raster {
-      grid-template-columns: minmax(0, 1fr) 22rem;
-      align-items: end;
+      grid-template-columns: minmax(0, 1fr) 20rem;
+      align-items: center;
       gap: clamp(3rem, 7vw, 8rem);
     }
     .oo-verwachten-raster {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    }
+    .oo-kern {
+      text-align: center;
     }
   }
 </style>

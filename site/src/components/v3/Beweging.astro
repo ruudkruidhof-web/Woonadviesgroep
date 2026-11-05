@@ -14,7 +14,10 @@
   const start = 'top 85%';
   const mm = gsap.matchMedia();
 
+  const telaat = () => document.documentElement.classList.contains('beweging-uit');
+
   mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (telaat()) return;
     document.querySelectorAll<HTMLElement>('[data-regels]').forEach((kop) => {
       SplitText.create(kop, {
         type: 'lines',
@@ -26,8 +29,11 @@
       });
     });
 
-    gsap.utils.toArray<HTMLElement>('[data-onthul]').forEach((el) => {
-      gsap.fromTo(el, { y: 14, opacity: 0 }, { ...binnen, delay: 0.08, scrollTrigger: { trigger: el, start, once: true } });
+    gsap.set('[data-onthul]', { y: 14, opacity: 0 });
+    ScrollTrigger.batch('[data-onthul]', {
+      start,
+      once: true,
+      onEnter: (els) => gsap.to(els, { ...binnen, delay: 0.08, stagger: 0.07 }),
     });
 
     gsap.utils.toArray<HTMLElement>('[data-kamer]').forEach((kamer) => {
@@ -52,7 +58,7 @@
 
   mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 48rem)' }, (ctx) => {
     const { beweging, breed } = ctx.conditions!;
-    if (!beweging) return;
+    if (!beweging || telaat()) return;
 
     const hh = document.querySelector('[data-hh]');
     if (hh) {
@@ -67,7 +73,7 @@
 
   mm.add({ beweging: '(prefers-reduced-motion: no-preference)', breed: '(min-width: 64rem)' }, (ctx) => {
     const { beweging, breed } = ctx.conditions!;
-    if (!beweging) return;
+    if (!beweging || telaat()) return;
 
     const route = document.querySelector('[data-route]');
     if (route) {

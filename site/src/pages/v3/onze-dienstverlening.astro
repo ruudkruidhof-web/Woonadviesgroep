@@ -144,7 +144,11 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     border-top: 0;
   }
   .od-tekst h2 {
-    font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.625rem);
+    font-size: var(--h2-blok);
+  }
+  .od-tekst h2 + p,
+  .od-tekst section > p {
+    max-width: 36rem;
   }
   .od-tekst h2 + p,
   .od-tekst section > p {
@@ -279,21 +283,22 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     line-height: 1.5;
   }
   .od-registers .tekstlink {
+    width: fit-content;
     margin-top: auto;
     padding-top: 0.5rem;
     font-size: var(--klein);
   }
 
-  .od-route li + li::before {
+  .od-route li:first-child::after {
     content: '';
     position: absolute;
     left: 1.125rem;
-    top: -1.75rem;
-    height: 1.75rem;
+    top: 2.25rem;
+    height: calc(100% - 2.25rem + 1.75rem);
     width: 1.5px;
     translate: -50% 0;
     background: var(--sky-deep);
-    opacity: 0.4;
+    opacity: 0.45;
   }
   .od-kaarten {
     margin-top: 1.5rem;
@@ -325,12 +330,15 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     .od-route {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .od-route li + li::before {
-      left: -2.5rem;
+    .od-route li:first-child::after {
+      left: 2.25rem;
       top: 1.125rem;
-      width: 2.5rem;
+      width: calc(100% - 2.25rem + 2.5rem);
       height: 1.5px;
       translate: 0 -50%;
+    }
+    .od-route li {
+      padding: 3.25rem 0 0;
     }
   }
 </style>

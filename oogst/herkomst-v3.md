@@ -109,6 +109,8 @@ Teksten in `site/src/content/v3-diensten.json` (veld `pagina`), `site/src/conten
 | Kaartomschrijvingen: Hypotheken en verzekeringen bij de hypotheek / Overlijdensrisico, betalingsbeschermer, uitvaart en arbeidsongeschiktheid / Spaarverzekering en lijfrente | SAMENGESTELD | de productlijsten van de kaarten |
 | Dienstenwijzer: Wie zijn wij, onze dienstverlening, kosten en klachten | SAMENGESTELD | kopjes van de dienstenwijzer |
 | Alle kennis onder één dak | SAMENGESTELD | home ("Alle kennis hebben we onder één dak") |
+| Hier ben je nu (huidige kamer in het gebouw) | FUNCTIONEEL | |
+| Meta-omschrijvingen per pagina en de alt-tekst van de foto | FUNCTIONEEL | samenvatting van de pagina, niet zichtbaar |
 | Ook daarna | SAMENGESTELD | home ("Maar ook daarna zijn we er voor u") |
 
 ## Hypotheken, Pensioenen, Verzekeringen, Financiën

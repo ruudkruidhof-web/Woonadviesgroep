@@ -328,6 +328,7 @@ const kaarten = reviews.uitgelicht;
     weg.dataset.p = 'weg';
     zet(weg);
     setTimeout(() => {
+      if (weg.dataset.p !== 'weg') return;
       weg.style.transition = 'none';
       weg.dataset.p = '3';
       weg.offsetHeight;

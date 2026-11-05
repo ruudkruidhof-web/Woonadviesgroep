@@ -4,7 +4,8 @@
     "knop": "Plan een gesprek",
     "kaart_titel": "Vergelijkingskaart",
     "andere_titel": "Alle kennis onder één dak",
-    "daarna_titel": "Ook daarna"
+    "daarna_titel": "Ook daarna",
+    "hier": "Hier ben je nu"
   },
   "kaart": {
     "dienst": "Wat we doen",
@@ -131,7 +132,7 @@
   },
   "contact": {
     "meta_titel": "Contact",
-    "omschrijving": "Plan een vrijblijvend gesprek met WoonAdvies Groep: bij jou thuis, op kantoor aan de Oostmaaslaan in Rotterdam of via video.",
+    "omschrijving": "Plan een vrijblijvend gesprek met WoonAdvies Groep, bij jou thuis, op kantoor aan de Oostmaaslaan in Rotterdam of via video.",
     "titel": "Contact",
     "lead": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Bel gerust voor een afspraak, of stuur een e-mail. Dan nemen wij contact met je op.",
     "manieren_titel": "Waar we afspreken",
@@ -263,7 +264,7 @@
   },
   "privacy": {
     "meta_titel": "Privacy en cookies",
-    "omschrijving": "Hoe WoonAdvies Groep omgaat met je gegevens op deze website: alleen wat nodig is om je te helpen, meten zonder cookies en nooit verkopen.",
+    "omschrijving": "Hoe WoonAdvies Groep omgaat met je gegevens op deze website. Alleen wat nodig is om je te helpen, meten zonder cookies en nooit verkopen.",
     "titel": "Privacy en cookies",
     "kort_titel": "In het kort",
     "kort": [

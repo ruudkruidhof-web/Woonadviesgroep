@@ -3,20 +3,22 @@ import Icoon from './Icoon.astro';
 import data from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3-paginas.json';
 
-const { id, klasse = '' } = Astro.props;
+const { id, klasse = '', compact = false } = Astro.props;
 const kaart = data.kaarten.find((k) => k.id === id)!;
 const t = teksten.kaart;
 ---
-<aside class:list={['vk', klasse]} aria-labelledby={`vk-${kaart.id}`}>
+<aside class:list={['vk', klasse, { 'vk-compact': compact }]} aria-labelledby={`vk-${kaart.id}`}>
   <h2 id={`vk-${kaart.id}`}>
     <span class="vk-soort">{teksten.dienst.kaart_titel}</span>
     {kaart.titel}
   </h2>
   <dl>
-    <div>
-      <dt>{t.dienst}</dt>
-      <dd>{kaart.dienst}</dd>
-    </div>
+    {!compact && (
+      <div>
+        <dt>{t.dienst}</dt>
+        <dd>{kaart.dienst}</dd>
+      </div>
+    )}
     {kaart.groepen.map((g) => (
       <div>
         <dt>{g.titel}</dt>
@@ -28,10 +30,12 @@ const t = teksten.kaart;
         </dd>
       </div>
     ))}
-    <div>
-      <dt>{t.advies}</dt>
-      <dd>{data.advies}</dd>
-    </div>
+    {!compact && (
+      <div>
+        <dt>{t.advies}</dt>
+        <dd>{data.advies}</dd>
+      </div>
+    )}
     <div>
       <dt>{kaart.onafhankelijk ? t.onafhankelijk : t.vergelijking}</dt>
       <dd>{kaart.vergelijking}</dd>
@@ -40,7 +44,7 @@ const t = teksten.kaart;
       <dt>{t.onderhoud}</dt>
       <dd>{kaart.onderhoud}</dd>
     </div>
-    <div>
+    {!compact && <div>
       <dt>{t.kosten}</dt>
       <dd>
         {data.toon_prijzen ? (
@@ -50,7 +54,7 @@ const t = teksten.kaart;
           </>
         ) : t.kosten_tekst}
       </dd>
-    </div>
+    </div>}
   </dl>
   <a href={kaart.url} class="vk-pdf" target="_blank" rel="noopener">
     <Icoon naam="document" maat={16} />
@@ -71,6 +75,16 @@ const t = teksten.kaart;
   .vk h2 {
     font-size: 1.75rem;
     line-height: 1.1;
+  }
+  .vk-compact {
+    display: flex;
+    flex-direction: column;
+  }
+  .vk-compact .vk-pdf {
+    margin-top: auto;
+  }
+  .vk-compact h2 {
+    font-size: 1.5rem;
   }
   .vk-soort {
     display: block;
@@ -121,6 +135,7 @@ const t = teksten.kaart;
   }
   .vk-prijs {
     display: block;
+    white-space: nowrap;
     font-family: var(--font-kop);
     font-size: 1.375rem;
   }
