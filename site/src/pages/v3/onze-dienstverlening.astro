@@ -137,7 +137,6 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
   .od-tekst > section {
     padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
     border-top: 1px solid var(--line);
-    scroll-margin-top: calc(var(--kop-hoogte) + 1rem);
   }
   .od-tekst > section:first-child {
     padding-top: 0;
@@ -214,6 +213,9 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     border-top: 1px solid var(--line);
   }
   .od-groepen dt a {
+    display: inline-block;
+    padding-block: 0.65rem;
+    margin-block: -0.65rem;
     font-weight: 700;
     color: var(--navy);
     text-decoration: underline;

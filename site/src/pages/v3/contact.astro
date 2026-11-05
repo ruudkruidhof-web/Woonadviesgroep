@@ -28,7 +28,7 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
             <h3>{m.titel}</h3>
             <p>{m.tekst}</p>
             <div class="ct-kamer-acties">
-              <a href="#plan" class="tekstlink" data-plek={m.titel}>
+              <a href="#plan-formulier" class="tekstlink" data-plek={m.titel}>
                 Plan {m.id === 'video' ? 'een videogesprek' : 'een gesprek'}
                 <Icoon naam="dak" maat={11} />
               </a>
@@ -71,16 +71,16 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
         </ul>
       </div>
 
-      <form class="ct-form" data-hb-lead data-ct-form>
+      <form id="plan-formulier" class="ct-form" data-hb-lead data-ct-form>
         <h2 id="ct-plan-titel">{t.formulier_titel}</h2>
         <p class="ct-intro">{t.formulier_intro}</p>
         <label>
           Je naam
-          <input type="text" name="naam" autocomplete="name" required />
+          <input type="text" name="naam" autocomplete="name" required data-fout={t.fout_naam} />
         </label>
         <label>
           Telefoon of e-mail
-          <input type="text" name="contact" autocomplete="email" required />
+          <input type="text" name="contact" inputmode="email" required pattern={t.patroon} data-fout={t.fout_contact} />
         </label>
         <div class="ct-twee">
           <label>
@@ -184,7 +184,6 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
 
   .ct-plan {
     padding-block: clamp(4rem, 3rem + 5vw, 8rem) clamp(4.5rem, 3rem + 5vw, 8rem);
-    scroll-margin-top: var(--kop-hoogte);
   }
   .ct-plan-raster {
     display: grid;
@@ -310,8 +309,12 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
   document.querySelectorAll<HTMLAnchorElement>('[data-plek]').forEach((link) => {
     link.addEventListener('click', () => {
       plek.value = link.dataset.plek!;
-      setTimeout(() => form.querySelector('input')!.focus({ preventScroll: true }), 450);
+      setTimeout(() => form.querySelector('input')!.focus(), 450);
     });
+  });
+  form.querySelectorAll<HTMLInputElement>('[data-fout]').forEach((veld) => {
+    veld.addEventListener('invalid', () => veld.setCustomValidity(veld.dataset.fout!));
+    veld.addEventListener('input', () => veld.setCustomValidity(''));
   });
   form.addEventListener('submit', (e) => {
     // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.

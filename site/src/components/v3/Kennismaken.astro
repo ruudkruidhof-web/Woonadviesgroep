@@ -3,6 +3,7 @@ import Icoon from './Icoon.astro';
 import diensten from '../../content/v3-diensten.json';
 import teksten from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
+import pag from '../../content/teksten/v3-paginas.json';
 ---
 <dialog id="kennismaken" class="km" aria-labelledby="km-titel">
   <div class="km-beeld">
@@ -17,11 +18,11 @@ import bedrijf from '../../content/bedrijf.json';
     <p class="km-intro">{teksten.contact.formulier_intro}</p>
     <label>
       Je naam
-      <input type="text" name="naam" autocomplete="name" required />
+      <input type="text" name="naam" autocomplete="name" required data-fout={pag.contact.fout_naam} />
     </label>
     <label>
       Telefoon of e-mail
-      <input type="text" name="contact" autocomplete="email" required />
+      <input type="text" name="contact" inputmode="email" required pattern={pag.contact.patroon} data-fout={pag.contact.fout_contact} />
     </label>
     <label>
       Waar gaat het over?
@@ -229,6 +230,11 @@ import bedrijf from '../../content/bedrijf.json';
     // Conceptfase: er hangt nog geen backend aan, dus eerlijk melden in plaats van een valse bevestiging.
     e.preventDefault();
     melding.textContent = melding.dataset.tekst ?? '';
+    melding.scrollIntoView({ block: 'nearest' });
+  });
+  dialoog.querySelectorAll<HTMLInputElement>('[data-fout]').forEach((veld) => {
+    veld.addEventListener('invalid', () => veld.setCustomValidity(veld.dataset.fout!));
+    veld.addEventListener('input', () => veld.setCustomValidity(''));
   });
   dialoog.querySelector('[data-sluit]')!.addEventListener('click', () => dialoog.close());
   dialoog.addEventListener('click', (e) => {

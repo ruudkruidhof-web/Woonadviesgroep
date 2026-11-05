@@ -168,8 +168,14 @@
 
 .werkwijze :focus-visible,
 .voet :focus-visible,
-.actiebalk :focus-visible {
+.actiebalk :focus-visible,
+.d-kern :focus-visible,
+.dp-kamer.dp-hypotheken :focus-visible {
   outline-color: var(--sky);
+}
+
+:is(input, select, textarea):user-invalid {
+  border-color: #b3261e !important;
 }
 
 @media (max-width: 47.99rem) {

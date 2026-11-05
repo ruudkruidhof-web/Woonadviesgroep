@@ -90,5 +90,6 @@ const { titel, items } = Astro.props;
       { rootMargin: '-20% 0px -55% 0px' },
     );
     secties.forEach((s) => io.observe(s));
+    links.forEach((a) => a.addEventListener('click', () => links.forEach((b) => b.setAttribute('aria-current', String(b === a)))));
   });
 </script>

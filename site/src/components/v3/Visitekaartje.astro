@@ -18,8 +18,8 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
       {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}
       <a href={route} target="_blank" rel="noopener" class="tekstlink">Route plannen <Icoon naam="dak" maat={10} /></a>
     </address>
-    <p>
-      <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a><br />
+    <p class="c-kanalen">
+      <a href={`tel:${bedrijf.telefoon_link}`} class="cijfer">{bedrijf.telefoon}</a>
       <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
     </p>
   </div>
@@ -80,6 +80,16 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
     width: fit-content;
     min-height: 2.75rem;
     font-size: var(--ui);
+  }
+  .c-kanalen {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+  }
+  .c-kanalen a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
   .c-reg {
     font-size: 0.8125rem;

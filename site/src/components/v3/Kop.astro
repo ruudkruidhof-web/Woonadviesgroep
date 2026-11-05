@@ -61,7 +61,9 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
 
   <div id="kop-menu" class="kop-menu" popover>
     <div class="kop-menu-balk">
-      <img src="/logo.webp" alt="WoonAdvies Groep" width="132" height="38" />
+      <a href="/v3" class="kop-menu-logo" aria-label="WoonAdvies Groep, naar home">
+        <img src="/logo.webp" alt="WoonAdvies Groep" width="132" height="38" />
+      </a>
       <button type="button" class="kop-menu-sluit" popovertarget="kop-menu" popovertargetaction="hide" aria-label="Menu sluiten">
         <Icoon naam="sluit" maat={14} />
       </button>
@@ -74,6 +76,7 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
       <ul class="kop-menu-links">
         {links.map((l) => <li><a href={l.href} aria-current={huidig(l.href)}>{l.label}</a></li>)}
       </ul>
+      <a href="/v3/onze-dienstverlening" class="kop-menu-extra" aria-current={huidig('/v3/onze-dienstverlening')}>{teksten.voet.dienstverlening}</a>
     </nav>
     <div class="kop-menu-acties">
       <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-vol">
@@ -164,7 +167,23 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
     background: var(--sky-wash);
   }
   .kop-menu a[aria-current='page'] {
-    color: var(--sky-deep);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: var(--sky);
+    text-underline-offset: 0.2em;
+  }
+  .kop-menu-logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+  .kop-menu-extra {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: var(--navy);
   }
   .kop-sub {
     position: relative;
@@ -445,7 +464,7 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
     if (!sub.contains(e.target as Node)) zetSub(false);
   });
 
-  sub.querySelectorAll('a, button').forEach((el) => el.addEventListener('click', () => zetSub(false)));
+  sub.querySelectorAll('.kop-paneel a, .kop-paneel button').forEach((el) => el.addEventListener('click', () => zetSub(false)));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.hidePopover()));
   menu.addEventListener('toggle', (e) => {
     const open = (e as ToggleEvent).newState === 'open';

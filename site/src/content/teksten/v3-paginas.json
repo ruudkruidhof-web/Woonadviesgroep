@@ -156,7 +156,10 @@
     "formulier_titel": "Plan een vrijblijvend gesprek",
     "formulier_intro": "Laat je gegevens achter, dan nemen wij contact met je op.",
     "plek_label": "Waar wil je afspreken?",
-    "groet": "Graag tot ziens!"
+    "groet": "Graag tot ziens!",
+    "fout_naam": "Vul je naam in.",
+    "fout_contact": "Vul je telefoonnummer of e-mailadres in.",
+    "patroon": "\\s*(\\+?[0-9][0-9 \\(\\)\\-]{7,}|[^@\\s]+@[^@\\s]+\\.[^@\\s]+)\\s*"
   },
   "dienstverlening": {
     "meta_titel": "Onze dienstverlening",
