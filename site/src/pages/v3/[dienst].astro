@@ -311,17 +311,14 @@ const situaties = p.vragen ?? d.situaties;
     padding-top: clamp(1rem, 0.5rem + 2vw, 3rem);
   }
   .dp-gevel {
-    position: relative;
     display: grid;
     justify-items: center;
-    align-content: end;
-    min-height: clamp(7rem, 4rem + 8vw, 11rem);
   }
   .dp-dak {
-    position: absolute;
-    inset: 0;
+    display: block;
     width: 100%;
-    height: 100%;
+    height: clamp(3rem, 2rem + 4vw, 4.5rem);
+    margin-top: 1.25rem;
     overflow: visible;
   }
   .dp-dak path {
@@ -332,8 +329,9 @@ const situaties = p.vragen ?? d.situaties;
     vector-effect: non-scaling-stroke;
   }
   .dp-gevel h2 {
+    order: -1;
     position: relative;
-    padding: 0 1rem 1rem;
+    max-width: 18ch;
     font-size: var(--h2-blok);
     line-height: 1.15;
     text-align: center;
@@ -463,6 +461,21 @@ const situaties = p.vragen ?? d.situaties;
     }
     .dp-gebouw ul {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .dp-gevel {
+      position: relative;
+      align-content: end;
+      min-height: clamp(9rem, 5rem + 6vw, 11rem);
+    }
+    .dp-dak {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      margin: 0;
+    }
+    .dp-gevel h2 {
+      max-width: none;
+      padding: 0 1rem 1rem;
     }
   }
 </style>
