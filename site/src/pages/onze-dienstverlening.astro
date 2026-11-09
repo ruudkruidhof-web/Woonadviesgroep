@@ -1,13 +1,13 @@
 ---
-import Pagina from '../../components/v3/Pagina.astro';
-import PaginaKop from '../../components/v3/PaginaKop.astro';
-import Inhoud from '../../components/v3/Inhoud.astro';
-import Kaarten from '../../components/v3/Kaarten.astro';
-import Afsluiter from '../../components/v3/Afsluiter.astro';
-import Icoon from '../../components/v3/Icoon.astro';
-import teksten from '../../content/teksten/v3-paginas.json';
-import kaarten from '../../content/v3-vergelijkingskaarten.json';
-import bedrijf from '../../content/bedrijf.json';
+import Pagina from '../components/v3/Pagina.astro';
+import PaginaKop from '../components/v3/PaginaKop.astro';
+import Inhoud from '../components/v3/Inhoud.astro';
+import Kaarten from '../components/v3/Kaarten.astro';
+import Afsluiter from '../components/v3/Afsluiter.astro';
+import Icoon from '../components/v3/Icoon.astro';
+import teksten from '../content/teksten/v3-paginas.json';
+import kaarten from '../content/v3-vergelijkingskaarten.json';
+import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.dienstverlening;
 const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
@@ -67,7 +67,7 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
             </div>
           ))}
         </div>
-        <a href="/v3/werkwijze-en-kosten" class="tekstlink">
+        <a href="/werkwijze-en-kosten" class="tekstlink">
           Werkwijze en kosten
           <Icoon naam="dak" maat={11} />
         </a>

@@ -1,12 +1,12 @@
 ---
-import Pagina from '../../components/v3/Pagina.astro';
-import PaginaKop from '../../components/v3/PaginaKop.astro';
-import Visitekaartje from '../../components/v3/Visitekaartje.astro';
-import Icoon from '../../components/v3/Icoon.astro';
-import teksten from '../../content/teksten/v3-paginas.json';
-import home from '../../content/teksten/v3.json';
-import diensten from '../../content/v3-diensten.json';
-import bedrijf from '../../content/bedrijf.json';
+import Pagina from '../components/v3/Pagina.astro';
+import PaginaKop from '../components/v3/PaginaKop.astro';
+import Visitekaartje from '../components/v3/Visitekaartje.astro';
+import Icoon from '../components/v3/Icoon.astro';
+import teksten from '../content/teksten/v3-paginas.json';
+import home from '../content/teksten/v3.json';
+import diensten from '../content/v3-diensten.json';
+import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.contact;
 const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;

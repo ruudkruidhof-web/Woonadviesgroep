@@ -1,13 +1,13 @@
 ---
-import Pagina from '../../components/v3/Pagina.astro';
-import Kruimels from '../../components/v3/Kruimels.astro';
-import Icoon from '../../components/v3/Icoon.astro';
-import Vergelijkingskaart from '../../components/v3/Vergelijkingskaart.astro';
-import Citaat from '../../components/v3/Citaat.astro';
-import Afsluiter from '../../components/v3/Afsluiter.astro';
-import diensten from '../../content/v3-diensten.json';
-import teksten from '../../content/teksten/v3-paginas.json';
-import bedrijf from '../../content/bedrijf.json';
+import Pagina from '../components/v3/Pagina.astro';
+import Kruimels from '../components/v3/Kruimels.astro';
+import Icoon from '../components/v3/Icoon.astro';
+import Vergelijkingskaart from '../components/v3/Vergelijkingskaart.astro';
+import Citaat from '../components/v3/Citaat.astro';
+import Afsluiter from '../components/v3/Afsluiter.astro';
+import diensten from '../content/v3-diensten.json';
+import teksten from '../content/teksten/v3-paginas.json';
+import bedrijf from '../content/bedrijf.json';
 
 export function getStaticPaths() {
   return diensten.map((d) => ({ params: { dienst: d.id }, props: { d } }));
@@ -22,7 +22,7 @@ const situaties = p.vragen ?? d.situaties;
   <section class={`dp-kamer kamer dp-${d.id}`} aria-labelledby="dp-titel">
     <div class="dp-raster">
       <div>
-        <Kruimels hier={d.titel} stappen={[{ href: '/v3#diensten', label: t.kruimel }]} />
+        <Kruimels hier={d.titel} stappen={[{ href: '/#diensten', label: t.kruimel }]} />
         <h1 id="dp-titel">{d.titel}</h1>
         <p class="dp-lead">{p.lead}</p>
       </div>
@@ -88,7 +88,7 @@ const situaties = p.vragen ?? d.situaties;
           <aside class="dp-beloning" aria-labelledby="dp-beloning-titel">
             <h2 id="dp-beloning-titel">{p.beloning_titel}</h2>
             {p.beloning.map((b) => <p>{b}</p>)}
-            <a href="/v3/werkwijze-en-kosten" class="tekstlink">
+            <a href="/werkwijze-en-kosten" class="tekstlink">
               Werkwijze en kosten
               <Icoon naam="dak" maat={11} />
             </a>
@@ -115,7 +115,7 @@ const situaties = p.vragen ?? d.situaties;
                 <p>{t.hier}</p>
               </div>
             ) : (
-              <a href={`/v3/${x.id}`} class={`dp-ander dp-${x.id}`}>
+              <a href={`/${x.id}`} class={`dp-ander dp-${x.id}`}>
                 <h3>{x.titel}</h3>
                 <p>{x.menu}</p>
                 <span class="dp-pijl" aria-hidden="true"><Icoon naam="dak" maat={13} /></span>

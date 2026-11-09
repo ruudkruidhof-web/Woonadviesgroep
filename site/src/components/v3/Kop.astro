@@ -5,17 +5,17 @@ import bedrijf from '../../content/bedrijf.json';
 import teksten from '../../content/teksten/v3.json';
 
 const links = [
-  { href: '/v3/werkwijze-en-kosten', label: 'Werkwijze en kosten' },
-  { href: '/v3/over-ons', label: 'Over ons' },
-  { href: '/v3/contact', label: 'Contact' },
+  { href: '/werkwijze-en-kosten', label: 'Werkwijze en kosten' },
+  { href: '/over-ons', label: 'Over ons' },
+  { href: '/contact', label: 'Contact' },
 ];
 const pad = Astro.url.pathname.replace(/\/$/, '');
 const huidig = (href: string) => (pad === href ? 'page' : undefined);
-const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
+const inDiensten = diensten.some((d) => pad === `/${d.id}`);
 ---
 <header class="kop" data-kop>
   <div class="maat kop-balk">
-    <a href="/v3" class="kop-logo" aria-label="WoonAdvies Groep, naar home">
+    <a href="/" class="kop-logo" aria-label="WoonAdvies Groep, naar home">
       <img src="/logo.webp" alt="WoonAdvies Groep" width="150" height="43" />
     </a>
 
@@ -30,7 +30,7 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
             <ul>
               {diensten.map((d) => (
                 <li>
-                  <a href={`/v3/${d.id}`} aria-current={huidig(`/v3/${d.id}`)}>
+                  <a href={`/${d.id}`} aria-current={huidig(`/${d.id}`)}>
                     <span class="kop-paneel-titel">{d.titel}</span>
                     <span class="kop-paneel-tekst">{d.menu}</span>
                     <Icoon naam="dak" maat={11} />
@@ -61,7 +61,7 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
 
   <div id="kop-menu" class="kop-menu" popover>
     <div class="kop-menu-balk">
-      <a href="/v3" class="kop-menu-logo" aria-label="WoonAdvies Groep, naar home">
+      <a href="/" class="kop-menu-logo" aria-label="WoonAdvies Groep, naar home">
         <img src="/logo.webp" alt="WoonAdvies Groep" width="132" height="38" />
       </a>
       <button type="button" class="kop-menu-sluit" popovertarget="kop-menu" popovertargetaction="hide" aria-label="Menu sluiten">
@@ -71,12 +71,12 @@ const inDiensten = diensten.some((d) => pad === `/v3/${d.id}`);
     <nav aria-label="Menu">
       <p class="kop-menu-groep">Diensten</p>
       <ul class="kop-menu-diensten">
-        {diensten.map((d) => <li><a href={`/v3/${d.id}`} aria-current={huidig(`/v3/${d.id}`)}>{d.titel}</a></li>)}
+        {diensten.map((d) => <li><a href={`/${d.id}`} aria-current={huidig(`/${d.id}`)}>{d.titel}</a></li>)}
       </ul>
       <ul class="kop-menu-links">
         {links.map((l) => <li><a href={l.href} aria-current={huidig(l.href)}>{l.label}</a></li>)}
       </ul>
-      <a href="/v3/onze-dienstverlening" class="kop-menu-extra" aria-current={huidig('/v3/onze-dienstverlening')}>{teksten.voet.dienstverlening}</a>
+      <a href="/onze-dienstverlening" class="kop-menu-extra" aria-current={huidig('/onze-dienstverlening')}>{teksten.voet.dienstverlening}</a>
     </nav>
     <div class="kop-menu-acties">
       <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-vol">

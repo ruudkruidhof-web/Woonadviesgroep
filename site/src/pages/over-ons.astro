@@ -1,11 +1,11 @@
 ---
-import Pagina from '../../components/v3/Pagina.astro';
-import Kruimels from '../../components/v3/Kruimels.astro';
-import Citaat from '../../components/v3/Citaat.astro';
-import Afsluiter from '../../components/v3/Afsluiter.astro';
-import Merk from '../../components/Merk.astro';
-import { review } from '../../components/v3/merk';
-import teksten from '../../content/teksten/v3-paginas.json';
+import Pagina from '../components/v3/Pagina.astro';
+import Kruimels from '../components/v3/Kruimels.astro';
+import Citaat from '../components/v3/Citaat.astro';
+import Afsluiter from '../components/v3/Afsluiter.astro';
+import Merk from '../components/Merk.astro';
+import { review } from '../components/v3/merk';
+import teksten from '../content/teksten/v3-paginas.json';
 
 const t = teksten.over;
 const mensen = t.mensen.map((m) => ({ ...m, reviews: m.reviews.map(review) }));

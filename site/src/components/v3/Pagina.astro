@@ -9,7 +9,7 @@ import './v3.css';
 
 const { titel, omschrijving } = Astro.props;
 ---
-<Base titel={`${titel} | WoonAdvies Groep`} omschrijving={omschrijving} thema="v3" basis="/v3" variant="v3" noindex eigenKader>
+<Base titel={`${titel} | WoonAdvies Groep`} omschrijving={omschrijving} thema="v3" basis="/" variant="v3" noindex eigenKader>
   <Kop slot="kop" />
   <slot />
   <Kennismaken />

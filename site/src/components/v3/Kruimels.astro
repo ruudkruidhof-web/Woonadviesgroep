@@ -3,7 +3,7 @@ const { stappen = [], hier } = Astro.props;
 ---
 <nav class="kruimels" aria-label="Kruimelpad">
   <ol>
-    <li><a href="/v3">Home</a></li>
+    <li><a href="/">Home</a></li>
     {stappen.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
     <li aria-current="page">{hier}</li>
   </ol>

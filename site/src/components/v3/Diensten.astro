@@ -32,7 +32,7 @@ const [kern, ...kamers] = diensten;
             {t.knop}
             <Icoon naam="dak" maat={12} />
           </button>
-          <a href={`/v3/${kern.id}`} class="tekstlink">
+          <a href={`/${kern.id}`} class="tekstlink">
             Meer over {kern.titel.toLowerCase()}
             <Icoon naam="dak" maat={11} />
           </a>
@@ -40,7 +40,7 @@ const [kern, ...kamers] = diensten;
       </article>
 
       {kamers.map((d) => (
-        <a id={`dienst-${d.id}`} href={`/v3/${d.id}`} class={`d-kamer d-zij d-${d.id}`}>
+        <a id={`dienst-${d.id}`} href={`/${d.id}`} class={`d-kamer d-zij d-${d.id}`}>
           <h3>{d.titel}</h3>
           <p>{d.kort}</p>
           <span class="d-pijl" aria-hidden="true"><Icoon naam="dak" maat={13} /></span>
