@@ -12,11 +12,8 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
 ---
 <section class:list={['vk', klasse]} aria-labelledby={`vk-${kaart.id}`}>
   <header class="vk-kop">
-    <Kop id={`vk-${kaart.id}`}>
-      <span class="vk-soort">{t.soort}</span>
-      {kaart.titel}
-    </Kop>
-    <p class="vk-datum">{t.samengesteld} {data.samengesteld}</p>
+    <Kop id={`vk-${kaart.id}`}>{`${t.soort} ${kaart.titel}`}</Kop>
+    <p class="vk-datum">{t.samengesteld} <span class="cijfer">{data.samengesteld}</span></p>
   </header>
 
   <dl class="vk-feiten">
@@ -81,10 +78,9 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
   .vk {
     container-type: inline-size;
     padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    border: 1px solid var(--vel-rand);
+    border-radius: 2px;
     background: #fff;
-    box-shadow: inset 0 3px 0 var(--sky-deep), 0 20px 44px -34px rgba(0, 40, 58, 0.4);
     font-size: 0.9375rem;
     line-height: 1.5;
   }
@@ -94,20 +90,15 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
     justify-content: space-between;
     align-items: baseline;
     gap: 0.5rem 1.5rem;
-    padding-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--vel-rand);
   }
   .vk-kop > :first-child {
-    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
-    line-height: 1.05;
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+    line-height: 1.1;
   }
-  .vk-soort {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-family: var(--font-tekst);
-    font-size: var(--klein);
-    font-weight: 600;
-    letter-spacing: 0;
-    color: var(--tekst-zacht);
+  .vk-datum .cijfer {
+    font-variant-numeric: lining-nums tabular-nums;
   }
   .vk-datum,
   .vk-klein {
@@ -116,6 +107,8 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
   }
   .vk-feiten > div {
     padding-block: 1rem;
+  }
+  .vk-feiten > div + div {
     border-top: 1px solid var(--line);
   }
   .vk-feiten dt {
@@ -156,7 +149,6 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
 
   .vk-producten {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
     gap: 1.5rem 2.5rem;
     padding-block: 1.25rem;
     border-top: 1px solid var(--line);
@@ -241,6 +233,9 @@ const uitleg: Record<string, string> = kaart.uitleg ?? {};
   }
 
   @container (min-width: 38rem) {
+    .vk-producten {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .vk-feiten > div {
       display: grid;
       grid-template-columns: 11.5rem minmax(0, 1fr);

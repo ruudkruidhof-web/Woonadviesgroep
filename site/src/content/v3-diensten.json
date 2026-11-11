@@ -13,7 +13,7 @@
       "lead": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt. Natuurlijk is het dan van uiterst belang dat de financiering van je huis of appartement zo goed mogelijk verloopt.",
       "feiten": [
         "Onafhankelijk hypotheekadvies",
-        "Bij ons op kantoor, bij jou thuis of via video",
+        "Bij ons op kantoor, bij jou thuis (ook ’s avonds) of via video",
         "Onderhoud zonder extra kosten"
       ],
       "situaties_titel": "In welke situatie zit je?",
@@ -45,29 +45,10 @@
       "kosten_titel": "Wat het kost",
       "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
       "kosten_link": "Werkwijze en kosten",
-      "vragen_titel": "Vragen",
-      "veelgesteld": [
-        {
-          "vraag": "Kan ik ook ’s avonds of bij mij thuis afspreken?",
-          "antwoord": "Ja. Dat kan bij jou thuis, overdag of ’s avonds. We ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam, en advies krijgen kan ook in een videogesprek."
-        },
-        {
-          "vraag": "Is jullie hypotheekadvies onafhankelijk?",
-          "antwoord": "Ja. We vergelijken genoeg hypotheken en verzekeringen. Met geen enkele bank of verzekeringsmaatschappij zijn wij een verplichting aangegaan om specifieke producten van die instelling te adviseren of te bemiddelen."
-        },
-        {
-          "vraag": "Wat vragen jullie van mij?",
-          "antwoord": "Voor onze adviezen zijn wij afhankelijk van de informatie die je ons geeft. Vertel het ons bijvoorbeeld als er wijzigingen zijn in je inkomenssituatie, of als je recent grote uitgaven hebt gedaan voor je woning."
-        },
-        {
-          "vraag": "Wat als mijn situatie later verandert?",
-          "antwoord": "Ga bij veranderingen in je persoonlijke situatie altijd terug naar je adviseur. Is er een belangrijke verandering in je hypotheek of verzekering? Dan nemen wij contact met je op, zonder dat je daarvoor betaalt."
-        }
-      ],
       "kaart": "hypotheek",
       "volgende": {
-        "titel": "Hoe het verder gaat",
-        "tekst": "Van het eerste gesprek tot de nazorg, en wanneer je wat betaalt.",
+        "titel": "Hoe het verder gaat, en wanneer je wat betaalt",
+        "tekst": "Van het eerste gesprek tot de nazorg, met bij elke stap wat we van je vragen en wat het kost.",
         "href": "/werkwijze-en-kosten",
         "label": "Werkwijze en kosten"
       }

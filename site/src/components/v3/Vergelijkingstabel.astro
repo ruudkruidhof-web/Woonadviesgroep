@@ -4,14 +4,15 @@ import data from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3-paginas.json';
 
 const t = teksten.kaart;
+const prijzen = data.toon_prijzen;
 ---
 <div class="vt-houder">
-  <div class="vt">
+  <div class="vt" style={`--rijen: ${prijzen ? 5 : 4}`}>
     <div class="vt-labels" aria-hidden="true">
       <span></span>
       <span>{t.onafhankelijk}</span>
       <span>{t.onderhoud}</span>
-      <span>{t.kosten}</span>
+      {prijzen && <span>{t.prijzen_titel}</span>}
       <span></span>
     </div>
     {data.kaarten.map((k) => (
@@ -29,10 +30,12 @@ const t = teksten.kaart;
           <span class="vt-label">{t.onderhoud}</span>
           <strong>{k.onderhoud_kort}</strong>
         </p>
-        <p class="vt-cel">
-          <span class="vt-label">{t.kosten}</span>
-          <strong class="cijfer">{data.toon_prijzen ? k.prijs_kort : t.kosten_tekst}</strong>
-        </p>
+        {prijzen && (
+          <p class="vt-cel">
+            <span class="vt-label">{t.prijzen_titel}</span>
+            <strong class="cijfer">{k.prijs_kort}</strong>
+          </p>
+        )}
         <a href={k.url} class="vt-cel vt-pdf" target="_blank" rel="noopener">
           <Icoon naam="document" maat={15} />
           <span>{t.pdf_kort}<span class="sr-alleen"> {k.titel}</span></span>
@@ -48,10 +51,9 @@ const t = teksten.kaart;
     container-type: inline-size;
   }
   .vt {
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    border: 1px solid var(--vel-rand);
+    border-radius: 2px;
     background: #fff;
-    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
     font-size: 0.9375rem;
     line-height: 1.5;
   }
@@ -146,7 +148,7 @@ const t = teksten.kaart;
     .vt {
       display: grid;
       grid-template-columns: 9.5rem repeat(3, minmax(0, 1fr));
-      grid-template-rows: repeat(5, auto);
+      grid-template-rows: repeat(var(--rijen), auto);
     }
     .vt-labels,
     .vt-kaart {

@@ -1,7 +1,6 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
 import PaginaKop from '../components/v3/PaginaKop.astro';
-import Paragraaf from '../components/v3/Paragraaf.astro';
 import Vergelijkingstabel from '../components/v3/Vergelijkingstabel.astro';
 import Citaat from '../components/v3/Citaat.astro';
 import Overstap from '../components/v3/Overstap.astro';
@@ -11,14 +10,31 @@ import kaarten from '../content/v3-vergelijkingskaarten.json';
 
 const t = teksten.werkwijze;
 const k = teksten.kaart;
+const beloning = teksten.dienstverlening.beloning;
 const laatste = t.stappen.length - 1;
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <PaginaKop titel={t.titel} lead={t.lead} feiten={t.feiten} />
+  <PaginaKop titel={t.titel} lead={t.lead}>
+    <nav class="mini" aria-label={t.mini_label}>
+      <ol>
+        {t.stappen.map((s, i) => (
+          <li class:list={{ 'mini-thuis': i === laatste }}>
+            {i === laatste && (
+              <svg class="mini-huis" viewBox={huisViewBox} aria-hidden="true"><path d={huis} /></svg>
+            )}
+            <a href={`#${s.id}`}>
+              <span class="mini-naam">{s.titel}</span>
+              <span class="mini-kost">{s.kosten.kort}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </PaginaKop>
 
-  <section class="ww" aria-labelledby="ww-titel">
+  <section class="ww band" aria-labelledby="ww-titel">
     <div class="maat">
-      <h2 id="ww-titel" class="ww-kop">{t.route_titel}</h2>
+      <h2 id="ww-titel" class="sr-alleen">{t.route_titel}</h2>
       <div class="ww-banen" aria-hidden="true">
         <span>{t.banen.wij}</span>
         <span>{t.banen.jij}</span>
@@ -26,14 +42,10 @@ const laatste = t.stappen.length - 1;
       </div>
       <ol class="ww-route">
         {t.stappen.map((s, i) => (
-          <li class="ww-stap" data-ww-stap>
+          <li class="ww-stap" id={s.id} data-ww-stap>
             {i !== laatste && <span class="ww-lijn" aria-hidden="true"><span data-ww-vol></span></span>}
-            <span class:list={['ww-merk', { 'ww-thuis': i === laatste }]} aria-hidden="true">
-              {i === laatste ? (
-                <svg viewBox={huisViewBox}><path d={huis} /></svg>
-              ) : (
-                <span class="cijfer">{i + 1}</span>
-              )}
+            <span class:list={['ww-nr', { 'ww-thuis': i === laatste }]} aria-hidden="true">
+              {i === laatste ? <svg viewBox={huisViewBox}><path d={huis} /></svg> : i + 1}
             </span>
             <h3>
               {i !== laatste && <span class="sr-alleen">Stap {i + 1}, </span>}
@@ -42,7 +54,12 @@ const laatste = t.stappen.length - 1;
             <div class="ww-baan ww-wij">
               <p class="ww-label">{t.banen.wij}</p>
               <p>{s.tekst}</p>
-              {s.extra && <p>{s.extra}</p>}
+              {s.extra && (
+                <details class="ww-meer">
+                  <summary>{s.extra_titel}</summary>
+                  <p>{s.extra}</p>
+                </details>
+              )}
             </div>
             <div class="ww-baan ww-jij">
               <p class="ww-label">{t.banen.jij}</p>
@@ -61,24 +78,21 @@ const laatste = t.stappen.length - 1;
           </li>
         ))}
       </ol>
+      <div class="ww-citaat" data-onthul>
+        <Citaat id={t.citaat} />
+      </div>
     </div>
   </section>
 
-  <section class="ww-citaat kamer" aria-label="Wat een klant zegt">
-    <div class="maat" data-onthul>
-      <Citaat id={t.citaat} groot />
-    </div>
-  </section>
-
-  <Paragraaf id="kosten" titel={t.kosten_titel}>
-    <p slot="kant">{t.kosten_intro}</p>
-    <div class="ww-nota" data-onthul>
-      <dl>
-        {t.kosten_regels.map((r) => (
+  <section class="ww-blok" id="kosten" aria-labelledby="kosten-titel">
+    <div class="maat">
+      <h2 id="kosten-titel">{t.kosten_titel}</h2>
+      <p class="ww-intro">{t.kosten_intro}</p>
+      <dl class="ww-nota" data-onthul>
+        {beloning.map((b) => (
           <div>
-            <dt>{r.wat}</dt>
-            <dd class="ww-hoe">{r.hoe}</dd>
-            {r.noot && <dd class="ww-noot">{r.noot}</dd>}
+            <dt>{b.titel}</dt>
+            <dd>{b.tekst}</dd>
           </div>
         ))}
       </dl>
@@ -89,36 +103,108 @@ const laatste = t.stappen.length - 1;
             {kaarten.kaarten.map((x) => (
               <div>
                 <dt>{x.titel}</dt>
-                <dd class="ww-hoe cijfer">{x.prijs_kort}</dd>
+                <dd class="cijfer">{x.prijs_kort}</dd>
               </div>
             ))}
           </dl>
-          <p class="ww-noot">{k.prijzen_uitleg}</p>
+          <p>{k.prijzen_uitleg}</p>
         </div>
       )}
     </div>
-  </Paragraaf>
+  </section>
 
-  <Paragraaf id="vergelijkingskaarten" titel={t.kaarten_titel}>
-    <p slot="kant">{kaarten.uitleg}</p>
-    <div data-onthul>
-      <Vergelijkingstabel />
+  <section class="ww-blok" id="vergelijkingskaarten" aria-labelledby="kaarten-titel">
+    <div class="maat">
+      <h2 id="kaarten-titel">{t.kaarten_titel}</h2>
+      <p class="ww-intro">{kaarten.uitleg}</p>
+      <div class="ww-tabel" data-onthul>
+        <Vergelijkingstabel />
+      </div>
     </div>
-  </Paragraaf>
+  </section>
 
   <Overstap volgende={t.volgende} />
 </Pagina>
 
 <style>
+  .mini {
+    --gat: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+    margin-top: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+  }
+  .mini ol {
+    display: grid;
+    padding: 0;
+    list-style: none;
+  }
+  .mini li {
+    position: relative;
+    padding: 0 0 1.25rem 1.75rem;
+  }
+  .mini li::before {
+    content: '';
+    position: absolute;
+    top: 0.62rem;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--navy);
+  }
+  .mini li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0.62rem;
+    left: 3px;
+    width: 1px;
+    height: 100%;
+    background: var(--navy);
+    transform-origin: top;
+  }
+  .mini-thuis::before {
+    display: none;
+  }
+  .mini-huis {
+    position: absolute;
+    top: 0.3rem;
+    left: -0.3rem;
+    width: 1.1rem;
+    height: auto;
+    overflow: visible;
+  }
+  .mini-huis path {
+    fill: var(--navy);
+  }
+  .mini a {
+    display: grid;
+    gap: 0.2rem;
+    min-height: 2.75rem;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .mini-naam {
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.4375rem);
+    line-height: 1.2;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.2s ease;
+  }
+  .mini a:hover .mini-naam {
+    text-decoration-color: currentColor;
+  }
+  .mini-kost {
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+
   .ww {
-    --merk: 2.75rem;
+    --nr: clamp(2.75rem, 2.2rem + 2vw, 4.25rem);
+    --nr-breed: 3rem;
     --kolom: clamp(1.25rem, 0.8rem + 1.6vw, 2.75rem);
     --tussen: clamp(3rem, 2.25rem + 3vw, 5rem);
-    padding-block: clamp(1rem, 0.5rem + 2vw, 2.5rem) clamp(3rem, 2rem + 3vw, 5rem);
-  }
-  .ww-kop {
-    font-size: var(--h2-blok);
-    line-height: 1.1;
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
   }
   .ww-banen {
     display: none;
@@ -126,47 +212,39 @@ const laatste = t.stappen.length - 1;
   .ww-route {
     display: grid;
     gap: var(--tussen);
-    margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
     padding: 0;
     list-style: none;
   }
   .ww-stap {
     position: relative;
     display: grid;
-    grid-template-columns: var(--merk) minmax(0, 1fr);
+    grid-template-columns: var(--nr-breed) minmax(0, 1fr);
     column-gap: var(--kolom);
+    scroll-margin-top: calc(var(--kop-hoogte) + 4rem);
   }
-  .ww-merk {
+  .ww-nr {
     grid-row: 1;
-    display: grid;
-    place-items: center;
-    width: var(--merk);
-    height: var(--merk);
-    border-radius: 50%;
-    background: var(--paper);
-    box-shadow: inset 0 0 0 1.5px var(--navy);
     font-family: var(--font-kop);
-    font-size: 1.25rem;
+    font-size: var(--nr);
+    font-variant-numeric: lining-nums tabular-nums;
+    line-height: 0.85;
+    text-align: center;
+    color: var(--sky-deep);
+    transition: color 0.45s var(--uit);
+  }
+  .ww-stap.bereikt .ww-nr {
     color: var(--navy);
-    transition: background-color 0.45s var(--uit), color 0.45s var(--uit);
-  }
-  .ww-stap.bereikt .ww-merk:not(.ww-thuis) {
-    background: var(--navy);
-    color: #fff;
-  }
-  .ww-thuis {
-    box-shadow: none;
-    background: none;
   }
   .ww-thuis svg {
+    display: block;
     width: 100%;
     height: auto;
     overflow: visible;
   }
   .ww-thuis path {
-    fill: color-mix(in srgb, var(--navy) 10%, var(--paper));
+    fill: color-mix(in srgb, var(--navy) 10%, var(--sky-wash));
     stroke: var(--navy);
-    stroke-width: 14;
+    stroke-width: 12;
     stroke-linejoin: round;
     transition: fill 0.45s var(--uit);
   }
@@ -175,12 +253,12 @@ const laatste = t.stappen.length - 1;
   }
   .ww-lijn {
     position: absolute;
-    top: var(--merk);
-    left: calc(var(--merk) / 2);
+    top: calc(var(--nr) * 0.85 + 0.75rem);
+    left: calc(var(--nr-breed) / 2);
     width: 1.5px;
-    height: calc(100% - var(--merk) + var(--tussen));
+    height: calc(100% + var(--tussen) - var(--nr) * 0.85 - 1.5rem);
     translate: -50% 0;
-    background: var(--line);
+    background: color-mix(in srgb, var(--navy) 16%, transparent);
   }
   .ww-lijn span {
     display: block;
@@ -209,8 +287,43 @@ const laatste = t.stappen.length - 1;
     font-size: 1rem;
     line-height: 1.65;
   }
-  .ww-wij p:not(.ww-label) + p {
-    margin-top: 0.75rem;
+  .ww-meer {
+    margin-top: 0.5rem;
+  }
+  .ww-meer summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    list-style: none;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+  }
+  .ww-meer summary::-webkit-details-marker {
+    display: none;
+  }
+  .ww-meer summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    rotate: 45deg;
+    translate: 0 -0.15em;
+    transition: rotate 0.3s var(--uit), translate 0.3s var(--uit);
+  }
+  .ww-meer[open] summary::after {
+    rotate: 225deg;
+    translate: 0 0.15em;
+  }
+  .ww-meer summary:hover {
+    text-decoration-color: currentColor;
   }
   .ww-punt + .ww-punt {
     margin-top: 1rem;
@@ -239,104 +352,171 @@ const laatste = t.stappen.length - 1;
     font-size: 0.9375rem;
     color: var(--tekst-zacht);
   }
-
   .ww-citaat {
-    margin-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(2rem, 1.5rem + 2vw, 3.5rem);
-    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
-    background: var(--wash-warm);
-  }
-  .ww-citaat :global(.citaat-groot) {
-    max-width: 44rem;
-  }
-  .ww-citaat :global(.citaat-groot blockquote) {
-    font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
-    line-height: 1.25;
-  }
-  .ww-citaat :global(.citaat blockquote::before) {
-    color: var(--brown);
+    max-width: 40rem;
+    margin: var(--tussen) 0 0 calc(var(--nr-breed) + var(--kolom));
+    padding-top: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
+    border-top: 1px solid var(--vel-rand);
   }
 
+  .ww-blok {
+    padding-top: clamp(4rem, 3rem + 4vw, 7rem);
+  }
+  .ww-blok + .ww-blok .maat {
+    padding-top: clamp(3rem, 2.5rem + 2.5vw, 5rem);
+    border-top: 1px solid var(--vel-rand);
+  }
+  .ww-blok h2 {
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+  }
+  .ww-intro {
+    max-width: 40rem;
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
   .ww-nota {
-    container-type: inline-size;
-    max-width: 46rem;
-    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
-  }
-  .ww-nota dl > div {
     display: grid;
-    gap: 0.25rem;
-    padding-block: 1rem;
-    border-top: 1px solid var(--line);
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    border: 1px solid var(--vel-rand);
+    border-radius: 2px;
+    background: #fff;
   }
-  .ww-nota dl > div:first-child {
-    padding-top: 0;
-    border-top: 0;
+  .ww-nota > div {
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
+  }
+  .ww-nota > div + div {
+    border-top: 1px solid var(--line);
   }
   .ww-nota dt {
-    font-weight: 600;
-    line-height: 1.45;
-    color: var(--navy);
-  }
-  .ww-hoe {
     font-family: var(--font-kop);
-    font-size: 1.25rem;
-    line-height: 1.3;
+    font-size: clamp(1.375rem, 1.25rem + 0.5vw, 1.75rem);
+    line-height: 1.15;
     color: var(--navy);
   }
-  .ww-noot {
-    max-width: 36rem;
-    font-size: 0.875rem;
-    line-height: 1.55;
-    color: var(--tekst-zacht);
+  .ww-nota dd {
+    max-width: 34rem;
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.65;
   }
   .ww-prijzen {
-    margin-top: 0.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
+    margin-top: 2rem;
   }
   .ww-prijzen h3 {
-    margin-bottom: 0.5rem;
     font-size: 1.375rem;
   }
+  .ww-prijzen dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .ww-prijzen p {
+    margin-top: 0.75rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .ww-tabel {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
 
-  @container (min-width: 32rem) {
-    .ww-nota dl > div {
-      grid-template-columns: minmax(0, 1fr) auto;
-      column-gap: 2.5rem;
+  @media (prefers-reduced-motion: no-preference) {
+    .mini li:not(:last-child)::after {
+      animation: mini-lijn-v 0.7s var(--uit) both;
     }
-    .ww-hoe {
-      text-align: right;
+    .mini li:nth-child(2)::after {
+      animation-delay: 0.15s;
     }
-    .ww-noot {
-      grid-column: 1 / -1;
+    .mini li:nth-child(3)::after {
+      animation-delay: 0.3s;
+    }
+    .mini li {
+      animation: mini-in 0.6s var(--uit) both;
+    }
+    .mini li:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+    .mini li:nth-child(3) {
+      animation-delay: 0.24s;
+    }
+    .mini li:nth-child(4) {
+      animation-delay: 0.36s;
+    }
+  }
+  @keyframes mini-lijn-v {
+    from {
+      scale: 1 0;
+    }
+  }
+  @keyframes mini-lijn-h {
+    from {
+      scale: 0 1;
+    }
+  }
+  @keyframes mini-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .mini ol {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: var(--gat);
+    }
+    .mini li {
+      padding: 1.5rem 0 0;
+    }
+    .mini li::before {
+      top: -3px;
+    }
+    .mini li:not(:last-child)::after {
+      top: 0;
+      left: 0;
+      width: calc(100% + var(--gat));
+      height: 1px;
+      transform-origin: left;
+      animation-name: mini-lijn-h;
+    }
+    .mini-huis {
+      top: -0.55rem;
+      left: -0.3rem;
+    }
+    .ww-nota {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .ww-nota > div + div {
+      border-top: 0;
+      border-left: 1px solid var(--line);
     }
   }
 
   @media (min-width: 64rem) {
+    .ww {
+      --nr-breed: 4rem;
+    }
     .ww-banen {
       position: sticky;
       top: var(--kop-zicht);
       z-index: 2;
-      transition: top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
       display: grid;
       grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.8fr);
       column-gap: var(--kolom);
-      margin-top: clamp(1.5rem, 1rem + 1vw, 2.25rem);
-      padding: 0.9rem 0 0.9rem calc(var(--merk) + var(--kolom));
-      border-bottom: 1px solid color-mix(in srgb, var(--navy) 14%, transparent);
-      background: var(--paper);
+      margin-bottom: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+      padding: 0.9rem 0 0.9rem calc(var(--nr-breed) + var(--kolom));
+      border-bottom: 1px solid var(--vel-rand);
+      background: var(--sky-wash);
       font-size: 0.8125rem;
       font-weight: 600;
       color: var(--tekst-zacht);
-    }
-    .ww-route {
-      margin-top: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+      transition: top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .ww-stap {
-      grid-template-columns: var(--merk) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.8fr);
+      grid-template-columns: var(--nr-breed) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.8fr);
     }
     .ww-stap h3 {
       grid-column: 2 / -1;

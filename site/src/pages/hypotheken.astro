@@ -2,9 +2,7 @@
 import Pagina from '../components/v3/Pagina.astro';
 import DienstKop from '../components/v3/DienstKop.astro';
 import Situaties from '../components/v3/Situaties.astro';
-import Paragraaf from '../components/v3/Paragraaf.astro';
 import Vergelijkingskaart from '../components/v3/Vergelijkingskaart.astro';
-import Vragen from '../components/v3/Vragen.astro';
 import Overstap from '../components/v3/Overstap.astro';
 import Icoon from '../components/v3/Icoon.astro';
 import diensten from '../content/v3-diensten.json';
@@ -17,34 +15,52 @@ const p = d.pagina;
 
   <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel} />
 
-  <Paragraaf id="advies" titel={p.advies_titel}>
-    <p class="hy-kern" data-onthul>{p.advies_kern}</p>
-    {p.advies.map((a) => <p class="hy-tekst" data-onthul>{a}</p>)}
-  </Paragraaf>
+  <section class="hy-blok" aria-labelledby="advies-titel">
+    <div class="maat">
+      <h2 id="advies-titel">{p.advies_titel}</h2>
+      <div class="hy-advies">
+        <p class="hy-kern" data-onthul>{p.advies_kern}</p>
+        {p.advies.map((a) => <p class="hy-tekst" data-onthul>{a}</p>)}
+      </div>
+    </div>
+  </section>
 
-  <Paragraaf id="kosten" titel={p.kosten_titel}>
-    <Fragment slot="kant">
-      <p>{p.kosten}</p>
+  <section class="hy-blok" id="kosten" aria-labelledby="kosten-titel">
+    <div class="maat">
+      <h2 id="kosten-titel">{p.kosten_titel}</h2>
+      <p class="hy-intro">{p.kosten}</p>
       <a href="/werkwijze-en-kosten" class="tekstlink">
         {p.kosten_link}
         <Icoon naam="dak" maat={11} />
       </a>
-    </Fragment>
-    <div data-onthul>
-      <Vergelijkingskaart id={p.kaart} niveau={3} />
+      <div class="hy-kaart" data-onthul>
+        <Vergelijkingskaart id={p.kaart} niveau={3} />
+      </div>
     </div>
-  </Paragraaf>
-
-  <Paragraaf id="vragen" titel={p.vragen_titel}>
-    <Vragen items={p.veelgesteld} naam="vragen-hypotheken" />
-  </Paragraaf>
+  </section>
 
   <Overstap volgende={p.volgende} onderwerp={d.titel} />
 </Pagina>
 
 <style>
+  .hy-blok {
+    padding-top: clamp(4rem, 3rem + 4vw, 7rem);
+  }
+  .hy-blok + .hy-blok .maat {
+    padding-top: clamp(3rem, 2.5rem + 2.5vw, 5rem);
+    border-top: 1px solid var(--vel-rand);
+  }
+  .hy-blok h2 {
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+  }
+  .hy-advies {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+  }
   .hy-kern {
-    max-width: 30ch;
+    max-width: 22ch;
     font-family: var(--font-kop);
     font-size: clamp(1.625rem, 1.3rem + 1.3vw, 2.375rem);
     line-height: 1.2;
@@ -53,9 +69,25 @@ const p = d.pagina;
     text-wrap: balance;
   }
   .hy-tekst {
-    max-width: 38rem;
-    margin-top: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
-    font-size: 1.125rem;
+    max-width: 34rem;
+    font-size: 1.0625rem;
     line-height: 1.7;
+  }
+  .hy-intro {
+    max-width: 40rem;
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .hy-kaart {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  @media (min-width: 64rem) {
+    .hy-advies {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: end;
+      gap: clamp(3rem, 6vw, 7rem);
+    }
   }
 </style>

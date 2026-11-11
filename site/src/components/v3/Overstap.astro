@@ -1,119 +1,51 @@
 ---
 import Icoon from './Icoon.astro';
-import teksten from '../../content/teksten/v3-paginas.json';
 import home from '../../content/teksten/v3.json';
-import bedrijf from '../../content/bedrijf.json';
 
 const { volgende, onderwerp } = Astro.props;
-const t = teksten.overstap;
 ---
-<section class="os" aria-label="Verder">
-  <div class="maat os-vel" data-onthul>
-    <div class="os-deel">
-      <h2>{t.titel}</h2>
-      <p>{t.tekst}</p>
-      <div class="os-acties">
-        <button type="button" class="knop knop-vol" data-plan-open data-onderwerp={onderwerp}>
-          {home.hero.knop}
-          <Icoon naam="dak" maat={12} />
-        </button>
-        <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
-          <Icoon naam="bel" maat={15} />
-          <span>{t.bel} <span class="cijfer">{bedrijf.telefoon}</span></span>
-        </a>
-      </div>
-    </div>
-    <div class="os-deel os-door">
-      <h2><a href={volgende.href}>{volgende.titel}</a></h2>
-      <p>{volgende.tekst}</p>
-      <span class="tekstlink" aria-hidden="true">
+<section class="os" aria-labelledby="os-titel">
+  <div class="maat os-strook" data-onthul>
+    <h2 id="os-titel">{volgende.titel}</h2>
+    <p>{volgende.tekst}</p>
+    <div class="os-acties">
+      <a href={volgende.href} class="knop knop-vol">
         {volgende.label}
-        <Icoon naam="dak" maat={11} />
-      </span>
+        <Icoon naam="dak" maat={12} />
+      </a>
+      <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={onderwerp}>
+        {home.hero.knop}
+      </button>
     </div>
   </div>
 </section>
 
 <style>
   .os {
-    padding-block: clamp(2.5rem, 2rem + 2.5vw, 4.5rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+    padding-block: clamp(3rem, 2rem + 3vw, 5rem) clamp(4.5rem, 3rem + 5vw, 8rem);
   }
-  .os-vel {
-    display: grid;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
-  }
-  .os-deel {
-    padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+  .os-strook {
+    padding-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    border-top: 1px solid var(--vel-rand);
   }
   .os h2 {
-    font-size: var(--h2-blok);
-    line-height: 1.1;
+    max-width: 20ch;
+    font-size: var(--h2);
+    line-height: 1.05;
+    text-wrap: balance;
   }
   .os p {
-    max-width: 26rem;
-    margin-top: 0.75rem;
-    font-size: 1.0625rem;
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    font-size: var(--lead);
+    line-height: 1.55;
   }
   .os-acties {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem 1.75rem;
-    margin-top: 1.75rem;
-  }
-  .os-door {
-    position: relative;
-    border-top: 1px solid var(--line);
-    transition: background-color 0.25s ease;
-  }
-  .os-door a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .os-door a::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0 0 8px 8px;
-  }
-  .os-door a:focus-visible {
-    outline: none;
-  }
-  .os-door a:focus-visible::after {
-    outline: 2px solid var(--sky-deep);
-    outline-offset: -4px;
-  }
-  .os-door .tekstlink {
-    margin-top: 1.25rem;
-  }
-  .os-door:hover {
-    background: var(--ice);
-  }
-  .os-door:hover .tekstlink {
-    text-decoration-color: currentColor;
-  }
-
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .os-door:hover :global(.dak) {
-      translate: 0.2em 0;
-    }
-  }
-
-  @media (min-width: 48rem) {
-    .os-vel {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .os-door {
-      border-top: 0;
-      border-left: 1px solid var(--line);
-      border-radius: 0 8px 8px 0;
-    }
-    .os-door a::after {
-      border-radius: 0 8px 8px 0;
-    }
+    gap: 0.75rem 1rem;
+    margin-top: 2rem;
   }
 
   @media (max-width: 47.99rem) {

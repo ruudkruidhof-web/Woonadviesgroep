@@ -22,6 +22,7 @@
   --onthul: cubic-bezier(0.33, 1, 0.68, 1);
   scroll-padding-top: calc(var(--kop-hoogte) + 1rem);
   --kop-zicht: var(--kop-hoogte);
+  --vel-rand: color-mix(in srgb, var(--navy) 16%, transparent);
 }
 
 [data-thema='v3']:has(.kop[data-verborgen]:not(:focus-within)) {
@@ -54,6 +55,10 @@
 
 .sectie {
   padding-block: var(--sectie);
+}
+
+.band {
+  background: var(--sky-wash);
 }
 
 .kamer {
