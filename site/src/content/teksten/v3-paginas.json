@@ -20,7 +20,14 @@
     "pdf": "Bekijk de vergelijkingskaart",
     "geen": "Niet",
     "ja": "Ja, onafhankelijk",
-    "nee": "Nee, niet onafhankelijk"
+    "nee": "Nee, niet onafhankelijk",
+    "soort": "Vergelijkingskaart",
+    "samengesteld": "Samengesteld op",
+    "geldt": "Waarvoor",
+    "ja_kort": "Ja",
+    "nee_kort": "Nee",
+    "geen_voor": "Geen",
+    "pdf_kort": "Bekijk de kaart"
   },
   "afsluiter": {
     "titel": "Maar laten we beginnen met stap 1!",
@@ -29,29 +36,94 @@
   "werkwijze": {
     "meta_titel": "Werkwijze en kosten",
     "omschrijving": "Hoe WoonAdvies Groep werkt, van het vrijblijvende kennismakingsgesprek tot de nazorg, en wat het advies kost.",
-    "titel": "Onze werkwijze",
+    "titel": "Werkwijze en kosten",
     "lead": "Je financiën zijn een zaak van jou en eventueel je partner. Als je met een kantoor in zee gaat voor een hypotheek, een verzekeringsportefeuille of een financiële planning voor later, is vertrouwen het uitgangspunt. Wij onderstrepen dat en stellen in een stappenplan voor wat we voor je in welke fase kunnen betekenen.",
+    "feiten": [
+      {
+        "label": "Kennismaking",
+        "waarde": "Vrijblijvend"
+      },
+      {
+        "label": "Tarief",
+        "waarde": "Vooraf afgesproken"
+      },
+      {
+        "label": "Onderhoud van je hypotheek",
+        "waarde": "Zonder extra kosten"
+      }
+    ],
+    "route_titel": "Onze werkwijze",
+    "banen": {
+      "wij": "Wat wij doen",
+      "jij": "Wat we van je vragen",
+      "kosten": "Wat het kost"
+    },
     "stappen": [
       {
         "titel": "Kennismaken",
-        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn."
+        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
+        "jij": [
+          {
+            "titel": "Waar we afspreken",
+            "tekst": "Je kiest zelf, bij jou thuis, op kantoor of via video."
+          }
+        ],
+        "kosten": {
+          "kort": "Vrijblijvend",
+          "tekst": "Daarin willen we graag investeren."
+        }
       },
       {
         "titel": "Verdiepen",
         "tekst": "In de volgende stap gaan we dieper in op de uitgangspunten die we formuleerden in het kennismakingsgesprek. Met je geïnventariseerde wensen, mogelijkheden en toekomstbeeld bekijken we de huidige financiële situatie. Zijn de gegevens nog actueel? Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan.",
-        "extra": "Als je het wenst, adviseren we je over je complete financiële huishouding. Dat kan complex zijn, want financiële planning is veelomvattend. Het doel is dat voor jou een helder beeld wordt geschetst. Samen komen we zo tot een oplossing voor nu en in de toekomst."
+        "extra": "Als je het wenst, adviseren we je over je complete financiële huishouding. Dat kan complex zijn, want financiële planning is veelomvattend. Het doel is dat voor jou een helder beeld wordt geschetst. Samen komen we zo tot een oplossing voor nu en in de toekomst.",
+        "jij": [
+          {
+            "titel": "Juiste en volledige informatie",
+            "tekst": "Voor onze adviezen zijn wij afhankelijk van de informatie die je ons geeft. Vertel het ons bijvoorbeeld als er wijzigingen zijn in je inkomenssituatie, of als je recent grote uitgaven hebt gedaan voor je woning."
+          },
+          {
+            "titel": "Totaalbeeld",
+            "tekst": "Je financiële portefeuille kun je het best vergelijken met een puzzel. Het beeld is pas compleet te maken wanneer alle puzzelstukjes bekend zijn, ook als je bepaalde producten elders hebt afgesloten."
+          }
+        ],
+        "kosten": {
+          "kort": "Vooraf afgesproken",
+          "tekst": "Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af."
+        }
       },
       {
         "titel": "Uitvoeren",
-        "tekst": "Als het financiële beeld compleet is, volgt de volgende fase waarin we het plan ten uitvoer gaan brengen. Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren."
+        "tekst": "Als het financiële beeld compleet is, volgt de volgende fase waarin we het plan ten uitvoer gaan brengen. Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren.",
+        "jij": [
+          {
+            "titel": "Informatie doornemen",
+            "tekst": "Neem onze informatie aandachtig door en controleer polissen en andere contracten altijd zelf. Vanzelfsprekend controleren wij deze documenten ook."
+          }
+        ],
+        "kosten": {
+          "kort": "Niet afhankelijk van het product",
+          "tekst": "De hoogte van het tarief hangt af van het dienstenpakket dat je van ons afneemt, niet van het financiële product dat je via ons afsluit."
+        }
       },
       {
         "titel": "Ook daarna",
-        "tekst": "Wij begeleiden je na aanschaf van het gewenste financiële product. Deze begeleiding bestaat uit het beantwoorden van algemene vragen over het betreffende product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product."
+        "tekst": "Wij begeleiden je na aanschaf van het gewenste financiële product. Deze begeleiding bestaat uit het beantwoorden van algemene vragen over het betreffende product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product.",
+        "jij": [
+          {
+            "titel": "Wijzigingen doorgeven",
+            "tekst": "Denk bijvoorbeeld aan een verhuizing, een andere baan, het aangaan of beëindigen van een relatie, een geboorte, werkloosheid of arbeidsongeschiktheid."
+          }
+        ],
+        "kosten": {
+          "kort": "Hypotheek zonder extra kosten",
+          "tekst": "Voor het onderhoud van verzekeringen en vermogensopbouw betaal je een bedrag via een abonnement."
+        }
       }
     ],
-    "kosten_titel": "Kosten",
-    "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
+    "citaat": "jr",
+    "kosten_titel": "Wat het kost",
+    "kosten_intro": "Je weet vooraf waar je aan toe bent. Het tarief spreken we af voordat we verder gaan.",
     "kosten_regels": [
       {
         "wat": "Kennismakingsgesprek",
@@ -59,39 +131,26 @@
       },
       {
         "wat": "Hypotheken, pensioenen en complexe levensverzekeringen",
-        "hoe": "Vast tarief"
+        "hoe": "Vast tarief",
+        "noot": "De hoogte van het tarief hangt af van de exacte inhoud van het dienstenpakket dat je van ons afneemt, niet van het financiële product dat je via ons afsluit."
       },
       {
         "wat": "Betaal- en spaarrekeningen, consumptief krediet",
-        "hoe": "Provisie, geen extra kosten"
+        "hoe": "Provisie",
+        "noot": "De provisie is onderdeel van de prijs van het product. Wij brengen geen aanvullende kosten in rekening."
       },
       {
         "wat": "Onderhoud van je hypotheek",
         "hoe": "Geen extra kosten"
       }
     ],
-    "kosten_voet": "De hoogte van het tarief hangt af van de exacte inhoud van het dienstenpakket dat je van ons afneemt, niet van het financiële product dat je via ons afsluit.",
-    "vragen_titel": "Wat vragen wij van je?",
-    "vragen_lead": "Om je belangen op het gebied van financiële diensten optimaal te kunnen behartigen, vragen wij ook een aantal zaken van jou.",
-    "vragen": [
-      {
-        "titel": "Juiste en volledige informatie",
-        "tekst": "Voor onze adviezen zijn wij afhankelijk van de informatie die je ons geeft. Vertel het ons bijvoorbeeld als er wijzigingen zijn in je inkomenssituatie, of als je recent grote uitgaven hebt gedaan voor je woning."
-      },
-      {
-        "titel": "Totaalbeeld",
-        "tekst": "Je financiële portefeuille kun je het best vergelijken met een puzzel. Het beeld is pas compleet te maken wanneer alle puzzelstukjes bekend zijn, ook als je bepaalde producten elders hebt afgesloten."
-      },
-      {
-        "titel": "Wijzigingen doorgeven",
-        "tekst": "Denk bijvoorbeeld aan een verhuizing, een andere baan, het aangaan of beëindigen van een relatie, een geboorte, werkloosheid of arbeidsongeschiktheid."
-      },
-      {
-        "titel": "Informatie doornemen",
-        "tekst": "Neem onze informatie aandachtig door en controleer polissen en andere contracten altijd zelf. Vanzelfsprekend controleren wij deze documenten ook."
-      }
-    ],
-    "kaarten_titel": "Vergelijkingskaarten"
+    "kaarten_titel": "Vergelijkings­kaarten",
+    "volgende": {
+      "titel": "Wie er tegenover je zit",
+      "tekst": "Maak kennis met Dennis en Marijke, en lees wat klanten over hen zeggen.",
+      "href": "/over-ons",
+      "label": "Over ons"
+    }
   },
   "over": {
     "meta_titel": "Over ons",
@@ -323,5 +382,10 @@
       }
     ],
     "bijgewerkt": "Laatst bijgewerkt op 5 november 2026."
+  },
+  "overstap": {
+    "titel": "Zullen we kennismaken?",
+    "tekst": "Het eerste gesprek is vrijblijvend, bij jou thuis, op kantoor of via video.",
+    "bel": "Of bel"
   }
 }

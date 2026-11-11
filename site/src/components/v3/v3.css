@@ -21,6 +21,11 @@
   --uit: cubic-bezier(0.22, 1, 0.36, 1);
   --onthul: cubic-bezier(0.33, 1, 0.68, 1);
   scroll-padding-top: calc(var(--kop-hoogte) + 1rem);
+  --kop-zicht: var(--kop-hoogte);
+}
+
+[data-thema='v3']:has(.kop[data-verborgen]:not(:focus-within)) {
+  --kop-zicht: 0px;
 }
 
 [data-thema='v3'] body {

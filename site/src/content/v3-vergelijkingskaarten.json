@@ -55,7 +55,16 @@
         }
       ],
       "prijs_kort": "€ 2.450 tot € 3.450",
-      "sub": "Hypotheken en verzekeringen bij de hypotheek"
+      "sub": "Hypotheken en verzekeringen bij de hypotheek",
+      "dienst_uitleg": "We kijken naar jouw persoonlijke situatie. Daarna adviseren we welke hypotheek of verzekering geschikt is. Ook zorgen we ervoor dat je het contract kunt afsluiten.",
+      "onafhankelijk_uitleg": "We vergelijken genoeg hypotheken en verzekeringen.",
+      "onderhoud_kort": "Zonder extra kosten",
+      "onderhoud_uitleg": "Met onderhoud houden we samen met jou in de gaten of er veranderingen zijn waardoor een aanpassing in je hypotheek of verzekering nodig is.",
+      "uitleg": {
+        "Overlijdensrisicoverzekering": "Bij een overlijdensrisicoverzekering krijgen nabestaanden een bedrag als jij overlijdt. Met dit bedrag kunnen ze bijvoorbeeld (een deel van) de hypotheek aflossen.",
+        "Betalingsbeschermer": "Bij een betalingsbeschermer (ook woonlastenverzekering genoemd) krijg je bijvoorbeeld een uitkering voor je woonlasten als je arbeidsongeschikt of werkloos wordt."
+      },
+      "noot": "Op deze vergelijkingskaart staan alleen verzekeringen naast je hypotheek. Wij kunnen ook nog andere verzekeringen bieden. Vraag daarnaar in het gesprek."
     },
     {
       "id": "risicos",
@@ -88,7 +97,11 @@
         }
       ],
       "prijs_kort": "€ 395 of € 595",
-      "sub": "Overlijdensrisico, betalingsbeschermer, uitvaart en arbeidsongeschiktheid"
+      "sub": "Overlijdensrisico, betalingsbeschermer, uitvaart en arbeidsongeschiktheid",
+      "dienst_uitleg": "We kijken naar jouw persoonlijke situatie. Daarna adviseren we welke verzekering geschikt is. Ook zorgen we ervoor dat je het contract kunt afsluiten.",
+      "onafhankelijk_uitleg": "We vergelijken genoeg verzekeringen.",
+      "onderhoud_kort": "Via een abonnement",
+      "onderhoud_uitleg": "Met onderhoud houden we samen met jou in de gaten of er veranderingen zijn waardoor een aanpassing in je verzekering nodig is."
     },
     {
       "id": "vermogen",
@@ -122,7 +135,11 @@
         }
       ],
       "prijs_kort": "€ 395 of € 595",
-      "sub": "Spaarverzekering en lijfrente"
+      "sub": "Spaarverzekering en lijfrente",
+      "dienst_uitleg": "We kijken naar jouw persoonlijke situatie. Daarna adviseren we welk vermogensopbouwproduct geschikt is. Ook zorgen we ervoor dat je het contract kunt afsluiten.",
+      "onafhankelijk_uitleg": "Wij nemen een geselecteerd aantal producten mee in onze vergelijking en advies.",
+      "onderhoud_kort": "Via een abonnement",
+      "onderhoud_uitleg": "Met onderhoud houden we samen met jou in de gaten of er veranderingen zijn waardoor een aanpassing in je product nodig is."
     }
   ]
 }

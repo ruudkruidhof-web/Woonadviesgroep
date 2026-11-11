@@ -10,7 +10,7 @@ import teksten from '../content/teksten/v3-paginas.json';
 import bedrijf from '../content/bedrijf.json';
 
 export function getStaticPaths() {
-  return diensten.map((d) => ({ params: { dienst: d.id }, props: { d } }));
+  return diensten.filter((d) => d.id !== 'hypotheken').map((d) => ({ params: { dienst: d.id }, props: { d } }));
 }
 
 const { d } = Astro.props;

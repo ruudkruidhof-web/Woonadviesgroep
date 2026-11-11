@@ -1,0 +1,212 @@
+---
+import Citaat from './Citaat.astro';
+import Icoon from './Icoon.astro';
+
+const { titel, items, knop, onderwerp } = Astro.props;
+---
+<section class="si" id="situaties" aria-labelledby="si-titel" data-situaties>
+  <div class="maat si-raster">
+    <div>
+      <h2 id="si-titel">{titel}</h2>
+      <div class="si-lijst" role="tablist" aria-labelledby="si-titel" aria-orientation="vertical">
+        {items.map((s, i) => (
+          <a
+            href={`#${s.id}`}
+            id={`si-tab-${s.id}`}
+            role="tab"
+            aria-controls={s.id}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? undefined : '-1'}
+          >
+            {s.titel}
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="si-vel" data-onthul>
+      {items.map((s, i) => (
+        <div id={s.id} class="si-paneel" role="tabpanel" aria-labelledby={`si-tab-${s.id}`} tabindex="0" data-actief={i === 0 ? '' : undefined}>
+          <h3>{s.titel}</h3>
+          <p class="si-tekst">{s.tekst}</p>
+          {s.review && (
+            <div class="si-citaat">
+              <Citaat id={s.review} />
+            </div>
+          )}
+          <button type="button" class="knop knop-vol si-knop" data-plan-open data-onderwerp={onderwerp}>
+            {knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .si {
+    padding-block: clamp(4rem, 3rem + 4vw, 7rem) clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+  }
+  .si-raster {
+    display: grid;
+    gap: 2rem;
+  }
+  .si h2 {
+    max-width: 12ch;
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .si-lijst {
+    display: grid;
+    margin-top: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+    border-top: 1px solid color-mix(in srgb, var(--navy) 14%, transparent);
+  }
+  .si-lijst a {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-height: 3.75rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--navy) 14%, transparent);
+    font-family: var(--font-kop);
+    font-size: clamp(1.3125rem, 1.15rem + 0.6vw, 1.625rem);
+    line-height: 1.2;
+    color: var(--tekst-zacht);
+    text-decoration: none;
+    transition: color 0.2s ease, gap 0.35s var(--uit);
+  }
+  .si-lijst a::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--sky-deep);
+    transition: width 0.35s var(--uit);
+  }
+  .si-lijst a:hover {
+    color: var(--navy);
+  }
+  .si-lijst a[aria-selected='true'] {
+    gap: 0.9rem;
+    color: var(--navy);
+  }
+  .si-lijst a[aria-selected='true']::before {
+    width: 1.75rem;
+  }
+
+  .si-vel {
+    display: grid;
+    padding: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
+  }
+  .si-paneel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .si-paneel h3 {
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+  }
+  .si-tekst {
+    max-width: 34rem;
+    margin-top: 1rem;
+    font-size: var(--lead);
+    line-height: 1.55;
+  }
+  .si-citaat {
+    width: 100%;
+    margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+    padding-top: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    border-top: 1px solid var(--line);
+  }
+  .si-citaat :global(blockquote) {
+    font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  }
+  .si-knop {
+    margin-top: auto;
+  }
+  .si-paneel > :nth-last-child(2) {
+    margin-bottom: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+  }
+
+  .si-paneel + .si-paneel {
+    margin-top: 2.5rem;
+  }
+  :global(.heeft-js) .si-paneel {
+    grid-area: 1 / 1;
+    margin: 0;
+  }
+  :global(.heeft-js) .si-paneel:not([data-actief]) {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.heeft-js) .si-paneel[data-actief] > * {
+      animation: si-in 0.45s var(--uit) both;
+    }
+    :global(.heeft-js) .si-paneel[data-actief] > :nth-child(2) {
+      animation-delay: 0.04s;
+    }
+    :global(.heeft-js) .si-paneel[data-actief] > :nth-child(3) {
+      animation-delay: 0.08s;
+    }
+  }
+  @keyframes si-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .si-raster {
+      grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 7rem);
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .si-knop {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-situaties]').forEach((blok) => {
+    const tabs = [...blok.querySelectorAll<HTMLAnchorElement>('[role="tab"]')];
+
+    const kies = (tab: HTMLAnchorElement, focus = false) => {
+      tabs.forEach((t) => {
+        const aan = t === tab;
+        t.setAttribute('aria-selected', String(aan));
+        aan ? t.removeAttribute('tabindex') : (t.tabIndex = -1);
+        blok.querySelector(`#${t.getAttribute('aria-controls')}`)?.toggleAttribute('data-actief', aan);
+      });
+      if (focus) tab.focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        kies(tab);
+        history.replaceState(null, '', tab.hash);
+      });
+      tab.addEventListener('keydown', (e) => {
+        const naar = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (naar === undefined) return;
+        e.preventDefault();
+        kies(tabs[(naar + tabs.length) % tabs.length], true);
+      });
+    });
+
+    const uitAdres = tabs.find((t) => t.hash === location.hash);
+    if (uitAdres) kies(uitAdres);
+  });
+</script>

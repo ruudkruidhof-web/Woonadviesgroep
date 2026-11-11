@@ -1,0 +1,192 @@
+---
+import Icoon from './Icoon.astro';
+import data from '../../content/v3-vergelijkingskaarten.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const t = teksten.kaart;
+---
+<div class="vt-houder">
+  <div class="vt">
+    <div class="vt-labels" aria-hidden="true">
+      <span></span>
+      <span>{t.onafhankelijk}</span>
+      <span>{t.onderhoud}</span>
+      <span>{t.kosten}</span>
+      <span></span>
+    </div>
+    {data.kaarten.map((k) => (
+      <section class="vt-kaart" aria-labelledby={`vt-${k.id}`}>
+        <h3 id={`vt-${k.id}`}>
+          {k.titel}
+          <span class="vt-sub">{k.sub}</span>
+        </h3>
+        <p class:list={['vt-cel', 'vt-oordeel', { 'vt-nee': !k.onafhankelijk }]}>
+          <span class="vt-label">{t.onafhankelijk}</span>
+          <strong>{k.onafhankelijk ? t.ja_kort : t.nee_kort}</strong>
+          <span class="vt-klein">{k.onafhankelijk_uitleg}</span>
+        </p>
+        <p class="vt-cel">
+          <span class="vt-label">{t.onderhoud}</span>
+          <strong>{k.onderhoud_kort}</strong>
+        </p>
+        <p class="vt-cel">
+          <span class="vt-label">{t.kosten}</span>
+          <strong class="cijfer">{data.toon_prijzen ? k.prijs_kort : t.kosten_tekst}</strong>
+        </p>
+        <a href={k.url} class="vt-cel vt-pdf" target="_blank" rel="noopener">
+          <Icoon naam="document" maat={15} />
+          <span>{t.pdf_kort}<span class="sr-alleen"> {k.titel}</span></span>
+          <span class="vt-klein">(pdf)</span>
+        </a>
+      </section>
+    ))}
+  </div>
+</div>
+
+<style>
+  .vt-houder {
+    container-type: inline-size;
+  }
+  .vt {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .vt-labels {
+    display: none;
+  }
+  .vt-kaart {
+    padding: 1.5rem clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  }
+  .vt-kaart + .vt-kaart {
+    border-top: 1px solid var(--line);
+  }
+  .vt-kaart h3 {
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+  .vt-sub {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--font-tekst);
+    font-size: var(--klein);
+    line-height: 1.45;
+    color: var(--tekst-zacht);
+  }
+  .vt-cel {
+    margin-top: 1rem;
+  }
+  .vt-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .vt-cel strong {
+    display: block;
+    margin-top: 0.2rem;
+    font-family: var(--font-kop);
+    font-size: 1.1875rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--navy);
+  }
+  .vt-oordeel strong::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 50%;
+    background: var(--sky-deep);
+    vertical-align: 0.12em;
+  }
+  .vt-nee strong::before {
+    background: none;
+    box-shadow: inset 0 0 0 1.5px var(--brown);
+  }
+  .vt-klein {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--tekst-zacht);
+  }
+  .vt-pdf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    min-height: 2.75rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .vt-pdf > span:first-of-type {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+    text-underline-offset: 0.25em;
+  }
+  .vt-pdf:hover > span:first-of-type {
+    text-decoration-color: currentColor;
+  }
+  .vt-pdf .vt-klein {
+    display: inline;
+    margin: 0;
+    font-weight: 400;
+  }
+  .vt-pdf :global(svg) {
+    flex-shrink: 0;
+    color: var(--sky-deep);
+  }
+
+  @container (min-width: 44rem) {
+    .vt {
+      display: grid;
+      grid-template-columns: 9.5rem repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(5, auto);
+    }
+    .vt-labels,
+    .vt-kaart {
+      display: grid;
+      grid-row: 1 / -1;
+      grid-template-rows: subgrid;
+      padding: 0;
+    }
+    .vt-kaart + .vt-kaart,
+    .vt-kaart {
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+    .vt-labels > span,
+    .vt-kaart > * {
+      margin: 0;
+      padding: 1rem 1.25rem;
+    }
+    .vt-labels > span:not(:first-child),
+    .vt-kaart > :not(:first-child) {
+      border-top: 1px solid var(--line);
+    }
+    .vt-labels > span {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--tekst-zacht);
+    }
+    .vt-kaart h3 {
+      padding-block: 1.5rem 1.25rem;
+    }
+    .vt-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .vt-cel strong {
+      margin-top: 0;
+    }
+  }
+</style>

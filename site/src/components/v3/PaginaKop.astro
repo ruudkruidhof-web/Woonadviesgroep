@@ -1,26 +1,29 @@
 ---
 import Kruimels from './Kruimels.astro';
 
-const { titel, hier = titel, lead, stappen } = Astro.props;
+const { titel, hier = titel, lead, stappen, feiten } = Astro.props;
 ---
 <header class="pk">
-  <svg class="pk-boog" viewBox="0 0 1156.6 680" aria-hidden="true">
-    <circle class="pk-hoofd" cx="340" cy="340" r="339" pathLength="1" />
-    <circle class="pk-hart" cx="816.6" cy="340" r="339" pathLength="1" />
-  </svg>
   <div class="maat">
     <Kruimels hier={hier} stappen={stappen} />
     <h1>{titel}</h1>
     {lead && <p class="lead pk-lead">{lead}</p>}
     <slot />
+    {feiten && (
+      <dl class="pk-feiten">
+        {feiten.map((f) => (
+          <div>
+            <dt>{f.label}</dt>
+            <dd>{f.waarde}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
   </div>
 </header>
 
 <style>
   .pk {
-    position: relative;
-    isolation: isolate;
-    overflow: clip;
     padding-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(3.5rem, 2.5rem + 4vw, 6rem);
   }
   .pk h1 {
@@ -29,72 +32,67 @@ const { titel, hier = titel, lead, stappen } = Astro.props;
     font-size: var(--h1-pagina);
     line-height: 1.03;
     letter-spacing: -0.02em;
+    text-wrap: balance;
   }
   .pk-lead {
-    max-width: 40rem;
+    max-width: 42rem;
     margin-top: 1.5rem;
   }
-  .pk-boog {
-    display: none;
+  .pk-feiten {
+    display: grid;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    border-top: 1px solid color-mix(in srgb, var(--navy) 16%, transparent);
+  }
+  .pk-feiten > div {
+    padding-block: 1.1rem;
+  }
+  .pk-feiten > div + div {
+    border-top: 1px solid var(--line);
+  }
+  .pk-feiten dt {
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .pk-feiten dd {
+    margin-top: 0.3rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.3125rem, 1.2rem + 0.4vw, 1.5rem);
+    line-height: 1.2;
+    color: var(--navy);
   }
 
-  @media (min-width: 64rem) {
-    .pk-boog {
-      display: block;
-      position: absolute;
-      z-index: -1;
-      top: -10rem;
-      left: calc(50% - var(--maat) / 2 + 47rem);
-      width: 54rem;
-      height: auto;
-      overflow: visible;
+  @media (min-width: 48rem) {
+    .pk-feiten {
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
     }
-    .pk-boog circle {
-      fill: none;
-      stroke-width: 1.25;
-      vector-effect: non-scaling-stroke;
-      transform-box: fill-box;
-      transform-origin: center;
-      rotate: 180deg;
+    .pk-feiten > div {
+      padding-right: 1.5rem;
     }
-    .pk-hoofd {
-      stroke: var(--sky-deep);
-      opacity: 0.55;
-    }
-    .pk-hart {
-      stroke: var(--brown);
-      opacity: 0.5;
+    .pk-feiten > div + div {
+      padding-left: 1.5rem;
+      border-top: 0;
+      border-left: 1px solid var(--line);
     }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .pk-boog circle {
-      stroke-dasharray: 1 1;
-      animation: pk-teken 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
-    }
-    .pk-hart {
-      animation-delay: 0.35s;
-    }
     .pk h1,
-    .pk-lead {
+    .pk-lead,
+    .pk-feiten {
       animation: pk-in 0.8s var(--uit) both;
     }
     .pk-lead {
-      animation-delay: 0.12s;
+      animation-delay: 0.1s;
+    }
+    .pk-feiten {
+      animation-delay: 0.2s;
     }
   }
   @keyframes pk-in {
     from {
       opacity: 0;
       translate: 0 14px;
-    }
-  }
-  @keyframes pk-teken {
-    from {
-      stroke-dashoffset: 1;
-    }
-    to {
-      stroke-dashoffset: 0;
     }
   }
 </style>

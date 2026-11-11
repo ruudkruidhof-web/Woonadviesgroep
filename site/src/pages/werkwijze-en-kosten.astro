@@ -1,359 +1,363 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
 import PaginaKop from '../components/v3/PaginaKop.astro';
-import Vergelijkingskaart from '../components/v3/Vergelijkingskaart.astro';
-import Afsluiter from '../components/v3/Afsluiter.astro';
-import Icoon from '../components/v3/Icoon.astro';
-import Merk from '../components/Merk.astro';
+import Paragraaf from '../components/v3/Paragraaf.astro';
+import Vergelijkingstabel from '../components/v3/Vergelijkingstabel.astro';
+import Citaat from '../components/v3/Citaat.astro';
+import Overstap from '../components/v3/Overstap.astro';
 import { huis, huisViewBox } from '../components/v3/merk';
 import teksten from '../content/teksten/v3-paginas.json';
 import kaarten from '../content/v3-vergelijkingskaarten.json';
 
 const t = teksten.werkwijze;
+const k = teksten.kaart;
 const laatste = t.stappen.length - 1;
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <PaginaKop titel={t.titel} hier={t.meta_titel} lead={t.lead} />
+  <PaginaKop titel={t.titel} lead={t.lead} feiten={t.feiten} />
 
-  <section class="wk" aria-label="Stappenplan en kosten">
-    <div class="maat wk-raster">
-      <div class="wk-route" data-wk-route>
-        <ol>
-          {t.stappen.map((s, i) => (
-            <li class="wk-stap" data-wk-stap>
-              {i !== laatste && <span class="wk-lijn" aria-hidden="true"><span data-wk-vol></span></span>}
-              <span class:list={['wk-merk', { 'wk-thuis': i === laatste }]} aria-hidden="true">
-                {i === laatste ? (
-                  <svg viewBox={huisViewBox}><path d={huis} /></svg>
-                ) : (
-                  <span class="cijfer">{i + 1}</span>
-                )}
-              </span>
-              <h2>
-                {i !== laatste && <span class="sr-alleen">Stap {i + 1}, </span>}
-                {s.titel}
-              </h2>
+  <section class="ww" aria-labelledby="ww-titel">
+    <div class="maat">
+      <h2 id="ww-titel" class="ww-kop">{t.route_titel}</h2>
+      <div class="ww-banen" aria-hidden="true">
+        <span>{t.banen.wij}</span>
+        <span>{t.banen.jij}</span>
+        <span>{t.banen.kosten}</span>
+      </div>
+      <ol class="ww-route">
+        {t.stappen.map((s, i) => (
+          <li class="ww-stap" data-ww-stap>
+            {i !== laatste && <span class="ww-lijn" aria-hidden="true"><span data-ww-vol></span></span>}
+            <span class:list={['ww-merk', { 'ww-thuis': i === laatste }]} aria-hidden="true">
+              {i === laatste ? (
+                <svg viewBox={huisViewBox}><path d={huis} /></svg>
+              ) : (
+                <span class="cijfer">{i + 1}</span>
+              )}
+            </span>
+            <h3>
+              {i !== laatste && <span class="sr-alleen">Stap {i + 1}, </span>}
+              {s.titel}
+            </h3>
+            <div class="ww-baan ww-wij">
+              <p class="ww-label">{t.banen.wij}</p>
               <p>{s.tekst}</p>
               {s.extra && <p>{s.extra}</p>}
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <aside class="wk-kaart" aria-labelledby="wk-kosten">
-        <div class="wk-kaart-kop">
-          <h2 id="wk-kosten">{t.kosten_titel}</h2>
-          <Merk breedte={44} />
-        </div>
-        <p>{t.kosten}</p>
-        <dl class="wk-regels">
-          {t.kosten_regels.map((r) => (
-            <div>
-              <dt>{r.wat}</dt>
-              <dd>{r.hoe}</dd>
             </div>
-          ))}
-        </dl>
-        {kaarten.toon_prijzen && (
-          <div class="wk-prijzen">
-            <h3>{teksten.kaart.prijzen_titel}</h3>
-            <dl class="wk-regels">
-              {kaarten.kaarten.map((k) => (
-                <div>
-                  <dt>{k.titel}</dt>
-                  <dd class="cijfer">{k.prijs_kort}</dd>
+            <div class="ww-baan ww-jij">
+              <p class="ww-label">{t.banen.jij}</p>
+              {s.jij.map((j) => (
+                <div class="ww-punt">
+                  <h4>{j.titel}</h4>
+                  <p>{j.tekst}</p>
                 </div>
               ))}
-            </dl>
-            <p class="wk-klein">{teksten.kaart.prijzen_uitleg}</p>
-          </div>
-        )}
-        <p class="wk-klein">{t.kosten_voet}</p>
-        <a href="#vergelijkingskaarten" class="tekstlink">
-          {t.kaarten_titel}
-          <Icoon naam="dak" maat={11} />
-        </a>
-      </aside>
-    </div>
-  </section>
-
-  <section class="wk-vragen kamer" data-kamer aria-labelledby="wk-vragen-titel">
-    <div class="maat">
-      <div class="sectie-kop">
-        <h2 id="wk-vragen-titel" data-regels>{t.vragen_titel}</h2>
-        <p data-onthul>{t.vragen_lead}</p>
-      </div>
-      <ul class="wk-vragen-lijst">
-        {t.vragen.map((v) => (
-          <li data-onthul>
-            <h3>{v.titel}</h3>
-            <p>{v.tekst}</p>
+            </div>
+            <div class="ww-baan ww-kosten">
+              <p class="ww-label">{t.banen.kosten}</p>
+              <p class="ww-kort">{s.kosten.kort}</p>
+              <p>{s.kosten.tekst}</p>
+            </div>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
-  <section id="vergelijkingskaarten" class="wk-kaarten" aria-labelledby="wk-kaarten-titel">
-    <div class="maat">
-      <div class="sectie-kop">
-        <h2 id="wk-kaarten-titel" data-regels>{t.kaarten_titel}</h2>
-        <p data-onthul>{kaarten.uitleg}</p>
-      </div>
-      <div class="wk-kaarten-rij">
-        {kaarten.kaarten.map((k) => <Vergelijkingskaart id={k.id} compact />)}
-      </div>
+  <section class="ww-citaat kamer" aria-label="Wat een klant zegt">
+    <div class="maat" data-onthul>
+      <Citaat id={t.citaat} groot />
     </div>
   </section>
 
-  <Afsluiter />
+  <Paragraaf id="kosten" titel={t.kosten_titel}>
+    <p slot="kant">{t.kosten_intro}</p>
+    <div class="ww-nota" data-onthul>
+      <dl>
+        {t.kosten_regels.map((r) => (
+          <div>
+            <dt>{r.wat}</dt>
+            <dd class="ww-hoe">{r.hoe}</dd>
+            {r.noot && <dd class="ww-noot">{r.noot}</dd>}
+          </div>
+        ))}
+      </dl>
+      {kaarten.toon_prijzen && (
+        <div class="ww-prijzen">
+          <h3>{k.prijzen_titel}</h3>
+          <dl>
+            {kaarten.kaarten.map((x) => (
+              <div>
+                <dt>{x.titel}</dt>
+                <dd class="ww-hoe cijfer">{x.prijs_kort}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="ww-noot">{k.prijzen_uitleg}</p>
+        </div>
+      )}
+    </div>
+  </Paragraaf>
+
+  <Paragraaf id="vergelijkingskaarten" titel={t.kaarten_titel}>
+    <p slot="kant">{kaarten.uitleg}</p>
+    <div data-onthul>
+      <Vergelijkingstabel />
+    </div>
+  </Paragraaf>
+
+  <Overstap volgende={t.volgende} />
 </Pagina>
 
 <style>
-  .wk {
-    padding-bottom: clamp(4.5rem, 3rem + 5vw, 8rem);
+  .ww {
+    --merk: 2.75rem;
+    --kolom: clamp(1.25rem, 0.8rem + 1.6vw, 2.75rem);
+    --tussen: clamp(3rem, 2.25rem + 3vw, 5rem);
+    padding-block: clamp(1rem, 0.5rem + 2vw, 2.5rem) clamp(3rem, 2rem + 3vw, 5rem);
   }
-  .wk-raster {
-    display: grid;
-    gap: clamp(3.5rem, 2.5rem + 4vw, 5rem);
+  .ww-kop {
+    font-size: var(--h2-blok);
+    line-height: 1.1;
   }
-
-  .wk-route {
-    --merk: 3.25rem;
-    --tussen: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  .ww-banen {
+    display: none;
   }
-  .wk-route ol {
+  .ww-route {
     display: grid;
     gap: var(--tussen);
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
     padding: 0;
     list-style: none;
   }
-  .wk-lijn {
-    position: absolute;
-    top: var(--merk);
-    height: calc(100% - var(--merk) + var(--tussen) + 2px);
-    left: calc(var(--merk) / 2);
-    width: 1.5px;
-    translate: -50% 0;
-    background: var(--line);
-  }
-  .wk-lijn span {
-    position: absolute;
-    inset: 0;
-    background: var(--sky-deep);
-    transform-origin: top center;
-  }
-  .wk-stap {
+  .ww-stap {
     position: relative;
-    padding-left: calc(var(--merk) + clamp(1.25rem, 1rem + 1.5vw, 2.25rem));
+    display: grid;
+    grid-template-columns: var(--merk) minmax(0, 1fr);
+    column-gap: var(--kolom);
   }
-  .wk-merk {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .ww-merk {
+    grid-row: 1;
     display: grid;
     place-items: center;
     width: var(--merk);
     height: var(--merk);
     border-radius: 50%;
     background: var(--paper);
-    box-shadow: inset 0 0 0 1.5px var(--sky-deep);
+    box-shadow: inset 0 0 0 1.5px var(--navy);
     font-family: var(--font-kop);
-    font-size: 1.5rem;
-    line-height: 1;
+    font-size: 1.25rem;
     color: var(--navy);
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition: background-color 0.45s var(--uit), color 0.45s var(--uit);
   }
-  .wk-thuis {
-    left: calc(var(--merk) * -0.25);
-    width: calc(var(--merk) * 1.5);
-    height: auto;
-    border-radius: 0;
-    background: var(--paper);
+  .ww-stap.bereikt .ww-merk:not(.ww-thuis) {
+    background: var(--navy);
+    color: #fff;
+  }
+  .ww-thuis {
     box-shadow: none;
+    background: none;
   }
-  .wk-thuis svg {
+  .ww-thuis svg {
     width: 100%;
     height: auto;
     overflow: visible;
   }
-  .wk-thuis path {
-    fill: var(--paper);
-    stroke: var(--sky-deep);
-    stroke-width: 1.75px;
+  .ww-thuis path {
+    fill: color-mix(in srgb, var(--navy) 10%, var(--paper));
+    stroke: var(--navy);
+    stroke-width: 14;
     stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-    transition: fill 0.5s ease;
+    transition: fill 0.45s var(--uit);
   }
-  .wk-stap h2 {
-    padding-top: 0.4rem;
+  .ww-stap.bereikt .ww-thuis path {
+    fill: var(--navy);
+  }
+  .ww-lijn {
+    position: absolute;
+    top: var(--merk);
+    left: calc(var(--merk) / 2);
+    width: 1.5px;
+    height: calc(100% - var(--merk) + var(--tussen));
+    translate: -50% 0;
+    background: var(--line);
+  }
+  .ww-lijn span {
+    display: block;
+    height: 100%;
+    background: var(--navy);
+    transform-origin: top;
+  }
+  .ww-stap h3 {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: center;
     font-size: var(--h3-kaart);
-    line-height: 1.15;
+    line-height: 1.1;
   }
-  .wk-stap p {
-    max-width: 36rem;
-    margin-top: 0.75rem;
-  }
-  .wk-stap p + p {
-    margin-top: 0.9rem;
-  }
-
-  .wk-route:not([data-actief]) .wk-merk:not(.wk-thuis),
-  [data-wk-route][data-actief] .wk-stap[data-bereikt] .wk-merk:not(.wk-thuis) {
-    background: var(--sky-deep);
-    color: #fff;
-  }
-  .wk-route:not([data-actief]) .wk-thuis path,
-  [data-wk-route][data-actief] .wk-stap[data-bereikt] .wk-thuis path {
-    fill: var(--sky-wash);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .heeft-js:not(.beweging-uit) [data-wk-vol] {
-      transform: scaleY(0);
-    }
-    .heeft-js:not(.beweging-uit) .wk-route:not([data-actief]) .wk-merk:not(.wk-thuis) {
-      background: var(--paper);
-      color: var(--navy);
-    }
-    .heeft-js:not(.beweging-uit) .wk-route:not([data-actief]) .wk-thuis path {
-      fill: var(--paper);
-    }
-  }
-
-  .wk-kaart {
-    align-self: start;
-    padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
-    border-radius: var(--radius);
-    background: #fff;
-    box-shadow: 0 0 0 1px var(--line), 0 30px 60px -40px rgba(0, 40, 58, 0.5);
-  }
-  .wk-kaart-kop {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .wk-kaart h2 {
-    font-size: var(--h2-blok);
-  }
-  .wk-kaart > p:first-of-type {
-    margin-top: 1.1rem;
-    font-size: 0.9375rem;
-  }
-  .wk-regels {
-    margin-top: 1.25rem;
-  }
-  .wk-regels > div {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.15rem 0.6rem;
-    padding-block: 0.7rem;
-    border-top: 1px dashed color-mix(in srgb, var(--navy) 18%, transparent);
-    font-size: 0.9375rem;
-    line-height: 1.4;
-  }
-  .wk-regels dt {
-    flex: 1 1 12rem;
-    color: var(--navy-soft);
-  }
-  .wk-regels dd {
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .wk-prijzen {
+  .ww-baan {
+    grid-column: 2;
     margin-top: 1.5rem;
   }
-  .wk-prijzen h3 {
-    font-size: 1.25rem;
-  }
-  .wk-klein {
-    margin-top: 1rem;
-    font-size: var(--klein);
-    line-height: 1.5;
+  .ww-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--tekst-zacht);
   }
-  .wk-kaart .tekstlink {
-    margin-top: 0.5rem;
-    font-size: var(--ui);
+  .ww-wij p:not(.ww-label) {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .ww-wij p:not(.ww-label) + p {
+    margin-top: 0.75rem;
+  }
+  .ww-punt + .ww-punt {
+    margin-top: 1rem;
+  }
+  .ww-jij h4 {
+    font-family: var(--font-tekst);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.4;
+    color: var(--navy);
+  }
+  .ww-jij .ww-punt p {
+    margin-top: 0.2rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .ww-kort {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: var(--navy);
+  }
+  .ww-kosten > p:last-child {
+    margin-top: 0.35rem;
+    font-size: 0.9375rem;
+    color: var(--tekst-zacht);
   }
 
-  .wk-vragen h2,
-  .wk-kaarten h2 {
-    font-size: var(--h2-blok);
+  .ww-citaat {
+    margin-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+    background: var(--wash-warm);
   }
-  .wk-kaarten .sectie-kop p {
-    max-width: 40rem;
+  .ww-citaat :global(.citaat-groot) {
+    max-width: 44rem;
   }
-  .wk-regels dd {
-    white-space: nowrap;
-  }
-  .wk-vragen {
-    padding-block: clamp(4rem, 3rem + 4vw, 7rem);
-    background: var(--sky-wash);
-  }
-  .wk-vragen-lijst {
-    display: grid;
-    gap: 2rem 3rem;
-    padding: 0;
-    list-style: none;
-  }
-  .wk-vragen-lijst li {
-    padding-top: 1.25rem;
-    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 35%, transparent);
-  }
-  .wk-vragen-lijst h3 {
-    font-size: var(--h4);
+  .ww-citaat :global(.citaat-groot blockquote) {
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
     line-height: 1.25;
   }
-  .wk-vragen-lijst p {
-    margin-top: 0.6rem;
+  .ww-citaat :global(.citaat blockquote::before) {
+    color: var(--brown);
   }
 
-  .wk-kaarten .sectie-kop {
-    max-width: 48rem;
+  .ww-nota {
+    container-type: inline-size;
+    max-width: 46rem;
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 20px 44px -34px rgba(0, 40, 58, 0.4);
   }
-  .wk-kaarten-rij {
+  .ww-nota dl > div {
     display: grid;
-    gap: 1rem;
+    gap: 0.25rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
   }
-  .wk-kaarten {
-    padding-top: clamp(4.5rem, 3rem + 5vw, 8rem);
+  .ww-nota dl > div:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .ww-nota dt {
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--navy);
+  }
+  .ww-hoe {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--navy);
+  }
+  .ww-noot {
+    max-width: 36rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--tekst-zacht);
+  }
+  .ww-prijzen {
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .ww-prijzen h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.375rem;
   }
 
-  @media (min-width: 48rem) {
-    .wk-vragen-lijst {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @container (min-width: 32rem) {
+    .ww-nota dl > div {
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 2.5rem;
     }
-    .wk-kaarten-rij {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .ww-hoe {
+      text-align: right;
+    }
+    .ww-noot {
+      grid-column: 1 / -1;
     }
   }
 
   @media (min-width: 64rem) {
-    .wk-route {
-      --merk: 4rem;
-    }
-    .wk-merk {
-      font-size: 1.875rem;
-    }
-    .wk-raster {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
-      gap: clamp(4rem, 7vw, 8rem);
-    }
-    .wk-kaart {
+    .ww-banen {
       position: sticky;
-      top: calc(var(--kop-hoogte) + 1.5rem);
+      top: var(--kop-zicht);
+      z-index: 2;
+      transition: top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.8fr);
+      column-gap: var(--kolom);
+      margin-top: clamp(1.5rem, 1rem + 1vw, 2.25rem);
+      padding: 0.9rem 0 0.9rem calc(var(--merk) + var(--kolom));
+      border-bottom: 1px solid color-mix(in srgb, var(--navy) 14%, transparent);
+      background: var(--paper);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--tekst-zacht);
     }
-    .wk-kaarten-rij {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .ww-route {
+      margin-top: clamp(2rem, 1.5rem + 1.5vw, 3rem);
     }
-  }
-  @media (min-width: 80rem) {
-    .wk-vragen-lijst {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .ww-stap {
+      grid-template-columns: var(--merk) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.8fr);
+    }
+    .ww-stap h3 {
+      grid-column: 2 / -1;
+    }
+    .ww-baan {
+      grid-row: 2;
+      margin-top: 1.25rem;
+    }
+    .ww-jij {
+      grid-column: 3;
+    }
+    .ww-kosten {
+      grid-column: 4;
+    }
+    .ww-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
   }
 </style>
@@ -363,24 +367,26 @@ const laatste = t.stappen.length - 1;
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
-  const route = document.querySelector<HTMLElement>('[data-wk-route]')!;
 
   gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
-    if (document.documentElement.classList.contains('beweging-uit')) return;
-    route.toggleAttribute('data-actief', true);
-    const tussen = () => parseFloat(getComputedStyle(route.querySelector('ol')!).rowGap) || 0;
-    route.querySelectorAll<HTMLElement>('[data-wk-stap]').forEach((stap) => {
-      const vol = stap.querySelector('[data-wk-vol]');
-      if (vol) {
-        gsap.fromTo(vol, { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: stap, start: 'top 62%', end: () => `bottom+=${tussen()} 62%`, scrub: 0.4 } });
-      }
+    const stappen = gsap.utils.toArray<HTMLElement>('[data-ww-stap]');
+    stappen.forEach((stap, i) => {
       ScrollTrigger.create({
         trigger: stap,
         start: 'top 62%',
-        onEnter: () => stap.toggleAttribute('data-bereikt', true),
-        onLeaveBack: () => stap.toggleAttribute('data-bereikt', false),
+        onEnter: () => stap.classList.add('bereikt'),
+        onLeaveBack: () => stap.classList.remove('bereikt'),
       });
+      const vol = stap.querySelector('[data-ww-vol]');
+      const volgende = stappen[i + 1];
+      if (vol && volgende) {
+        gsap.fromTo(
+          vol,
+          { scaleY: 0 },
+          { scaleY: 1, ease: 'none', scrollTrigger: { trigger: stap, start: 'top 62%', endTrigger: volgende, end: 'top 62%', scrub: 0.5 } },
+        );
+      }
     });
-    return () => route.removeAttribute('data-actief');
+    return () => stappen.forEach((stap) => stap.classList.remove('bereikt'));
   });
 </script>

@@ -1,0 +1,61 @@
+---
+import Pagina from '../components/v3/Pagina.astro';
+import DienstKop from '../components/v3/DienstKop.astro';
+import Situaties from '../components/v3/Situaties.astro';
+import Paragraaf from '../components/v3/Paragraaf.astro';
+import Vergelijkingskaart from '../components/v3/Vergelijkingskaart.astro';
+import Vragen from '../components/v3/Vragen.astro';
+import Overstap from '../components/v3/Overstap.astro';
+import Icoon from '../components/v3/Icoon.astro';
+import diensten from '../content/v3-diensten.json';
+
+const d = diensten.find((x) => x.id === 'hypotheken')!;
+const p = d.pagina;
+---
+<Pagina titel={d.titel} omschrijving={p.lead}>
+  <DienstKop dienst={d} lead={p.lead} feiten={p.feiten} />
+
+  <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel} />
+
+  <Paragraaf id="advies" titel={p.advies_titel}>
+    <p class="hy-kern" data-onthul>{p.advies_kern}</p>
+    {p.advies.map((a) => <p class="hy-tekst" data-onthul>{a}</p>)}
+  </Paragraaf>
+
+  <Paragraaf id="kosten" titel={p.kosten_titel}>
+    <Fragment slot="kant">
+      <p>{p.kosten}</p>
+      <a href="/werkwijze-en-kosten" class="tekstlink">
+        {p.kosten_link}
+        <Icoon naam="dak" maat={11} />
+      </a>
+    </Fragment>
+    <div data-onthul>
+      <Vergelijkingskaart id={p.kaart} niveau={3} />
+    </div>
+  </Paragraaf>
+
+  <Paragraaf id="vragen" titel={p.vragen_titel}>
+    <Vragen items={p.veelgesteld} naam="vragen-hypotheken" />
+  </Paragraaf>
+
+  <Overstap volgende={p.volgende} onderwerp={d.titel} />
+</Pagina>
+
+<style>
+  .hy-kern {
+    max-width: 30ch;
+    font-family: var(--font-kop);
+    font-size: clamp(1.625rem, 1.3rem + 1.3vw, 2.375rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  .hy-tekst {
+    max-width: 38rem;
+    margin-top: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+</style>

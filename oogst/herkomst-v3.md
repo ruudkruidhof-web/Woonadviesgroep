@@ -146,6 +146,30 @@ Teksten in `site/src/content/v3-diensten.json` (veld `pagina`), `site/src/conten
 | Wat vragen wij van je?, de lead en de vier punten | SAMENGESTELD | dienstenwijzer, Wat vragen wij van u (ingekort, je-vorm) |
 | Vergelijkingskaarten | LETTERLIJK | werkwijze (documenten) |
 
+## Proef onderliggende pagina's (11 nov 2026)
+
+Hypotheken en Werkwijze en kosten zijn opnieuw opgebouwd volgens `docs/superpowers/specs/2026-11-11-woonadvies-v3-paginas-briefing.md`. De tabellen hierboven gelden nog voor de teksten die zijn blijven staan; dit zijn de nieuwe of verplaatste regels.
+
+| Regel | Label | Bron |
+| --- | --- | --- |
+| Onafhankelijk hypotheekadvies; Bij ons op kantoor, bij jou thuis of via video; Onderhoud zonder extra kosten (feiten in de opening van Hypotheken) | SAMENGESTELD | kaart Hypotheek ("Ja, onafhankelijk", de adviesvormen, onderhoud "geen extra kosten") |
+| In welke situatie zit je?, Bespreek je situatie, Hoe wij adviseren, Wat het kost, Vragen, Onze werkwijze (koppen en knoppen) | FUNCTIONEEL | |
+| De drie situaties met hun tekst (eerste woning, volgende woning, relatiebreuk of scheiding) | EIGEN, TER VERIFICATIE | `voorwie.json`, geschreven na de meeting van 24 jul 2026, bij Marijke bevestigen; dubbele punt in de eerste tekst vervangen door een punt |
+| Reviews bij de situaties: MH bij eerste woning, Tim Dubbelaar bij volgende woning, geen review bij scheiding | LETTERLIJK | reviews.json; bij scheiding bewust geen review, omdat geen reviewer die situatie noemt |
+| Zo krijg je niet simpelweg de goedkoopste hypotheek, maar juist de hypotheek die het beste bij jouw omstandigheden aansluit. | SAMENGESTELD | hypotheken (ingekort, zoals op de homepage) |
+| Vragen bij Hypotheken: ’s avonds of thuis afspreken, onafhankelijk, wat vragen jullie van mij, als je situatie verandert | SAMENGESTELD | vragen EIGEN; antwoorden uit werkwijze stap 1, contact (videogesprek), kaart Hypotheek, dienstenwijzer (Advies, Wat vragen wij van u) en kaart Hypotheek (onderhoud) |
+| Vergelijkingskaart: Advies geven én contract regelen met de uitleg, onafhankelijk met de toelichting, onderhoud met de uitleg, de producten met "Geen ..." | LETTERLIJK of SAMENGESTELD | de drie kaarten (2023); "De financiële dienstverlener kan" werd "Wij kunnen", "hypotheek/verzekering" werd "hypotheek of verzekering", voetnoot onderhoud in wij-vorm |
+| Werkwijze en kosten als titel; Kennismaking vrijblijvend, Tarief vooraf afgesproken, Onderhoud van je hypotheek zonder extra kosten | SAMENGESTELD | menu, werkwijze (kosten), kaart Hypotheek |
+| Wat wij doen, Wat we van je vragen, Wat het kost (banen van de route) | FUNCTIONEEL | |
+| Waar we afspreken: Je kiest zelf, bij jou thuis, op kantoor of via video. | SAMENGESTELD | werkwijze stap 1, kaart Hypotheek (video) |
+| De vier punten uit "Wat vragen wij van je?" verdeeld over de stappen | SAMENGESTELD | dienstenwijzer (zie hierboven), alleen verplaatst |
+| Kosten per stap: Vrijblijvend; Vooraf afgesproken; Niet afhankelijk van het product; Hypotheek zonder extra kosten, met hun toelichting | SAMENGESTELD | werkwijze (kosten), dienstenwijzer (Vast tarief), kaarten Risico's afdekken en Vermogen opbouwen ("Voor onderhoudsdiensten betaal je een bedrag via een abonnement") |
+| Je weet vooraf waar je aan toe bent. Het tarief spreken we af voordat we verder gaan. | EIGEN, TER VERIFICATIE | samenvatting van werkwijze (kosten) |
+| De provisie is onderdeel van de prijs van het product. Wij brengen geen aanvullende kosten in rekening. | LETTERLIJK | dienstenwijzer, Provisie |
+| Citaat jR op Werkwijze en kosten | LETTERLIJK | reviews.json |
+| Zullen we kennismaken? Het eerste gesprek is vrijblijvend, bij jou thuis, op kantoor of via video. | SAMENGESTELD | werkwijze stap 1, kaart Hypotheek |
+| Hoe het verder gaat; Wie er tegenover je zit, met hun regel | EIGEN, TER VERIFICATIE | overstap naar de volgende pagina |
+
 ## Over ons
 
 | Regel | Label | Bron |

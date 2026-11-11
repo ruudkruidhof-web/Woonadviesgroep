@@ -1,0 +1,89 @@
+---
+const { items, naam } = Astro.props;
+---
+<div class="vr">
+  {items.map((v) => (
+    <details name={naam}>
+      <summary>
+        <span>{v.vraag}</span>
+        <span class="vr-teken" aria-hidden="true"></span>
+      </summary>
+      <p>{v.antwoord}</p>
+    </details>
+  ))}
+</div>
+
+<style>
+  .vr {
+    max-width: 46rem;
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+    interpolate-size: allow-keywords;
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 3.5rem;
+    padding-block: 1.15rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+    line-height: 1.3;
+    color: var(--navy);
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .vr-teken {
+    position: relative;
+    flex-shrink: 0;
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 22%, transparent);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .vr-teken::before,
+  .vr-teken::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.7rem;
+    height: 1.5px;
+    margin: -0.75px 0 0 -0.35rem;
+    background: var(--navy);
+    transition: rotate 0.3s var(--uit), background-color 0.2s ease;
+  }
+  .vr-teken::after {
+    rotate: 90deg;
+  }
+  details[open] .vr-teken::after {
+    rotate: 0deg;
+  }
+  summary:hover .vr-teken {
+    box-shadow: inset 0 0 0 1.5px var(--navy);
+  }
+  details p {
+    max-width: 40rem;
+    padding-bottom: 1.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size 0.35s var(--uit), content-visibility 0.35s allow-discrete;
+    }
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+</style>

@@ -3,153 +3,225 @@ import Icoon from './Icoon.astro';
 import data from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3-paginas.json';
 
-const { id, klasse = '', compact = false } = Astro.props;
+const { id, klasse = '', niveau = 2 } = Astro.props;
 const kaart = data.kaarten.find((k) => k.id === id)!;
 const t = teksten.kaart;
+const Kop = `h${niveau}`;
+const Groep = `h${niveau + 1}`;
+const uitleg: Record<string, string> = kaart.uitleg ?? {};
 ---
-<aside class:list={['vk', klasse, { 'vk-compact': compact }]} aria-labelledby={`vk-${kaart.id}`}>
-  <h2 id={`vk-${kaart.id}`}>
-    <span class="vk-soort">{teksten.dienst.kaart_titel}</span>
-    {kaart.titel}
-  </h2>
-  <dl>
-    {!compact && (
-      <div>
-        <dt>{t.dienst}</dt>
-        <dd>{kaart.dienst}</dd>
-      </div>
-    )}
-    {kaart.groepen.map((g) => (
-      <div>
-        <dt>{g.titel}</dt>
-        <dd>
-          <ul class="vk-lijst">
-            {g.wel.map((w) => <li>{w}</li>)}
-            {g.geen.map((w) => <li class="vk-geen"><span class="sr-alleen">{t.geen}: </span>{w}</li>)}
-          </ul>
-        </dd>
-      </div>
-    ))}
-    {!compact && (
-      <div>
-        <dt>{t.advies}</dt>
-        <dd>{data.advies}</dd>
-      </div>
-    )}
+<section class:list={['vk', klasse]} aria-labelledby={`vk-${kaart.id}`}>
+  <header class="vk-kop">
+    <Kop id={`vk-${kaart.id}`}>
+      <span class="vk-soort">{t.soort}</span>
+      {kaart.titel}
+    </Kop>
+    <p class="vk-datum">{t.samengesteld} {data.samengesteld}</p>
+  </header>
+
+  <dl class="vk-feiten">
     <div>
-      <dt>{kaart.onafhankelijk ? t.onafhankelijk : t.vergelijking}</dt>
-      <dd>{kaart.vergelijking}</dd>
+      <dt>{t.dienst}</dt>
+      <dd><strong>{kaart.dienst}</strong> <span>{kaart.dienst_uitleg}</span></dd>
+    </div>
+    <div>
+      <dt>{t.advies}</dt>
+      <dd><strong>{data.advies}</strong></dd>
+    </div>
+    <div>
+      <dt>{t.onafhankelijk}</dt>
+      <dd class:list={['vk-oordeel', { 'vk-nee': !kaart.onafhankelijk }]}>
+        <strong>{kaart.onafhankelijk ? t.ja : t.nee}</strong> <span>{kaart.onafhankelijk_uitleg}</span>
+      </dd>
     </div>
     <div>
       <dt>{t.onderhoud}</dt>
-      <dd>{kaart.onderhoud}</dd>
+      <dd><strong>{kaart.onderhoud_kort}</strong> <span>{kaart.onderhoud_uitleg}</span></dd>
     </div>
-    {!compact && <div>
+    <div>
       <dt>{t.kosten}</dt>
       <dd>
         {data.toon_prijzen ? (
           <>
-            <span class="vk-prijs cijfer">{kaart.prijs_kort}</span>
-            <span class="vk-klein">{t.prijzen_uitleg}</span>
+            <strong class="cijfer">{kaart.prijs_kort}</strong> <span>{t.prijzen_uitleg}</span>
           </>
-        ) : t.kosten_tekst}
+        ) : (
+          <strong>{t.kosten_tekst}</strong>
+        )}
       </dd>
-    </div>}
+    </div>
   </dl>
+
+  <div class="vk-producten">
+    {kaart.groepen.map((g) => (
+      <div>
+        <Groep class="vk-groep">{g.titel}</Groep>
+        <ul>
+          {g.wel.map((w) => (
+            <li>
+              {w}
+              {uitleg[w] && <span class="vk-uitleg">{uitleg[w]}</span>}
+            </li>
+          ))}
+          {g.geen.map((w) => <li class="vk-geen">{t.geen_voor} {w.toLowerCase()}</li>)}
+        </ul>
+      </div>
+    ))}
+    {kaart.noot && <p class="vk-noot">{kaart.noot}</p>}
+  </div>
+
   <a href={kaart.url} class="vk-pdf" target="_blank" rel="noopener">
     <Icoon naam="document" maat={16} />
-    <span>{t.pdf} <span class="vk-klein">(pdf)</span></span>
+    <span>{t.pdf}</span>
+    <span class="vk-klein">(pdf)</span>
   </a>
-</aside>
+</section>
 
 <style>
   .vk {
-    --accent: var(--sky-deep);
-    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
-    border-radius: var(--radius);
+    container-type: inline-size;
+    padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     background: #fff;
-    box-shadow: inset 0 3px 0 var(--accent), 0 0 0 1px var(--line), 0 24px 48px -36px rgba(0, 40, 58, 0.45);
+    box-shadow: inset 0 3px 0 var(--sky-deep), 0 20px 44px -34px rgba(0, 40, 58, 0.4);
     font-size: 0.9375rem;
     line-height: 1.5;
   }
-  .vk h2 {
-    font-size: 1.75rem;
-    line-height: 1.1;
-  }
-  .vk-compact {
+  .vk-kop {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1.5rem;
+    padding-bottom: 1.25rem;
   }
-  .vk-compact .vk-pdf {
-    margin-top: auto;
-  }
-  .vk-compact h2 {
-    font-size: 1.5rem;
+  .vk-kop > :first-child {
+    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+    line-height: 1.05;
   }
   .vk-soort {
     display: block;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.4rem;
     font-family: var(--font-tekst);
     font-size: var(--klein);
     font-weight: 600;
     letter-spacing: 0;
     color: var(--tekst-zacht);
   }
-  .vk dl {
-    margin-top: 1.25rem;
-  }
-  .vk dl > div {
-    padding-block: 0.8rem;
-    border-top: 1px solid var(--line);
-  }
-  .vk dt {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--tekst-zacht);
-  }
-  .vk dd {
-    margin-top: 0.2rem;
-    color: var(--navy);
-  }
-  .vk-lijst {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.4rem;
-    padding: 0;
-    list-style: none;
-  }
-  .vk-lijst li {
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    background: var(--sky-wash);
-    font-size: 0.8125rem;
-    color: var(--navy);
-  }
-  .vk-lijst .vk-geen {
-    background: none;
-    box-shadow: inset 0 0 0 1px var(--line);
-    color: var(--tekst-zacht);
-    text-decoration: line-through;
-    text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
-  }
-  .vk-prijs {
-    display: block;
-    white-space: nowrap;
-    font-family: var(--font-kop);
-    font-size: 1.375rem;
-  }
+  .vk-datum,
   .vk-klein {
     font-size: 0.8125rem;
     color: var(--tekst-zacht);
   }
+  .vk-feiten > div {
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .vk-feiten dt {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .vk-feiten dd {
+    margin-top: 0.3rem;
+  }
+  .vk-feiten strong {
+    display: block;
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--navy);
+  }
+  .vk-feiten span {
+    display: block;
+    max-width: 34rem;
+    margin-top: 0.3rem;
+  }
+  .vk-oordeel strong::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 50%;
+    background: var(--sky-deep);
+    vertical-align: 0.12em;
+  }
+  .vk-nee strong::before {
+    background: none;
+    box-shadow: inset 0 0 0 1.5px var(--brown);
+  }
+
+  .vk-producten {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1.5rem 2.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .vk-groep {
+    font-family: var(--font-tekst);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0;
+    color: var(--tekst-zacht);
+  }
+  .vk-producten ul {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  .vk-producten li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--navy);
+  }
+  .vk-producten li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.42em;
+    width: 0.7rem;
+    height: 0.36rem;
+    border-left: 1.5px solid var(--sky-deep);
+    border-bottom: 1.5px solid var(--sky-deep);
+    rotate: -45deg;
+  }
+  .vk-producten .vk-geen {
+    color: var(--tekst-zacht);
+  }
+  .vk-producten .vk-geen::before {
+    top: 0.72em;
+    width: 0.6rem;
+    height: 0;
+    border-left: 0;
+    border-bottom-color: currentColor;
+    rotate: none;
+  }
+  .vk-uitleg {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.875rem;
+    color: var(--navy-soft);
+  }
+  .vk-noot {
+    grid-column: 1 / -1;
+    font-size: 0.8125rem;
+    color: var(--tekst-zacht);
+  }
+
   .vk-pdf {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.6rem;
     min-height: 2.75rem;
-    margin-top: 0.75rem;
-    padding-top: 0.9rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--line);
     font-weight: 700;
     color: var(--navy);
@@ -165,6 +237,20 @@ const t = teksten.kaart;
   }
   .vk-pdf :global(svg) {
     flex-shrink: 0;
-    color: var(--accent);
+    color: var(--sky-deep);
+  }
+
+  @container (min-width: 38rem) {
+    .vk-feiten > div {
+      display: grid;
+      grid-template-columns: 11.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .vk-feiten dt {
+      padding-top: 0.25rem;
+    }
+    .vk-feiten dd {
+      margin-top: 0;
+    }
   }
 </style>

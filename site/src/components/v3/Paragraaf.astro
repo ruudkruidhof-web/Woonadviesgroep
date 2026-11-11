@@ -1,0 +1,58 @@
+---
+const { id, titel } = Astro.props;
+---
+<section class="par" id={id} aria-labelledby={`${id}-titel`}>
+  <div class="maat par-raster">
+    <div class="par-kant">
+      <h2 id={`${id}-titel`}>{titel}</h2>
+      <slot name="kant" />
+    </div>
+    <div class="par-inhoud">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .par {
+    padding-block: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+  }
+  .par-raster {
+    display: grid;
+    gap: 1.75rem;
+    padding-top: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+    border-top: 1px solid color-mix(in srgb, var(--navy) 14%, transparent);
+  }
+  .par-kant h2 {
+    max-width: 14ch;
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .par-kant :global(p) {
+    max-width: 24rem;
+    margin-top: 1rem;
+    font-size: var(--ui);
+    line-height: 1.6;
+  }
+  .par-kant :global(.tekstlink) {
+    margin-top: 0.5rem;
+    font-size: var(--ui);
+  }
+  .par-inhoud {
+    min-width: 0;
+  }
+
+  @media (min-width: 64rem) {
+    .par-raster {
+      grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
+      gap: clamp(3rem, 6vw, 7rem);
+    }
+    .par-kant {
+      position: sticky;
+      top: calc(var(--kop-zicht) + 2rem);
+      align-self: start;
+      transition: top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+</style>

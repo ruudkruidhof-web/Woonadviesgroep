@@ -1,0 +1,174 @@
+---
+import Kruimels from './Kruimels.astro';
+import Icoon from './Icoon.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const { dienst, lead, feiten } = Astro.props;
+const t = teksten.dienst;
+---
+<section class={`dk kamer dk-${dienst.id}`} aria-labelledby="dk-titel">
+  <div class="dk-raster">
+    <div>
+      <Kruimels hier={dienst.titel} stappen={[{ href: '/#diensten', label: t.kruimel }]} />
+      <h1 id="dk-titel">{dienst.titel}</h1>
+      <p class="dk-lead">{lead}</p>
+    </div>
+    <div class="dk-zij">
+      <ul class="dk-feiten">
+        {feiten.map((f) => <li>{f}</li>)}
+      </ul>
+      <div class="dk-acties">
+        <button type="button" class="knop dk-knop" data-plan-open data-onderwerp={dienst.titel}>
+          {t.knop}
+          <Icoon naam="dak" maat={12} />
+        </button>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+          <Icoon naam="bel" maat={15} />
+          <span>Bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dk {
+    --boog: clamp(4rem, 3rem + 3vw, 6.5rem);
+    --accent: var(--sky-deep);
+    --knop: var(--navy);
+    --knop-tekst: #fff;
+    padding: calc(var(--boog) * 0.75) clamp(1.5rem, 1rem + 3vw, 4rem) clamp(2.5rem, 2rem + 2.5vw, 4rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    color: var(--navy-soft);
+  }
+  .dk-hypotheken {
+    --accent: var(--sky);
+    --knop: #fff;
+    --knop-tekst: var(--navy);
+    background: var(--navy);
+    color: var(--sky-wash);
+  }
+  .dk-pensioenen {
+    background: var(--sky-wash);
+  }
+  .dk-verzekeringen {
+    --accent: var(--brown);
+    background: var(--wash-warm);
+  }
+  .dk-financien {
+    --accent: var(--navy);
+    background: #fff;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 22%, transparent);
+  }
+  .dk-raster {
+    display: grid;
+    gap: 2.25rem;
+    max-width: 1160px;
+    margin-inline: auto;
+  }
+  .dk h1 {
+    margin-top: 1rem;
+    font-size: min(clamp(3rem, 2rem + 4.4vw, 5.75rem), 12vw);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .dk-hypotheken h1,
+  .dk-hypotheken .dk-feiten li {
+    color: #fff;
+  }
+  .dk-hypotheken :global(.kruimels ol) {
+    color: #bcd2e1;
+  }
+  .dk-hypotheken :global(.kruimels a:hover) {
+    color: #fff;
+  }
+  .dk-lead {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    font-size: var(--lead);
+    line-height: 1.55;
+  }
+  .dk-feiten {
+    display: grid;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  }
+  .dk-feiten li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    font-family: var(--font-kop);
+    font-size: 1.1875rem;
+    line-height: 1.35;
+    color: var(--navy);
+  }
+  .dk-feiten li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.8rem;
+    height: 0.42rem;
+    border-left: 1.5px solid var(--accent);
+    border-bottom: 1.5px solid var(--accent);
+    rotate: -45deg;
+    translate: 0 -0.2em;
+  }
+  .dk-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.75rem;
+    margin-top: 2rem;
+  }
+  .dk-knop {
+    background: var(--knop);
+    color: var(--knop-tekst);
+  }
+  .dk-knop:hover,
+  .dk-knop:focus-visible {
+    background: color-mix(in srgb, var(--knop), var(--sky) 18%);
+  }
+  .dk-hypotheken .tekstlink {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .dk-hypotheken .tekstlink:hover {
+    text-decoration-color: #fff;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dk-raster > * {
+      animation: dk-in 0.8s var(--uit) both;
+    }
+    .dk-zij {
+      animation-delay: 0.12s;
+    }
+  }
+  @keyframes dk-in {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .dk {
+      padding-top: calc(var(--boog) + 1.5rem);
+      padding-bottom: clamp(3.5rem, 3rem + 2vw, 5rem);
+    }
+    .dk-raster {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      align-items: end;
+      gap: clamp(3rem, 6vw, 7rem);
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .dk-acties .knop {
+      width: 100%;
+    }
+  }
+</style>
