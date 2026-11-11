@@ -175,7 +175,8 @@
 .voet :focus-visible,
 .actiebalk :focus-visible,
 .d-kern :focus-visible,
-.dp-kamer.dp-hypotheken :focus-visible {
+.dp-kamer.dp-hypotheken :focus-visible,
+.dk-hypotheken :focus-visible {
   outline-color: var(--sky);
 }
 
