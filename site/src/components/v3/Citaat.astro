@@ -1,10 +1,10 @@
 ---
 import { review } from './merk';
 
-const { id, groot = false } = Astro.props;
+const { id, groot = false, klein = false } = Astro.props;
 const r = review(id);
 ---
-<figure class:list={['citaat', { 'citaat-groot': groot }]}>
+<figure class:list={['citaat', { 'citaat-groot': groot, 'citaat-klein': klein }]}>
   <blockquote>
     <p>{r.tekst}</p>
   </blockquote>
@@ -42,6 +42,10 @@ const r = review(id);
   }
   .citaat strong {
     color: var(--navy);
+  }
+  .citaat-klein blockquote {
+    font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+    line-height: 1.4;
   }
   .citaat-groot {
     max-width: 46rem;

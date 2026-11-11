@@ -2,39 +2,50 @@
 import Pagina from '../components/v3/Pagina.astro';
 import DienstKop from '../components/v3/DienstKop.astro';
 import Situaties from '../components/v3/Situaties.astro';
-import Vergelijkingskaart from '../components/v3/Vergelijkingskaart.astro';
+import Kaartregel from '../components/v3/Kaartregel.astro';
 import Overstap from '../components/v3/Overstap.astro';
-import Icoon from '../components/v3/Icoon.astro';
 import diensten from '../content/v3-diensten.json';
+import kaarten from '../content/v3-vergelijkingskaarten.json';
+import teksten from '../content/teksten/v3-paginas.json';
 
 const d = diensten.find((x) => x.id === 'hypotheken')!;
 const p = d.pagina;
+const kaart = kaarten.kaarten.find((k) => k.id === p.kaart)!;
 ---
 <Pagina titel={d.titel} omschrijving={p.lead}>
   <DienstKop dienst={d} lead={p.lead} feiten={p.feiten} />
 
   <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel} />
 
-  <section class="hy-blok" aria-labelledby="advies-titel">
-    <div class="maat">
-      <h2 id="advies-titel">{p.advies_titel}</h2>
-      <div class="hy-advies">
-        <p class="hy-kern" data-onthul>{p.advies_kern}</p>
-        {p.advies.map((a) => <p class="hy-tekst" data-onthul>{a}</p>)}
+  <section class="hy hy-advies" aria-labelledby="advies-kern">
+    <div class="maat hy-raster">
+      <h2 id="advies-kern" data-onthul>{p.advies_kern}</h2>
+      <div class="hy-rechts" data-onthul>
+        {p.advies.map((a) => <p>{a}</p>)}
       </div>
     </div>
   </section>
 
-  <section class="hy-blok" id="kosten" aria-labelledby="kosten-titel">
-    <div class="maat">
+  <section class="hy hy-kosten" id="kosten" aria-labelledby="kosten-titel">
+    <div class="maat hy-raster">
       <h2 id="kosten-titel">{p.kosten_titel}</h2>
-      <p class="hy-intro">{p.kosten}</p>
-      <a href="/werkwijze-en-kosten" class="tekstlink">
-        {p.kosten_link}
-        <Icoon naam="dak" maat={11} />
-      </a>
-      <div class="hy-kaart" data-onthul>
-        <Vergelijkingskaart id={p.kaart} niveau={3} />
+      <div class="hy-rechts" data-onthul>
+        <p>{p.kosten}</p>
+        {kaarten.toon_prijzen && (
+          <div class="hy-prijzen">
+            <h3>{teksten.kaart.prijzen_titel}</h3>
+            <dl>
+              {kaart.prijzen.map((x) => (
+                <div>
+                  <dt>{x.situatie}</dt>
+                  <dd class="cijfer">{x.bedrag}</dd>
+                </div>
+              ))}
+            </dl>
+            <p>{teksten.kaart.prijzen_uitleg}</p>
+          </div>
+        )}
+        <Kaartregel ids={[p.kaart]} />
       </div>
     </div>
   </section>
@@ -43,51 +54,72 @@ const p = d.pagina;
 </Pagina>
 
 <style>
-  .hy-blok {
-    padding-top: clamp(4rem, 3rem + 4vw, 7rem);
+  .hy {
+    padding-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
   }
-  .hy-blok + .hy-blok .maat {
+  .hy-raster {
+    display: grid;
+    gap: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+  }
+  .hy-kosten .hy-raster {
     padding-top: clamp(3rem, 2.5rem + 2.5vw, 5rem);
     border-top: 1px solid var(--vel-rand);
   }
-  .hy-blok h2 {
-    font-size: var(--h2-blok);
-    line-height: 1.1;
-  }
-  .hy-advies {
-    display: grid;
-    gap: 1.5rem;
-    margin-top: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
-  }
-  .hy-kern {
-    max-width: 22ch;
-    font-family: var(--font-kop);
-    font-size: clamp(1.625rem, 1.3rem + 1.3vw, 2.375rem);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    color: var(--navy);
+  .hy-advies h2 {
+    max-width: 27ch;
+    font-size: clamp(2rem, 1.2rem + 3.3vw, 3.75rem);
     text-wrap: balance;
   }
-  .hy-tekst {
-    max-width: 34rem;
-    font-size: 1.0625rem;
-    line-height: 1.7;
+  .hy-rechts {
+    max-width: 36rem;
   }
-  .hy-intro {
-    max-width: 40rem;
+  .hy-rechts p {
+    font-size: var(--lead);
+    line-height: 1.55;
+  }
+  .hy-rechts :global(.kr) {
+    margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
+  }
+  .hy-prijzen {
+    margin-top: 2rem;
+  }
+  .hy-prijzen h3 {
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .hy-prijzen dl {
     margin-top: 1rem;
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    border-top: 1px solid var(--line);
   }
-  .hy-kaart {
-    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  .hy-prijzen dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .hy-prijzen dd {
+    font-weight: 600;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .hy-prijzen p {
+    margin-top: 0.75rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
   }
 
   @media (min-width: 64rem) {
-    .hy-advies {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      align-items: end;
-      gap: clamp(3rem, 6vw, 7rem);
+    .hy-raster {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: clamp(3rem, 6vw, 7rem);
+    }
+    .hy-advies h2 {
+      grid-column: 1 / -1;
+    }
+    .hy-rechts {
+      grid-column: 2;
     }
   }
 </style>

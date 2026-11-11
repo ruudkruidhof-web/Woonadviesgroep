@@ -1,0 +1,79 @@
+---
+import Icoon from './Icoon.astro';
+import data from '../../content/v3-vergelijkingskaarten.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const { ids } = Astro.props;
+const t = teksten.kaart;
+const kaarten = ids.map((id: string) => data.kaarten.find((k) => k.id === id)!);
+const enkel = kaarten.length === 1;
+const Lijst = enkel ? 'div' : 'ul';
+const Item = enkel ? Fragment : 'li';
+---
+<div class:list={['kr', { 'kr-meer': !enkel }]}>
+  {!enkel && <p>{t.regel_meer}</p>}
+  <Lijst class="kr-lijst">
+    {kaarten.map((k) => (
+      <Item>
+        <a href={k.url} target="_blank" rel="noopener">
+          <Icoon naam="document" maat={16} />
+          <span>
+            <span class:list={{ 'sr-alleen': !enkel }}>{t.soort} </span>{k.titel} <span class="kr-pdf">{t.pdf_teken}</span>
+          </span>
+        </a>
+      </Item>
+    ))}
+  </Lijst>
+  {enkel && <p>{t.regel}</p>}
+</div>
+
+<style>
+  .kr {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--vel-rand);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--tekst-zacht);
+  }
+  .kr-lijst {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .kr a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, var(--navy) 30%, transparent);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .kr a:hover {
+    text-decoration-color: currentColor;
+  }
+  .kr :global(svg) {
+    flex-shrink: 0;
+    color: var(--sky-deep);
+  }
+  .kr-pdf {
+    font-weight: 400;
+    color: var(--tekst-zacht);
+  }
+  .kr-meer > p {
+    padding-block: 0.6rem 0.25rem;
+  }
+
+  @media (max-width: 47.99rem) {
+    .kr-lijst {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -153,11 +153,11 @@ Hypotheken en Werkwijze en kosten zijn opnieuw opgebouwd (eerst volgens de brief
 | Regel | Label | Bron |
 | --- | --- | --- |
 | Onafhankelijk hypotheekadvies; Bij ons op kantoor, bij jou thuis (ook ’s avonds) of via video; Onderhoud zonder extra kosten (feiten in de opening van Hypotheken) | SAMENGESTELD | kaart Hypotheek ("Ja, onafhankelijk", de adviesvormen, onderhoud "geen extra kosten"), werkwijze stap 1 ("overdag of ’s avonds") |
-| In welke situatie zit je?, Bespreek je situatie, Hoe wij adviseren, Wat het kost, Onze werkwijze, De stappen in het kort, Advies over je complete financiële huishouding (koppen, knoppen en uitklapper) | FUNCTIONEEL | |
+| In welke situatie zit je?, Bespreek je situatie, Wat het kost, Onze werkwijze, De stappen in het kort (koppen en knoppen) | FUNCTIONEEL | "Hoe wij adviseren" en de uitklappertitel "Advies over je complete financiële huishouding" zijn na de feedback van Ruud (11 nov 2026, middag) vervallen |
 | De drie situaties met hun tekst (eerste woning, volgende woning, relatiebreuk of scheiding) | EIGEN, TER VERIFICATIE | `voorwie.json`, geschreven na de meeting van 24 jul 2026, bij Marijke bevestigen; dubbele punt in de eerste tekst vervangen door een punt |
 | Reviews bij de situaties: MH bij eerste woning, Tim Dubbelaar bij volgende woning, geen review bij scheiding | LETTERLIJK | reviews.json; bij scheiding bewust geen review, omdat geen reviewer die situatie noemt |
-| Zo krijg je niet simpelweg de goedkoopste hypotheek, maar juist de hypotheek die het beste bij jouw omstandigheden aansluit. | SAMENGESTELD | hypotheken (ingekort, zoals op de homepage) |
-| Vergelijkingskaart: Advies geven én contract regelen met de uitleg, onafhankelijk met de toelichting, onderhoud met de uitleg, de producten met "Geen ..." | LETTERLIJK of SAMENGESTELD | de drie kaarten (2023); "De financiële dienstverlener kan" werd "Wij kunnen", "hypotheek/verzekering" werd "hypotheek of verzekering", voetnoot onderhoud in wij-vorm |
+| Zo krijg je niet simpelweg de goedkoopste hypotheek, maar juist de hypotheek die het beste bij jouw omstandigheden aansluit. | SAMENGESTELD | hypotheken (ingekort, zoals op de homepage); sinds 11 nov 2026 (middag) zelf de kop van het blok |
+| Vergelijkingskaart (sinds 11 nov 2026, middag, niet meer op Hypotheken en Werkwijze, nog wel op de oude dienstpagina's): Advies geven én contract regelen met de uitleg, onafhankelijk met de toelichting, onderhoud met de uitleg, de producten met "Geen ..." | LETTERLIJK of SAMENGESTELD | de drie kaarten (2023); "De financiële dienstverlener kan" werd "Wij kunnen", "hypotheek/verzekering" werd "hypotheek of verzekering", voetnoot onderhoud in wij-vorm |
 | Werkwijze en kosten als titel, en de lead (de eerste twee zinnen van hun werkwijzepagina) | LETTERLIJK of SAMENGESTELD | menu, werkwijze (je-vorm) |
 | Wat wij doen, Wat we van je vragen, Wat het kost (banen van de route) | FUNCTIONEEL | |
 | Waar we afspreken: Je kiest zelf, bij jou thuis, op kantoor of via video. | SAMENGESTELD | werkwijze stap 1, kaart Hypotheek (video) |
@@ -167,6 +167,17 @@ Hypotheken en Werkwijze en kosten zijn opnieuw opgebouwd (eerst volgens de brief
 | Vast tarief en Provisie op Wat het kost | SAMENGESTELD | dienstenwijzer, dezelfde tekst als op Onze dienstverlening |
 | Citaat Mostafa Yosofi onder de route | LETTERLIJK | reviews.json (ingekorte versie die ook op de homepage staat) |
 | Hoe het verder gaat, en wanneer je wat betaalt; Wie er tegenover je zit, met hun regel (overstap naar de volgende pagina) | EIGEN, TER VERIFICATIE | |
+
+### Feedback Ruud verwerkt (11 nov 2026, middag)
+
+De nagebouwde vergelijkingskaart (Hypotheken) en de vergelijkingstabel (Werkwijze) zijn vervangen door een rustige regel met de pdf, de situaties staan onder elkaar in plaats van achter tabs, en de uitklapper bij Verdiepen staat open. Nieuwe of verplaatste regels:
+
+| Regel | Label | Bron |
+| --- | --- | --- |
+| Een verplicht overzicht van de AFM, handig als je adviseurs wilt vergelijken. (bij de link Vergelijkingskaart Hypotheek op Hypotheken) | EIGEN, TER VERIFICATIE | voorstel van Ruud (11 nov 2026) |
+| De vergelijkingskaarten zijn verplichte overzichten van de AFM, handig als je adviseurs wilt vergelijken. (boven de drie links op Werkwijze en kosten) | EIGEN, TER VERIFICATIE | dezelfde zin van Ruud, in het meervoud |
+| Vergelijkingskaart Hypotheek, Hypotheek, Risico’s afdekken, Vermogen opbouwen, (pdf) (linkteksten) | LETTERLIJK / FUNCTIONEEL | documenttitels van de kaarten |
+| Als je het wenst, adviseren we je over je complete financiële huishouding. ... (stap Verdiepen, nu open) | LETTERLIJK (je-vorm) | werkwijze, ongewijzigd, alleen niet meer achter een uitklapper |
 
 ## Over ons
 

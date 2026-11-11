@@ -24,10 +24,10 @@
     "soort": "Vergelijkingskaart",
     "samengesteld": "Samengesteld op",
     "geldt": "Waarvoor",
-    "ja_kort": "Ja",
-    "nee_kort": "Nee",
     "geen_voor": "Geen",
-    "pdf_kort": "Bekijk de kaart"
+    "pdf_teken": "(pdf)",
+    "regel": "Een verplicht overzicht van de AFM, handig als je adviseurs wilt vergelijken.",
+    "regel_meer": "De vergelijkingskaarten zijn verplichte overzichten van de AFM, handig als je adviseurs wilt vergelijken."
   },
   "afsluiter": {
     "titel": "Maar laten we beginnen met stap 1!",
@@ -48,7 +48,7 @@
       {
         "id": "stap-kennismaken",
         "titel": "Kennismaken",
-        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
+        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
         "jij": [
           {
             "titel": "Waar we afspreken",
@@ -78,8 +78,7 @@
         "kosten": {
           "kort": "Vooraf afgesproken",
           "tekst": "Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af."
-        },
-        "extra_titel": "Advies over je complete financiële huishouding"
+        }
       },
       {
         "id": "stap-uitvoeren",
@@ -115,7 +114,6 @@
     "citaat": "mostafa-kort",
     "kosten_titel": "Wat het kost",
     "kosten_intro": "We werken met een vast tarief of met provisie. Dat hangt af van het product.",
-    "kaarten_titel": "Vergelijkingskaarten",
     "volgende": {
       "titel": "Wie er tegenover je zit",
       "tekst": "Maak kennis met Dennis en Marijke, en lees wat klanten over hen zeggen.",
@@ -171,7 +169,7 @@
       {
         "id": "thuis",
         "titel": "Bij jou thuis",
-        "tekst": "Dat kan overdag of ’s avonds."
+        "tekst": "Dat kan overdag of ’s avonds."
       },
       {
         "id": "kantoor",

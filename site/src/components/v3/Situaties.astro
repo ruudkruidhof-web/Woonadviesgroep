@@ -4,117 +4,51 @@ import Icoon from './Icoon.astro';
 
 const { titel, items, knop, onderwerp } = Astro.props;
 ---
-<section class="si band" id="situaties" aria-labelledby="si-titel" data-situaties>
-  <div class="maat si-raster">
-    <div class="si-kant">
-      <h2 id="si-titel">{titel}</h2>
-      <div class="si-lijst" role="tablist" aria-labelledby="si-titel" aria-orientation="vertical">
-        {items.map((s, i) => (
-          <a
-            href={`#${s.id}`}
-            id={`si-tab-${s.id}`}
-            role="tab"
-            aria-controls={s.id}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? undefined : '-1'}
-          >
-            {s.titel}
-          </a>
-        ))}
+<section class="si" id="situaties" aria-labelledby="si-titel">
+  <div class="maat">
+    <h2 id="si-titel">{titel}</h2>
+    {items.map((s) => (
+      <div class="si-situatie" id={s.id} data-onthul>
+        <h3>{s.titel}</h3>
+        <p class="si-tekst">{s.tekst}</p>
+        {s.review && (
+          <div class="si-citaat">
+            <Citaat id={s.review} klein />
+          </div>
+        )}
+        <button type="button" class="knop knop-lijn si-knop" data-plan-open data-onderwerp={onderwerp}>
+          {knop}
+          <Icoon naam="dak" maat={12} />
+        </button>
       </div>
-    </div>
-    <div class="si-vel" data-onthul>
-      {items.map((s, i) => (
-        <div id={s.id} class="si-paneel" role="tabpanel" aria-labelledby={`si-tab-${s.id}`} tabindex="0" data-actief={i === 0 ? '' : undefined}>
-          <h3>{s.titel}</h3>
-          <p class="si-tekst">{s.tekst}</p>
-          {s.review && (
-            <div class="si-citaat">
-              <Citaat id={s.review} />
-            </div>
-          )}
-          <button type="button" class="knop knop-vol si-knop" data-plan-open data-onderwerp={onderwerp}>
-            {knop}
-            <Icoon naam="dak" maat={12} />
-          </button>
-        </div>
-      ))}
-    </div>
+    ))}
   </div>
 </section>
 
 <style>
   .si {
-    --tussen: 2rem;
-    padding-block: clamp(4rem, 3rem + 4vw, 7rem);
-  }
-  .si-raster {
-    display: grid;
-    gap: var(--tussen);
+    padding-block: clamp(4rem, 3rem + 4vw, 7rem) clamp(1rem, 0.5rem + 1vw, 2rem);
+    background: linear-gradient(var(--sky-wash) 12%, color-mix(in srgb, var(--sky-wash) 55%, var(--paper)) 55%, var(--paper) 96%);
   }
   .si h2 {
-    max-width: 12ch;
-    font-size: var(--h2-blok);
-    line-height: 1.1;
+    max-width: 18ch;
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
     text-wrap: balance;
   }
-  .si-lijst {
+  .si-situatie {
     display: grid;
-    margin-top: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+    align-items: start;
+    justify-items: start;
+    padding-block: clamp(2.25rem, 1.75rem + 2.5vw, 4rem);
     border-top: 1px solid var(--vel-rand);
+    scroll-margin-top: calc(var(--kop-hoogte) + 1rem);
   }
-  .si-lijst a {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    min-height: 3.75rem;
-    padding-block: 0.85rem;
-    border-bottom: 1px solid var(--vel-rand);
-    font-family: var(--font-kop);
-    font-size: clamp(1.3125rem, 1.15rem + 0.6vw, 1.625rem);
-    line-height: 1.2;
-    color: var(--navy-soft);
-    text-decoration: none;
-    transition: color 0.2s ease, gap 0.35s var(--uit);
-  }
-  .si-lijst a::before {
-    content: '';
-    flex-shrink: 0;
-    width: 0;
-    height: 1.5px;
-    background: var(--sky-deep);
-    transition: width 0.35s var(--uit);
-  }
-  .si-lijst a:hover {
-    gap: 0.6rem;
-    color: var(--navy);
-  }
-  .si-lijst a:hover::before {
-    width: 0.875rem;
-  }
-  .si-lijst a[aria-selected='true'] {
-    gap: 0.9rem;
-    color: var(--navy);
-  }
-  .si-lijst a[aria-selected='true']::before {
-    width: 1.75rem;
-  }
-
-  .si-vel {
-    padding: clamp(1.75rem, 1.2rem + 2.2vw, 3.25rem);
-    border: 1px solid var(--vel-rand);
-    border-radius: 2px;
-    background: #fff;
-  }
-  .si-paneel {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .si-paneel h3 {
-    font-size: var(--h2-blok);
+  .si-situatie h3 {
+    max-width: 13ch;
+    font-size: var(--h3-kaart);
     line-height: 1.1;
+    color: var(--navy);
+    text-wrap: balance;
   }
   .si-tekst {
     max-width: 34rem;
@@ -123,63 +57,33 @@ const { titel, items, knop, onderwerp } = Astro.props;
     line-height: 1.55;
   }
   .si-citaat {
-    width: 100%;
-    margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
-    padding-top: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    border-top: 1px solid var(--line);
-  }
-  .si-citaat :global(blockquote) {
-    font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+    max-width: 34rem;
+    margin-top: 1.75rem;
   }
   .si-knop {
-    margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
-  }
-
-  :global(html:not(.heeft-js)) .si-paneel + .si-paneel {
-    margin-top: 2.5rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--line);
-  }
-  :global(.heeft-js) .si-paneel:not([data-actief]) {
-    display: none;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    :global(.heeft-js) .si-paneel[data-actief] > * {
-      animation: si-in 0.45s var(--uit) both;
-    }
-    :global(.heeft-js) .si-paneel[data-actief] > :nth-child(2) {
-      animation-delay: 0.04s;
-    }
-    :global(.heeft-js) .si-paneel[data-actief] > :nth-child(3) {
-      animation-delay: 0.08s;
-    }
-  }
-  @keyframes si-in {
-    from {
-      opacity: 0;
-      translate: 0 8px;
-    }
+    margin-top: 1.75rem;
   }
 
   @media (min-width: 64rem) {
-    .si {
-      --tussen: clamp(3rem, 6vw, 7rem);
+    .si-situatie {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas: 'titel tekst citaat' 'titel knop citaat';
+      grid-template-rows: auto 1fr;
+      column-gap: clamp(2rem, 4vw, 4.5rem);
     }
-    .si-raster {
-      grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
+    .si-situatie h3 {
+      grid-area: titel;
     }
-    .si-kant {
-      align-self: start;
+    .si-tekst {
+      grid-area: tekst;
+      margin-top: 0.2rem;
     }
-    .si-lijst a[aria-selected='true']::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 100%;
-      width: var(--tussen);
-      height: 1.5px;
-      background: var(--sky-deep);
+    .si-citaat {
+      grid-area: citaat;
+      margin-top: 0.35rem;
+    }
+    .si-knop {
+      grid-area: knop;
     }
   }
 
@@ -189,36 +93,3 @@ const { titel, items, knop, onderwerp } = Astro.props;
     }
   }
 </style>
-
-<script>
-  document.querySelectorAll<HTMLElement>('[data-situaties]').forEach((blok) => {
-    const tabs = [...blok.querySelectorAll<HTMLAnchorElement>('[role="tab"]')];
-
-    const kies = (tab: HTMLAnchorElement, focus = false) => {
-      tabs.forEach((t) => {
-        const aan = t === tab;
-        t.setAttribute('aria-selected', String(aan));
-        aan ? t.removeAttribute('tabindex') : (t.tabIndex = -1);
-        blok.querySelector(`#${t.getAttribute('aria-controls')}`)?.toggleAttribute('data-actief', aan);
-      });
-      if (focus) tab.focus();
-    };
-
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', (e) => {
-        e.preventDefault();
-        kies(tab);
-        history.replaceState(null, '', tab.hash);
-      });
-      tab.addEventListener('keydown', (e) => {
-        const naar = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
-        if (naar === undefined) return;
-        e.preventDefault();
-        kies(tabs[(naar + tabs.length) % tabs.length], true);
-      });
-    });
-
-    const uitAdres = tabs.find((t) => t.hash === location.hash);
-    if (uitAdres) kies(uitAdres);
-  });
-</script>
