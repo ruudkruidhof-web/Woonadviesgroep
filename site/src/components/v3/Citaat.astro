@@ -1,10 +1,10 @@
 ---
 import { review } from './merk';
 
-const { id, groot = false, klein = false } = Astro.props;
+const { id, groot = false, klein = false, midden = false, licht = false } = Astro.props;
 const r = review(id);
 ---
-<figure class:list={['citaat', { 'citaat-groot': groot, 'citaat-klein': klein }]}>
+<figure class:list={['citaat', { 'citaat-groot': groot, 'citaat-klein': klein, 'citaat-midden': midden, 'citaat-licht': licht }]}>
   <blockquote>
     <p>{r.tekst}</p>
   </blockquote>
@@ -67,6 +67,25 @@ const r = review(id);
   .citaat-groot figcaption {
     justify-content: center;
     margin-top: 1.5rem;
+  }
+  .citaat-midden {
+    text-align: center;
+  }
+  .citaat-midden blockquote::before {
+    position: static;
+    display: block;
+    height: 0.55em;
+    font-size: 1.8em;
+  }
+  .citaat-midden figcaption {
+    justify-content: center;
+  }
+  .citaat-licht blockquote,
+  .citaat-licht strong {
+    color: #fff;
+  }
+  .citaat-licht figcaption {
+    color: #bcd2e1;
   }
   @media (max-width: 47.99rem) {
     .citaat:not(.citaat-groot) blockquote::before {

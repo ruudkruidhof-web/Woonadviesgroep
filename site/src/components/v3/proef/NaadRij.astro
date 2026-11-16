@@ -1,0 +1,170 @@
+---
+const { id, titel, hartTitel, station } = Astro.props;
+---
+<div class="nr" id={id}>
+  {station && <span class="nr-station cijfer" aria-hidden="true"><Fragment set:html={station} /></span>}
+  <div class="nr-cel nr-hoofd">
+    {titel && <h3>{titel}</h3>}
+    <slot name="hoofd" />
+  </div>
+  <div class="nr-cel nr-hart">
+    {hartTitel && <h3>{hartTitel}</h3>}
+    <slot name="hart" />
+  </div>
+</div>
+
+<style>
+  .nr {
+    --boog: clamp(3rem, 2rem + 3vw, 5.5rem);
+    position: relative;
+    display: grid;
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .nr-cel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 1.2rem + 2vw, 3rem) clamp(1.5rem, 1rem + 2vw, 3.5rem);
+  }
+  .nr-hoofd {
+    background: var(--sky-wash);
+  }
+  .nr-hart {
+    background: var(--wash-warm);
+  }
+  .nr + .nr .nr-cel,
+  .nr-hart {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--navy) 9%, transparent);
+  }
+  .nr:first-of-type .nr-hoofd {
+    padding-top: calc(var(--boog) + 2rem);
+    border-radius: 50% 50% 0 0 / var(--boog) var(--boog) 0 0;
+    box-shadow: none;
+  }
+  .nr:last-of-type .nr-hart {
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+  }
+  .nr h3 {
+    max-width: 16ch;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  .nr-cel :global(p) {
+    max-width: 32rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .nr-cel > :global(* + *) {
+    margin-top: 1rem;
+  }
+  .nr-cel > :global(h3 + *) {
+    margin-top: 1rem;
+  }
+  .nr-cel > :global(.knop) {
+    margin-top: 1.75rem;
+  }
+  .nr-cel :global(.citaat) {
+    max-width: 30rem;
+  }
+  .nr-station {
+    position: absolute;
+    z-index: 1;
+    top: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+    right: clamp(1.5rem, 1rem + 2vw, 3.5rem);
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 0 1.5px var(--navy);
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .nr-station :global(svg) {
+    width: 1.4rem;
+    height: auto;
+    fill: var(--navy);
+  }
+  .nr:has(.nr-station) .nr-hoofd h3 {
+    padding-right: 3.25rem;
+  }
+
+  @media (max-width: 47.99rem) {
+    .nr-cel > :global(.knop) {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .nr {
+      grid-template-columns: 1fr 1fr;
+    }
+    .nr-hart {
+      box-shadow: none;
+    }
+    .nr + .nr .nr-cel {
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--navy) 9%, transparent);
+    }
+    .nr:first-of-type .nr-cel {
+      padding-top: calc(var(--boog) + 2rem);
+      border-radius: 50% 50% 0 0 / var(--boog) var(--boog) 0 0;
+    }
+    .nr:last-of-type .nr-hoofd {
+      border-bottom-left-radius: var(--radius);
+    }
+    .nr:last-of-type .nr-hart {
+      border-bottom-left-radius: 0;
+    }
+    .nr::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--navy);
+      translate: -50% -50%;
+    }
+    .nr:first-of-type::before {
+      content: none;
+    }
+    .nr-station {
+      z-index: 2;
+      right: auto;
+      left: 50%;
+      width: 3.25rem;
+      height: 3.25rem;
+      font-size: 1.5rem;
+      translate: -50% 0;
+    }
+    .nr:has(.nr-station) .nr-hoofd h3 {
+      padding-right: 0;
+    }
+    .nr-station :global(svg) {
+      width: 1.6rem;
+      height: auto;
+      fill: var(--navy);
+    }
+    .nr:first-of-type .nr-station {
+      top: calc(var(--boog) + 2rem);
+    }
+    .nr:has(.nr-station)::before {
+      content: none;
+    }
+    .nr:has(.nr-station) .nr-hoofd {
+      padding-right: clamp(3rem, 2rem + 3vw, 5rem);
+    }
+    .nr:has(.nr-station) .nr-hart {
+      padding-left: clamp(3rem, 2rem + 3vw, 5rem);
+    }
+  }
+</style>

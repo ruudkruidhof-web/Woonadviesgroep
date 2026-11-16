@@ -1,0 +1,39 @@
+---
+const { id, kleur = 'sky', label, labelledby } = Astro.props;
+---
+<section class:list={['bk', 'kamer', `bk-${kleur}`]} id={id} aria-label={label} aria-labelledby={labelledby} data-kamer>
+  <div class="maat bk-vak">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .bk {
+    --boog: clamp(4rem, 1.5rem + 8vw, 10rem);
+    padding-block: calc(var(--boog) + 1.5rem) clamp(4rem, 3rem + 4vw, 7rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .bk-vak {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+  .bk-sky {
+    background: var(--sky-wash);
+  }
+  .bk-warm {
+    background: var(--wash-warm);
+  }
+  .bk-navy {
+    background: var(--navy);
+    color: var(--sky-wash);
+  }
+  .bk-navy :global(h2),
+  .bk-navy :global(h3) {
+    color: #fff;
+  }
+  .bk-navy :focus-visible {
+    outline-color: var(--sky);
+  }
+</style>

@@ -1,0 +1,152 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import RustKop from '../../components/v3/proef/RustKop.astro';
+import Bewijs from '../../components/v3/proef/Bewijs.astro';
+import BoogKamer from '../../components/v3/proef/BoogKamer.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import Kaartregel from '../../components/v3/Kaartregel.astro';
+import Overstap from '../../components/v3/Overstap.astro';
+import diensten from '../../content/v3-diensten.json';
+import paginas from '../../content/teksten/v3-paginas.json';
+import proef from '../../content/teksten/v3-proef.json';
+
+const d = diensten.find((x) => x.id === 'hypotheken')!;
+const p = d.pagina;
+const h = proef.hypotheken;
+---
+<Pagina titel={d.titel} omschrijving={p.lead}>
+  <RustKop titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: paginas.dienst.kruimel }]} onderwerp={d.titel}>
+    <Bewijs items={h.bewijs} />
+  </RustKop>
+
+  <BoogKamer id="situaties" kleur="sky" labelledby="h3s-titel">
+    <h2 id="h3s-titel" data-regels>{p.situaties_titel}</h2>
+    <p class="lead h3-lead" data-onthul>{h.reis}</p>
+    <ol class="h3-situaties">
+      {p.situaties.map((s) => (
+        <li id={s.id} data-onthul>
+          <h3>{s.titel}</h3>
+          <p>{s.tekst}</p>
+          {s.review && (
+            <div class="h3-review">
+              <Citaat id={s.review} klein midden />
+            </div>
+          )}
+          <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={d.titel}>
+            {p.situaties_knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+        </li>
+      ))}
+    </ol>
+  </BoogKamer>
+
+  <section class="h3-advies sectie" aria-labelledby="h3a-titel">
+    <div class="maat h3-midden">
+      <h2 id="h3a-titel" data-regels>{h.belofte_kop}</h2>
+      <p class="lead h3-lead" data-onthul>{h.belofte_lead}</p>
+      <div class="h3-tekst" data-onthul>
+        <p>{h.advies_opties}</p>
+        <p>{h.advies_analyse}</p>
+        <p>{h.advies_contact}</p>
+      </div>
+      <div class="h3-citaat" data-onthul>
+        <Citaat id="marit-ruben" midden />
+      </div>
+    </div>
+  </section>
+
+  <BoogKamer id="kosten" kleur="navy" labelledby="h3k-titel">
+    <h2 id="h3k-titel" data-regels>{p.kosten_titel}</h2>
+    <p class="lead h3-lead" data-onthul>{h.kosten_vrij}</p>
+    <div class="h3-tekst" data-onthul>
+      <p>{h.kosten_afspraak}</p>
+      <p>{p.feiten[2]}.</p>
+    </div>
+    <div class="h3-kaart" data-onthul>
+      <Kaartregel ids={[p.kaart]} licht midden />
+    </div>
+  </BoogKamer>
+
+  <Overstap volgende={p.volgende} onderwerp={d.titel} midden />
+</Pagina>
+
+<style>
+  .h3-midden {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+  h2 {
+    max-width: 20ch;
+    text-wrap: balance;
+  }
+  .h3-lead {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+    text-wrap: balance;
+  }
+  .h3-situaties {
+    display: grid;
+    width: 100%;
+    margin-top: clamp(3rem, 2.5rem + 2vw, 4.5rem);
+    padding: 0;
+    list-style: none;
+  }
+  .h3-situaties li {
+    display: grid;
+    justify-items: center;
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .h3-situaties li + li::before {
+    content: '';
+    width: 2.5rem;
+    height: 1.5px;
+    margin-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    background: var(--sky-deep);
+    opacity: 0.5;
+  }
+  .h3-situaties h3 {
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .h3-situaties p {
+    max-width: 34rem;
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .h3-review {
+    max-width: 32rem;
+    margin-top: 1.75rem;
+  }
+  .h3-situaties .knop {
+    margin-top: 1.75rem;
+  }
+  .h3-tekst {
+    display: grid;
+    gap: 1rem;
+    max-width: 36rem;
+    margin-top: 2rem;
+  }
+  .h3-tekst p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .h3-citaat {
+    max-width: 40rem;
+    margin-top: clamp(3rem, 2.5rem + 2vw, 4rem);
+  }
+  .h3-kaart {
+    width: min(100%, 36rem);
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 47.99rem) {
+    .h3-situaties .knop {
+      width: 100%;
+    }
+  }
+</style>

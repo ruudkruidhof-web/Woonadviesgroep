@@ -244,3 +244,21 @@ De nagebouwde vergelijkingskaart (Hypotheken) en de vergelijkingstabel (Werkwijz
 - Bereikbaarheid (dagen en tijden): staat nergens, vraag voor Marijke.
 - Wie wat doet en een achtergrond per adviseur: staat nergens, vraag voor Marijke.
 
+
+## Drie richtingen voor de onderliggende pagina's (16 nov 2026)
+
+Na Ruuds oordeel over de proef ("totaal niet passend bij de homepage") zijn Hypotheken en Werkwijze en kosten in drie richtingen uitgewerkt op `/proef/hypotheken-1` tot en met `-3` en `/proef/werkwijze-1` tot en met `-3`, volgens `docs/superpowers/specs/2026-11-16-woonadvies-v3-paginas-drie-richtingen-design.md`. De pagina's gebruiken verder de bestaande teksten uit `v3-diensten.json`, `v3-paginas.json`, `v3.json` en `reviews.json`; dit zijn de nieuwe of opgeknipte regels in `site/src/content/teksten/v3-proef.json`.
+
+| Regel | Label | Bron |
+| --- | --- | --- |
+| Overzichtspagina: Drie richtingen, de lead, de namen en de uitleg van de drie richtingen, de noot over de vorige proef | FUNCTIONEEL | alleen voor Ruuds keuze, verdwijnt daarna |
+| Bij WoonAdvies Groep zorgen wij ervoor ... persoonlijke situatie. / Dit doen wij door ... in gesprek te gaan. | LETTERLIJK (je-vorm) | hypotheken, de bestaande alinea in twee zinnen opgeknipt |
+| Persoonlijk contact is bij ons namelijk prioriteit nummer één. Dat kan bij jou thuis, overdag of ’s avonds. | SAMENGESTELD | hypotheken (eerste zin) en home (hart, tweede zin) |
+| Niet simpelweg de goedkoopste hypotheek. / Maar juist de hypotheek die het beste bij jouw omstandigheden aansluit. | SAMENGESTELD | de bestaande regel "Zo krijg je niet simpelweg ..." opgeknipt in kop en lead |
+| Huren of kopen? Vanaf de eerste overweging tot aan je handtekening bij de notaris nemen wij je financiële zorgen uit handen. Maar ook daarna zijn we er voor je. | LETTERLIJK (je-vorm) | home |
+| Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. / Als de klik er is ... met je af. | LETTERLIJK (je-vorm) | werkwijze (kosten), opgeknipt |
+| De zakelijke kant; Persoonlijk contact (onder Hoofd en Hart op Hypotheken) | LETTERLIJK / FUNCTIONEEL | home ("De zakelijke kant"), "Persoonlijk contact" uit hypotheken |
+| Onafhankelijk hypotheekadvies; Onderhoud zonder extra kosten (bewijsregel Hypotheken) | SAMENGESTELD | de feiten in de opening van Hypotheken |
+| Kennismaking vrijblijvend; Tarief vooraf afgesproken (bewijsregel Werkwijze) | SAMENGESTELD | werkwijze (kosten per stap) |
+| Wat wij doen en wat het kost; Wat we van jou vragen (onder Hoofd en Hart op Werkwijze) | FUNCTIONEEL | banen van de route |
+| Vooraf afgesproken; Vrijblijvend (koppen in Wat het kost, richting 2) | LETTERLIJK / SAMENGESTELD | werkwijze (kosten per stap) |

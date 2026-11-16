@@ -2,9 +2,9 @@
 import Icoon from './Icoon.astro';
 import home from '../../content/teksten/v3.json';
 
-const { volgende, onderwerp } = Astro.props;
+const { volgende, onderwerp, midden = false } = Astro.props;
 ---
-<section class="os" aria-labelledby="os-titel">
+<section class:list={['os', { 'os-midden': midden }]} aria-labelledby="os-titel">
   <div class="maat os-strook" data-onthul>
     <h2 id="os-titel">{volgende.titel}</h2>
     <p>{volgende.tekst}</p>
@@ -46,6 +46,20 @@ const { volgende, onderwerp } = Astro.props;
     align-items: center;
     gap: 0.75rem 1rem;
     margin-top: 2rem;
+  }
+
+  .os-midden .os-strook {
+    display: grid;
+    justify-items: center;
+    padding-top: 0;
+    border-top: 0;
+    text-align: center;
+  }
+  .os-midden h2 {
+    max-width: 18ch;
+  }
+  .os-midden .os-acties {
+    justify-content: center;
   }
 
   @media (max-width: 47.99rem) {

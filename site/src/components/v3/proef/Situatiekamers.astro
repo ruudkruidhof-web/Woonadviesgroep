@@ -1,0 +1,123 @@
+---
+import Citaat from '../Citaat.astro';
+import Icoon from '../Icoon.astro';
+
+const { titel, lead, items, knop, onderwerp } = Astro.props;
+---
+<section class="sk sectie" id="situaties" aria-labelledby="sk-titel">
+  <div class="maat">
+    <div class="sectie-kop">
+      <h2 id="sk-titel" data-regels>{titel}</h2>
+      {lead && <p data-onthul>{lead}</p>}
+    </div>
+
+    <div class="sk-gebouw">
+      {items.map((s) => (
+        <article class="sk-kamer" id={s.id} aria-labelledby={`${s.id}-titel`} data-onthul>
+          <h3 id={`${s.id}-titel`}>{s.titel}</h3>
+          <p class="sk-tekst">{s.tekst}</p>
+          {s.review && (
+            <div class="sk-citaat">
+              <Citaat id={s.review} klein />
+            </div>
+          )}
+          <button type="button" class="knop knop-lijn sk-knop" data-plan-open data-onderwerp={onderwerp}>
+            {knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sk {
+    padding-top: calc(var(--sectie) * 0.6);
+  }
+  .sk-gebouw {
+    --voeg: 10px;
+    --boog: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+    display: grid;
+    gap: var(--voeg);
+  }
+  .sk-kamer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    border-radius: var(--radius);
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .sk-kamer:nth-child(1) {
+    padding-top: calc(var(--boog) * 0.85);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: var(--sky-wash);
+  }
+  .sk-kamer:nth-child(2) {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .sk-kamer:nth-child(3) {
+    background: var(--wash-warm);
+  }
+  .sk-kamer h3 {
+    max-width: 14ch;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  .sk-tekst {
+    max-width: 30rem;
+    margin-block: 1rem 1.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .sk-citaat {
+    width: 100%;
+    margin-bottom: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--navy) 12%, transparent);
+  }
+  .sk-knop {
+    margin-top: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sk-kamer:target {
+      animation: sk-doel 1.6s var(--uit) 0.3s;
+    }
+  }
+  @keyframes sk-doel {
+    from {
+      box-shadow: 0 0 0 4px var(--sky);
+    }
+    to {
+      box-shadow: 0 0 0 4px transparent;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .sk-knop {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .sk-gebouw {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .sk-kamer,
+    .sk-kamer:nth-child(1) {
+      padding-top: calc(var(--boog) + 0.75rem);
+    }
+    .sk-kamer:nth-child(1) {
+      border-radius: min(26vw, 24rem) var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
+    }
+    .sk-kamer:nth-child(3) {
+      border-radius: var(--radius) min(26vw, 24rem) var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
+    }
+  }
+</style>

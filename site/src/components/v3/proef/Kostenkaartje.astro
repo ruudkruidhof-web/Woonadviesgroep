@@ -1,0 +1,134 @@
+---
+import Merk from '../../Merk.astro';
+import Kaartregel from '../Kaartregel.astro';
+import teksten from '../../../content/teksten/v3-paginas.json';
+import kaarten from '../../../content/v3-vergelijkingskaarten.json';
+
+const { titel, intro } = Astro.props;
+const k = teksten.kaart;
+const beloning = teksten.dienstverlening.beloning;
+---
+<section class="kk2 sectie" id="kosten" aria-labelledby="kk2-titel">
+  <div class="maat kk2-vak">
+    <h2 id="kk2-titel" data-regels>{titel}</h2>
+    <p class="lead kk2-intro" data-onthul>{intro}</p>
+
+    <div class="kk2-kaart" data-kaartje>
+      <span class="kk2-zegel"><Merk breedte={44} /></span>
+      <dl class="kk2-beloning">
+        {beloning.map((b) => (
+          <div>
+            <dt>{b.titel}</dt>
+            <dd>{b.tekst}</dd>
+          </div>
+        ))}
+      </dl>
+      {kaarten.toon_prijzen && (
+        <div class="kk2-prijzen">
+          <h3>{k.prijzen_titel}</h3>
+          <dl>
+            {kaarten.kaarten.map((x) => (
+              <div>
+                <dt>{x.titel}</dt>
+                <dd class="cijfer">{x.prijs_kort}</dd>
+              </div>
+            ))}
+          </dl>
+          <p>{k.prijzen_uitleg}</p>
+        </div>
+      )}
+      <Kaartregel ids={kaarten.kaarten.map((x) => x.id)} midden />
+    </div>
+  </div>
+</section>
+
+<style>
+  .kk2-vak {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+  .kk2-vak h2 {
+    text-wrap: balance;
+  }
+  .kk2-intro {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+  }
+  .kk2-kaart {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    width: min(100%, 52rem);
+    margin-top: calc(clamp(3rem, 2.5rem + 2vw, 4.5rem) + 2.5rem);
+    padding: 4rem clamp(1.5rem, 1rem + 3vw, 3.5rem) clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 40, 58, 0.06), 0 30px 60px -34px rgba(0, 40, 58, 0.5);
+  }
+  .kk2-zegel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 40, 58, 0.06), 0 12px 24px -16px rgba(0, 40, 58, 0.45);
+    translate: -50% -50%;
+  }
+  .kk2-beloning {
+    display: grid;
+    gap: 2rem;
+  }
+  .kk2-beloning dt {
+    font-family: var(--font-kop);
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .kk2-beloning dd {
+    max-width: 30rem;
+    margin: 0.75rem auto 0;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .kk2-prijzen h3 {
+    font-size: var(--h3-kaart);
+    color: var(--navy);
+  }
+  .kk2-prijzen dl {
+    margin-top: 1rem;
+    border-top: 1px solid var(--line);
+    text-align: left;
+  }
+  .kk2-prijzen dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .kk2-prijzen dd {
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .kk2-prijzen p {
+    margin-top: 0.75rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+
+  @media (min-width: 48rem) {
+    .kk2-beloning {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+    .kk2-beloning > div + div {
+      padding-left: clamp(2rem, 4vw, 3.5rem);
+      border-left: 1px solid var(--line);
+    }
+  }
+</style>

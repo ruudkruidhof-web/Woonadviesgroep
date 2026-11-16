@@ -1,0 +1,96 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import proef from '../../content/teksten/v3-proef.json';
+
+const o = proef.overzicht;
+---
+<Pagina titel={o.titel} omschrijving={o.lead}>
+  <section class="po" aria-labelledby="po-titel">
+    <div class="maat">
+      <h1 id="po-titel">{o.titel}</h1>
+      <p class="lead po-lead">{o.lead}</p>
+      <ol class="po-lijst">
+        {o.richtingen.map((r) => (
+          <li>
+            <span class="po-nr cijfer" aria-hidden="true">{r.nr}</span>
+            <div>
+              <h2>{r.naam}</h2>
+              <p>{r.tekst}</p>
+              <ul class="po-links">
+                <li>
+                  <a href={`/proef/hypotheken-${r.nr}`} class="tekstlink">
+                    {o.hypotheken}
+                    <Icoon naam="dak" maat={11} />
+                  </a>
+                </li>
+                <li>
+                  <a href={`/proef/werkwijze-${r.nr}`} class="tekstlink">
+                    {o.werkwijze}
+                    <Icoon naam="dak" maat={11} />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="po-noot">{o.huidig}</p>
+    </div>
+  </section>
+</Pagina>
+
+<style>
+  .po {
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+  .po h1 {
+    font-size: var(--h1-pagina);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+  }
+  .po-lead {
+    max-width: 38rem;
+    margin-top: 1.25rem;
+  }
+  .po-lijst {
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vel-rand);
+  }
+  .po-lijst > li {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-block: clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem);
+    border-bottom: 1px solid var(--vel-rand);
+  }
+  .po-nr {
+    font-family: var(--font-kop);
+    font-size: 3.5rem;
+    line-height: 0.9;
+    color: var(--sky-deep);
+  }
+  .po-lijst h2 {
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+  }
+  .po-lijst p {
+    max-width: 38rem;
+    margin-top: 0.6rem;
+  }
+  .po-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2rem;
+    margin-top: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  .po-noot {
+    margin-top: 2rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+</style>

@@ -3,14 +3,14 @@ import Icoon from './Icoon.astro';
 import data from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3-paginas.json';
 
-const { ids } = Astro.props;
+const { ids, licht = false, midden = false } = Astro.props;
 const t = teksten.kaart;
 const kaarten = ids.map((id: string) => data.kaarten.find((k) => k.id === id)!);
 const enkel = kaarten.length === 1;
 const Lijst = enkel ? 'div' : 'ul';
 const Item = enkel ? Fragment : 'li';
 ---
-<div class:list={['kr', { 'kr-meer': !enkel }]}>
+<div class:list={['kr', { 'kr-meer': !enkel, 'kr-licht': licht, 'kr-midden': midden }]}>
   {!enkel && <p>{t.regel_meer}</p>}
   <Lijst class="kr-lijst">
     {kaarten.map((k) => (
@@ -71,7 +71,32 @@ const Item = enkel ? Fragment : 'li';
     padding-block: 0.6rem 0.25rem;
   }
 
+  .kr-licht {
+    border-top-color: rgba(255, 255, 255, 0.16);
+    color: #bcd2e1;
+  }
+  .kr-licht a {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .kr-licht a:hover {
+    text-decoration-color: #fff;
+  }
+  .kr-licht :global(svg),
+  .kr-licht .kr-pdf {
+    color: var(--sky);
+  }
+  .kr-midden {
+    text-align: center;
+  }
+  .kr-midden .kr-lijst {
+    justify-content: center;
+  }
+
   @media (max-width: 47.99rem) {
+    .kr-midden .kr-lijst {
+      align-items: center;
+    }
     .kr-lijst {
       flex-direction: column;
     }

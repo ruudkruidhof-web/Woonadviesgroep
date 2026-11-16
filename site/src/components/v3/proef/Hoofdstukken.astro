@@ -1,0 +1,162 @@
+---
+import { huis, huisViewBox } from '../merk';
+
+const { titel, stappen, banen } = Astro.props;
+const laatste = stappen.length - 1;
+---
+<h2 id="hs-titel" class="sr-alleen">{titel}</h2>
+<ol class="hs" data-hs>
+  {stappen.map((s, i) => (
+    <li class="hs-stap" id={s.id} aria-labelledby={`${s.id}-titel`}>
+      <span class="hs-cijfer cijfer" aria-hidden="true">
+        {i === laatste ? <svg viewBox={huisViewBox}><path d={huis} /></svg> : i + 1}
+      </span>
+      <h3 id={`${s.id}-titel`}>
+        {i !== laatste && <span class="sr-alleen">Stap {i + 1}, </span>}
+        {s.titel}
+      </h3>
+      <div class="hs-wij">
+        <p>{s.tekst}</p>
+        {s.extra && <p>{s.extra}</p>}
+      </div>
+      <div class="hs-praktisch">
+        <div>
+          <h4>{banen.jij}</h4>
+          <dl>
+            {s.jij.map((j) => (
+              <div>
+                <dt>{j.titel}</dt>
+                <dd>{j.tekst}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div>
+          <h4>{banen.kosten}</h4>
+          <p class="hs-kort">{s.kosten.kort}</p>
+          <p>{s.kosten.tekst}</p>
+        </div>
+      </div>
+      {i !== laatste && <span class="hs-lijn" aria-hidden="true"><span data-hs-vul></span></span>}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .hs {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+  }
+  .hs-stap {
+    display: grid;
+    justify-items: center;
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .hs-cijfer {
+    font-family: var(--font-kop);
+    font-size: clamp(4.5rem, 3rem + 5vw, 8rem);
+    line-height: 0.85;
+    color: var(--sky-deep);
+  }
+  .hs-cijfer svg {
+    display: block;
+    width: clamp(4rem, 3rem + 4vw, 6.5rem);
+    height: auto;
+    fill: var(--navy);
+  }
+  .hs-stap h3 {
+    margin-top: 1.25rem;
+    font-size: clamp(2rem, 1.6rem + 1.8vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+  }
+  .hs-wij {
+    display: grid;
+    gap: 1rem;
+    max-width: 38rem;
+    margin-top: 1.5rem;
+  }
+  .hs-wij p {
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+  .hs-praktisch {
+    display: grid;
+    gap: 1.5rem;
+    width: min(100%, 44rem);
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--navy) 12%, transparent);
+  }
+  .hs-praktisch h4 {
+    font-family: var(--font-tekst);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--tekst-zacht);
+  }
+  .hs-praktisch dl {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 0.6rem;
+  }
+  .hs-praktisch dt {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .hs-praktisch dd {
+    max-width: 22rem;
+    margin: 0.2rem auto 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .hs-kort {
+    margin-top: 0.5rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+    line-height: 1.2;
+    color: var(--navy);
+  }
+  .hs-kort + p {
+    max-width: 22rem;
+    margin: 0.35rem auto 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .hs-lijn {
+    display: block;
+    width: 1.5px;
+    height: clamp(4rem, 3rem + 4vw, 7rem);
+    margin-block: clamp(2rem, 1.5rem + 2vw, 3rem);
+    background: color-mix(in srgb, var(--navy) 14%, transparent);
+  }
+  .hs-lijn span {
+    display: block;
+    height: 100%;
+    background: var(--sky-deep);
+    transform-origin: top;
+  }
+
+  @media (min-width: 48rem) {
+    .hs-praktisch {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.utils.toArray<HTMLElement>('[data-hs-vul]').forEach((vul) => {
+      gsap.fromTo(vul, { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: vul.parentElement, start: 'top 80%', end: 'bottom 55%', scrub: 0.5 } });
+    });
+  });
+</script>

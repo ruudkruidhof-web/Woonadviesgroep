@@ -1,0 +1,160 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import CirkelKop from '../../components/v3/proef/CirkelKop.astro';
+import Bewijs from '../../components/v3/proef/Bewijs.astro';
+import Naad from '../../components/v3/proef/Naad.astro';
+import NaadRij from '../../components/v3/proef/NaadRij.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Kaartregel from '../../components/v3/Kaartregel.astro';
+import Overstap from '../../components/v3/Overstap.astro';
+import { huis, huisViewBox } from '../../components/v3/merk';
+import home from '../../content/teksten/v3.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+import kaarten from '../../content/v3-vergelijkingskaarten.json';
+import proef from '../../content/teksten/v3-proef.json';
+
+const t = teksten.werkwijze;
+const w = proef.werkwijze;
+const hh = home.hoofdhart;
+const k = teksten.kaart;
+const [vast, provisie] = teksten.dienstverlening.beloning;
+const laatste = t.stappen.length - 1;
+const huisje = `<svg viewBox="${huisViewBox}"><path d="${huis}" /></svg>`;
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <CirkelKop titel={t.titel} lead={t.lead}>
+    <Bewijs items={w.bewijs} />
+  </CirkelKop>
+
+  <Naad
+    id="route"
+    titel={home.werkwijze.titel}
+    merk
+    labels={{ hoofd: { woord: hh.hoofd_label, sub: w.hoofd_sub }, hart: { woord: hh.hart_label, sub: w.hart_sub } }}
+  >
+    {t.stappen.map((s, i) => (
+      <NaadRij id={s.id} titel={s.titel} station={i === laatste ? huisje : String(i + 1)}>
+        <Fragment slot="hoofd">
+          <p>{s.tekst}</p>
+          {s.extra && <p>{s.extra}</p>}
+          <div class="ww2-kost">
+            <p class="ww2-kort">{s.kosten.kort}</p>
+            <p>{s.kosten.tekst}</p>
+          </div>
+        </Fragment>
+        <Fragment slot="hart">
+          <dl class="ww2-vragen">
+            {s.jij.map((j) => (
+              <div>
+                <dt>{j.titel}</dt>
+                <dd>{j.tekst}</dd>
+              </div>
+            ))}
+          </dl>
+        </Fragment>
+      </NaadRij>
+    ))}
+  </Naad>
+
+  <Naad id="kosten" titel={t.kosten_titel} lead={t.kosten_intro}>
+    <NaadRij titel={vast.titel} hartTitel={provisie.titel}>
+      <Fragment slot="hoofd"><p>{vast.tekst}</p></Fragment>
+      <Fragment slot="hart"><p>{provisie.tekst}</p></Fragment>
+    </NaadRij>
+    <div slot="onder" class="ww2-onder" data-onthul>
+      {kaarten.toon_prijzen && (
+        <div class="ww2-prijzen">
+          <h3>{k.prijzen_titel}</h3>
+          <dl>
+            {kaarten.kaarten.map((x) => (
+              <div>
+                <dt>{x.titel}</dt>
+                <dd class="cijfer">{x.prijs_kort}</dd>
+              </div>
+            ))}
+          </dl>
+          <p>{k.prijzen_uitleg}</p>
+        </div>
+      )}
+      <Kaartregel ids={kaarten.kaarten.map((x) => x.id)} />
+    </div>
+  </Naad>
+
+  <div class="ww2-uitspraak sectie">
+    <div class="maat" data-onthul>
+      <Citaat id={t.citaat} groot />
+    </div>
+  </div>
+
+  <Overstap volgende={t.volgende} midden />
+</Pagina>
+
+<style>
+  .ww2-kost {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--navy) 12%, transparent);
+  }
+  .ww2-kost p {
+    font-size: 0.9375rem;
+  }
+  .ww2-kost .ww2-kort {
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+    line-height: 1.2;
+    color: var(--navy);
+  }
+  .ww2-kost .ww2-kort + p {
+    margin-top: 0.35rem;
+    color: var(--tekst-zacht);
+  }
+  .ww2-vragen {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 30rem;
+  }
+  .ww2-vragen dt {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .ww2-vragen dd {
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .ww2-onder {
+    max-width: 52rem;
+    margin: clamp(2rem, 1.5rem + 2vw, 3rem) auto 0;
+  }
+  .ww2-prijzen {
+    margin-bottom: 2rem;
+  }
+  .ww2-prijzen h3 {
+    font-size: var(--h3-kaart);
+    color: var(--navy);
+  }
+  .ww2-prijzen dl {
+    margin-top: 1rem;
+    border-top: 1px solid var(--vel-rand);
+  }
+  .ww2-prijzen dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--vel-rand);
+  }
+  .ww2-prijzen dd {
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .ww2-prijzen p {
+    margin-top: 0.75rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+  .ww2-uitspraak {
+    padding-block: calc(var(--sectie) * 0.5) 0;
+  }
+</style>

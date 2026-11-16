@@ -1,0 +1,109 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import RustKop from '../../components/v3/proef/RustKop.astro';
+import BoogKamer from '../../components/v3/proef/BoogKamer.astro';
+import Hoofdstukken from '../../components/v3/proef/Hoofdstukken.astro';
+import Kostenkaartje from '../../components/v3/proef/Kostenkaartje.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Overstap from '../../components/v3/Overstap.astro';
+import { huis, huisViewBox } from '../../components/v3/merk';
+import home from '../../content/teksten/v3.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const t = teksten.werkwijze;
+const laatste = t.stappen.length - 1;
+---
+<Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
+  <RustKop titel={t.titel} lead={t.lead}>
+    <nav class="w3-mini" aria-label={t.mini_label}>
+      <ol>
+        {t.stappen.map((s, i) => (
+          <li>
+            <a href={`#${s.id}`}>
+              <span class="w3-cijfer cijfer" aria-hidden="true">
+                {i === laatste ? <svg viewBox={huisViewBox}><path d={huis} /></svg> : i + 1}
+              </span>
+              <span>{s.titel}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </RustKop>
+
+  <BoogKamer id="route" kleur="sky" labelledby="hs-titel">
+    <Hoofdstukken titel={t.route_titel} stappen={t.stappen} banen={t.banen} />
+  </BoogKamer>
+
+  <Kostenkaartje titel={t.kosten_titel} intro={t.kosten_intro} />
+
+  <BoogKamer kleur="navy" label={home.klanten.titel}>
+    <div data-onthul>
+      <Citaat id={t.citaat} groot licht />
+    </div>
+  </BoogKamer>
+
+  <Overstap volgende={t.volgende} midden />
+</Pagina>
+
+<style>
+  .w3-mini {
+    width: 100%;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+  .w3-mini ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+    max-width: 46rem;
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+  }
+  .w3-mini a {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+    padding-block: 0.5rem;
+    font-size: var(--klein);
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .w3-mini a:hover span:last-child {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .w3-cijfer {
+    font-family: var(--font-kop);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--sky-deep);
+  }
+  .w3-cijfer svg {
+    display: block;
+    width: 2.1rem;
+    height: auto;
+    fill: var(--navy);
+  }
+
+  @media (min-width: 48rem) {
+    .w3-mini ol {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .w3-mini li {
+      position: relative;
+    }
+    .w3-mini li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: calc(50% + 1.75rem);
+      width: calc(100% - 3.5rem + 1rem);
+      height: 1px;
+      background: color-mix(in srgb, var(--navy) 22%, transparent);
+    }
+  }
+</style>

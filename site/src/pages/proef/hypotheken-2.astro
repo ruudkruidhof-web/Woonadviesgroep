@@ -1,0 +1,86 @@
+---
+import Pagina from '../../components/v3/Pagina.astro';
+import CirkelKop from '../../components/v3/proef/CirkelKop.astro';
+import Bewijs from '../../components/v3/proef/Bewijs.astro';
+import Naad from '../../components/v3/proef/Naad.astro';
+import NaadRij from '../../components/v3/proef/NaadRij.astro';
+import Citaat from '../../components/v3/Citaat.astro';
+import Icoon from '../../components/v3/Icoon.astro';
+import Kaartregel from '../../components/v3/Kaartregel.astro';
+import Overstap from '../../components/v3/Overstap.astro';
+import diensten from '../../content/v3-diensten.json';
+import home from '../../content/teksten/v3.json';
+import paginas from '../../content/teksten/v3-paginas.json';
+import proef from '../../content/teksten/v3-proef.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const d = diensten.find((x) => x.id === 'hypotheken')!;
+const p = d.pagina;
+const h = proef.hypotheken;
+const hh = home.hoofdhart;
+const [kennis, verdiepen] = paginas.werkwijze.stappen;
+---
+<Pagina titel={d.titel} omschrijving={p.lead}>
+  <CirkelKop titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: paginas.dienst.kruimel }]} onderwerp={d.titel}>
+    <Bewijs items={h.bewijs} />
+  </CirkelKop>
+
+  <Naad
+    id="advies"
+    titel={h.belofte_kop}
+    lead={h.belofte_lead}
+    merk
+    labels={{ hoofd: { woord: hh.hoofd_label, sub: h.hoofd_sub }, hart: { woord: hh.hart_label, sub: h.hart_sub } }}
+  >
+    <NaadRij>
+      <Fragment slot="hoofd">
+        <p>{h.advies_opties}</p>
+        <p>{h.advies_analyse}</p>
+        <p>{hh.hoofd[0]}</p>
+      </Fragment>
+      <Fragment slot="hart">
+        <p>{h.advies_contact}</p>
+        <Citaat id="marit-ruben" klein />
+      </Fragment>
+    </NaadRij>
+  </Naad>
+
+  <Naad id="situaties" titel={p.situaties_titel} lead={h.reis}>
+    {p.situaties.map((s) => (
+      <NaadRij id={s.id} titel={s.titel}>
+        <Fragment slot="hoofd">
+          <p>{s.tekst}</p>
+        </Fragment>
+        <Fragment slot="hart">
+          {s.review && <Citaat id={s.review} klein />}
+          <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={d.titel}>
+            {p.situaties_knop}
+            <Icoon naam="dak" maat={12} />
+          </button>
+          {!s.review && (
+            <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+              <Icoon naam="bel" maat={15} />
+              <span>Bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+            </a>
+          )}
+        </Fragment>
+      </NaadRij>
+    ))}
+  </Naad>
+
+  <Naad id="kosten" titel={p.kosten_titel}>
+    <NaadRij titel={verdiepen.kosten.kort} hartTitel={kennis.kosten.kort}>
+      <Fragment slot="hoofd">
+        <p>{h.kosten_afspraak}</p>
+        <p>{p.feiten[2]}.</p>
+        <Kaartregel ids={[p.kaart]} />
+      </Fragment>
+      <Fragment slot="hart">
+        <p>{h.kosten_vrij}</p>
+        <p>{hh.hart[1]}</p>
+      </Fragment>
+    </NaadRij>
+  </Naad>
+
+  <Overstap volgende={p.volgende} onderwerp={d.titel} midden />
+</Pagina>

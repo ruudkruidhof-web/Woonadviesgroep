@@ -1,18 +1,27 @@
 ---
 import Merk from '../Merk.astro';
+import Citaat from './Citaat.astro';
 import teksten from '../../content/teksten/v3.json';
 
 const t = teksten.hoofdhart;
+const {
+  id = 'hh',
+  titel = t.titel,
+  lead = t.lead,
+  slotregel = t.slot,
+  hoofd = { woord: t.hoofd_label, sub: t.hoofd_sub, regels: t.hoofd },
+  hart = { woord: t.hart_label, sub: t.hart_sub, regels: t.hart },
+} = Astro.props;
 const kanten = [
-  { id: 'hoofd', woord: t.hoofd_label, sub: t.hoofd_sub, regels: t.hoofd },
-  { id: 'hart', woord: t.hart_label, sub: t.hart_sub, regels: t.hart },
+  { id: 'hoofd', ...hoofd },
+  { id: 'hart', ...hart },
 ];
 ---
-<section class="hh sectie" aria-labelledby="hh-titel">
+<section class="hh sectie" aria-labelledby={`${id}-titel`}>
   <div class="maat">
     <div class="hh-kop">
-      <h2 id="hh-titel" data-regels>{t.titel}</h2>
-      <p class="lead" data-onthul>{t.lead}</p>
+      <h2 id={`${id}-titel`} data-regels>{titel}</h2>
+      {lead && <p class="lead" data-onthul>{lead}</p>}
     </div>
 
     <div class="hh-tweeluik" data-hh>
@@ -30,11 +39,16 @@ const kanten = [
           <ul>
             {k.regels.map((regel) => <li>{regel}</li>)}
           </ul>
+          {k.citaat && (
+            <div class="hh-citaat">
+              <Citaat id={k.citaat} klein midden />
+            </div>
+          )}
         </div>
       ))}
     </div>
 
-    <p class="hh-slot" data-onthul>{t.slot}</p>
+    {slotregel && <p class="hh-slot" data-onthul>{slotregel}</p>}
   </div>
 </section>
 
@@ -134,6 +148,12 @@ const kanten = [
   }
   .hh-hart li + li::before {
     background: var(--brown);
+  }
+  .hh-citaat {
+    max-width: 24rem;
+    margin: 2rem auto 0;
+    padding-top: 1.75rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--brown) 25%, transparent);
   }
   .hh-slot {
     max-width: 34rem;
