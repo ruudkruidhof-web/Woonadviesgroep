@@ -5,6 +5,7 @@ import teksten from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
 
 const t = teksten.contact;
+const { onderwerp } = Astro.props;
 ---
 <section id="contact" class="contact sectie" aria-labelledby="contact-titel">
   <div class="maat c-vak">
@@ -29,7 +30,7 @@ const t = teksten.contact;
         </a>
       </li>
       <li>
-        <button type="button" class="knop knop-vol" data-plan-open>
+        <button type="button" class="knop knop-vol" data-plan-open data-onderwerp={onderwerp}>
           {teksten.hero.knop}
           <Icoon naam="dak" maat={12} />
         </button>

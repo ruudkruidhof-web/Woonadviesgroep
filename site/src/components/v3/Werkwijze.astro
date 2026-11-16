@@ -6,6 +6,7 @@ import bedrijf from '../../content/bedrijf.json';
 import kaarten from '../../content/v3-vergelijkingskaarten.json';
 
 const t = teksten.werkwijze;
+const { onderwerp } = Astro.props;
 ---
 <section id="werkwijze" class="werkwijze sectie kamer" data-kamer aria-labelledby="werkwijze-titel">
   <div class="maat">
@@ -58,7 +59,7 @@ const t = teksten.werkwijze;
       <div class="w-start">
         <p class="w-start-titel">{t.start}</p>
         <div class="w-acties">
-          <button type="button" class="knop knop-licht" data-plan-open>
+          <button type="button" class="knop knop-licht" data-plan-open data-onderwerp={onderwerp}>
             {teksten.hero.knop}
             <Icoon naam="dak" maat={12} />
           </button>
