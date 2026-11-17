@@ -1,8 +1,8 @@
 ---
-import Merk from '../../Merk.astro';
-import Kaartregel from '../Kaartregel.astro';
-import teksten from '../../../content/teksten/v3-paginas.json';
-import kaarten from '../../../content/v3-vergelijkingskaarten.json';
+import Merk from '../Merk.astro';
+import Kaartregel from './Kaartregel.astro';
+import teksten from '../../content/teksten/v3-paginas.json';
+import kaarten from '../../content/v3-vergelijkingskaarten.json';
 
 const { titel, intro } = Astro.props;
 const k = teksten.kaart;
@@ -10,9 +10,9 @@ const beloning = teksten.dienstverlening.beloning;
 ---
 <section class="kv sectie" id="kosten" aria-labelledby="kv-titel">
   <div class="maat">
-    <div class="sectie-kop">
+    <div class="kv-kop">
       <h2 id="kv-titel" data-regels>{titel}</h2>
-      <p data-onthul>{intro}</p>
+      <p class="lead" data-onthul>{intro}</p>
     </div>
 
     <div class="kv-vlak" data-onthul>
@@ -49,6 +49,18 @@ const beloning = teksten.dienstverlening.beloning;
 <style>
   .kv {
     padding-bottom: calc(var(--sectie) * 0.4);
+  }
+  .kv-kop {
+    display: grid;
+    justify-items: center;
+    max-width: 44rem;
+    margin: 0 auto clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    text-align: center;
+  }
+  .kv-kop p {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    text-wrap: balance;
   }
   .kv-vlak {
     display: grid;

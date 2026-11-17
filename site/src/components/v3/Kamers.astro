@@ -1,0 +1,165 @@
+---
+import Icoon from './Icoon.astro';
+import bedrijf from '../../content/bedrijf.json';
+
+const { id, titel, lead, items, knop, onderwerp } = Astro.props;
+---
+<section class="km sectie" id={id} aria-labelledby={`${id}-titel`}>
+  <div class="maat">
+    <div class="km-kop">
+      <h2 id={`${id}-titel`} data-regels>{titel}</h2>
+      {lead && <p class="lead" data-onthul>{lead}</p>}
+    </div>
+
+    <div class="km-gebouw">
+      {items.map((s) => (
+        <article class="km-kamer" id={s.id} aria-labelledby={`${s.id}-titel`} data-open>
+          <h3 id={`${s.id}-titel`}>{s.titel}</h3>
+          <p class="km-tekst">{s.tekst}</p>
+          <div class="km-acties">
+            {knop && (
+              <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={onderwerp}>
+                {knop}
+                <Icoon naam="dak" maat={12} />
+              </button>
+            )}
+            {s.href && (
+              <a href={s.href} class="knop knop-lijn">
+                {s.label}
+                <Icoon naam="dak" maat={12} />
+              </a>
+            )}
+            {s.bel && (
+              <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+                <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .km {
+    padding-top: calc(var(--sectie) * 0.55);
+  }
+  .km-kop {
+    display: grid;
+    justify-items: center;
+    max-width: 44rem;
+    margin: 0 auto clamp(2.5rem, 2rem + 2vw, 4rem);
+    text-align: center;
+  }
+  .km-kop h2 {
+    text-wrap: balance;
+  }
+  .km-kop p {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+    text-wrap: balance;
+  }
+
+  .km-gebouw {
+    --voeg: 10px;
+    --boog: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+    display: grid;
+    gap: var(--voeg);
+  }
+  .km-kamer {
+    --vlak: var(--sky-wash);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+    border-radius: var(--radius);
+    background: var(--vlak);
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .km-kamer:first-child {
+    padding-top: calc(var(--boog) * 0.85);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+  }
+  .km-kamer:nth-child(3n + 2) {
+    --vlak: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .km-kamer:nth-child(3n) {
+    --vlak: var(--wash-warm);
+  }
+  .km-kamer h3 {
+    max-width: 14ch;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  .km-tekst {
+    max-width: 24rem;
+    margin-block: 1.25rem 2.25rem;
+    font-family: var(--font-kop);
+    font-size: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+    line-height: 1.45;
+    color: var(--navy);
+    text-wrap: pretty;
+  }
+  .km-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    margin-top: auto;
+  }
+  .km-acties .knop {
+    background: var(--vlak);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .km-kamer:target {
+      animation: km-doel 1.6s var(--uit) 0.3s;
+    }
+  }
+  @keyframes km-doel {
+    from {
+      box-shadow: 0 0 0 4px var(--sky);
+    }
+    to {
+      box-shadow: 0 0 0 4px transparent;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .km-acties .knop {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .km-gebouw {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .km-kamer,
+    .km-kamer:first-child {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+      align-items: start;
+      padding-top: calc(var(--boog) + 0.75rem);
+    }
+    .km-acties {
+      margin-top: 0;
+    }
+    .km-kamer h3 {
+      align-self: end;
+    }
+    .km-kamer:first-child {
+      border-radius: min(26vw, 24rem) var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
+    }
+    .km-kamer:last-child {
+      border-radius: var(--radius) min(26vw, 24rem) var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
+    }
+  }
+</style>

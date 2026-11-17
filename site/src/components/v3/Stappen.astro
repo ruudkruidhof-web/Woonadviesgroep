@@ -1,20 +1,20 @@
 ---
-import { huis, huisViewBox } from '../merk';
+import { huis, huisViewBox } from './merk';
 
 const { titel, stappen, banen } = Astro.props;
 const laatste = stappen.length - 1;
 ---
-<section class="sp" aria-labelledby="sp-titel">
+<section class="st" aria-labelledby="st-titel">
   <div class="maat">
-    <h2 id="sp-titel" class="sr-alleen">{titel}</h2>
-    <div class="sp-gebouw">
+    <h2 id="st-titel" class="sr-alleen">{titel}</h2>
+    <div class="st-gebouw">
       {stappen.map((s, i) => (
-        <article class="sp-kamer" id={s.id} aria-labelledby={`${s.id}-titel`} data-onthul>
+        <article class="st-kamer" id={s.id} aria-labelledby={`${s.id}-titel`} data-open>
           {i === laatste && (
-            <svg class="sp-huis" viewBox={huisViewBox} aria-hidden="true"><path d={huis} /></svg>
+            <svg class="st-huis" viewBox={huisViewBox} aria-hidden="true" data-teken><path d={huis} pathLength="1" /></svg>
           )}
-          <div class="sp-kop">
-            <span class="sp-cijfer cijfer" aria-hidden="true">
+          <div class="st-kop">
+            <span class="st-cijfer cijfer" aria-hidden="true">
               {i === laatste ? <svg viewBox={huisViewBox}><path d={huis} /></svg> : i + 1}
             </span>
             <h3 id={`${s.id}-titel`}>
@@ -22,25 +22,29 @@ const laatste = stappen.length - 1;
               {s.titel}
             </h3>
           </div>
-          <div class="sp-kost">
-            <h4>{banen.kosten}</h4>
-            <p class="sp-kort">{s.kosten.kort}</p>
-            <p>{s.kosten.tekst}</p>
-          </div>
-          <div class="sp-wij">
-            <p>{s.tekst}</p>
-            {s.extra && <p>{s.extra}</p>}
-          </div>
-          <div class="sp-binnen">
-            <h4>{banen.jij}</h4>
-            <dl>
-              {s.jij.map((j) => (
-                <div>
-                  <dt>{j.titel}</dt>
-                  <dd>{j.tekst}</dd>
-                </div>
-              ))}
-            </dl>
+          <p class="st-kern">{s.kern}</p>
+          <div class="st-banen">
+            <div>
+              <h4>{banen.wij}</h4>
+              <p>{s.tekst}</p>
+              {s.extra && <p>{s.extra}</p>}
+            </div>
+            <div>
+              <h4>{banen.jij}</h4>
+              <dl>
+                {s.jij.map((j) => (
+                  <div>
+                    <dt>{j.titel}</dt>
+                    <dd>{j.tekst}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <div>
+              <h4>{banen.kosten}</h4>
+              <p class="st-kort">{s.kosten.kort}</p>
+              <p>{s.kosten.tekst}</p>
+            </div>
           </div>
         </article>
       ))}
@@ -49,45 +53,46 @@ const laatste = stappen.length - 1;
 </section>
 
 <style>
-  .sp {
-    padding-top: calc(var(--sectie) * 0.55);
+  .st {
+    padding-top: calc(var(--sectie) * 0.3);
   }
-  .sp-gebouw {
+  .st-gebouw {
     --voeg: 10px;
     --boog: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
     display: grid;
     gap: var(--voeg);
   }
-  .sp-kamer {
+  .st-kamer {
+    --streep: color-mix(in srgb, var(--navy) 13%, transparent);
     position: relative;
     display: grid;
-    gap: 1.5rem;
     padding: clamp(1.75rem, 1.2rem + 2vw, 3rem);
     border-radius: var(--radius);
     overflow: hidden;
     isolation: isolate;
     scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
   }
-  .sp-kamer:nth-child(1) {
+  .st-kamer:nth-child(1) {
     padding-top: calc(var(--boog) * 0.9);
     border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
     background: var(--sky-wash);
   }
-  .sp-kamer:nth-child(2) {
+  .st-kamer:nth-child(2) {
     background: #fff;
     box-shadow: inset 0 0 0 1px var(--line);
   }
-  .sp-kamer:nth-child(3) {
+  .st-kamer:nth-child(3) {
     background: var(--wash-warm);
   }
-  .sp-kamer:nth-child(4) {
+  .st-kamer:nth-child(4) {
+    --streep: rgba(255, 255, 255, 0.16);
     background: var(--navy);
     color: #bcd2e1;
   }
-  .sp-kamer:nth-child(4) :focus-visible {
+  .st-kamer:nth-child(4) :focus-visible {
     outline-color: var(--sky);
   }
-  .sp-huis {
+  .st-huis {
     position: absolute;
     z-index: -1;
     right: -3.5rem;
@@ -100,13 +105,16 @@ const laatste = stappen.length - 1;
     vector-effect: non-scaling-stroke;
     opacity: 0.28;
   }
+  .st-huis path {
+    stroke-dasharray: 1 1;
+  }
 
-  .sp-kop {
+  .st-kop {
     display: flex;
     align-items: baseline;
     gap: 1.25rem;
   }
-  .sp-cijfer {
+  .st-cijfer {
     flex-shrink: 0;
     width: 2.75rem;
     font-family: var(--font-kop);
@@ -114,133 +122,119 @@ const laatste = stappen.length - 1;
     line-height: 0.8;
     color: var(--sky-deep);
   }
-  .sp-cijfer svg {
+  .st-cijfer svg {
     display: block;
     width: 100%;
     height: auto;
     fill: var(--sky);
   }
-  .sp-kop h3 {
+  .st-kop h3 {
     font-size: var(--h3-kaart);
     line-height: 1.1;
     letter-spacing: -0.01em;
     color: var(--navy);
   }
-  .sp-kamer:nth-child(4) h3 {
+  .st-kamer:nth-child(4) h3,
+  .st-kamer:nth-child(4) .st-kern,
+  .st-kamer:nth-child(4) .st-kort,
+  .st-kamer:nth-child(4) dt {
     color: #fff;
   }
-  .sp-wij {
-    display: grid;
-    gap: 1rem;
-    max-width: 36rem;
-  }
-  .sp-wij p {
-    font-size: 1.0625rem;
-    line-height: 1.65;
+  .st-kern {
+    max-width: 32ch;
+    margin-top: 1.5rem;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.3;
+    color: var(--navy);
+    text-wrap: pretty;
   }
 
-  .sp-binnen {
-    max-width: 36rem;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.72);
+  .st-banen {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+    padding-top: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    border-top: 1.5px solid var(--streep);
   }
-  .sp-kamer:nth-child(2) .sp-binnen {
-    background: var(--paper);
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
-  .sp-kamer:nth-child(4) .sp-binnen {
-    background: color-mix(in srgb, var(--navy), #fff 7%);
-  }
-  .sp-kamer h4 {
+  .st-banen h4 {
     font-family: var(--font-tekst);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0;
     color: var(--tekst-zacht);
   }
-  .sp-kamer:nth-child(4) h4 {
+  .st-kamer:nth-child(4) h4 {
     color: #bcd2e1;
   }
-  .sp-kost {
-    order: 1;
-    padding-top: 1rem;
-    border-top: 1.5px solid color-mix(in srgb, var(--navy) 14%, transparent);
-  }
-  .sp-kamer:nth-child(4) .sp-kost {
-    border-top-color: rgba(255, 255, 255, 0.16);
-  }
-  .sp-binnen dl {
-    display: grid;
-    gap: 1rem;
-    margin-top: 0.6rem;
-  }
-  .sp-binnen dt {
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .sp-kamer:nth-child(4) .sp-binnen dt {
-    color: #fff;
-  }
-  .sp-binnen dd {
-    margin-top: 0.2rem;
+  .st-banen p,
+  .st-banen dd {
     font-size: 0.9375rem;
     line-height: 1.6;
   }
-  .sp-kort {
-    margin-top: 0.35rem;
+  .st-banen h4 + p,
+  .st-banen dl {
+    margin-top: 0.6rem;
+  }
+  .st-banen p + p {
+    margin-top: 0.75rem;
+  }
+  .st-banen dl {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .st-banen dt {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .st-banen dd {
+    margin-top: 0.15rem;
+  }
+  .st-banen .st-kort {
     font-family: var(--font-kop);
     font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
     line-height: 1.2;
     color: var(--navy);
   }
-  .sp-kamer:nth-child(4) .sp-kort {
-    color: #fff;
-  }
-  .sp-kort + p {
+  .st-banen .st-kort + p {
     margin-top: 0.4rem;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  }
+
+  @media (min-width: 48rem) {
+    .st-banen {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: clamp(1.5rem, 3vw, 3rem);
+    }
   }
 
   @media (min-width: 64rem) {
-    .sp-kamer {
+    .st-kamer {
       grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
       column-gap: clamp(2.5rem, 5vw, 5rem);
-      row-gap: 2rem;
       padding: clamp(2.5rem, 2rem + 2vw, 3.5rem);
     }
-    .sp-kamer:nth-child(1) {
+    .st-kamer:nth-child(1) {
       padding-top: calc(var(--boog) + 1rem);
       border-radius: min(38vw, 32rem) var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
     }
-    .sp-kop {
+    .st-kop {
       flex-direction: column;
       align-items: flex-start;
       gap: 1.25rem;
     }
-    .sp-kost {
-      order: 0;
-      grid-column: 1;
-      grid-row: 2;
-      align-self: end;
-      max-width: 20rem;
-    }
-    .sp-cijfer {
+    .st-cijfer {
       width: auto;
       font-size: clamp(4.5rem, 3rem + 3vw, 6.5rem);
     }
-    .sp-cijfer svg {
+    .st-cijfer svg {
       width: 4.5rem;
     }
-    .sp-wij {
-      grid-column: 2;
-      grid-row: 1;
-    }
-    .sp-binnen {
-      grid-column: 2;
-      grid-row: 2;
+    .st-kern {
       align-self: end;
+      margin-top: 0;
+    }
+    .st-banen {
+      grid-column: 1 / -1;
     }
   }
 </style>

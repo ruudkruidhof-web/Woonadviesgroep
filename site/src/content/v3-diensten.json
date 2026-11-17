@@ -11,25 +11,34 @@
     "menu": "Eerste woning, volgende woning, scheiding",
     "pagina": {
       "lead": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt. Natuurlijk is het dan van uiterst belang dat de financiering van je huis of appartement zo goed mogelijk verloopt.",
+      "bewijs": [
+        {
+          "b": "Onafhankelijk",
+          "tekst": "hypotheekadvies"
+        },
+        {
+          "b": "Onderhoud",
+          "tekst": "zonder extra kosten"
+        }
+      ],
       "feiten": [
         "Onafhankelijk hypotheekadvies",
         "Bij ons op kantoor, bij jou thuis (ook ’s avonds) of via video",
         "Onderhoud zonder extra kosten"
       ],
       "situaties_titel": "In welke situatie zit je?",
+      "situaties_lead": "Huren of kopen? Vanaf de eerste overweging tot aan je handtekening bij de notaris nemen wij je financiële zorgen uit handen. Maar ook daarna zijn we er voor je.",
       "situaties_knop": "Bespreek je situatie",
       "situaties": [
         {
           "id": "eerste-woning",
           "titel": "Je eerste woning",
-          "tekst": "Van eerste bezichtiging tot handtekening bij de notaris. We rekenen uit wat je kunt lenen en regelen de hypotheek die daarbij past.",
-          "review": "mh"
+          "tekst": "Van eerste bezichtiging tot handtekening bij de notaris. We rekenen uit wat je kunt lenen en regelen de hypotheek die daarbij past."
         },
         {
           "id": "volgende-woning",
           "titel": "Door naar een volgende woning",
-          "tekst": "Een volgende woning kopen terwijl de huidige nog niet verkocht is? We zetten de scenario’s naast elkaar, inclusief de overbrugging.",
-          "review": "m-tim"
+          "tekst": "Een volgende woning kopen terwijl de huidige nog niet verkocht is? We zetten de scenario’s naast elkaar, inclusief de overbrugging."
         },
         {
           "id": "scheiding",
@@ -37,12 +46,16 @@
           "tekst": "Bij een scheiding of relatiebreuk komt er veel op je af. We bekijken in alle rust of één van jullie de woning kan overnemen, en wat dat betekent."
         }
       ],
-      "advies_kern": "Zo krijg je niet simpelweg de goedkoopste hypotheek, maar juist de hypotheek die het beste bij jouw omstandigheden aansluit.",
+      "advies_titel": "Niet simpelweg de goedkoopste hypotheek.",
+      "advies_lead": "Maar juist de hypotheek die het beste bij jouw omstandigheden aansluit.",
       "advies": [
-        "Bij WoonAdvies Groep zorgen wij ervoor dat je verduidelijking krijgt over welke opties er zijn en onderzoeken wij welke optie het beste past bij jouw persoonlijke situatie. Dit doen wij door je financiën en persoonlijke omstandigheden uitvoerig te analyseren, bijvoorbeeld door zo vaak mogelijk met je in gesprek te gaan. Persoonlijk contact is bij ons namelijk prioriteit nummer één."
+        "Bij WoonAdvies Groep zorgen wij ervoor dat je verduidelijking krijgt over welke opties er zijn en onderzoeken wij welke optie het beste past bij jouw persoonlijke situatie.",
+        "Dit doen wij door je financiën en persoonlijke omstandigheden uitvoerig te analyseren, bijvoorbeeld door zo vaak mogelijk met je in gesprek te gaan.",
+        "Persoonlijk contact is bij ons namelijk prioriteit nummer één. Dat kan bij jou thuis, overdag of ’s avonds."
       ],
       "kosten_titel": "Wat het kost",
-      "kosten": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren. Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
+      "kosten_lead": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren.",
+      "kosten": "Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
       "kaart": "hypotheek",
       "volgende": {
         "titel": "Hoe het verder gaat, en wanneer je wat betaalt",

@@ -48,7 +48,8 @@
       {
         "id": "stap-kennismaken",
         "titel": "Kennismaken",
-        "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek. Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
+        "kern": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek.",
+        "tekst": "Dat kan bij jou thuis, overdag of ’s avonds, maar we ontvangen je ook graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam. We informeren je dan over ons kantoor en onze werkwijze. Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
         "jij": [
           {
             "titel": "Waar we afspreken",
@@ -63,7 +64,8 @@
       {
         "id": "stap-verdiepen",
         "titel": "Verdiepen",
-        "tekst": "In de volgende stap gaan we dieper in op de uitgangspunten die we formuleerden in het kennismakingsgesprek. Met je geïnventariseerde wensen, mogelijkheden en toekomstbeeld bekijken we de huidige financiële situatie. Zijn de gegevens nog actueel? Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan.",
+        "kern": "In de volgende stap gaan we dieper in op de uitgangspunten die we formuleerden in het kennismakingsgesprek.",
+        "tekst": "Met je geïnventariseerde wensen, mogelijkheden en toekomstbeeld bekijken we de huidige financiële situatie. Zijn de gegevens nog actueel? Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan.",
         "extra": "Als je het wenst, adviseren we je over je complete financiële huishouding. Dat kan complex zijn, want financiële planning is veelomvattend. Het doel is dat voor jou een helder beeld wordt geschetst. Samen komen we zo tot een oplossing voor nu en in de toekomst.",
         "jij": [
           {
@@ -83,7 +85,8 @@
       {
         "id": "stap-uitvoeren",
         "titel": "Uitvoeren",
-        "tekst": "Als het financiële beeld compleet is, volgt de volgende fase waarin we het plan ten uitvoer gaan brengen. Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren.",
+        "kern": "Als het financiële beeld compleet is, volgt de volgende fase waarin we het plan ten uitvoer gaan brengen.",
+        "tekst": "Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren.",
         "jij": [
           {
             "titel": "Informatie doornemen",
@@ -98,7 +101,8 @@
       {
         "id": "stap-ook-daarna",
         "titel": "Ook daarna",
-        "tekst": "Wij begeleiden je na aanschaf van het gewenste financiële product. Deze begeleiding bestaat uit het beantwoorden van algemene vragen over het betreffende product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product.",
+        "kern": "Wij begeleiden je na aanschaf van het gewenste financiële product.",
+        "tekst": "Deze begeleiding bestaat uit het beantwoorden van algemene vragen over het betreffende product. Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product.",
         "jij": [
           {
             "titel": "Wijzigingen doorgeven",

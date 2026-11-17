@@ -45,6 +45,24 @@
       );
     });
 
+    gsap.utils.toArray<HTMLElement>('[data-open]').forEach((kamer) => {
+      const buren = kamer.parentElement ? Array.from(kamer.parentElement.children) : [];
+      const naast = buren.filter((b) => b.getBoundingClientRect().top === kamer.getBoundingClientRect().top).indexOf(kamer);
+      gsap.fromTo(
+        kamer,
+        { clipPath: 'inset(4% 3% round 14px)' },
+        { clipPath: 'inset(0% 0% round 0px)', duration: 1, delay: Math.max(naast, 0) * 0.12, ease: 'power3.out', clearProps: 'clipPath', scrollTrigger: { trigger: kamer, start: 'top 90%', once: true } },
+      );
+    });
+
+    gsap.utils.toArray<SVGElement>('[data-teken]').forEach((lijn) => {
+      gsap.fromTo(
+        lijn.querySelectorAll('path'),
+        { strokeDashoffset: 1 },
+        { strokeDashoffset: 0, duration: 1.8, delay: 0.35, ease: 'power2.inOut', scrollTrigger: { trigger: lijn.closest('[data-open]') ?? lijn, start: 'top 85%', once: true } },
+      );
+    });
+
     const gebouw = document.querySelector('[data-gebouw]');
     if (gebouw) {
       gsap.fromTo(gebouw.querySelectorAll('.d-kamer'), { y: 24, opacity: 0 }, { ...binnen, duration: 0.8, stagger: 0.07, scrollTrigger: { trigger: gebouw, start: 'top 82%', once: true } });

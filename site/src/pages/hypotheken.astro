@@ -1,7 +1,9 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
-import DienstKop from '../components/v3/DienstKop.astro';
-import Situaties from '../components/v3/Situaties.astro';
+import Opening from '../components/v3/Opening.astro';
+import Bewijs from '../components/v3/Bewijs.astro';
+import Kamers from '../components/v3/Kamers.astro';
+import BoogKamer from '../components/v3/BoogKamer.astro';
 import Kaartregel from '../components/v3/Kaartregel.astro';
 import Overstap from '../components/v3/Overstap.astro';
 import diensten from '../content/v3-diensten.json';
@@ -11,115 +13,115 @@ import teksten from '../content/teksten/v3-paginas.json';
 const d = diensten.find((x) => x.id === 'hypotheken')!;
 const p = d.pagina;
 const kaart = kaarten.kaarten.find((k) => k.id === p.kaart)!;
+const situaties = p.situaties.map((s) => ({ ...s, bel: s.id === 'scheiding' }));
 ---
 <Pagina titel={d.titel} omschrijving={p.lead}>
-  <DienstKop dienst={d} lead={p.lead} feiten={p.feiten} />
+  <Opening titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: teksten.dienst.kruimel }]} onderwerp={d.titel}>
+    <Bewijs items={p.bewijs} />
+  </Opening>
 
-  <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel} />
+  <Kamers id="situaties" titel={p.situaties_titel} lead={p.situaties_lead} items={situaties} knop={p.situaties_knop} onderwerp={d.titel} />
 
-  <section class="hy hy-advies" aria-labelledby="advies-kern">
-    <div class="maat hy-raster">
-      <h2 id="advies-kern" data-onthul>{p.advies_kern}</h2>
-      <div class="hy-rechts" data-onthul>
+  <section class="advies sectie" aria-labelledby="advies-titel">
+    <div class="maat midden">
+      <h2 id="advies-titel" data-regels>{p.advies_titel}</h2>
+      <p class="lead" data-onthul>{p.advies_lead}</p>
+      <div class="tekst" data-onthul>
         {p.advies.map((a) => <p>{a}</p>)}
       </div>
     </div>
   </section>
 
-  <section class="hy hy-kosten" id="kosten" aria-labelledby="kosten-titel">
-    <div class="maat hy-raster">
-      <h2 id="kosten-titel">{p.kosten_titel}</h2>
-      <div class="hy-rechts" data-onthul>
-        <p>{p.kosten}</p>
-        {kaarten.toon_prijzen && (
-          <div class="hy-prijzen">
-            <h3>{teksten.kaart.prijzen_titel}</h3>
-            <dl>
-              {kaart.prijzen.map((x) => (
-                <div>
-                  <dt>{x.situatie}</dt>
-                  <dd class="cijfer">{x.bedrag}</dd>
-                </div>
-              ))}
-            </dl>
-            <p>{teksten.kaart.prijzen_uitleg}</p>
-          </div>
-        )}
-        <Kaartregel ids={[p.kaart]} />
-      </div>
+  <BoogKamer id="kosten" kleur="navy" labelledby="kosten-titel">
+    <h2 id="kosten-titel" data-regels>{p.kosten_titel}</h2>
+    <p class="lead" data-onthul>{p.kosten_lead}</p>
+    <div class="tekst" data-onthul>
+      <p>{p.kosten}</p>
+      <p>{p.feiten[2]}.</p>
     </div>
-  </section>
+    {kaarten.toon_prijzen && (
+      <div class="prijzen" data-onthul>
+        <h3>{teksten.kaart.prijzen_titel}</h3>
+        <dl>
+          {kaart.prijzen.map((x) => (
+            <div>
+              <dt>{x.situatie}</dt>
+              <dd class="cijfer">{x.bedrag}</dd>
+            </div>
+          ))}
+        </dl>
+        <p>{teksten.kaart.prijzen_uitleg}</p>
+      </div>
+    )}
+    <div class="kaart" data-onthul>
+      <Kaartregel ids={[p.kaart]} licht midden />
+    </div>
+  </BoogKamer>
 
-  <Overstap volgende={p.volgende} onderwerp={d.titel} />
+  <Overstap volgende={p.volgende} onderwerp={d.titel} midden />
 </Pagina>
 
 <style>
-  .hy {
-    padding-top: clamp(3.5rem, 2.5rem + 4vw, 6rem);
-  }
-  .hy-raster {
+  .midden {
     display: grid;
-    gap: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+    justify-items: center;
+    text-align: center;
   }
-  .hy-kosten .hy-raster {
-    padding-top: clamp(3rem, 2.5rem + 2.5vw, 5rem);
-    border-top: 1px solid var(--vel-rand);
-  }
-  .hy-advies h2 {
-    max-width: 27ch;
-    font-size: clamp(2rem, 1.2rem + 3.3vw, 3.75rem);
+  h2 {
+    max-width: 20ch;
     text-wrap: balance;
   }
-  .hy-rechts {
+  .lead {
     max-width: 36rem;
+    margin-top: 1.5rem;
+    text-wrap: balance;
   }
-  .hy-rechts p {
-    font-size: var(--lead);
-    line-height: 1.55;
-  }
-  .hy-rechts :global(.kr) {
-    margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
-  }
-  .hy-prijzen {
+  .tekst {
+    display: grid;
+    gap: 1rem;
+    max-width: 36rem;
     margin-top: 2rem;
   }
-  .hy-prijzen h3 {
-    font-size: var(--h3-kaart);
-    line-height: 1.1;
-    color: var(--navy);
+  .tekst p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
   }
-  .hy-prijzen dl {
+  .advies {
+    padding-block: calc(var(--sectie) * 0.45) calc(var(--sectie) * 0.85);
+  }
+  .prijzen {
+    width: min(100%, 30rem);
+    margin-top: 2.5rem;
+    text-align: left;
+  }
+  .prijzen h3 {
+    font-size: var(--h3);
+    text-align: center;
+  }
+  .prijzen dl {
     margin-top: 1rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
   }
-  .hy-prijzen dl > div {
+  .prijzen dl > div {
     display: flex;
     justify-content: space-between;
     gap: 1.5rem;
     padding-block: 0.75rem;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   }
-  .hy-prijzen dd {
+  .prijzen dd {
     font-weight: 600;
-    color: var(--navy);
+    color: #fff;
     white-space: nowrap;
   }
-  .hy-prijzen p {
+  .prijzen p {
     margin-top: 0.75rem;
     font-size: var(--klein);
-    color: var(--tekst-zacht);
+    text-align: center;
   }
-
-  @media (min-width: 64rem) {
-    .hy-raster {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      column-gap: clamp(3rem, 6vw, 7rem);
-    }
-    .hy-advies h2 {
-      grid-column: 1 / -1;
-    }
-    .hy-rechts {
-      grid-column: 2;
-    }
+  .kaart {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
   }
 </style>
