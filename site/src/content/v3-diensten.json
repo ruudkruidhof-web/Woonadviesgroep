@@ -56,13 +56,7 @@
       "kosten_titel": "Wat het kost",
       "kosten_lead": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren.",
       "kosten": "Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
-      "kaart": "hypotheek",
-      "volgende": {
-        "titel": "Hoe het verder gaat, en wanneer je wat betaalt",
-        "tekst": "Van het eerste gesprek tot de nazorg, met bij elke stap wat we van je vragen en wat het kost.",
-        "href": "/werkwijze-en-kosten",
-        "label": "Werkwijze en kosten"
-      }
+      "kaart": "hypotheek"
     }
   },
   {
@@ -103,6 +97,7 @@
     "menu": "Woning, inboedel, aansprakelijkheid",
     "pagina": {
       "lead": "Tegenwoordig is er voor van alles een verzekering. Voor de belangrijke bezittingen zoals je woning of je inboedel, maar ook voor minder belangrijke eigendommen zoals je mobiele telefoon.",
+      "uitleg_titel": "Compleet en duidelijk ingelicht.",
       "alineas": [
         "Daarnaast zijn er nog talloze verzekeringen die juist niet voor je bezittingen bestemd zijn, zoals de aansprakelijkheidsverzekering, de overlijdensrisicoverzekering en talloze andere. Soms is het moeilijk om erachter te komen welke van deze verzekeringen voor jou van belang zijn, om maar niet te beginnen over waar je deze verzekeringen het beste kunt afsluiten.",
         "Door meer te weten te komen over je behoeften en wensen via uitgebreid persoonlijk contact ontdekken wij welke verzekeringen voor jou van toepassing zijn. Vervolgens vergelijken wij de verschillende aanbiedingen van de verzekeringsmaatschappijen. Op die manier zorgen wij ervoor dat je in alle gevallen compleet en duidelijk ingelicht wordt over de verschillende verzekeringsmogelijkheden, waardoor je met een goed gevoel je handtekening onder een verzekeringspolis kunt zetten.",
@@ -126,6 +121,7 @@
     "menu": "Krediet, sparen, schulden, schenkingen",
     "pagina": {
       "lead": "Je financiën zijn voortdurend in beweging. Van het ene op het andere moment kunnen je lasten zomaar veranderen, soms ten gevolge van positieve ontwikkelingen zoals een loonsverhoging of een schenking, maar af en toe ook vanwege onverwachte kosten of andere tegenvallers.",
+      "uitleg_titel": "Wij staan altijd voor je klaar.",
       "alineas": [
         "Wij doen er alles aan om je te helpen je financiën op orde te krijgen, ongeacht je situatie. Of je nou een krediet moet aanvragen of een spaarrekening wilt openen, een schuld moet aflossen of een schenking ontvangt, wij staan altijd voor je klaar."
       ],

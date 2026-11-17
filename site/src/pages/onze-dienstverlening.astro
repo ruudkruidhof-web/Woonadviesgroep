@@ -1,9 +1,9 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
-import PaginaKop from '../components/v3/PaginaKop.astro';
+import Opening from '../components/v3/Opening.astro';
 import Inhoud from '../components/v3/Inhoud.astro';
 import Kaarten from '../components/v3/Kaarten.astro';
-import Afsluiter from '../components/v3/Afsluiter.astro';
+import Overstap from '../components/v3/Overstap.astro';
 import Icoon from '../components/v3/Icoon.astro';
 import teksten from '../content/teksten/v3-paginas.json';
 import kaarten from '../content/v3-vergelijkingskaarten.json';
@@ -13,7 +13,7 @@ const t = teksten.dienstverlening;
 const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <PaginaKop titel={t.titel} lead={t.lead} />
+  <Opening titel={t.titel} lead={t.lead} acties={false} />
 
   <div class="maat od-raster">
     <div class="od-zij">
@@ -123,16 +123,18 @@ const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
     </div>
   </div>
 
-  <Afsluiter />
+  <Overstap volgende={teksten.afsluiter} midden />
 </Pagina>
 
 <style>
   .od-raster {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
   .od-tekst {
     max-width: 46rem;
+    overflow-wrap: break-word;
   }
   .od-tekst > section {
     padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);

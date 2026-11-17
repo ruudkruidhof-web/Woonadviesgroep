@@ -1,5 +1,6 @@
 ---
 import Icoon from './Icoon.astro';
+import Citaat from './Citaat.astro';
 import bedrijf from '../../content/bedrijf.json';
 
 const { id, titel, lead, items, knop, onderwerp } = Astro.props;
@@ -11,30 +12,47 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
       {lead && <p class="lead" data-onthul>{lead}</p>}
     </div>
 
-    <div class="km-gebouw">
+    <div class:list={['km-gebouw', { 'km-twee': items.length === 2 }]}>
       {items.map((s) => (
         <article class="km-kamer" id={s.id} aria-labelledby={`${s.id}-titel`} data-open>
           <h3 id={`${s.id}-titel`}>{s.titel}</h3>
           <p class="km-tekst">{s.tekst}</p>
-          <div class="km-acties">
-            {knop && (
-              <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={onderwerp}>
-                {knop}
-                <Icoon naam="dak" maat={12} />
-              </button>
-            )}
-            {s.href && (
-              <a href={s.href} class="knop knop-lijn">
-                {s.label}
-                <Icoon naam="dak" maat={12} />
-              </a>
-            )}
-            {s.bel && (
-              <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
-                <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
-              </a>
-            )}
-          </div>
+          {s.lijst && (
+            <ul class="km-lijst">
+              {s.lijst.map((x) => (
+                <li>
+                  <Icoon naam="dak" maat={10} />
+                  {x}
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.citaat && (
+            <div class="km-citaat">
+              <Citaat id={s.citaat} klein />
+            </div>
+          )}
+          {(knop || s.links) && (
+            <div class="km-acties">
+              {knop && (
+                <button type="button" class="knop knop-lijn" data-plan-open data-onderwerp={onderwerp}>
+                  {knop}
+                  <Icoon naam="dak" maat={12} />
+                </button>
+              )}
+              {s.links?.map((l) => (
+                <a href={l.href} class="tekstlink" data-plek={l.plek} target={l.extern ? '_blank' : undefined} rel={l.extern ? 'noopener' : undefined}>
+                  {l.label}
+                  <Icoon naam="dak" maat={11} />
+                </a>
+              ))}
+              {s.bel && (
+                <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+                  <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+                </a>
+              )}
+            </div>
+          )}
         </article>
       ))}
     </div>
@@ -76,6 +94,8 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
     border-radius: var(--radius);
     background: var(--vlak);
     scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+    hyphens: auto;
+    overflow-wrap: break-word;
   }
   .km-kamer:first-child {
     padding-top: calc(var(--boog) * 0.85);
@@ -104,6 +124,36 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
     line-height: 1.45;
     color: var(--navy);
     text-wrap: pretty;
+  }
+  .km-tekst:last-child {
+    margin-bottom: 0;
+  }
+  .km-twee .km-kamer:nth-child(2) {
+    --vlak: var(--wash-warm);
+    box-shadow: none;
+  }
+  .km-citaat {
+    padding-top: 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--navy) 12%, transparent);
+  }
+  .km-lijst {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1.5px solid color-mix(in srgb, var(--navy) 12%, transparent);
+    list-style: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .km-lijst li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .km-lijst :global(.dak) {
+    color: var(--sky-deep);
   }
   .km-acties {
     display: flex;
@@ -139,6 +189,9 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
   @media (min-width: 64rem) {
     .km-gebouw {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .km-twee {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .km-kamer,
     .km-kamer:first-child {

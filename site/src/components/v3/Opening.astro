@@ -4,11 +4,11 @@ import Icoon from './Icoon.astro';
 import home from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
 
-const { titel, lead, stappen = [], onderwerp, acties = true } = Astro.props;
+const { titel, hier = titel, lead, stappen = [], onderwerp, acties = true } = Astro.props;
 ---
 <section class="op" aria-labelledby="op-titel">
   <div class="maat op-vak">
-    <Kruimels hier={titel} stappen={stappen} />
+    <Kruimels hier={hier} stappen={stappen} />
     <h1 id="op-titel">{titel}</h1>
     {lead && <p class="lead op-lead">{lead}</p>}
     {acties && (
@@ -45,6 +45,7 @@ const { titel, lead, stappen = [], onderwerp, acties = true } = Astro.props;
     line-height: 0.98;
     letter-spacing: -0.03em;
     text-wrap: balance;
+    hyphens: auto;
   }
   .op-lead {
     max-width: 36rem;

@@ -5,7 +5,15 @@
     "kaart_titel": "Vergelijkingskaart",
     "andere_titel": "Alle kennis onder één dak",
     "daarna_titel": "Ook daarna",
-    "hier": "Hier ben je nu"
+    "hier": "Hier ben je nu",
+    "verwachten_titel": "Wat je van ons mag verwachten",
+    "kosten_titel": "Wat het kost",
+    "volgende": {
+      "titel": "Hoe het verder gaat, en wanneer je wat betaalt",
+      "tekst": "Van het eerste gesprek tot de nazorg, met bij elke stap wat we van je vragen en wat het kost.",
+      "href": "/werkwijze-en-kosten",
+      "label": "Werkwijze en kosten"
+    }
   },
   "kaart": {
     "dienst": "Wat we doen",
@@ -31,7 +39,9 @@
   },
   "afsluiter": {
     "titel": "Maar laten we beginnen met stap 1!",
-    "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek."
+    "tekst": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek.",
+    "href": "/contact",
+    "label": "Contact"
   },
   "werkwijze": {
     "meta_titel": "Werkwijze en kosten",

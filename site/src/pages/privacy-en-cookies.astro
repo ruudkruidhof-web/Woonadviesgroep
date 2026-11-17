@@ -1,20 +1,20 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
-import PaginaKop from '../components/v3/PaginaKop.astro';
+import Opening from '../components/v3/Opening.astro';
 import Inhoud from '../components/v3/Inhoud.astro';
 import teksten from '../content/teksten/v3-paginas.json';
 
 const t = teksten.privacy;
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <PaginaKop titel={t.titel}>
+  <Opening titel={t.titel} acties={false}>
     <section class="pv-kort" aria-labelledby="pv-kort-titel">
       <h2 id="pv-kort-titel">{t.kort_titel}</h2>
       <ul>
         {t.kort.map((k) => <li>{k}</li>)}
       </ul>
     </section>
-  </PaginaKop>
+  </Opening>
 
   <div class="maat pv-raster">
     <div class="pv-zij">
@@ -34,8 +34,9 @@ const t = teksten.privacy;
 
 <style>
   .pv-kort {
-    max-width: 44rem;
-    margin-top: 2rem;
+    width: min(100%, 44rem);
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    text-align: left;
     padding: clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.25rem, 1rem + 1.5vw, 2rem);
     border-radius: var(--radius);
     background: var(--sky-wash);
