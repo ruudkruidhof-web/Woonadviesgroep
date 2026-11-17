@@ -20,10 +20,7 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
           {s.lijst && (
             <ul class="km-lijst">
               {s.lijst.map((x) => (
-                <li>
-                  <Icoon naam="dak" maat={10} />
-                  {x}
-                </li>
+                <li>{x}</li>
               ))}
             </ul>
           )}
@@ -149,11 +146,16 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
   }
   .km-lijst li {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.6rem;
   }
-  .km-lijst :global(.dak) {
-    color: var(--sky-deep);
+  .km-lijst li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.6rem;
+    height: 1.5px;
+    background: var(--sky-deep);
+    translate: 0 -0.3em;
   }
   .km-acties {
     display: flex;

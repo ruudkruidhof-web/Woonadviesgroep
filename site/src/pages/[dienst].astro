@@ -7,7 +7,6 @@ import BoogKamer from '../components/v3/BoogKamer.astro';
 import Prijzen from '../components/v3/Prijzen.astro';
 import Kaartregel from '../components/v3/Kaartregel.astro';
 import Overstap from '../components/v3/Overstap.astro';
-import Icoon from '../components/v3/Icoon.astro';
 import diensten from '../content/v3-diensten.json';
 import kaarten from '../content/v3-vergelijkingskaarten.json';
 import teksten from '../content/teksten/v3-paginas.json';
@@ -51,10 +50,7 @@ const tarief = teksten.dienstverlening.beloning[0];
       {!kaart && (
         <ul class="situaties" data-onthul>
           {d.situaties.map((s) => (
-            <li>
-              <Icoon naam="dak" maat={11} />
-              {s}
-            </li>
+            <li>{s}</li>
           ))}
         </ul>
       )}
@@ -105,7 +101,7 @@ const tarief = teksten.dienstverlening.beloning[0];
     text-wrap: pretty;
   }
   .uitleg {
-    padding-top: calc(var(--sectie) * 0.35);
+    padding-block: calc(var(--sectie) * 0.35) calc(var(--sectie) * 0.4);
   }
   .uitleg .lead:first-child {
     margin-top: 0;
@@ -165,8 +161,11 @@ const tarief = teksten.dienstverlening.beloning[0];
     font-weight: 600;
     color: var(--navy);
   }
-  .situaties :global(.dak) {
-    color: var(--sky-deep);
+  .situaties li::before {
+    content: '';
+    width: 0.6rem;
+    height: 1.5px;
+    background: var(--sky-deep);
   }
   .kaart {
     margin-top: 2.5rem;

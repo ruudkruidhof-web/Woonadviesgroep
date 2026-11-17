@@ -262,3 +262,20 @@ Na Ruuds oordeel over de proef ("totaal niet passend bij de homepage") zijn Hypo
 | Kennismaking vrijblijvend; Tarief vooraf afgesproken (bewijsregel Werkwijze) | SAMENGESTELD | werkwijze (kosten per stap) |
 | Wat wij doen en wat het kost; Wat we van jou vragen (onder Hoofd en Hart op Werkwijze) | FUNCTIONEEL | banen van de route |
 | Vooraf afgesproken; Vrijblijvend (koppen in Wat het kost, richting 2) | LETTERLIJK / SAMENGESTELD | werkwijze (kosten per stap) |
+
+## Gekozen stijl voor de onderliggende pagina's (17 nov 2026)
+
+Ruud koos de rustige opening met kamers. Alle teksten komen uit de bestaande regels hierboven; nieuw of verplaatst is alleen het volgende.
+
+| Regel | Label | Bron |
+|---|---|---|
+| Kernzin per stap op Werkwijze en kosten (`kern`) | LETTERLIJK | de eerste zin van de bestaande staptekst, opgeknipt; de rest staat in `tekst` |
+| Compleet en duidelijk ingelicht. (kop op Verzekeringen) | LETTERLIJK | verzekeringen, uit "dat je in alle gevallen compleet en duidelijk ingelicht wordt" |
+| Wij staan altijd voor je klaar. (kop op Financiën) | LETTERLIJK | financien, het slot van de bestaande alinea |
+| Wat je van ons mag verwachten (kop van de kamers op de dienstpagina's) | LETTERLIJK (je-vorm) | home, zoals op Over ons |
+| Kamers Wat we doen, Vergelijking, Onderhoud daarna met hun tekst en de productlijst | LETTERLIJK | de eigen vergelijkingskaarten (`v3-vergelijkingskaarten.json`), labels uit `teksten.kaart` |
+| Vooraf met je afgesproken. en de tekst over het vaste tarief in Wat het kost op Pensioenen en Verzekeringen | LETTERLIJK | vergelijkingskaart en Onze dienstverlening |
+| Maar laten we beginnen met stap 1! met de zin eronder, als overstap op Over ons en Onze dienstverlening | LETTERLIJK | onze werkwijze (`afsluiter`), nu met een link naar Contact |
+| Plan een gesprek, Plan een videogesprek, Route plannen, Of bel | FUNCTIONEEL | zoals op de vorige contactpagina en de situaties |
+
+Weggelaten op de onderliggende pagina's: de reviews bij de situaties en op de dienstpagina's, en de review van Sofie op Over ons (Ruud, 17 nov 2026). Op Over ons staat per adviseur nog één review.
