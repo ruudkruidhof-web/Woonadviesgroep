@@ -91,7 +91,6 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
     border-radius: var(--radius);
     background: var(--vlak);
     scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
-    hyphens: auto;
     overflow-wrap: break-word;
   }
   .km-kamer:first-child {
@@ -185,6 +184,12 @@ const { id, titel, lead, items, knop, onderwerp } = Astro.props;
   @media (max-width: 47.99rem) {
     .km-acties .knop {
       width: 100%;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .km-kamer {
+      hyphens: auto;
     }
   }
 
