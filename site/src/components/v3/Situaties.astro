@@ -119,6 +119,10 @@ const Kop = kopniveau;
       gap: 0;
     }
     .sit-rij li {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      align-items: start;
       padding-inline: clamp(1.25rem, 3vw, 3rem);
     }
     .sit-rij li:first-child {

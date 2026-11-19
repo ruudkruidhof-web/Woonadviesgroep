@@ -62,7 +62,7 @@ const laatste = stappen.length - 1;
   .ro-lijn {
     position: absolute;
     top: calc(var(--cijfer) * 0.5);
-    bottom: calc(var(--cijfer) * 0.5);
+    bottom: 0;
     left: calc(var(--cijfer) * 0.3);
     width: 1.5px;
     background: rgba(255, 255, 255, 0.14);
@@ -83,9 +83,19 @@ const laatste = stappen.length - 1;
   .ro-stap {
     position: relative;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.75rem;
     padding-left: calc(var(--cijfer) * 0.6 + 1.5rem);
     scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .ro-stap:last-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    left: 0;
+    width: calc(var(--cijfer) * 0.6);
+    background: var(--navy);
   }
   .ro-cijfer {
     position: absolute;
@@ -170,6 +180,12 @@ const laatste = stappen.length - 1;
     }
   }
 
+  @media (max-width: 30rem) {
+    .ro-kern {
+      hyphens: auto;
+    }
+  }
+
   @media (min-width: 64rem) {
     .ro-lijn {
       left: calc(var(--cijfer) * 0.35);
@@ -179,7 +195,8 @@ const laatste = stappen.length - 1;
       gap: clamp(3rem, 6vw, 6rem);
       padding-left: calc(var(--cijfer) * 0.7 + clamp(2.5rem, 5vw, 5rem));
     }
-    .ro-cijfer {
+    .ro-cijfer,
+    .ro-stap:last-child::before {
       width: calc(var(--cijfer) * 0.7);
     }
     .ro-zij {
