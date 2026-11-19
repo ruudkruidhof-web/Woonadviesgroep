@@ -18,7 +18,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(groen|v1|fris|hypotheken-b)(\/|$)/.test(new URL(page).pathname),
+      filter: (page) => !/\/(groen|v1|fris)(\/|$)/.test(new URL(page).pathname),
     }),
   ],
 });

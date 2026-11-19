@@ -3,13 +3,11 @@ import Icoon from './Icoon.astro';
 import Tekening from './Tekening.astro';
 import bedrijf from '../../content/bedrijf.json';
 
-const { titel, items, knop, onderwerp, kopniveau = 'h2' } = Astro.props;
-const Kop = kopniveau;
+const { titel, items, knop, onderwerp } = Astro.props;
 ---
 <section class="sit kamer" id="situaties" aria-labelledby="sit-titel" data-kamer>
   <div class="maat">
-    <slot />
-    <Kop id="sit-titel" class="sit-titel" data-regels>{titel}</Kop>
+    <h2 id="sit-titel" class="sit-titel" data-regels>{titel}</h2>
 
     <ul class="sit-rij">
       {items.map((s) => (
