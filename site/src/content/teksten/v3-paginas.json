@@ -45,7 +45,6 @@
         "id": "stap-kennismaken",
         "titel": "Kennismaken",
         "kern": "Je bent van harte welkom voor een vrijblijvend kennismakingsgesprek.",
-        "tekst": "Met jou kijken we op hoofdlijnen wat je wensen en mogelijkheden zijn.",
         "jij": [
           {
             "titel": "Waar we afspreken",
@@ -61,7 +60,6 @@
         "id": "stap-verdiepen",
         "titel": "Verdiepen",
         "kern": "Aan de hand van een aantal financiële scenario’s kijken we of het beter en misschien wel goedkoper kan.",
-        "tekst": "Het doel is dat voor jou een helder beeld wordt geschetst.",
         "jij": [
           {
             "titel": "Juiste en volledige informatie",
@@ -81,7 +79,6 @@
         "id": "stap-uitvoeren",
         "titel": "Uitvoeren",
         "kern": "Wij adviseren je aanbieders die zowel een goede prijs als goede voorwaarden hanteren.",
-        "tekst": "Als het financiële beeld compleet is, brengen we het plan ten uitvoer.",
         "jij": [
           {
             "titel": "Informatie doornemen",
@@ -97,7 +94,6 @@
         "id": "stap-ook-daarna",
         "titel": "Ook daarna",
         "kern": "Wij begeleiden je na aanschaf van het gewenste financiële product.",
-        "tekst": "Ook staan wij je bij wanneer je veranderingen wilt aanbrengen in dit product.",
         "jij": [
           {
             "titel": "Wijzigingen doorgeven",
@@ -117,8 +113,7 @@
       "tekst": "Maak kennis met Dennis en Marijke, en lees wat klanten over hen zeggen.",
       "href": "/over-ons",
       "label": "Over ons"
-    },
-    "mini_label": "De stappen in het kort"
+    }
   },
   "over": {
     "meta_titel": "Over ons",
@@ -173,18 +168,15 @@
     "manieren": [
       {
         "id": "thuis",
-        "titel": "Bij jou thuis",
-        "tekst": "Dat kan overdag of ’s avonds."
+        "titel": "Bij jou thuis"
       },
       {
         "id": "kantoor",
-        "titel": "Op kantoor",
-        "tekst": "We ontvangen je graag in ons kantoor aan de Oostmaaslaan 241B in Rotterdam."
+        "titel": "Op kantoor"
       },
       {
         "id": "video",
-        "titel": "Via video",
-        "tekst": "Advies krijgen kan ook in een videogesprek."
+        "titel": "Via video"
       }
     ],
     "formulier_titel": "Plan een vrijblijvend gesprek",
@@ -193,7 +185,6 @@
     "fout_naam": "Vul je naam in.",
     "fout_contact": "Vul je telefoonnummer of e-mailadres in.",
     "patroon": "\\s*(\\+?[0-9][0-9 \\(\\)\\-]{7,}|[^@\\s]+@[^@\\s]+\\.[^@\\s]+)\\s*",
-    "bel": "Bel ons",
     "whatsapp": "Stuur een WhatsApp"
   },
   "dienstverlening": {

@@ -13,55 +13,35 @@ const t = teksten.contact;
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
   <section class="ct" aria-labelledby="ct-titel">
     <div class="maat ct-vak">
-      <div class="ct-links">
+      <div class="ct-kop">
         <Kruimels hier={t.titel} />
         <h1 id="ct-titel">{t.titel}</h1>
         <p class="lead">{t.lead}</p>
-
-        <div class="ct-kaartje">
-          <Visitekaartje />
-        </div>
-
-        <ul class="ct-kanalen">
-          <li>
-            <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
-              <Icoon naam="bel" maat={15} />
-              {t.bel}
-            </a>
-          </li>
-          <li>
-            <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn">
-              <Icoon naam="whatsapp" maat={16} />
-              {t.whatsapp}
-            </a>
-          </li>
-        </ul>
       </div>
 
       <form id="plan-formulier" class="ct-form" data-hb-lead data-ct-form>
         <h2>{t.formulier_titel}</h2>
-
+        <div class="ct-twee">
+          <label>
+            Je naam
+            <input type="text" name="naam" autocomplete="name" required data-fout={t.fout_naam} />
+          </label>
+          <label>
+            Telefoon of e-mail
+            <input type="text" name="contact" inputmode="email" required pattern={t.patroon} data-fout={t.fout_contact} />
+          </label>
+        </div>
         <fieldset class="ct-plek">
           <legend>{t.plek_label}</legend>
-          <div class="ct-kamers">
+          <div class="ct-plekken">
             {t.manieren.map((m, i) => (
-              <label class="ct-kamer">
+              <label>
                 <input type="radio" name="plek" value={m.titel} checked={i === 0} />
-                <span class="ct-kamer-titel">{m.titel}</span>
-                <span class="ct-kamer-tekst">{m.tekst}</span>
+                <span>{m.titel}</span>
               </label>
             ))}
           </div>
         </fieldset>
-
-        <label>
-          Je naam
-          <input type="text" name="naam" autocomplete="name" required data-fout={t.fout_naam} />
-        </label>
-        <label>
-          Telefoon of e-mail
-          <input type="text" name="contact" inputmode="email" required pattern={t.patroon} data-fout={t.fout_contact} />
-        </label>
         <label>
           Waar gaat het over?
           <select name="onderwerp">
@@ -70,8 +50,8 @@ const t = teksten.contact;
           </select>
         </label>
         <label>
-          Je vraag <span>(niet verplicht)</span>
-          <textarea name="bericht" rows="3"></textarea>
+          Je vraag <span class="ct-hint">(niet verplicht)</span>
+          <textarea name="bericht" rows="2"></textarea>
         </label>
         <div class="ct-verstuur">
           <button type="submit" class="knop knop-vol">{home.contact.formulier_knop}</button>
@@ -79,56 +59,66 @@ const t = teksten.contact;
         </div>
         <p class="ct-melding" role="status" data-ct-melding data-tekst={home.concept_melding}></p>
       </form>
+
+      <div class="ct-kaartje">
+        <Visitekaartje />
+        <a href={`https://wa.me/${bedrijf.whatsapp}`} class="tekstlink">
+          <Icoon naam="whatsapp" maat={16} />
+          {t.whatsapp}
+        </a>
+      </div>
     </div>
   </section>
 </Pagina>
 
 <style>
   .ct {
-    padding-block: clamp(3rem, 2rem + 4vw, 6rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+    padding-block: clamp(2rem, 1.5rem + 2.5vw, 4rem) clamp(4rem, 3rem + 4vw, 6.5rem);
   }
   .ct-vak {
     display: grid;
-    gap: clamp(3rem, 2.5rem + 3vw, 4.5rem);
-  }
-  .ct-links {
-    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2rem, 1.5rem + 2vw, 3rem);
   }
   .ct h1 {
-    margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+    margin-top: clamp(1rem, 0.5rem + 2vw, 2.25rem);
     font-size: min(clamp(3.25rem, 1.8rem + 5.8vw, 6.75rem), 15vw);
     line-height: 0.98;
     letter-spacing: -0.03em;
   }
   .ct .lead {
     max-width: 26rem;
-    margin-top: 1.75rem;
+    margin-top: 1.5rem;
     text-wrap: balance;
   }
   .ct-kaartje {
-    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: 0.75rem;
+    max-width: 36rem;
   }
-  .ct-kanalen {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin: 1.75rem 0 0;
-    padding: 0;
-    list-style: none;
+  .ct-kaartje :global(.c-kaart) {
+    width: 100%;
   }
 
   .ct-form {
     display: grid;
-    gap: 1.1rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
     align-content: start;
-    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
     border-radius: 18px;
     background: #fff;
     box-shadow: 0 0 0 1px var(--line);
   }
   .ct-form h2 {
-    font-size: var(--h2-blok);
-    line-height: 1.08;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+  }
+  .ct-twee {
+    display: grid;
+    gap: 1rem;
   }
   .ct-form label,
   .ct-form legend {
@@ -137,15 +127,18 @@ const t = teksten.contact;
     font-weight: 700;
     color: var(--navy);
   }
-  .ct-form label span:not([class]) {
+  .ct-form legend {
+    padding: 0;
+  }
+  .ct-hint {
     font-weight: 400;
     color: var(--tekst-zacht);
   }
   .ct-form :is(input:not([type='radio']), select, textarea) {
     display: block;
     width: 100%;
-    margin-top: 0.4rem;
-    padding: 0.8rem 1rem;
+    margin-top: 0.35rem;
+    padding: 0.7rem 1rem;
     border: 1.5px solid color-mix(in srgb, var(--navy) 55%, #fff);
     border-radius: 10px;
     background: #fff;
@@ -170,33 +163,25 @@ const t = teksten.contact;
     padding: 0;
     border: 0;
   }
-  .ct-kamers {
-    --boog: 1.75rem;
+  .ct-plekken {
     display: grid;
-    gap: 8px;
-    margin-top: 0.6rem;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
   }
-  .ct-form .ct-kamer {
+  .ct-plekken label {
     position: relative;
-    display: grid;
-    align-content: start;
-    gap: 0.3rem;
-    min-height: 2.75rem;
-    padding: 1rem 2.75rem 1rem 1.1rem;
-    border-radius: var(--radius);
-    background: var(--sky-wash);
-    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 3rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 22%, transparent);
+    font-weight: 600;
     cursor: pointer;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
   }
-  .ct-form .ct-kamer:nth-child(2) {
-    background: #fff;
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
-  .ct-form .ct-kamer:nth-child(3) {
-    background: var(--wash-warm);
-  }
-  .ct-kamer input {
+  .ct-plekken input {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -205,45 +190,32 @@ const t = teksten.contact;
     opacity: 0;
     cursor: pointer;
   }
-  .ct-kamer::after {
+  .ct-plekken label::before {
     content: '';
-    position: absolute;
-    top: 1.1rem;
-    right: 1rem;
+    flex-shrink: 0;
     width: 1.125rem;
     height: 1.125rem;
     border-radius: 50%;
     box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 45%, transparent);
   }
-  .ct-form .ct-kamer:has(:checked) {
+  .ct-plekken label:has(:checked) {
+    background: var(--sky-wash);
     box-shadow: inset 0 0 0 2px var(--navy);
   }
-  .ct-kamer:has(:checked)::after {
+  .ct-plekken label:has(:checked)::before {
     background: var(--navy);
-    box-shadow: inset 0 0 0 3.5px #fff, 0 0 0 1.5px var(--navy);
+    box-shadow: inset 0 0 0 3.5px var(--sky-wash), 0 0 0 1.5px var(--navy);
   }
-  .ct-kamer:has(:focus-visible) {
+  .ct-plekken label:has(:focus-visible) {
     outline: 2px solid var(--sky-deep);
     outline-offset: 3px;
-  }
-  .ct-kamer-titel {
-    font-family: var(--font-kop);
-    font-size: 1.25rem;
-    line-height: 1.15;
-    color: var(--navy);
-  }
-  .ct-kamer-tekst {
-    font-size: var(--klein);
-    line-height: 1.45;
-    color: var(--navy-soft);
   }
 
   .ct-verstuur {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem 1.5rem;
-    margin-top: 0.25rem;
+    gap: 0.5rem 1.5rem;
   }
   .ct-groet {
     font-family: var(--font-kop);
@@ -263,8 +235,9 @@ const t = teksten.contact;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .ct-links > *,
-    .ct-form {
+    .ct-kop > *,
+    .ct-form,
+    .ct-kaartje {
       animation: ct-in 0.9s var(--uit) both;
     }
     .ct h1 {
@@ -273,8 +246,8 @@ const t = teksten.contact;
     .ct .lead {
       animation-delay: 0.2s;
     }
-    .ct-kanalen,
-    .ct-form {
+    .ct-form,
+    .ct-kaartje {
       animation-delay: 0.3s;
     }
   }
@@ -286,43 +259,35 @@ const t = teksten.contact;
   }
 
   @media (max-width: 47.99rem) {
-    .ct-kanalen li,
-    .ct-kanalen .knop,
     .ct-verstuur .knop {
       width: 100%;
     }
   }
 
-  @media (min-width: 40rem) {
-    .ct-kamers {
+  @media (min-width: 36rem) {
+    .ct-twee {
+      grid-template-columns: 1fr 1fr;
+    }
+    .ct-plekken {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    .ct-form .ct-kamer {
-      padding: 2.4rem 1rem 1.1rem;
-    }
-    .ct-form .ct-kamer:first-child {
-      border-radius: 5rem var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
-    }
-    .ct-form .ct-kamer:last-child {
-      border-radius: var(--radius) 5rem var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
-    }
-    .ct-kamer::after {
-      top: auto;
-      bottom: 1rem;
-    }
-    .ct-kamer-tekst {
-      padding-bottom: 1.75rem;
     }
   }
 
   @media (min-width: 64rem) {
     .ct-vak {
       grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      gap: clamp(3rem, 6vw, 6.5rem);
+      grid-template-rows: auto 1fr;
+      gap: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem) clamp(3rem, 6vw, 6.5rem);
       align-items: start;
     }
     .ct-form {
-      margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      margin-top: 2.75rem;
+    }
+    .ct-kaartje {
+      grid-column: 1;
+      grid-row: 2;
     }
   }
 </style>

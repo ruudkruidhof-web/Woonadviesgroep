@@ -71,25 +71,11 @@
   },
   "concept_melding": "Dit is een conceptversie van de nieuwe site, dus je bericht is nog niet verstuurd. Bel of mail ons gerust, dan helpen we je direct.",
   "voet": {
-    "documenten_titel": "Documenten",
-    "documenten": [
-      {
-        "titel": "Dienstenwijzer",
-        "url": "https://woonadviesgroep.nl/wp-content/uploads/Dienstenwijzer.pdf"
-      },
-      {
-        "titel": "Vergelijkingskaart Hypotheek",
-        "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Hypotheek-2.pdf"
-      },
-      {
-        "titel": "Vergelijkingskaart Risico’s afdekken",
-        "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Risicos-afdekken.pdf"
-      },
-      {
-        "titel": "Vergelijkingskaart Vermogen opbouwen",
-        "url": "https://woonadviesgroep.nl/wp-content/uploads/Vergelijkingskaart-Vermogen-opbouwen.pdf"
-      }
-    ],
+    "kaarten_titel": "Vergelijkingskaarten",
+    "kantoor_titel": "Kantoor",
+    "route": "Route plannen",
+    "registraties_titel": "Registraties",
+    "handelsnaam": "handelsnaam van DEMA Financieel Advies B.V.",
     "dienstverlening": "Onze dienstverlening"
   }
 }

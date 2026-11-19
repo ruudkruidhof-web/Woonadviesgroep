@@ -21,21 +21,18 @@ const laatste = stappen.length - 1;
             <div class="ro-wat" data-onthul>
               <h3>{i < laatste && <span class="sr-alleen">Stap {i + 1}, </span>}{s.titel}</h3>
               <p class="ro-kern">{s.kern}</p>
-              <p class="ro-tekst">{s.tekst}</p>
-            </div>
-
-            <div class="ro-zij" data-onthul>
-              <div class="ro-kosten">
-                <h4>{banen.kosten}</h4>
-                <p class="ro-woord">{s.kosten.kort}</p>
-                <p>{s.kosten.tekst}</p>
-              </div>
               <div class="ro-jij">
                 <h4>{banen.jij}</h4>
                 {s.jij.map((j) => (
                   <p><strong>{j.titel}.</strong> {j.tekst}</p>
                 ))}
               </div>
+            </div>
+
+            <div class="ro-kosten" data-onthul>
+              <h4>{banen.kosten}</h4>
+              <p class="ro-woord">{s.kosten.kort}</p>
+              <p>{s.kosten.tekst}</p>
             </div>
           </li>
         ))}
@@ -133,24 +130,29 @@ const laatste = stappen.length - 1;
     color: var(--sky-wash);
     text-wrap: balance;
   }
-  .ro-tekst {
-    max-width: 30rem;
-    margin-top: 1rem;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-  }
-  .ro-zij {
-    display: grid;
-    gap: 1.5rem;
-    align-content: start;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-  }
-  .ro-zij h4 {
+  .ro h4 {
     font-family: var(--font-tekst);
     font-size: var(--klein);
     font-weight: 600;
     color: var(--sky);
+  }
+  .ro-jij {
+    max-width: 34rem;
+    margin-top: 1.75rem;
+  }
+  .ro-jij p,
+  .ro-kosten p:not(.ro-woord) {
+    margin-top: 0.4rem;
+    font-size: var(--ui);
+    line-height: 1.6;
+  }
+  .ro-jij strong {
+    color: #fff;
+  }
+  .ro-kosten {
+    align-self: start;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
   }
   .ro-woord {
     margin-top: 0.35rem;
@@ -159,14 +161,8 @@ const laatste = stappen.length - 1;
     line-height: 1.15;
     color: #fff;
   }
-  .ro-zij p:not(.ro-woord) {
-    max-width: 24rem;
-    margin-top: 0.5rem;
-    font-size: var(--ui);
-    line-height: 1.6;
-  }
-  .ro-zij strong {
-    color: #fff;
+  .ro-kosten p:not(.ro-woord) {
+    max-width: 22rem;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -199,8 +195,8 @@ const laatste = stappen.length - 1;
     .ro-stap:last-child::before {
       width: calc(var(--cijfer) * 0.7);
     }
-    .ro-zij {
-      padding-top: 0;
+    .ro-kosten {
+      padding-top: 0.35rem;
       padding-left: clamp(1.5rem, 3vw, 3rem);
       border-top: 0;
       border-left: 1px solid rgba(255, 255, 255, 0.14);

@@ -4,7 +4,7 @@ import Kaartregel from './Kaartregel.astro';
 import data from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3-paginas.json';
 
-const { kop, rijen, kaarten, prijzen } = Astro.props;
+const { kop, rijen, kaarten, prijzen, gestapeld = false } = Astro.props;
 const k = teksten.kaart;
 const lijst = data.toon_prijzen && prijzen ? data.kaarten.filter((x) => prijzen.includes(x.id)) : [];
 const regels = lijst.length === 1
@@ -17,7 +17,7 @@ const regels = lijst.length === 1
     <p>{kop}</p>
   </div>
 
-  <dl class="kk-rijen">
+  <dl class:list={['kk-rijen', { 'kk-gestapeld': gestapeld }]}>
     {rijen.map((r: { label: string; waarde?: string; tekst?: string }) => (
       <div>
         <dt>{r.label}</dt>
@@ -137,8 +137,19 @@ const regels = lijst.length === 1
     color: var(--tekst-zacht);
   }
 
+  .kk-gestapeld dt {
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+  .kk-gestapeld dd {
+    margin-top: 0.35rem;
+  }
+
   @media (min-width: 30rem) {
-    .kk-rijen > div {
+    .kk-rijen:not(.kk-gestapeld) > div {
       grid-template-columns: 9.5rem minmax(0, 1fr);
       align-items: baseline;
     }

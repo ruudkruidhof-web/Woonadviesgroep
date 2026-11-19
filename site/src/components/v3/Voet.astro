@@ -2,18 +2,26 @@
 import Icoon from './Icoon.astro';
 import Merk from '../Merk.astro';
 import diensten from '../../content/v3-diensten.json';
+import kaarten from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3.json';
 import bedrijf from '../../content/bedrijf.json';
 
 const t = teksten.voet;
+const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;
 ---
 <footer class="voet">
   <div class="maat voet-top">
     <p class="voet-zin">{bedrijf.tagline}</p>
-    <a href={`tel:${bedrijf.telefoon_link}`} class="voet-bel">
-      <span class="cijfer">{bedrijf.telefoon}</span>
-      <Icoon naam="dak" maat={18} />
-    </a>
+    <div class="voet-zegel" aria-hidden="true">
+      <Merk breedte={220} />
+    </div>
+    <p class="voet-direct">
+      <a href={`tel:${bedrijf.telefoon_link}`} class="voet-bel">
+        <span class="cijfer">{bedrijf.telefoon}</span>
+        <Icoon naam="dak" maat={18} />
+      </a>
+      <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
+    </p>
   </div>
 
   <div class="maat voet-raster">
@@ -24,54 +32,58 @@ const t = teksten.voet;
       </ul>
     </nav>
     <div>
-      <h2>{t.documenten_titel}</h2>
+      <h2>{t.kaarten_titel}</h2>
       <ul>
-        {t.documenten.map((d) => <li><a href={d.url} target="_blank" rel="noopener">{d.titel}</a></li>)}
+        {kaarten.kaarten.map((k) => (
+          <li>
+            <a href={k.url} target="_blank" rel="noopener">
+              <span class="sr-alleen">Vergelijkingskaart </span>{k.titel}<span class="sr-alleen"> (pdf)</span>
+            </a>
+          </li>
+        ))}
       </ul>
     </div>
     <div>
-      <h2>Contact</h2>
-      <address>
-        {bedrijf.adres_straat}<br />{bedrijf.adres_plaats}<br />
-        <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
-      </address>
+      <h2>{t.kantoor_titel}</h2>
+      <ul>
+        <li>{bedrijf.adres_straat}</li>
+        <li>{bedrijf.adres_plaats}</li>
+        <li><a href={route} target="_blank" rel="noopener">{t.route}</a></li>
+      </ul>
     </div>
     <div>
-      <h2><a href="/onze-dienstverlening#registraties">Registraties</a></h2>
-      <p class="cijfer">KvK {bedrijf.kvk}<br />AFM {bedrijf.afm}<br />Kifid {bedrijf.kifid}</p>
+      <h2>{t.registraties_titel}</h2>
+      <ul class="cijfer">
+        <li>AFM {bedrijf.afm}</li>
+        <li>Kifid {bedrijf.kifid}</li>
+        <li>KvK {bedrijf.kvk}</li>
+      </ul>
     </div>
   </div>
 
   <div class="maat voet-onder">
-    <p>&copy; {new Date().getFullYear()} {bedrijf.naam}</p>
+    <p>&copy; {new Date().getFullYear()} {bedrijf.naam}, {t.handelsnaam}</p>
     <ul>
-      <li><a href="/onze-dienstverlening">Onze dienstverlening</a></li>
+      <li><a href="/onze-dienstverlening">{t.dienstverlening}</a></li>
       <li><a href="/onze-dienstverlening#klachten">Klachten</a></li>
       <li><a href="/privacy-en-cookies">Privacy en cookies</a></li>
     </ul>
-  </div>
-
-  <div class="voet-zegel" aria-hidden="true">
-    <Merk breedte={220} />
   </div>
 </footer>
 
 <style>
   .voet {
-    position: relative;
-    overflow: clip;
-    padding: clamp(4.5rem, 3rem + 6vw, 8rem) 0 6rem;
+    padding: clamp(4rem, 3rem + 5vw, 7rem) 0 clamp(1.5rem, 1rem + 1vw, 2.25rem);
     background: #002c40;
     color: #bcd2e1;
     font-size: var(--ui);
   }
-  .voet > .maat {
-    position: relative;
-    z-index: 1;
-  }
   .voet-top {
-    padding-bottom: clamp(3rem, 2rem + 4vw, 5rem);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) 2rem;
+    align-items: start;
+    padding-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
   }
   .voet-zin {
     max-width: 15ch;
@@ -82,12 +94,32 @@ const t = teksten.voet;
     color: #fff;
     text-wrap: balance;
   }
-  .voet-bel {
+  .voet-zegel {
+    display: grid;
+    place-items: center;
+    width: clamp(4.5rem, 2.5rem + 7vw, 9rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--paper);
+  }
+  .voet-zegel :global(svg) {
+    width: 58%;
+    height: auto;
+  }
+  .voet-direct {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .voet-direct a {
     display: inline-flex;
     align-items: center;
-    gap: 0.9rem;
     min-height: 2.75rem;
-    margin-top: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+  }
+  .voet-bel {
+    gap: 0.9rem;
     font-family: var(--font-kop);
     font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
     color: var(--sky);
@@ -105,9 +137,10 @@ const t = teksten.voet;
 
   .voet-raster {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
-    gap: 2.5rem 2rem;
-    padding-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+    padding-block: clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-block: 1px solid rgba(255, 255, 255, 0.14);
   }
   .voet h2 {
     font-family: var(--font-tekst);
@@ -116,42 +149,25 @@ const t = teksten.voet;
     letter-spacing: 0;
     color: #fff;
   }
-  .voet h2 a {
-    display: inline-flex;
+  .voet ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .voet-raster ul {
+    margin-top: 0.35rem;
+  }
+  .voet-raster li {
+    display: flex;
     align-items: center;
     min-height: 2.75rem;
-    margin-block: -0.75rem;
-    color: inherit !important;
+    line-height: 1.3;
   }
-  .voet address a,
+  .voet-raster a,
   .voet-onder a {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-  }
-  .voet ul {
-    padding: 0;
-    list-style: none;
-  }
-  .voet-raster ul,
-  .voet-raster address,
-  .voet-raster h2 + p {
-    margin-top: 0.9rem;
-    line-height: 1.85;
-  }
-  .voet-raster ul {
-    margin-top: 0.4rem;
-  }
-  .voet-raster ul {
-    line-height: 1.5;
-  }
-  .voet-raster li a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-  }
-  .voet address {
-    font-style: normal;
   }
   .voet a:not(.voet-bel) {
     color: #bcd2e1;
@@ -162,52 +178,29 @@ const t = teksten.voet;
     text-decoration: underline;
     text-underline-offset: 0.25em;
   }
+  .voet :focus-visible {
+    outline-color: var(--sky);
+  }
+
   .voet-onder {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 2rem;
-    margin-top: 3.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 2rem;
+    padding-top: clamp(1rem, 0.75rem + 1vw, 1.5rem);
     font-size: var(--klein);
   }
   .voet-onder ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: 0 1.5rem;
   }
 
-  .voet-zegel {
-    --d: clamp(10rem, 5rem + 16vw, 21rem);
-    position: absolute;
-    right: max(-2rem, calc(50% - var(--maat) / 2 - 4rem));
-    bottom: calc(var(--d) * -0.36);
-    display: grid;
-    justify-items: center;
-    align-content: start;
-    width: var(--d);
-    aspect-ratio: 1;
-    padding-top: calc(var(--d) * 0.16);
-    border-radius: 50%;
-    background: var(--paper);
-  }
-  .voet-zegel :global(svg) {
-    width: 58%;
-    height: auto;
-  }
-
-  @media (max-width: 47.99rem) {
-    .voet-zegel {
-      right: 0.75rem;
-    }
-    .voet-onder {
-      padding-right: 8rem;
-    }
-  }
   @media (min-width: 48rem) {
     .voet-raster {
-      grid-template-columns: 1fr 1.6fr 1.4fr 1fr;
-      padding-right: clamp(0rem, 14vw, 13rem);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
     }
   }
 </style>

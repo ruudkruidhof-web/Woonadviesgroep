@@ -5,101 +5,22 @@ import Route from '../components/v3/Route.astro';
 import Kostenkamer from '../components/v3/Kostenkamer.astro';
 import Kostenkaart from '../components/v3/Kostenkaart.astro';
 import Einde from '../components/v3/Einde.astro';
-import { huis, huisViewBox } from '../components/v3/merk';
 import teksten from '../content/teksten/v3-paginas.json';
 import kaarten from '../content/v3-vergelijkingskaarten.json';
 import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.werkwijze;
-const laatste = t.stappen.length - 1;
 const ids = kaarten.kaarten.map((k) => k.id);
 const rijen = teksten.dienstverlening.beloning.map((b) => ({ label: b.titel, tekst: b.tekst }));
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <Opening titel={t.titel} lead={t.lead}>
-    <nav class="route" aria-label={t.mini_label}>
-      <ol>
-        {t.stappen.map((s, i) => (
-          <li>
-            <a href={`#${s.id}`}>
-              <span class="route-cijfer cijfer" aria-hidden="true">
-                {i === laatste ? <svg viewBox={huisViewBox}><path d={huis} /></svg> : i + 1}
-              </span>
-              <span>{s.titel}</span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
-  </Opening>
+  <Opening titel={t.titel} lead={t.lead} />
 
   <Route titel={t.route_titel} stappen={t.stappen} banen={t.banen} />
 
   <Kostenkamer titel={t.kosten_titel} lead={t.kosten_intro}>
-    <Kostenkaart kop={bedrijf.naam} rijen={rijen} kaarten={ids} prijzen={ids} />
+    <Kostenkaart kop={bedrijf.naam} rijen={rijen} kaarten={ids} prijzen={ids} gestapeld />
   </Kostenkamer>
 
   <Einde volgende={t.volgende} />
 </Pagina>
-
-<style>
-  .route {
-    width: 100%;
-    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
-  }
-  .route ol {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 1rem;
-    max-width: 46rem;
-    margin-inline: auto;
-    padding: 0;
-    list-style: none;
-  }
-  .route a {
-    display: grid;
-    justify-items: center;
-    gap: 0.35rem;
-    min-height: 2.75rem;
-    padding-block: 0.5rem;
-    font-size: var(--klein);
-    font-weight: 600;
-    color: var(--navy);
-    text-decoration: none;
-  }
-  .route a:hover span:last-child {
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-  }
-  .route-cijfer {
-    font-family: var(--font-kop);
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 1;
-    color: var(--sky-deep);
-  }
-  .route-cijfer svg {
-    display: block;
-    width: 2.1rem;
-    height: auto;
-    fill: var(--navy);
-  }
-
-  @media (min-width: 48rem) {
-    .route ol {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-    .route li {
-      position: relative;
-    }
-    .route li:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      top: 1.5rem;
-      left: calc(50% + 1.75rem);
-      width: calc(100% - 3.5rem + 1rem);
-      height: 1px;
-      background: color-mix(in srgb, var(--navy) 22%, transparent);
-    }
-  }
-</style>
