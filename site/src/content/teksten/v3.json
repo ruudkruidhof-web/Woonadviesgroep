@@ -71,10 +71,12 @@
   },
   "concept_melding": "Dit is een conceptversie van de nieuwe site, dus je bericht is nog niet verstuurd. Bel of mail ons gerust, dan helpen we je direct.",
   "voet": {
-    "kaarten_titel": "Vergelijkingskaarten",
+    "registraties_titel": "Registraties",
+    "menu_titel": "Pagina’s",
     "kantoor_titel": "Kantoor",
     "route": "Route plannen",
-    "registraties_titel": "Registraties",
+    "kaarten_titel": "Vergelijkingskaarten",
+    "meer_titel": "Dienstverlening",
     "handelsnaam": "handelsnaam van DEMA Financieel Advies B.V.",
     "dienstverlening": "Onze dienstverlening"
   }

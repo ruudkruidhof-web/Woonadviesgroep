@@ -4,17 +4,25 @@ import Merk from '../Merk.astro';
 import diensten from '../../content/v3-diensten.json';
 import kaarten from '../../content/v3-vergelijkingskaarten.json';
 import teksten from '../../content/teksten/v3.json';
+import paginas from '../../content/teksten/v3-paginas.json';
 import bedrijf from '../../content/bedrijf.json';
 
 const t = teksten.voet;
 const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;
+const menu = [
+  ...diensten.map((d) => ({ href: `/${d.id}`, label: d.titel })),
+  { href: '/werkwijze-en-kosten', label: paginas.werkwijze.meta_titel },
+  { href: '/over-ons', label: paginas.over.meta_titel },
+  { href: '/contact', label: paginas.contact.meta_titel },
+];
 ---
-<footer class="voet">
-  <div class="maat voet-top">
+<footer class="voet kamer">
+  <div class="voet-zegel" aria-hidden="true">
+    <Merk breedte={220} />
+  </div>
+
+  <div class="maat voet-slot">
     <p class="voet-zin">{bedrijf.tagline}</p>
-    <div class="voet-zegel" aria-hidden="true">
-      <Merk breedte={220} />
-    </div>
     <p class="voet-direct">
       <a href={`tel:${bedrijf.telefoon_link}`} class="voet-bel">
         <span class="cijfer">{bedrijf.telefoon}</span>
@@ -22,15 +30,32 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
       </a>
       <a href={`mailto:${bedrijf.email}`}>{bedrijf.email}</a>
     </p>
+    <ul class="voet-bewijs" aria-label={t.registraties_titel}>
+      {paginas.dienstverlening.registraties.map((r) => (
+        <li>
+          <a href={r.url} target="_blank" rel="noopener">
+            <abbr title={r.naam}>{r.kort}</abbr>
+            <b class="cijfer">{bedrijf[r.veld as 'afm' | 'kifid' | 'kvk']}</b>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 
-  <div class="maat voet-raster">
-    <nav aria-label="Diensten">
-      <h2>Diensten</h2>
+  <nav class="maat voet-menu" aria-label={t.menu_titel}>
+    <ul>
+      {menu.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+    </ul>
+  </nav>
+
+  <div class="maat voet-colofon">
+    <div>
+      <h2>{t.kantoor_titel}</h2>
       <ul>
-        {diensten.map((d) => <li><a href={`/${d.id}`}>{d.titel}</a></li>)}
+        <li>{bedrijf.adres_straat}, {bedrijf.adres_plaats}</li>
+        <li><a href={route} target="_blank" rel="noopener">{t.route}</a></li>
       </ul>
-    </nav>
+    </div>
     <div>
       <h2>{t.kaarten_titel}</h2>
       <ul>
@@ -44,103 +69,153 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
       </ul>
     </div>
     <div>
-      <h2>{t.kantoor_titel}</h2>
+      <h2>{t.meer_titel}</h2>
       <ul>
-        <li>{bedrijf.adres_straat}</li>
-        <li>{bedrijf.adres_plaats}</li>
-        <li><a href={route} target="_blank" rel="noopener">{t.route}</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>{t.registraties_titel}</h2>
-      <ul class="cijfer">
-        <li>AFM {bedrijf.afm}</li>
-        <li>Kifid {bedrijf.kifid}</li>
-        <li>KvK {bedrijf.kvk}</li>
+        <li><a href="/onze-dienstverlening">{t.dienstverlening}</a></li>
+        <li><a href="/onze-dienstverlening#klachten">Klachten</a></li>
+        <li><a href="/privacy-en-cookies">Privacy en cookies</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="maat voet-onder">
-    <p>&copy; {new Date().getFullYear()} {bedrijf.naam}, {t.handelsnaam}</p>
-    <ul>
-      <li><a href="/onze-dienstverlening">{t.dienstverlening}</a></li>
-      <li><a href="/onze-dienstverlening#klachten">Klachten</a></li>
-      <li><a href="/privacy-en-cookies">Privacy en cookies</a></li>
-    </ul>
-  </div>
+  <p class="maat voet-onder">&copy; {new Date().getFullYear()} {bedrijf.naam}, {t.handelsnaam}</p>
 </footer>
 
 <style>
   .voet {
-    padding: clamp(4rem, 3rem + 5vw, 7rem) 0 clamp(1.5rem, 1rem + 1vw, 2.25rem);
+    --boog: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+    --zegel: clamp(5.5rem, 3.5rem + 6vw, 9rem);
+    position: relative;
+    margin-top: calc(var(--zegel) * 0.5 + 1rem);
+    margin-bottom: var(--rand);
+    padding-block: calc(var(--zegel) * 0.5 + clamp(2.5rem, 2rem + 2.5vw, 4.5rem)) clamp(1.25rem, 1rem + 1vw, 2rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
     background: #002c40;
     color: #bcd2e1;
     font-size: var(--ui);
   }
-  .voet-top {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) 2rem;
-    align-items: start;
-    padding-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  .voet :focus-visible {
+    outline-color: var(--sky);
   }
-  .voet-zin {
-    max-width: 15ch;
-    font-family: var(--font-kop);
-    font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.75rem);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
+  .voet ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .voet a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .voet a:hover {
     color: #fff;
-    text-wrap: balance;
   }
+  .voet-colofon a:hover,
+  .voet-direct a:not(.voet-bel):hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
   .voet-zegel {
+    position: absolute;
+    top: 0;
+    left: 50%;
     display: grid;
     place-items: center;
-    width: clamp(4.5rem, 2.5rem + 7vw, 9rem);
+    width: var(--zegel);
     aspect-ratio: 1;
     border-radius: 50%;
     background: var(--paper);
+    box-shadow: 0 0 0 clamp(5px, 0.3rem + 0.3vw, 9px) #002c40;
+    translate: -50% -50%;
   }
   .voet-zegel :global(svg) {
     width: 58%;
     height: auto;
   }
+
+  .voet-slot {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+  .voet-zin {
+    max-width: 15ch;
+    font-family: var(--font-kop);
+    font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-wrap: balance;
+  }
   .voet-direct {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.25rem clamp(1.5rem, 4vw, 3.5rem);
+    display: grid;
+    justify-items: center;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
   }
-  .voet-direct a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-  }
-  .voet-bel {
+  .voet .voet-bel {
     gap: 0.9rem;
     font-family: var(--font-kop);
-    font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem);
+    font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.375rem);
     color: var(--sky);
-    text-decoration: none;
   }
   .voet-bel :global(.dak) {
     transition: translate 0.25s var(--uit);
   }
-  .voet-bel:hover {
-    color: #fff;
-  }
   .voet-bel:hover :global(.dak) {
     translate: 0.25em 0;
   }
+  .voet .voet-bewijs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 clamp(1.5rem, 3vw, 2.75rem);
+    margin-top: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+    padding-top: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .voet-bewijs a {
+    align-items: baseline;
+    gap: 0.45rem;
+    font-size: 0.84375rem;
+  }
+  .voet-bewijs abbr {
+    text-decoration: none;
+  }
+  .voet-bewijs b {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #fff;
+  }
 
-  .voet-raster {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.25rem 1.5rem;
-    padding-block: clamp(2rem, 1.5rem + 2vw, 3rem);
+  .voet-menu {
+    margin-top: clamp(2.5rem, 2rem + 2.5vw, 4.5rem);
+    padding-block: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
     border-block: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .voet-menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 clamp(1.25rem, 2.6vw, 2.75rem);
+  }
+  .voet-menu a {
+    font-family: var(--font-kop);
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    color: #fff;
+  }
+  .voet-menu a:hover {
+    color: var(--sky);
+  }
+
+  .voet-colofon {
+    display: grid;
+    gap: 1.75rem;
+    padding-block: clamp(1.75rem, 1.5rem + 1.5vw, 2.75rem);
   }
   .voet h2 {
     font-family: var(--font-tekst);
@@ -149,58 +224,38 @@ const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURICom
     letter-spacing: 0;
     color: #fff;
   }
-  .voet ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .voet-raster ul {
-    margin-top: 0.35rem;
-  }
-  .voet-raster li {
+  .voet-colofon li {
     display: flex;
     align-items: center;
     min-height: 2.75rem;
     line-height: 1.3;
   }
-  .voet-raster a,
-  .voet-onder a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-  }
-  .voet a:not(.voet-bel) {
-    color: #bcd2e1;
-    text-decoration: none;
-  }
-  .voet a:not(.voet-bel):hover {
-    color: #fff;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-  }
-  .voet :focus-visible {
-    outline-color: var(--sky);
+  .voet-colofon h2 + ul {
+    margin-top: 0.25rem;
   }
 
   .voet-onder {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.25rem 2rem;
     padding-top: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
     font-size: var(--klein);
-  }
-  .voet-onder ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 1.5rem;
+    text-align: center;
+    text-wrap: balance;
   }
 
   @media (min-width: 48rem) {
-    .voet-raster {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .voet-colofon {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 2rem;
+      max-width: 58rem;
+    }
+    .voet-colofon > div {
+      justify-self: center;
+    }
+    .voet-colofon > div:first-child {
+      justify-self: start;
+    }
+    .voet-colofon > div:last-child {
+      justify-self: end;
     }
   }
 </style>
