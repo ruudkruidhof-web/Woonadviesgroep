@@ -1,0 +1,139 @@
+---
+import Citaat from './Citaat.astro';
+
+const { titel, mensen, rol, alt } = Astro.props;
+const kanten = ['hoofd', 'hart'];
+---
+<section class="duo" aria-labelledby="duo-titel">
+  <div class="maat">
+    <h2 id="duo-titel" class="sr-alleen">{titel}</h2>
+
+    <div class="duo-tweeluik" data-hh>
+      <div class="duo-foto">
+        <svg viewBox="22 27 475 286" role="img" aria-label={alt} data-hh-merk>
+          <clipPath id="duo-knip">
+            <circle cx="165" cy="170" r="135" />
+            <circle cx="354" cy="170" r="135" />
+          </clipPath>
+          <image href="/beeld/adviseurs-v3-800.webp" width="500" height="500" clip-path="url(#duo-knip)" />
+          <circle class="duo-ring-links" cx="165" cy="170" r="141" />
+          <circle class="duo-ring-rechts" cx="354" cy="170" r="141" />
+        </svg>
+      </div>
+
+      {mensen.map((m, i) => (
+        <article class={`duo-helft duo-${kanten[i]}`} data-hh-kant={kanten[i]}>
+          <h3>
+            <span class="duo-naam">{m.kort}</span>
+            <span class="duo-sub">{m.naam}, {rol.toLowerCase()}</span>
+          </h3>
+          <div class="duo-citaat">
+            <Citaat id={m.reviews[0]} klein midden />
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .duo {
+    padding-bottom: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+  }
+  .duo-tweeluik {
+    --boog: 3.25rem;
+    --foto: clamp(15rem, 10rem + 16vw, 24rem);
+    position: relative;
+    display: grid;
+    margin-top: calc(var(--foto) * 0.3 + 1.5rem);
+    text-align: center;
+  }
+  .duo-foto {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 50%;
+    width: var(--foto);
+    translate: -50% -50%;
+  }
+  .duo-foto svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .duo-foto circle:not(clipPath *) {
+    fill: none;
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+  }
+  .duo-ring-links {
+    stroke: var(--sky-deep);
+  }
+  .duo-ring-rechts {
+    stroke: var(--brown);
+  }
+  .duo-helft {
+    padding: clamp(2.5rem, 2rem + 2vw, 3.5rem) clamp(1.5rem, 1rem + 3vw, 4rem);
+  }
+  .duo-hoofd {
+    padding-top: calc(var(--foto) * 0.3 + 2.5rem);
+    border-radius: 50% 50% 0 0 / var(--boog) var(--boog) 0 0;
+    background: var(--sky-wash);
+  }
+  .duo-hart {
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--wash-warm);
+  }
+  .duo-helft h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .duo-naam {
+    font-size: clamp(3rem, 2.3rem + 2.6vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .duo-hoofd .duo-naam {
+    color: var(--sky-deep);
+  }
+  .duo-hart .duo-naam {
+    color: var(--brown);
+  }
+  .duo-sub {
+    font-family: var(--font-tekst);
+    font-size: var(--ui);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--navy);
+  }
+  .duo-citaat {
+    max-width: 26rem;
+    margin: 2rem auto 0;
+    padding-top: 1.75rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 25%, transparent);
+  }
+  .duo-hart .duo-citaat {
+    border-top-color: color-mix(in srgb, var(--brown) 25%, transparent);
+  }
+
+  @media (min-width: 48rem) {
+    .duo-tweeluik {
+      --boog: 5.5rem;
+      grid-template-columns: 1fr 1fr;
+    }
+    .duo-helft {
+      padding-top: calc(var(--foto) * 0.3 + 3rem);
+      padding-bottom: clamp(3rem, 2.5rem + 2vw, 4.5rem);
+    }
+    .duo-hoofd {
+      margin-right: -1px;
+      border-radius: 50% 50% 0 var(--radius) / var(--boog) var(--boog) 0 var(--radius);
+    }
+    .duo-hart {
+      border-radius: 50% 50% var(--radius) 0 / var(--boog) var(--boog) var(--radius) 0;
+    }
+  }
+</style>

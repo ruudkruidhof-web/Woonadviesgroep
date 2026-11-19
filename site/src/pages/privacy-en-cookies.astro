@@ -9,7 +9,7 @@ const t = teksten.privacy;
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
   <Opening titel={t.titel} acties={false}>
     <section class="pv-kort" aria-labelledby="pv-kort-titel">
-      <h2 id="pv-kort-titel">{t.kort_titel}</h2>
+      <h2 id="pv-kort-titel" class="sr-alleen">{t.kort_titel}</h2>
       <ul>
         {t.kort.map((k) => <li>{k}</li>)}
       </ul>
@@ -34,41 +34,37 @@ const t = teksten.privacy;
 
 <style>
   .pv-kort {
-    width: min(100%, 44rem);
+    width: 100%;
     margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
     text-align: left;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.25rem, 1rem + 1.5vw, 2rem);
-    border-radius: var(--radius);
-    background: var(--sky-wash);
-  }
-  .pv-kort h2 {
-    font-size: 1.375rem;
   }
   .pv-kort ul {
     display: grid;
-    gap: 0.5rem;
-    margin-top: 0.9rem;
+    gap: 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
   .pv-kort li {
-    position: relative;
-    padding-left: 1.5rem;
+    padding-block: 1.25rem 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 40%, transparent);
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+    line-height: 1.3;
     color: var(--navy);
   }
-  .pv-kort li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.7em;
-    width: 0.6rem;
-    height: 1.5px;
-    background: var(--sky-deep);
+
+  @media (min-width: 48rem) {
+    .pv-kort ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
   }
 
   .pv-raster {
     display: grid;
     gap: 2.5rem;
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
     padding-bottom: clamp(4.5rem, 3rem + 5vw, 8rem);
   }
   .pv-tekst {

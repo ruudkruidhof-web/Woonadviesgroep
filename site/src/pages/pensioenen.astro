@@ -1,0 +1,198 @@
+---
+import Pagina from '../components/v3/Pagina.astro';
+import Opening from '../components/v3/Opening.astro';
+import Bewijs from '../components/v3/Bewijs.astro';
+import Kostenkamer from '../components/v3/Kostenkamer.astro';
+import Kostenkaart from '../components/v3/Kostenkaart.astro';
+import Einde from '../components/v3/Einde.astro';
+import { kostenrijen } from '../components/v3/merk';
+import diensten from '../content/v3-diensten.json';
+import teksten from '../content/teksten/v3-paginas.json';
+
+const d = diensten.find((x) => x.id === 'pensioenen')!;
+const p = d.pagina;
+const t = teksten.dienst;
+---
+<Pagina titel={d.titel} omschrijving={p.omschrijving}>
+  <Opening titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: t.kruimel }]} onderwerp={d.titel}>
+    <Bewijs />
+  </Opening>
+
+  <section class="pb kamer" id="vragen" aria-labelledby="pb-titel" data-kamer>
+    <div class="maat">
+      <h2 id="pb-titel" class="sr-alleen">{p.vragen_titel}</h2>
+
+      <div class="pb-figuur">
+        <svg class="pb-boog" viewBox="0 0 1000 250" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-teken>
+          <path d="M0 240A658.48 658.48 0 0 1 1000 240" pathLength="1" />
+        </svg>
+        <span class="pb-woord pb-nu">{p.van}</span>
+        <ol class="pb-vragen">
+          {p.vragen.map((v) => <li data-onthul>{v}</li>)}
+        </ol>
+        <span class="pb-woord pb-later">{p.naar}</span>
+      </div>
+
+      <p class="pb-slot" data-onthul>{p.slot}</p>
+    </div>
+  </section>
+
+  <Kostenkamer kleur="navy" boog titel={t.kosten_titel} lead={`${teksten.kaart.kosten_tekst}.`} tekst={teksten.werkwijze.stappen[1].kosten.tekst}>
+    <Kostenkaart kop={d.titel} rijen={kostenrijen(p.kaart)} kaarten={[p.kaart]} prijzen={[p.kaart]} />
+  </Kostenkamer>
+
+  <Einde volgende={t.volgende} onderwerp={d.titel} />
+</Pagina>
+
+<style>
+  .pb {
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem) clamp(4rem, 3rem + 4vw, 7rem);
+    background: var(--sky-wash);
+  }
+  .pb-figuur {
+    position: relative;
+  }
+  .pb-boog {
+    display: none;
+  }
+  .pb-woord {
+    display: block;
+    font-family: var(--font-kop);
+    font-size: var(--h3-kaart);
+    line-height: 1;
+  }
+  .pb-nu {
+    color: var(--sky-deep);
+  }
+  .pb-later {
+    margin-top: 1.5rem;
+    color: var(--brown);
+  }
+  .pb-vragen {
+    display: grid;
+    gap: 2.25rem;
+    margin: 1.5rem 0 0 0.3rem;
+    padding: 1rem 0 1rem 1.75rem;
+    border-left: 1.5px solid var(--sky-deep);
+    list-style: none;
+  }
+  .pb-vragen li {
+    position: relative;
+    max-width: 20ch;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.2;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  .pb-vragen li::before {
+    content: '';
+    position: absolute;
+    top: 0.55em;
+    left: calc(-1.75rem - 0.75px);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--navy);
+    translate: -50% -50%;
+  }
+  .pb-slot {
+    max-width: 38rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    font-size: var(--lead);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 64rem) {
+    .pb-figuur {
+      --boog-h: 250px;
+      --draad: 3rem;
+      padding-bottom: 1rem;
+    }
+    .pb-boog {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: var(--boog-h);
+      overflow: visible;
+      fill: none;
+      stroke: var(--sky-deep);
+      stroke-width: 1.5px;
+    }
+    .pb-woord {
+      position: absolute;
+      top: calc(var(--boog-h) + 0.5rem);
+    }
+    .pb-nu {
+      left: 0;
+    }
+    .pb-later {
+      right: 0;
+      margin-top: 0;
+    }
+    .pb-woord::before {
+      content: '';
+      position: absolute;
+      top: calc(-0.5rem - 10px);
+      left: 0;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--navy);
+      translate: -50% -50%;
+    }
+    .pb-later::before {
+      left: auto;
+      right: 0;
+      translate: 50% -50%;
+    }
+    .pb-vragen {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      margin: 0;
+      padding: 0 15%;
+      border-left: 0;
+    }
+    .pb-vragen li {
+      --top: 111px;
+      --x: 0%;
+      max-width: 17ch;
+      padding-top: calc(var(--top) + var(--draad) + 1.25rem);
+      text-wrap: pretty;
+    }
+    .pb-vragen li:nth-child(2) {
+      --top: 10px;
+      --x: 50%;
+      justify-self: center;
+      text-align: center;
+      text-wrap: balance;
+    }
+    .pb-vragen li:nth-child(3) {
+      --x: 100%;
+      justify-self: end;
+      text-align: right;
+    }
+    .pb-vragen li::before {
+      top: var(--top);
+      left: var(--x);
+    }
+    .pb-vragen li::after {
+      content: '';
+      position: absolute;
+      top: calc(var(--top) + 5px);
+      left: var(--x);
+      width: 1.5px;
+      height: var(--draad);
+      background: color-mix(in srgb, var(--sky-deep) 55%, transparent);
+      translate: -50% 0;
+    }
+    .pb-slot {
+      margin-inline: auto;
+      text-align: center;
+      text-wrap: balance;
+    }
+  }
+</style>

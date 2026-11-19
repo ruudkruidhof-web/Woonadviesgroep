@@ -1,0 +1,116 @@
+---
+const { id, titel, lead, regels = [], staart, slotregel, kleur = 'papier', groot = false } = Astro.props;
+const navy = kleur === 'navy';
+---
+<section class:list={['us', navy ? 'us-navy kamer' : 'sectie', { 'us-groot': groot }]} id={id} aria-labelledby={`${id}-titel`} data-kamer={navy ? '' : undefined}>
+  <div class="maat us-vak">
+    <div class="us-kop">
+      <h2 id={`${id}-titel`} data-regels>{titel}</h2>
+      {lead && <p class="us-lead" data-onthul>{lead}</p>}
+    </div>
+    <div class="us-rechts">
+      <ol class="us-regels">
+        {regels.map((r: string, i: number) => (
+          <li data-onthul>
+            {r}
+            {staart && i === regels.length - 1 && <span>{staart}</span>}
+          </li>
+        ))}
+      </ol>
+      {slotregel && <p class="us-slot" data-onthul>{slotregel}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .us-vak {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+  .us h2 {
+    max-width: 13ch;
+    font-size: var(--h2);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .us-lead {
+    max-width: 24ch;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    font-family: var(--font-kop);
+    font-size: var(--h3-kaart);
+    line-height: 1.2;
+    color: var(--sky-deep);
+    text-wrap: balance;
+  }
+  .us-regels {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .us-regels li {
+    padding-block: 1.25rem 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 40%, transparent);
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+    line-height: 1.35;
+    color: var(--navy);
+  }
+  .us-regels span {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--font-tekst);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--navy-soft);
+  }
+  .us-slot {
+    max-width: 30rem;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 40%, transparent);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .us-groot .us-regels li {
+    padding-block: 1.5rem 1.75rem;
+    font-size: var(--h3-kaart);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .us-navy {
+    --boog: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+    padding-block: calc(var(--boog) + 2rem) clamp(4rem, 3rem + 5vw, 8rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: var(--navy);
+    color: #bcd2e1;
+  }
+  .us-navy h2,
+  .us-navy .us-regels li {
+    color: #fff;
+  }
+  .us-navy .us-regels li,
+  .us-navy .us-slot {
+    border-top-color: color-mix(in srgb, var(--sky) 45%, transparent);
+  }
+  .us-navy .us-lead {
+    color: var(--sky);
+  }
+
+  @media (min-width: 64rem) {
+    .us-vak {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(3rem, 6vw, 7rem);
+      align-items: end;
+    }
+    .us-groot .us-vak {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+    }
+    .us-rechts > :last-child,
+    .us-regels:last-child li:last-child {
+      padding-bottom: 0;
+    }
+  }
+</style>

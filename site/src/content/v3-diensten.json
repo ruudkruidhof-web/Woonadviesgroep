@@ -10,7 +10,8 @@
     ],
     "menu": "Eerste woning, volgende woning, scheiding",
     "pagina": {
-      "lead": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt. Natuurlijk is het dan van uiterst belang dat de financiering van je huis of appartement zo goed mogelijk verloopt.",
+      "omschrijving": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt. Natuurlijk is het dan van uiterst belang dat de financiering van je huis of appartement zo goed mogelijk verloopt.",
+      "lead": "Niets brengt zoveel rust als de zekerheid die een eigen woning met zich meebrengt.",
       "bewijs": [
         {
           "b": "Onafhankelijk",
@@ -21,38 +22,36 @@
           "tekst": "zonder extra kosten"
         }
       ],
-      "feiten": [
-        "Onafhankelijk hypotheekadvies",
-        "Bij ons op kantoor, bij jou thuis (ook ’s avonds) of via video",
-        "Onderhoud zonder extra kosten"
-      ],
       "situaties_titel": "In welke situatie zit je?",
-      "situaties_lead": "Huren of kopen? Vanaf de eerste overweging tot aan je handtekening bij de notaris nemen wij je financiële zorgen uit handen. Maar ook daarna zijn we er voor je.",
       "situaties_knop": "Bespreek je situatie",
       "situaties": [
         {
           "id": "eerste-woning",
           "titel": "Je eerste woning",
-          "tekst": "Van eerste bezichtiging tot handtekening bij de notaris. We rekenen uit wat je kunt lenen en regelen de hypotheek die daarbij past."
+          "tekst": "We rekenen uit wat je kunt lenen en regelen de hypotheek die daarbij past.",
+          "tekening": "eerste"
         },
         {
           "id": "volgende-woning",
           "titel": "Door naar een volgende woning",
-          "tekst": "Een volgende woning kopen terwijl de huidige nog niet verkocht is? We zetten de scenario’s naast elkaar, inclusief de overbrugging."
+          "tekst": "We zetten de scenario’s naast elkaar, inclusief de overbrugging.",
+          "tekening": "volgende"
         },
         {
           "id": "scheiding",
           "titel": "Relatiebreuk of scheiding",
-          "tekst": "Bij een scheiding of relatiebreuk komt er veel op je af. We bekijken in alle rust of één van jullie de woning kan overnemen, en wat dat betekent."
+          "tekst": "We bekijken in alle rust of één van jullie de woning kan overnemen, en wat dat betekent.",
+          "tekening": "scheiding"
         }
       ],
       "advies_titel": "Niet simpelweg de goedkoopste hypotheek.",
       "advies_lead": "Maar juist de hypotheek die het beste bij jouw omstandigheden aansluit.",
       "advies": [
-        "Bij WoonAdvies Groep zorgen wij ervoor dat je verduidelijking krijgt over welke opties er zijn en onderzoeken wij welke optie het beste past bij jouw persoonlijke situatie.",
-        "Dit doen wij door je financiën en persoonlijke omstandigheden uitvoerig te analyseren, bijvoorbeeld door zo vaak mogelijk met je in gesprek te gaan.",
-        "Persoonlijk contact is bij ons namelijk prioriteit nummer één. Dat kan bij jou thuis, overdag of ’s avonds."
+        "Je krijgt verduidelijking over welke opties er zijn.",
+        "We analyseren je financiën en persoonlijke omstandigheden uitvoerig.",
+        "Persoonlijk contact is bij ons prioriteit nummer één."
       ],
+      "advies_staart": "Dat kan bij jou thuis, overdag of ’s avonds.",
       "kosten_titel": "Wat het kost",
       "kosten_lead": "Het kennismakingsgesprek is vrijblijvend. Daarin willen we graag investeren.",
       "kosten": "Als de klik er is, en vóórdat we samen de volgende stappen gaan zetten, spreken we de vergoeding van onze diensten met je af.",
@@ -70,16 +69,17 @@
     "kort": "Welk vermogen heb je nodig als je stopt met werken, en hoe krijg je dat op tijd bij elkaar?",
     "menu": "Vermogen voor als je stopt met werken",
     "pagina": {
-      "lead": "Wanneer je de pensioenleeftijd bereikt, wil je je natuurlijk geen zorgen meer hoeven maken om je oudedagsvoorziening. Juist daarom is het belangrijk dat je je pensioen alvast geregeld hebt, zelfs als je pensioen nog decennia weg is.",
+      "omschrijving": "Wanneer je de pensioenleeftijd bereikt, wil je je natuurlijk geen zorgen meer hoeven maken om je oudedagsvoorziening. Juist daarom is het belangrijk dat je je pensioen alvast geregeld hebt, zelfs als je pensioen nog decennia weg is.",
+      "lead": "Wanneer je de pensioenleeftijd bereikt, wil je je natuurlijk geen zorgen meer hoeven maken om je oudedagsvoorziening.",
+      "vragen_titel": "Van nu naar later",
+      "van": "Nu",
+      "naar": "Later",
       "vragen": [
         "Wat voor vermogen denk je nodig te hebben nadat je stopt met werken?",
         "Hoe krijg je dit vermogen voor die tijd het beste bij elkaar?",
         "En welke opties zijn hiervoor beschikbaar?"
       ],
-      "alineas": [
-        "Bij Woonadvies Groep gaan wij met je in gesprek om uit te vinden hoe wij deze vragen in jouw situatie het beste kunnen beantwoorden. Zo komen wij er samen achter wat het beste plan van aanpak is, opdat je er zeker van kunt zijn dat je in alle rust van je levensavond zult kunnen genieten.",
-        "Samen met jou kijken we naar je doelstellingen op de (middel)lange termijn en adviseren je op basis daarvan een product te kiezen."
-      ],
+      "slot": "Zo komen wij er samen achter wat het beste plan van aanpak is, opdat je er zeker van kunt zijn dat je in alle rust van je levensavond zult kunnen genieten.",
       "kaart": "vermogen"
     }
   },
@@ -95,12 +95,12 @@
     "kort": "We ontdekken welke verzekeringen voor jou van belang zijn en vergelijken de aanbiedingen.",
     "menu": "Woning, inboedel, aansprakelijkheid",
     "pagina": {
-      "lead": "Tegenwoordig is er voor van alles een verzekering. Voor de belangrijke bezittingen zoals je woning of je inboedel, maar ook voor minder belangrijke eigendommen zoals je mobiele telefoon.",
+      "omschrijving": "Tegenwoordig is er voor van alles een verzekering. Voor de belangrijke bezittingen zoals je woning of je inboedel, maar ook voor minder belangrijke eigendommen zoals je mobiele telefoon.",
+      "lead": "Tegenwoordig is er voor van alles een verzekering.",
       "uitleg_titel": "Compleet en duidelijk ingelicht.",
       "alineas": [
-        "Daarnaast zijn er nog talloze verzekeringen die juist niet voor je bezittingen bestemd zijn, zoals de aansprakelijkheidsverzekering, de overlijdensrisicoverzekering en talloze andere. Soms is het moeilijk om erachter te komen welke van deze verzekeringen voor jou van belang zijn, om maar niet te beginnen over waar je deze verzekeringen het beste kunt afsluiten.",
-        "Door meer te weten te komen over je behoeften en wensen via uitgebreid persoonlijk contact ontdekken wij welke verzekeringen voor jou van toepassing zijn. Vervolgens vergelijken wij de verschillende aanbiedingen van de verzekeringsmaatschappijen. Op die manier zorgen wij ervoor dat je in alle gevallen compleet en duidelijk ingelicht wordt over de verschillende verzekeringsmogelijkheden, waardoor je met een goed gevoel je handtekening onder een verzekeringspolis kunt zetten.",
-        "Bij een hypotheek moet helder zijn wat de risico’s zijn. Er kan een inkomensdaling optreden waardoor de maandelijkse lasten niet meer kunnen worden betaald. Samen met jou kijken we naar de risico’s en adviseren we je over het afdekken ervan."
+        "Soms is het moeilijk om erachter te komen welke van deze verzekeringen voor jou van belang zijn.",
+        "Via uitgebreid persoonlijk contact ontdekken wij welke verzekeringen voor jou van toepassing zijn. Vervolgens vergelijken wij de verschillende aanbiedingen van de verzekeringsmaatschappijen."
       ],
       "kaart": "risicos"
     }
@@ -118,15 +118,25 @@
     "kort": "Een krediet aanvragen, een schuld aflossen of een schenking ontvangen. Wij staan altijd voor je klaar.",
     "menu": "Krediet, sparen, schulden, schenkingen",
     "pagina": {
-      "lead": "Je financiën zijn voortdurend in beweging. Van het ene op het andere moment kunnen je lasten zomaar veranderen, soms ten gevolge van positieve ontwikkelingen zoals een loonsverhoging of een schenking, maar af en toe ook vanwege onverwachte kosten of andere tegenvallers.",
+      "omschrijving": "Je financiën zijn voortdurend in beweging. Van het ene op het andere moment kunnen je lasten zomaar veranderen, soms ten gevolge van positieve ontwikkelingen zoals een loonsverhoging of een schenking, maar af en toe ook vanwege onverwachte kosten of andere tegenvallers.",
+      "lead": "Je financiën zijn voortdurend in beweging.",
+      "golf": {
+        "boven": [
+          "Een loonsverhoging",
+          "Een schenking"
+        ],
+        "onder": [
+          "Onverwachte kosten",
+          "Andere tegenvallers"
+        ]
+      },
       "uitleg_titel": "Wij staan altijd voor je klaar.",
-      "alineas": [
-        "Wij doen er alles aan om je te helpen je financiën op orde te krijgen, ongeacht je situatie. Of je nou een krediet moet aanvragen of een spaarrekening wilt openen, een schuld moet aflossen of een schenking ontvangt, wij staan altijd voor je klaar."
-      ],
+      "uitleg": "Wij doen er alles aan om je te helpen je financiën op orde te krijgen, ongeacht je situatie.",
       "beloning_titel": "Hoe wij hier beloond worden",
+      "beloning_kern": "Wij brengen geen aanvullende kosten in rekening.",
       "beloning": [
-        "Van de aanbieders waar wij je betaal- en spaarrekeningen en consumptieve kredieten onderbrengen, ontvangen wij provisie. De provisie is onderdeel van de prijs van het betreffende financiële product. Wij brengen geen aanvullende kosten in rekening.",
-        "Bij bemiddeling in consumptief krediet mogen wij uitsluitend betaald worden door de aanbieder van het krediet. Als je de rente hebt betaald, dan heb je ook betaald voor onze dienstverlening."
+        "Van de aanbieders waar wij je betaal- en spaarrekeningen en consumptieve kredieten onderbrengen, ontvangen wij provisie. De provisie is onderdeel van de prijs van het betreffende financiële product.",
+        "Als je de rente hebt betaald, dan heb je ook betaald voor onze dienstverlening."
       ],
       "kaart": null
     }

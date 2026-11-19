@@ -1,0 +1,134 @@
+---
+import Icoon from './Icoon.astro';
+import Tekening from './Tekening.astro';
+import bedrijf from '../../content/bedrijf.json';
+
+const { titel, items, knop, onderwerp, kopniveau = 'h2' } = Astro.props;
+const Kop = kopniveau;
+---
+<section class="sit kamer" id="situaties" aria-labelledby="sit-titel" data-kamer>
+  <div class="maat">
+    <slot />
+    <Kop id="sit-titel" class="sit-titel" data-regels>{titel}</Kop>
+
+    <ul class="sit-rij">
+      {items.map((s) => (
+        <li id={s.id} data-onthul>
+          <Tekening naam={s.tekening} />
+          <h3>{s.titel}</h3>
+          <p>{s.tekst}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="sit-acties" data-onthul>
+      <button type="button" class="knop knop-licht" data-plan-open data-onderwerp={onderwerp}>
+        {knop}
+        <Icoon naam="dak" maat={12} />
+      </button>
+      <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+        <Icoon naam="bel" maat={15} />
+        <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sit {
+    --boog: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+    padding-block: calc(var(--boog) + 0.5rem) clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: var(--navy);
+    color: #bcd2e1;
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .sit :focus-visible {
+    outline-color: var(--sky);
+  }
+  .sit-titel {
+    max-width: 16ch;
+    margin-inline: auto;
+    font-size: var(--h2);
+    line-height: 1.05;
+    color: #fff;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .sit-rij {
+    display: grid;
+    gap: 2.5rem;
+    margin: clamp(2.5rem, 2rem + 3vw, 4.5rem) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sit-rij li {
+    scroll-margin-top: calc(var(--kop-hoogte) + 1.5rem);
+  }
+  .sit-rij :global(.tk) {
+    width: min(100%, 18rem);
+    color: var(--sky);
+  }
+  .sit-rij h3 {
+    max-width: 15ch;
+    margin-top: 1.5rem;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .sit-rij p {
+    max-width: 23rem;
+    margin-top: 0.9rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .sit-acties {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.75rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+  .sit .tekstlink {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .sit .tekstlink:hover {
+    text-decoration-color: #fff;
+  }
+
+  @media (max-width: 47.99rem) {
+    .sit-rij li + li {
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    .sit-rij :global(.tk) {
+      width: 11rem;
+    }
+    .sit-acties .knop {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .sit-rij {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+    }
+    .sit-rij li {
+      padding-inline: clamp(1.25rem, 3vw, 3rem);
+    }
+    .sit-rij li:first-child {
+      padding-left: 0;
+    }
+    .sit-rij li:last-child {
+      padding-right: 0;
+    }
+    .sit-rij li + li {
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
+    }
+  }
+</style>

@@ -1,37 +1,59 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
-import Opening from '../components/v3/Opening.astro';
-import Kamers from '../components/v3/Kamers.astro';
+import Kruimels from '../components/v3/Kruimels.astro';
 import Visitekaartje from '../components/v3/Visitekaartje.astro';
+import Icoon from '../components/v3/Icoon.astro';
 import teksten from '../content/teksten/v3-paginas.json';
 import home from '../content/teksten/v3.json';
 import diensten from '../content/v3-diensten.json';
 import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.contact;
-const route = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${bedrijf.adres_straat}, ${bedrijf.adres_plaats}`)}`;
-const manieren = t.manieren.map((m) => ({
-  ...m,
-  links: [
-    { href: '#plan-formulier', label: `Plan ${m.id === 'video' ? 'een videogesprek' : 'een gesprek'}`, plek: m.titel },
-    ...(m.id === 'kantoor' ? [{ href: route, label: 'Route plannen', extern: true }] : []),
-  ],
-}));
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <Opening titel={t.titel} lead={t.lead} acties={false}>
-    <div class="kaartje">
-      <Visitekaartje />
-    </div>
-  </Opening>
+  <section class="ct" aria-labelledby="ct-titel">
+    <div class="maat ct-vak">
+      <div class="ct-links">
+        <Kruimels hier={t.titel} />
+        <h1 id="ct-titel">{t.titel}</h1>
+        <p class="lead">{t.lead}</p>
 
-  <Kamers id="manieren" titel={t.manieren_titel} items={manieren} />
+        <div class="ct-kaartje">
+          <Visitekaartje />
+        </div>
 
-  <section id="plan" class="plan sectie" aria-labelledby="ct-plan-titel">
-    <div class="maat">
+        <ul class="ct-kanalen">
+          <li>
+            <a href={`tel:${bedrijf.telefoon_link}`} class="knop knop-lijn">
+              <Icoon naam="bel" maat={15} />
+              {t.bel}
+            </a>
+          </li>
+          <li>
+            <a href={`https://wa.me/${bedrijf.whatsapp}`} class="knop knop-lijn">
+              <Icoon naam="whatsapp" maat={16} />
+              {t.whatsapp}
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <form id="plan-formulier" class="ct-form" data-hb-lead data-ct-form>
-        <h2 id="ct-plan-titel">{t.formulier_titel}</h2>
-        <p class="ct-intro">{t.formulier_intro}</p>
+        <h2>{t.formulier_titel}</h2>
+
+        <fieldset class="ct-plek">
+          <legend>{t.plek_label}</legend>
+          <div class="ct-kamers">
+            {t.manieren.map((m, i) => (
+              <label class="ct-kamer">
+                <input type="radio" name="plek" value={m.titel} checked={i === 0} />
+                <span class="ct-kamer-titel">{m.titel}</span>
+                <span class="ct-kamer-tekst">{m.tekst}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
         <label>
           Je naam
           <input type="text" name="naam" autocomplete="name" required data-fout={t.fout_naam} />
@@ -40,48 +62,64 @@ const manieren = t.manieren.map((m) => ({
           Telefoon of e-mail
           <input type="text" name="contact" inputmode="email" required pattern={t.patroon} data-fout={t.fout_contact} />
         </label>
-        <div class="ct-twee">
-          <label>
-            {t.plek_label}
-            <select name="plek" data-ct-plek>
-              {t.manieren.map((m) => <option>{m.titel}</option>)}
-            </select>
-          </label>
-          <label>
-            Waar gaat het over?
-            <select name="onderwerp">
-              <option>Kennismaking</option>
-              {diensten.map((d) => <option>{d.titel}</option>)}
-            </select>
-          </label>
-        </div>
+        <label>
+          Waar gaat het over?
+          <select name="onderwerp">
+            <option>Kennismaking</option>
+            {diensten.map((d) => <option>{d.titel}</option>)}
+          </select>
+        </label>
         <label>
           Je vraag <span>(niet verplicht)</span>
-          <textarea name="bericht" rows="4"></textarea>
+          <textarea name="bericht" rows="3"></textarea>
         </label>
-        <button type="submit" class="knop knop-vol">{home.contact.formulier_knop}</button>
+        <div class="ct-verstuur">
+          <button type="submit" class="knop knop-vol">{home.contact.formulier_knop}</button>
+          <p class="ct-groet">{t.groet}</p>
+        </div>
         <p class="ct-melding" role="status" data-ct-melding data-tekst={home.concept_melding}></p>
-        <p class="ct-groet">{t.groet}</p>
       </form>
     </div>
   </section>
 </Pagina>
 
 <style>
-  .kaartje {
-    width: min(100%, 30rem);
+  .ct {
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+  }
+  .ct-vak {
+    display: grid;
+    gap: clamp(3rem, 2.5rem + 3vw, 4.5rem);
+  }
+  .ct-links {
     min-width: 0;
-    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
-    text-align: left;
   }
-  .plan {
-    padding-top: calc(var(--sectie) * 0.55);
+  .ct h1 {
+    margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+    font-size: min(clamp(3.25rem, 1.8rem + 5.8vw, 6.75rem), 15vw);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
   }
+  .ct .lead {
+    max-width: 26rem;
+    margin-top: 1.75rem;
+    text-wrap: balance;
+  }
+  .ct-kaartje {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+  .ct-kanalen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
   .ct-form {
     display: grid;
-    width: min(100%, 40rem);
-    margin-inline: auto;
-    gap: 1rem;
+    gap: 1.1rem;
     align-content: start;
     padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
     border-radius: 18px;
@@ -90,25 +128,20 @@ const manieren = t.manieren.map((m) => ({
   }
   .ct-form h2 {
     font-size: var(--h2-blok);
+    line-height: 1.08;
   }
-  .ct-intro {
-    margin-top: -0.4rem;
-  }
-  .ct-twee {
-    display: grid;
-    gap: 1rem;
-  }
-  .ct-form label {
+  .ct-form label,
+  .ct-form legend {
     display: block;
     font-size: var(--ui);
     font-weight: 700;
     color: var(--navy);
   }
-  .ct-form label span {
+  .ct-form label span:not([class]) {
     font-weight: 400;
     color: var(--tekst-zacht);
   }
-  .ct-form :is(input, select, textarea) {
+  .ct-form :is(input:not([type='radio']), select, textarea) {
     display: block;
     width: 100%;
     margin-top: 0.4rem;
@@ -120,19 +153,102 @@ const manieren = t.manieren.map((m) => ({
     font-size: 1.0625rem;
     color: var(--navy);
   }
-  .ct-form select {
+  .ct-form select:not([multiple]) {
     appearance: none;
     padding-right: 2.75rem;
     background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 4 6 8.5 10.5 4' fill='none' stroke='%23003850' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 1rem center / 0.75rem;
   }
-  .ct-form :is(input, select, textarea):focus {
+  .ct-form :is(input:not([type='radio']), select, textarea):focus {
     border-color: var(--sky-deep);
     outline: none;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--sky-deep) 22%, transparent);
   }
-  .ct-form .knop {
-    justify-self: start;
+
+  .ct-plek {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .ct-kamers {
+    --boog: 1.75rem;
+    display: grid;
+    gap: 8px;
+    margin-top: 0.6rem;
+  }
+  .ct-form .ct-kamer {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.3rem;
+    min-height: 2.75rem;
+    padding: 1rem 2.75rem 1rem 1.1rem;
+    border-radius: var(--radius);
+    background: var(--sky-wash);
+    font-weight: 400;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+  }
+  .ct-form .ct-kamer:nth-child(2) {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .ct-form .ct-kamer:nth-child(3) {
+    background: var(--wash-warm);
+  }
+  .ct-kamer input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .ct-kamer::after {
+    content: '';
+    position: absolute;
+    top: 1.1rem;
+    right: 1rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--navy) 45%, transparent);
+  }
+  .ct-form .ct-kamer:has(:checked) {
+    box-shadow: inset 0 0 0 2px var(--navy);
+  }
+  .ct-kamer:has(:checked)::after {
+    background: var(--navy);
+    box-shadow: inset 0 0 0 3.5px #fff, 0 0 0 1.5px var(--navy);
+  }
+  .ct-kamer:has(:focus-visible) {
+    outline: 2px solid var(--sky-deep);
+    outline-offset: 3px;
+  }
+  .ct-kamer-titel {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    line-height: 1.15;
+    color: var(--navy);
+  }
+  .ct-kamer-tekst {
+    font-size: var(--klein);
+    line-height: 1.45;
+    color: var(--navy-soft);
+  }
+
+  .ct-verstuur {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
     margin-top: 0.25rem;
+  }
+  .ct-groet {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    color: var(--brown);
   }
   .ct-melding:empty {
     display: none;
@@ -145,36 +261,76 @@ const manieren = t.manieren.map((m) => ({
     color: var(--navy);
     font-size: var(--ui);
   }
-  .ct-groet {
-    font-family: var(--font-kop);
-    font-size: 1.25rem;
-    color: var(--brown);
-  }
 
-  @media (max-width: 47.99rem) {
-    .ct-form .knop {
-      justify-self: stretch;
+  @media (prefers-reduced-motion: no-preference) {
+    .ct-links > *,
+    .ct-form {
+      animation: ct-in 0.9s var(--uit) both;
+    }
+    .ct h1 {
+      animation-delay: 0.1s;
+    }
+    .ct .lead {
+      animation-delay: 0.2s;
+    }
+    .ct-kanalen,
+    .ct-form {
+      animation-delay: 0.3s;
+    }
+  }
+  @keyframes ct-in {
+    from {
+      opacity: 0;
+      translate: 0 14px;
     }
   }
 
-  @media (min-width: 48rem) {
-    .ct-twee {
-      grid-template-columns: 1fr 1fr;
+  @media (max-width: 47.99rem) {
+    .ct-kanalen li,
+    .ct-kanalen .knop,
+    .ct-verstuur .knop {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .ct-kamers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .ct-form .ct-kamer {
+      padding: 2.4rem 1rem 1.1rem;
+    }
+    .ct-form .ct-kamer:first-child {
+      border-radius: 5rem var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
+    }
+    .ct-form .ct-kamer:last-child {
+      border-radius: var(--radius) 5rem var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
+    }
+    .ct-kamer::after {
+      top: auto;
+      bottom: 1rem;
+    }
+    .ct-kamer-tekst {
+      padding-bottom: 1.75rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .ct-vak {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: clamp(3rem, 6vw, 6.5rem);
+      align-items: start;
+    }
+    .ct-form {
+      margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
     }
   }
 </style>
 
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-ct-form]')!;
-  const plek = form.querySelector<HTMLSelectElement>('[data-ct-plek]')!;
   const melding = form.querySelector<HTMLElement>('[data-ct-melding]')!;
 
-  document.querySelectorAll<HTMLAnchorElement>('[data-plek]').forEach((link) => {
-    link.addEventListener('click', () => {
-      plek.value = link.dataset.plek!;
-      setTimeout(() => form.querySelector('input')!.focus(), 450);
-    });
-  });
   form.querySelectorAll<HTMLInputElement>('[data-fout]').forEach((veld) => {
     veld.addEventListener('invalid', () => veld.setCustomValidity(veld.dataset.fout!));
     veld.addEventListener('input', () => veld.setCustomValidity(''));

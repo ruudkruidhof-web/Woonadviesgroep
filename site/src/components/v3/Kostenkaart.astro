@@ -1,0 +1,141 @@
+---
+import Merk from '../Merk.astro';
+import Kaartregel from './Kaartregel.astro';
+import data from '../../content/v3-vergelijkingskaarten.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+
+const { kop, rijen, kaarten, prijzen } = Astro.props;
+const k = teksten.kaart;
+const lijst = data.toon_prijzen && prijzen ? data.kaarten.filter((x) => prijzen.includes(x.id)) : [];
+const regels = lijst.length === 1
+  ? lijst[0].prijzen.map((p) => ({ label: p.situatie, bedrag: p.bedrag }))
+  : lijst.map((x) => ({ label: x.titel, bedrag: x.prijs_kort }));
+---
+<div class="kk" data-kaartje>
+  <div class="kk-kop">
+    <Merk breedte={56} />
+    <p>{kop}</p>
+  </div>
+
+  <dl class="kk-rijen">
+    {rijen.map((r: { label: string; waarde?: string; tekst?: string }) => (
+      <div>
+        <dt>{r.label}</dt>
+        <dd>
+          {r.waarde && <span class:list={['kk-waarde', { 'kk-lang': r.waarde.length > 34 }]}>{r.waarde}</span>}
+          {r.tekst && <span class="kk-tekst">{r.tekst}</span>}
+        </dd>
+      </div>
+    ))}
+  </dl>
+
+  {regels.length > 0 && (
+    <div class="kk-prijzen">
+      <h3>{k.prijzen_titel}</h3>
+      <dl>
+        {regels.map((r) => (
+          <div>
+            <dt>{r.label}</dt>
+            <dd class="cijfer">{r.bedrag}</dd>
+          </div>
+        ))}
+      </dl>
+      <p>{k.prijzen_uitleg}</p>
+    </div>
+  )}
+
+  <Kaartregel ids={kaarten} />
+</div>
+
+<style>
+  .kk {
+    display: grid;
+    gap: 1.5rem;
+    width: min(100%, 36rem);
+    padding: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 40, 58, 0.06), 0 30px 60px -34px rgba(0, 40, 58, 0.5);
+    color: var(--navy-soft);
+    text-align: left;
+  }
+  .kk-kop {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .kk-kop :global(svg) {
+    flex-shrink: 0;
+  }
+  .kk-kop p {
+    font-family: var(--font-kop);
+    font-size: 1.75rem;
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .kk-rijen > div {
+    display: grid;
+    gap: 0.15rem 1.5rem;
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+  .kk-rijen dt {
+    font-size: var(--ui);
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .kk-waarde {
+    display: block;
+    font-family: var(--font-kop);
+    font-size: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+    line-height: 1.2;
+    color: var(--navy);
+  }
+  .kk-lang {
+    font-size: 1.125rem;
+    line-height: 1.35;
+  }
+  .kk-tekst {
+    display: block;
+    font-size: var(--ui);
+    line-height: 1.5;
+  }
+  .kk-waarde + .kk-tekst {
+    margin-top: 0.25rem;
+  }
+  .kk-prijzen h3 {
+    font-family: var(--font-tekst);
+    font-size: var(--ui);
+    font-weight: 600;
+    color: var(--tekst-zacht);
+  }
+  .kk-prijzen dl {
+    margin-top: 0.5rem;
+  }
+  .kk-prijzen dl > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.55rem;
+    border-top: 1px solid var(--line);
+  }
+  .kk-prijzen dd {
+    font-family: var(--font-kop);
+    font-size: 1.25rem;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .kk-prijzen p {
+    margin-top: 0.6rem;
+    font-size: var(--klein);
+    color: var(--tekst-zacht);
+  }
+
+  @media (min-width: 30rem) {
+    .kk-rijen > div {
+      grid-template-columns: 9.5rem minmax(0, 1fr);
+      align-items: baseline;
+    }
+  }
+</style>

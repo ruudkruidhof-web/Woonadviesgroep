@@ -37,7 +37,9 @@
     });
 
     gsap.utils.toArray<HTMLElement>('[data-kamer]').forEach((kamer) => {
-      const r = getComputedStyle(kamer).borderTopLeftRadius;
+      const stijl = getComputedStyle(kamer);
+      const hoeken = [stijl.borderTopLeftRadius, stijl.borderTopRightRadius, stijl.borderBottomRightRadius, stijl.borderBottomLeftRadius].map((h) => h.split(' '));
+      const r = `${hoeken.map((h) => h[0]).join(' ')} / ${hoeken.map((h) => h[1] ?? h[0]).join(' ')}`;
       gsap.fromTo(
         kamer,
         { clipPath: `inset(3% 2.5% round ${r})` },
@@ -56,12 +58,23 @@
     });
 
     gsap.utils.toArray<SVGElement>('[data-teken]').forEach((lijn) => {
-      gsap.fromTo(
-        lijn.querySelectorAll('path'),
-        { strokeDashoffset: 1 },
-        { strokeDashoffset: 0, duration: 1.8, delay: 0.35, ease: 'power2.inOut', scrollTrigger: { trigger: lijn.closest('[data-open]') ?? lijn, start: 'top 85%', once: true } },
-      );
+      lijn.querySelectorAll<SVGPathElement>('path:not([data-stil])').forEach((pad) => {
+        // Bij een vaste lijndikte rekent de browser streepjes in schermpixels, dus de lengte gaat mee met de schaal.
+        const m = pad.getScreenCTM();
+        const vast = getComputedStyle(pad).vectorEffect === 'non-scaling-stroke';
+        const lengte = pad.hasAttribute('pathLength') ? 1 : pad.getTotalLength() * (vast && m ? Math.hypot(m.a, m.b) : 1);
+        gsap.fromTo(
+          pad,
+          { strokeDasharray: lengte, strokeDashoffset: lengte },
+          { strokeDashoffset: 0, duration: 1.8, delay: 0.35, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset', scrollTrigger: { trigger: lijn, start: 'top 85%', once: true } },
+        );
+      });
     });
+
+    const loop = document.querySelector('[data-loop]');
+    if (loop) {
+      gsap.fromTo(loop.querySelector('[data-loop-vol]'), { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: loop, start: 'top 72%', end: 'bottom 62%', scrub: 0.4 } });
+    }
 
     const gebouw = document.querySelector('[data-gebouw]');
     if (gebouw) {

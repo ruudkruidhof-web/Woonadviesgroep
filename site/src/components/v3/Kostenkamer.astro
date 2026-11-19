@@ -1,0 +1,90 @@
+---
+const { id = 'kosten', kleur = 'warm', boog = false, titel, lead, tekst } = Astro.props;
+---
+<section class:list={['ko', 'kamer', `ko-${kleur}`, { 'ko-boog': boog }]} id={id} aria-labelledby={`${id}-titel`} data-kamer>
+  <div class="maat ko-vak">
+    <div class="ko-kop">
+      <h2 id={`${id}-titel`} data-regels>{titel}</h2>
+      {lead && <p class="ko-lead" data-onthul>{lead}</p>}
+      {tekst && <p class="ko-tekst" data-onthul>{tekst}</p>}
+    </div>
+    <div class="ko-kaart">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ko {
+    --boog: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem);
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .ko-boog {
+    padding-top: calc(var(--boog) + 2rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+  }
+  .ko-warm {
+    background: var(--wash-warm);
+  }
+  .ko-sky {
+    background: var(--sky-wash);
+  }
+  .ko-navy {
+    background: var(--navy);
+    color: #bcd2e1;
+  }
+  .ko-navy h2 {
+    color: #fff;
+  }
+  .ko-navy .ko-lead {
+    color: var(--sky-wash);
+  }
+  .ko-navy .ko-kop :focus-visible {
+    outline-color: var(--sky);
+  }
+  .ko-vak {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+  .ko h2 {
+    max-width: 10ch;
+    font-size: var(--h2);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .ko-lead {
+    max-width: 22ch;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    font-family: var(--font-kop);
+    font-size: var(--h3-kaart);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .ko-warm .ko-lead,
+  .ko-sky .ko-lead {
+    color: var(--navy);
+  }
+  .ko-tekst {
+    max-width: 26rem;
+    margin-top: 1.25rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .ko-kaart {
+    display: grid;
+    justify-items: center;
+    min-width: 0;
+  }
+
+  @media (min-width: 64rem) {
+    .ko-vak {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+    }
+    .ko-kaart {
+      justify-items: end;
+    }
+  }
+</style>

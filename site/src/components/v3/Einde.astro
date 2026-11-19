@@ -1,0 +1,177 @@
+---
+import Icoon from './Icoon.astro';
+import { huis, huisViewBox } from './merk';
+import home from '../../content/teksten/v3.json';
+import teksten from '../../content/teksten/v3-paginas.json';
+import bedrijf from '../../content/bedrijf.json';
+
+const { volgende, onderwerp } = Astro.props;
+const t = teksten.einde;
+---
+<section class="ei" aria-label={t.label}>
+  <div class="maat ei-gebouw">
+    <a class="ei-kamer ei-volgende" href={volgende.href} data-open>
+      <svg class="ei-huis" viewBox={huisViewBox} aria-hidden="true"><path d={huis} /></svg>
+      <h2>{volgende.titel}</h2>
+      <p>{volgende.tekst}</p>
+      <span class="ei-naar">
+        {volgende.label}
+        <span class="ei-pijl" aria-hidden="true"><Icoon naam="dak" maat={13} /></span>
+      </span>
+    </a>
+
+    <div class="ei-kamer ei-gesprek" data-open>
+      <p class="ei-welkom">{t.welkom}</p>
+      <div class="ei-acties">
+        <button type="button" class="knop knop-vol" data-plan-open data-onderwerp={onderwerp}>
+          {home.hero.knop}
+          <Icoon naam="dak" maat={12} />
+        </button>
+        <a href={`tel:${bedrijf.telefoon_link}`} class="tekstlink">
+          <Icoon naam="bel" maat={15} />
+          <span>Of bel <span class="cijfer">{bedrijf.telefoon}</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ei {
+    padding-block: clamp(4rem, 3rem + 4vw, 7rem) clamp(4.5rem, 3rem + 5vw, 8rem);
+  }
+  .ei-gebouw {
+    --voeg: 10px;
+    --boog: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
+    display: grid;
+    gap: var(--voeg);
+  }
+  .ei-kamer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem);
+    border-radius: var(--radius);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .ei-volgende {
+    padding-top: calc(var(--boog) * 0.9);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: var(--sky-wash);
+    color: var(--navy-soft);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .ei-volgende h2 {
+    max-width: 16ch;
+    font-size: var(--h2-blok);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .ei-volgende p {
+    max-width: 28rem;
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .ei-naar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: auto;
+    padding-top: 2.25rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .ei-pijl {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--sky-deep);
+    color: var(--sky-deep);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .ei-huis {
+    position: absolute;
+    z-index: -1;
+    right: -2.5rem;
+    bottom: -3.5rem;
+    width: clamp(11rem, 8rem + 12vw, 19rem);
+    height: auto;
+    fill: none;
+    stroke: var(--sky-deep);
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.22;
+    transition: translate 0.6s var(--uit), opacity 0.4s ease;
+  }
+  .ei-volgende:hover,
+  .ei-volgende:focus-visible {
+    background: color-mix(in srgb, var(--sky-wash), var(--sky) 16%);
+  }
+  .ei-volgende:hover .ei-pijl,
+  .ei-volgende:focus-visible .ei-pijl {
+    background: var(--sky-deep);
+    color: #fff;
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .ei-volgende:hover .ei-huis {
+      translate: 0 -0.5rem;
+      opacity: 0.4;
+    }
+    .ei-volgende:hover :global(.dak) {
+      translate: 0.15em 0;
+    }
+  }
+
+  .ei-gesprek {
+    justify-content: space-between;
+    gap: 2rem;
+    background: var(--wash-warm);
+  }
+  .ei-welkom {
+    max-width: 20ch;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.25;
+    color: var(--navy);
+    hyphens: auto;
+    text-wrap: balance;
+  }
+  .ei-acties {
+    display: grid;
+    justify-items: start;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 47.99rem) {
+    .ei-acties {
+      width: 100%;
+    }
+    .ei-acties .knop {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .ei-gebouw {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+    .ei-kamer {
+      min-height: 24rem;
+    }
+    .ei-volgende {
+      padding-top: calc(var(--boog) + 1rem);
+      border-radius: min(24vw, 21rem) var(--radius) var(--radius) var(--radius) / var(--boog) var(--radius) var(--radius) var(--radius);
+    }
+    .ei-gesprek {
+      padding-top: calc(var(--boog) + 1rem);
+      border-radius: var(--radius) min(24vw, 21rem) var(--radius) var(--radius) / var(--radius) var(--boog) var(--radius) var(--radius);
+    }
+  }
+</style>

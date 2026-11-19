@@ -279,3 +279,37 @@ Ruud koos de rustige opening met kamers. Alle teksten komen uit de bestaande reg
 | Plan een gesprek, Plan een videogesprek, Route plannen, Of bel | FUNCTIONEEL | zoals op de vorige contactpagina en de situaties |
 
 Weggelaten op de onderliggende pagina's: de reviews bij de situaties en op de dienstpagina's, en de review van Sofie op Over ons (Ruud, 17 nov 2026). Op Over ons staat per adviseur nog één review.
+
+## Elke pagina zijn eigen figuur (19 nov 2026)
+
+Ruud vond de pagina's van 17 november te tekstrijk en te saai. De tekst is ruwweg gehalveerd, alles komt uit de bestaande regels hierboven. Nieuw, ingekort of verplaatst is alleen het volgende.
+
+| Regel | Label | Bron |
+|---|---|---|
+| Openingszin per pagina (één zin) | LETTERLIJK | de eerste zin van de bestaande inleiding. Op Over ons de eerste zin van de oude kernalinea, op Werkwijze de ingekorte zin van de homepage, op Contact de eerste zin van de inleiding |
+| We rekenen uit wat je kunt lenen ... / We zetten de scenario’s naast elkaar ... / We bekijken in alle rust ... (situaties op Hypotheken) | INGEKORT | de tweede zin van de bestaande situatieteksten, de eerste zin is geschrapt |
+| Je krijgt verduidelijking over welke opties er zijn. | INGEKORT | hypotheken, uit "zorgen wij ervoor dat je verduidelijking krijgt over welke opties er zijn" |
+| We analyseren je financiën en persoonlijke omstandigheden uitvoerig. | INGEKORT | hypotheken, uit "Dit doen wij door je financiën en persoonlijke omstandigheden uitvoerig te analyseren" |
+| Persoonlijk contact is bij ons prioriteit nummer één. | INGEKORT | hypotheken, zonder "namelijk" |
+| Rijen van de kostenkaart (Kennismaken, Kosten, Onderhoud daarna, Onafhankelijk advies met hun waarde) | LETTERLIJK | de eerste stap van de werkwijze en de eigen vergelijkingskaart per dienst |
+| Kernzin en tweede zin per stap op Werkwijze en kosten | LETTERLIJK | de bestaande stapteksten. Bij Verdiepen en Uitvoeren is een andere zin uit dezelfde tekst de kernzin geworden, de overige zinnen zijn geschrapt |
+| Wat we van je vragen, één zin per punt | INGEKORT | de eerste zin van de bestaande punten, bij Totaalbeeld de tweede |
+| Vast tarief en Provisie, elk in één of twee zinnen | INGEKORT | Onze dienstverlening, de zin over de hoogte van het tarief staat nu alleen bij stap 3 |
+| Nu, Later (op de boog van Pensioenen) | SAMENGESTELD | de slogan ("voor nu en in de toekomst") en werkwijze ("een financiële planning voor later") |
+| Zo komen wij er samen achter ... zult kunnen genieten. | LETTERLIJK (je-vorm) | pensioenen |
+| Soms is het moeilijk ... van belang zijn. / Via uitgebreid persoonlijk contact ontdekken wij ... verzekeringsmaatschappijen. | INGEKORT | verzekeringen, de tweede zin begint nu bij "via uitgebreid persoonlijk contact" |
+| Je woning en inboedel, Aansprakelijkheid, Overlijdensrisico (op de bogen van Verzekeringen) | SAMENGESTELD | de situaties van de homepage, uit de tekst van verzekeringen |
+| Een loonsverhoging, Een schenking, Onverwachte kosten, Andere tegenvallers (op de golf van Financiën) | LETTERLIJK | financien |
+| Wij doen er alles aan ... ongeacht je situatie. | LETTERLIJK (je-vorm) | financien |
+| Wij brengen geen aanvullende kosten in rekening. (uitspraak op Financiën) | LETTERLIJK | dienstenwijzer, beloning |
+| Transparantie is waar we voor staan. / Alle kennis hebben we onder één dak. / We denken vooruit en ontzorgen! / Financiële rust, dat blijft het uitgangspunt. Ook als tijden soms minder voorspoedig zijn. | LETTERLIJK | home, de alinea's zijn tot deze zinnen teruggebracht |
+| Sinds 2010 (bewijsregel Over ons) | SAMENGESTELD | AFM-register (vergunning sinds 6 september 2010) |
+| Bel gerust voor een afspraak, of stuur een e-mail. Dan nemen wij contact met je op. (bij de kamer naar Contact) | LETTERLIJK | onze werkwijze |
+| Elke klant is voor ons uniek. | LETTERLIJK | dienstenwijzer |
+| WoonAdvies Groep is een handelsnaam van DEMA Financieel Advies B.V. (Onze dienstverlening, en tussen haakjes in Privacy) | EIGEN, ter verificatie | AFM-register, nagekeken op 11 nov 2026. Akkoord van Marijke staat nog open |
+| Of ons advies onafhankelijk is, verschilt per productgroep, zoals ook op onze vergelijkingskaarten staat. | EIGEN, ter verificatie | vervangt de langere uitleg over de twee voorwaarden |
+| Ja, Nee (groot bij de productgroepen) | LETTERLIJK | de eigen vergelijkingskaarten |
+| Maak je klacht eerst kenbaar ... snel verhelpen. | INGEKORT | dienstenwijzer, de zin over de klachtenregeling is geschrapt |
+| Verder (naam van het slotblok voor schermlezers), Bel ons, Stuur een WhatsApp, Van nu naar later (kop voor schermlezers), Registraties, Documenten | FUNCTIONEEL | bediening |
+
+Geschrapt: de inleiding boven de situaties, de tweede en derde adviesalinea op Hypotheken, de alinea's "wat wij doen" per stap, de drie kamers "Wat je van ons mag verwachten" op Pensioenen en Verzekeringen, de lange alinea's op Verzekeringen, de kernalinea en de twee alinea's in het navy vlak op Over ons, de sectie "Waar we afspreken" op Contact (de drie plekken staan nu in het formulier), en op Onze dienstverlening het stappenplan Inventarisatie tot Nazorg, de uitleg per register, de zijnavigatie en de dienstenwijzer van 2015 in de documentenlijst.

@@ -2,82 +2,30 @@
 import Pagina from '../components/v3/Pagina.astro';
 import Opening from '../components/v3/Opening.astro';
 import Bewijs from '../components/v3/Bewijs.astro';
-import Kamers from '../components/v3/Kamers.astro';
-import BoogKamer from '../components/v3/BoogKamer.astro';
-import Prijzen from '../components/v3/Prijzen.astro';
-import Kaartregel from '../components/v3/Kaartregel.astro';
-import Overstap from '../components/v3/Overstap.astro';
+import Situaties from '../components/v3/Situaties.astro';
+import Uitspraak from '../components/v3/Uitspraak.astro';
+import Kostenkamer from '../components/v3/Kostenkamer.astro';
+import Kostenkaart from '../components/v3/Kostenkaart.astro';
+import Einde from '../components/v3/Einde.astro';
+import { kostenrijen } from '../components/v3/merk';
 import diensten from '../content/v3-diensten.json';
 import teksten from '../content/teksten/v3-paginas.json';
 
 const d = diensten.find((x) => x.id === 'hypotheken')!;
 const p = d.pagina;
-const situaties = p.situaties.map((s) => ({ ...s, bel: s.id === 'scheiding' }));
 ---
-<Pagina titel={d.titel} omschrijving={p.lead}>
+<Pagina titel={d.titel} omschrijving={p.omschrijving}>
   <Opening titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: teksten.dienst.kruimel }]} onderwerp={d.titel}>
     <Bewijs items={p.bewijs} />
   </Opening>
 
-  <Kamers id="situaties" titel={p.situaties_titel} lead={p.situaties_lead} items={situaties} knop={p.situaties_knop} onderwerp={d.titel} />
+  <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel} />
 
-  <section class="advies sectie" aria-labelledby="advies-titel">
-    <div class="maat midden">
-      <h2 id="advies-titel" data-regels>{p.advies_titel}</h2>
-      <p class="lead" data-onthul>{p.advies_lead}</p>
-      <div class="tekst" data-onthul>
-        {p.advies.map((a) => <p>{a}</p>)}
-      </div>
-    </div>
-  </section>
+  <Uitspraak id="advies" titel={p.advies_titel} lead={p.advies_lead} regels={p.advies} staart={p.advies_staart} />
 
-  <BoogKamer id="kosten" kleur="navy" labelledby="kosten-titel">
-    <h2 id="kosten-titel" data-regels>{p.kosten_titel}</h2>
-    <p class="lead" data-onthul>{p.kosten_lead}</p>
-    <div class="tekst" data-onthul>
-      <p>{p.kosten}</p>
-      <p>{p.feiten[2]}.</p>
-    </div>
-    <Prijzen kaart={p.kaart} />
-    <div class="kaart" data-onthul>
-      <Kaartregel ids={[p.kaart]} licht midden />
-    </div>
-  </BoogKamer>
+  <Kostenkamer titel={p.kosten_titel} lead={p.kosten_lead} tekst={p.kosten}>
+    <Kostenkaart kop={d.titel} rijen={kostenrijen(p.kaart)} kaarten={[p.kaart]} prijzen={[p.kaart]} />
+  </Kostenkamer>
 
-  <Overstap volgende={teksten.dienst.volgende} onderwerp={d.titel} midden />
+  <Einde volgende={teksten.dienst.volgende} onderwerp={d.titel} />
 </Pagina>
-
-<style>
-  .midden {
-    display: grid;
-    justify-items: center;
-    text-align: center;
-  }
-  h2 {
-    max-width: 20ch;
-    text-wrap: balance;
-  }
-  .lead {
-    max-width: 36rem;
-    margin-top: 1.5rem;
-    text-wrap: balance;
-  }
-  .tekst {
-    display: grid;
-    gap: 1rem;
-    max-width: 36rem;
-    margin-top: 2rem;
-  }
-  .tekst p {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-  }
-  .advies {
-    padding-block: calc(var(--sectie) * 0.45) calc(var(--sectie) * 0.85);
-  }
-  .kaart {
-    margin-top: 2.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-  }
-</style>

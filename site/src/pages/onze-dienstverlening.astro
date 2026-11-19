@@ -1,354 +1,406 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
 import Opening from '../components/v3/Opening.astro';
-import Inhoud from '../components/v3/Inhoud.astro';
-import Kaarten from '../components/v3/Kaarten.astro';
-import Overstap from '../components/v3/Overstap.astro';
+import Kaartregel from '../components/v3/Kaartregel.astro';
+import Einde from '../components/v3/Einde.astro';
 import Icoon from '../components/v3/Icoon.astro';
 import teksten from '../content/teksten/v3-paginas.json';
 import kaarten from '../content/v3-vergelijkingskaarten.json';
 import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.dienstverlening;
-const kop = Object.fromEntries(t.inhoud.map((i) => [i.id, i.titel]));
+const k = teksten.kaart;
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
-  <Opening titel={t.titel} lead={t.lead} acties={false} />
+  <Opening titel={t.titel} lead={t.lead} acties={false}>
+    <section class="reg" id="registraties" aria-labelledby="reg-titel">
+      <h2 id="reg-titel" class="sr-alleen">{t.registraties_titel}</h2>
+      <ul>
+        {t.registraties.map((r) => (
+          <li>
+            <p class="reg-orgaan"><abbr title={r.naam}>{r.kort}</abbr></p>
+            <p class="reg-nummer cijfer">{bedrijf[r.veld as 'afm' | 'kifid' | 'kvk']}</p>
+            <a href={r.url} target="_blank" rel="noopener" class="tekstlink">
+              {r.link}
+              <Icoon naam="dak" maat={10} />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="reg-naam">{t.handelsnaam}</p>
+    </section>
+  </Opening>
 
-  <div class="maat od-raster">
-    <div class="od-zij">
-      <Inhoud titel={t.inhoud_titel} items={t.inhoud} />
+  <section class="on kamer" id="onafhankelijk" aria-labelledby="on-titel" data-kamer>
+    <div class="maat on-vak">
+      <div class="on-kop">
+        <h2 id="on-titel" data-regels>{t.onafhankelijk_titel}</h2>
+        <p class="lead" data-onthul>{t.onafhankelijk_lead}</p>
+        <p data-onthul>{t.vrijheid}</p>
+      </div>
+      <dl class="on-groepen">
+        {kaarten.kaarten.map((x) => (
+          <div data-onthul>
+            <dt>
+              <a href={x.url} target="_blank" rel="noopener">
+                {x.titel}
+                <span class="sr-alleen">, vergelijkingskaart (pdf)</span>
+              </a>
+              <span>{x.sub}</span>
+            </dt>
+            <dd class:list={[{ 'on-nee': !x.onafhankelijk }]}>
+              <strong>{x.onafhankelijk ? k.ja_kort : k.nee_kort}</strong>
+              <span>{x.onafhankelijk_uitleg}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
+  </section>
 
-    <div class="od-tekst">
-      <section id="zo-werken-we" aria-labelledby="od-zo">
-        <h2 id="od-zo">{kop['zo-werken-we']}</h2>
-        <ol class="od-stappen">
-          {t.stappen.map((s, i) => (
-            <li>
-              <span class="od-nr cijfer" aria-hidden="true">{i + 1}</span>
-              <h3>{s.titel}</h3>
-              <p>{s.tekst}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section id="onafhankelijk" aria-labelledby="od-onafhankelijk">
-        <h2 id="od-onafhankelijk">{kop.onafhankelijk}</h2>
-        <p>{t.onafhankelijk_lead}</p>
-        <dl class="od-groepen">
-          {kaarten.kaarten.map((k) => (
-            <div>
-              <dt>
-                <a href={k.url} target="_blank" rel="noopener">
-                  {k.titel}
-                  <span class="sr-alleen">, vergelijkingskaart (pdf)</span>
-                </a>
-                <span>{k.sub}</span>
-              </dt>
-              <dd class:list={[{ 'od-ja': k.onafhankelijk }]}>
-                <strong>{k.onafhankelijk ? teksten.kaart.ja : teksten.kaart.nee}</strong>
-                {!k.onafhankelijk && <span>{k.vergelijking}</span>}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p>{t.vrijheid}</p>
-      </section>
-
-      <section id="beloning" aria-labelledby="od-beloning">
-        <h2 id="od-beloning">{kop.beloning}</h2>
-        <div class="od-twee">
-          {t.beloning.map((b) => (
-            <div>
-              <h3>{b.titel}</h3>
-              <p>{b.tekst}</p>
-            </div>
-          ))}
-        </div>
-        <a href="/werkwijze-en-kosten" class="tekstlink">
-          Werkwijze en kosten
+  <section class="bl sectie" id="beloning" aria-labelledby="bl-titel">
+    <div class="maat bl-vak">
+      <div class="bl-kop">
+        <h2 id="bl-titel" data-regels>{t.beloning_titel}</h2>
+        <a href="/werkwijze-en-kosten" class="tekstlink" data-onthul>
+          {t.beloning_link}
           <Icoon naam="dak" maat={11} />
         </a>
-      </section>
+      </div>
+      {t.beloning.map((b) => (
+        <div class="bl-soort" data-onthul>
+          <h3>{b.titel}</h3>
+          <p>{b.tekst}</p>
+        </div>
+      ))}
+    </div>
+  </section>
 
-      <section id="registraties" aria-labelledby="od-registraties">
-        <h2 id="od-registraties">{kop.registraties}</h2>
-        <ul class="od-registers">
-          {t.registraties.map((r) => (
-            <li>
-              <p class="od-orgaan"><abbr title={r.naam}>{r.kort}</abbr></p>
-              <p class="od-nummer cijfer">{bedrijf[r.veld as 'afm' | 'kifid' | 'kvk']}</p>
-              <p class="od-uitleg">{r.tekst}</p>
-              <a href={r.url} target="_blank" rel="noopener" class="tekstlink">
-                {r.link}
+  <section class="kl kamer" id="klachten" aria-labelledby="kl-titel" data-kamer>
+    <div class="maat">
+      <div class="kl-kop">
+        <h2 id="kl-titel" data-regels>{t.klacht_titel}</h2>
+        <p class="lead" data-onthul>{t.klacht_lead}</p>
+      </div>
+      <ol class="kl-stappen">
+        {t.klacht_stappen.map((s, i) => (
+          <li data-onthul>
+            <span class="kl-cijfer cijfer" aria-hidden="true">{i + 1}</span>
+            <h3>{s.titel}</h3>
+            <p>{s.tekst}</p>
+            {i === 0 ? (
+              <a href={`mailto:${bedrijf.email}`} class="tekstlink">{bedrijf.email}</a>
+            ) : (
+              <a href="https://www.kifid.nl" target="_blank" rel="noopener" class="tekstlink">
+                kifid.nl
                 <Icoon naam="dak" maat={10} />
               </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section id="klachten" aria-labelledby="od-klachten">
-        <h2 id="od-klachten">{kop.klachten}</h2>
-        <p>{t.klacht_lead}</p>
-        <ol class="od-route">
-          {t.klacht_stappen.map((s, i) => (
-            <li>
-              <span class="od-nr cijfer" aria-hidden="true">{i + 1}</span>
-              <h3>{s.titel}</h3>
-              <p>{s.tekst}</p>
-              {i === 0 ? (
-                <a href={`mailto:${bedrijf.email}`} class="tekstlink">{bedrijf.email}</a>
-              ) : (
-                <a href="https://www.kifid.nl" target="_blank" rel="noopener" class="tekstlink">
-                  kifid.nl
-                  <Icoon naam="dak" maat={10} />
-                </a>
-              )}
-            </li>
-          ))}
-        </ol>
-        <p>{t.aansprakelijk}</p>
-      </section>
-
-      <section id="documenten" aria-labelledby="od-documenten">
-        <h2 id="od-documenten">{kop.documenten}</h2>
-        <p>{kaarten.uitleg}</p>
-        <div class="od-kaarten">
-          <Kaarten dienstenwijzer />
-        </div>
-      </section>
+            )}
+          </li>
+        ))}
+      </ol>
+      <p class="kl-slot" data-onthul>{t.aansprakelijk}</p>
     </div>
-  </div>
+  </section>
 
-  <Overstap volgende={teksten.afsluiter} midden />
+  <section class="dc" id="documenten" aria-labelledby="dc-titel">
+    <div class="maat bl-vak">
+      <h2 id="dc-titel" data-regels>{t.documenten_titel}</h2>
+      <div class="dc-kaarten" data-onthul>
+        <Kaartregel ids={kaarten.kaarten.map((x) => x.id)} />
+      </div>
+    </div>
+  </section>
+
+  <Einde volgende={teksten.afsluiter} />
 </Pagina>
 
 <style>
-  .od-raster {
+  .reg {
+    width: 100%;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    scroll-margin-top: calc(var(--kop-hoogte) + 2rem);
+  }
+  .reg ul {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2.5rem;
-  }
-  .od-tekst {
-    max-width: 46rem;
-    overflow-wrap: break-word;
-  }
-  .od-tekst > section {
-    padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
-    border-top: 1px solid var(--line);
-  }
-  .od-tekst > section:first-child {
-    padding-top: 0;
-    border-top: 0;
-  }
-  .od-tekst h2 {
-    font-size: var(--h2-blok);
-  }
-  .od-tekst h2 + p,
-  .od-tekst section > p {
-    max-width: 36rem;
-  }
-  .od-tekst h2 + p,
-  .od-tekst section > p {
-    margin-top: 1rem;
-  }
-  .od-tekst h3 {
-    font-size: 1.25rem;
-    line-height: 1.25;
-  }
-  .od-tekst .tekstlink {
-    margin-top: 0.75rem;
-  }
-
-  .od-stappen,
-  .od-route {
-    display: grid;
-    gap: 1.75rem 2.5rem;
-    margin-top: 1.75rem;
+    gap: 1.75rem;
+    max-width: 60rem;
+    margin: 0 auto;
     padding: 0;
     list-style: none;
   }
-  .od-stappen li,
-  .od-route li {
-    position: relative;
-    padding-left: 3.25rem;
-  }
-  .od-nr {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .reg li {
     display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    box-shadow: inset 0 0 0 1.5px var(--sky-deep);
-    font-family: var(--font-kop);
-    font-size: 1.125rem;
-    line-height: 1;
-    color: var(--navy);
+    justify-items: center;
   }
-  .od-stappen h3,
-  .od-route h3 {
-    padding-top: 0.25rem;
-  }
-  .od-stappen p,
-  .od-route p {
-    margin-top: 0.4rem;
-  }
-
-  .od-groepen {
-    margin-top: 1.5rem;
-    border-radius: var(--radius);
-    background: #fff;
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
-  .od-groepen > div {
-    display: grid;
-    gap: 0.4rem 2rem;
-    padding: 1.1rem 1.35rem;
-  }
-  .od-groepen > div + div {
-    border-top: 1px solid var(--line);
-  }
-  .od-groepen dt a {
-    display: inline-block;
-    padding-block: 0.65rem;
-    margin-block: -0.65rem;
-    font-weight: 700;
-    color: var(--navy);
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--navy) 25%, transparent);
-    text-underline-offset: 0.25em;
-  }
-  .od-groepen dt a:hover {
-    text-decoration-color: currentColor;
-  }
-  .od-groepen dt span {
-    display: block;
-    margin-top: 0.15rem;
-    font-size: var(--klein);
-    color: var(--tekst-zacht);
-  }
-  .od-groepen dd strong {
-    display: block;
-    color: var(--brown);
-  }
-  .od-groepen dd.od-ja strong {
-    color: var(--sky-deep);
-  }
-  .od-groepen dd span {
-    display: block;
-    margin-top: 0.15rem;
-    font-size: var(--klein);
-  }
-
-  .od-twee {
-    display: grid;
-    gap: 1.5rem 2.5rem;
-    margin-top: 1.5rem;
-  }
-  .od-twee p {
-    margin-top: 0.4rem;
-  }
-
-  .od-registers {
-    display: grid;
-    gap: 10px;
-    margin-top: 1.5rem;
-    padding: 0;
-    list-style: none;
-  }
-  .od-registers li {
-    display: flex;
-    flex-direction: column;
-    padding: 1.4rem 1.4rem 1rem;
-    border-radius: var(--radius);
-    background: var(--sky-wash);
-  }
-  .od-orgaan abbr {
+  .reg-orgaan abbr {
     font-weight: 700;
     text-decoration: none;
     color: var(--sky-deep);
   }
-  .od-nummer {
-    margin-top: 0.15rem;
+  .reg-nummer {
+    margin-top: 0.2rem;
     font-family: var(--font-kop);
-    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
-    line-height: 1.15;
+    font-size: var(--h2-blok);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     color: var(--navy);
   }
-  .od-uitleg {
-    margin-top: 0.6rem;
-    font-size: var(--klein);
-    line-height: 1.5;
+  .reg .tekstlink {
+    font-size: var(--ui);
   }
-  .od-registers .tekstlink {
-    display: inline-block;
-    align-self: start;
-    margin-top: auto;
-    padding-block: 0.7rem;
-    font-size: var(--klein);
+  .reg-naam {
+    margin-top: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+    font-size: var(--ui);
+    color: var(--tekst-zacht);
+  }
+
+  .on {
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem);
+    background: var(--sky-wash);
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .on-vak {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+  .on h2 {
+    max-width: 12ch;
+    font-size: var(--h2);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .on-kop p {
+    max-width: 28rem;
+    margin-top: 1.25rem;
+    line-height: 1.65;
+  }
+  .on-kop .lead {
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    color: var(--navy);
+  }
+  .on-groepen > div {
+    display: grid;
+    grid-template-columns: clamp(4.5rem, 3rem + 6vw, 8rem) minmax(0, 1fr);
+    gap: 0.25rem clamp(1rem, 3vw, 2.5rem);
+    align-items: start;
+    padding-block: 1.5rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 35%, transparent);
+  }
+  .on-groepen > div:last-child {
+    padding-bottom: 0;
+  }
+  .on-groepen dt {
+    grid-column: 2;
+  }
+  .on-groepen dt a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-block: -0.4rem;
+    font-family: var(--font-kop);
+    font-size: var(--h3);
+    line-height: 1.15;
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: color-mix(in srgb, var(--navy) 25%, transparent);
+    text-underline-offset: 0.25em;
+  }
+  .on-groepen dt a:hover {
+    text-decoration-color: currentColor;
+  }
+  .on-groepen dt span:not(.sr-alleen) {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: var(--ui);
+    color: var(--navy-soft);
+  }
+  .on-groepen dd {
+    display: contents;
+  }
+  .on-groepen strong {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    font-family: var(--font-kop);
+    font-size: var(--h2);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--sky-deep);
+  }
+  .on-groepen .on-nee strong {
+    color: var(--brown);
+  }
+  .on-groepen dd span {
+    grid-column: 2;
+    font-size: var(--ui);
+    line-height: 1.55;
+    color: var(--navy);
+  }
+
+  .bl-vak {
+    display: grid;
+    gap: 2rem;
+  }
+  .bl h2,
+  .dc h2 {
+    max-width: 12ch;
+    font-size: var(--h2-blok);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .bl-kop .tekstlink {
+    margin-top: 0.75rem;
+  }
+  .bl-soort {
+    padding-top: 1.25rem;
+    border-top: 1.5px solid color-mix(in srgb, var(--sky-deep) 40%, transparent);
+  }
+  .bl-soort h3 {
+    font-size: var(--h3);
+  }
+  .bl-soort p {
+    max-width: 26rem;
+    margin-top: 0.75rem;
+    line-height: 1.65;
+  }
+
+  .kl {
+    --boog: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+    padding-block: calc(var(--boog) + 2rem) clamp(4rem, 3rem + 5vw, 7rem);
+    border-radius: 50% 50% var(--radius) var(--radius) / var(--boog) var(--boog) var(--radius) var(--radius);
+    background: var(--navy);
+    color: #bcd2e1;
+    scroll-margin-top: var(--kop-hoogte);
+  }
+  .kl :focus-visible {
+    outline-color: var(--sky);
+  }
+  .kl-kop {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+  .kl h2 {
+    font-size: var(--h2);
+    line-height: 1.05;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .kl-kop .lead {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+    color: var(--sky-wash);
+    text-wrap: balance;
+  }
+  .kl-stappen {
+    display: grid;
+    gap: 3rem;
+    margin: clamp(3rem, 2.5rem + 3vw, 5rem) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .kl-stappen li {
+    position: relative;
+    padding-left: 4.5rem;
+  }
+  .kl-cijfer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    font-family: var(--font-kop);
+    font-size: 3.25rem;
+    line-height: 1;
+    color: var(--sky);
+    text-align: center;
+  }
+  .kl-stappen h3 {
+    padding-top: 0.6rem;
+    font-size: var(--h3-kaart);
+    line-height: 1.1;
+    color: #fff;
+  }
+  .kl-stappen p {
+    max-width: 30rem;
+    margin-top: 0.9rem;
+    font-size: 1.0625rem;
     line-height: 1.6;
   }
-  .od-registers .tekstlink :global(svg) {
-    margin-left: 0.3rem;
-    vertical-align: -0.05em;
+  .kl .tekstlink {
+    margin-top: 0.5rem;
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+  }
+  .kl .tekstlink:hover {
+    text-decoration-color: #fff;
+  }
+  .kl-slot {
+    max-width: 36rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
   }
 
-  .od-route li:first-child::after {
-    content: '';
-    position: absolute;
-    left: 1.125rem;
-    top: 2.25rem;
-    height: calc(100% - 2.25rem + 1.75rem);
-    width: 1.5px;
-    translate: -50% 0;
-    background: var(--sky-deep);
-    opacity: 0.45;
-  }
-  .od-kaarten {
-    margin-top: 1.5rem;
+  .dc {
+    padding-top: var(--sectie);
   }
 
-  @media (min-width: 40rem) {
-    .od-stappen,
-    .od-twee {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .od-groepen > div {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-    .od-registers {
+  @media (min-width: 48rem) {
+    .reg ul {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+    }
+    .reg li + li {
+      border-left: 1px solid var(--vel-rand);
     }
   }
 
   @media (min-width: 64rem) {
-    .od-raster {
-      grid-template-columns: 14rem minmax(0, 1fr);
+    .on-vak {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: start;
+    }
+    .bl-vak {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 3.5fr) minmax(0, 3.5fr);
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: start;
+    }
+    .dc-kaarten {
+      grid-column: 2 / -1;
+    }
+    .kl-stappen {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(3rem, 6vw, 6rem);
     }
-    .od-zij {
-      position: sticky;
-      top: calc(var(--kop-hoogte) + 1.5rem);
-      align-self: start;
+    .kl-stappen li {
+      padding: 6.25rem 0 0;
     }
-    .od-route {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .od-route li:first-child::after {
-      left: 2.25rem;
-      top: 1.125rem;
-      width: calc(100% - 2.25rem + 2.5rem);
+    .kl-stappen li::before {
+      content: '';
+      position: absolute;
+      top: 2.1rem;
+      left: 4rem;
+      right: 0;
       height: 1.5px;
-      translate: 0 -50%;
+      background: rgba(255, 255, 255, 0.14);
     }
-    .od-route li {
-      padding: 3.25rem 0 0;
+    .kl-stappen li:first-child::before {
+      right: calc(-1 * clamp(3rem, 6vw, 6rem));
+    }
+    .kl-cijfer {
+      width: auto;
+      font-size: 4.25rem;
+      text-align: left;
+    }
+    .kl-stappen h3 {
+      padding-top: 0;
+    }
+    .kl-slot {
+      margin-inline: auto;
+      text-align: center;
     }
   }
 </style>

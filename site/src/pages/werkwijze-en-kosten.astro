@@ -1,14 +1,19 @@
 ---
 import Pagina from '../components/v3/Pagina.astro';
 import Opening from '../components/v3/Opening.astro';
-import Stappen from '../components/v3/Stappen.astro';
-import Kostenvlak from '../components/v3/Kostenvlak.astro';
-import Overstap from '../components/v3/Overstap.astro';
+import Route from '../components/v3/Route.astro';
+import Kostenkamer from '../components/v3/Kostenkamer.astro';
+import Kostenkaart from '../components/v3/Kostenkaart.astro';
+import Einde from '../components/v3/Einde.astro';
 import { huis, huisViewBox } from '../components/v3/merk';
 import teksten from '../content/teksten/v3-paginas.json';
+import kaarten from '../content/v3-vergelijkingskaarten.json';
+import bedrijf from '../content/bedrijf.json';
 
 const t = teksten.werkwijze;
 const laatste = t.stappen.length - 1;
+const ids = kaarten.kaarten.map((k) => k.id);
+const rijen = teksten.dienstverlening.beloning.map((b) => ({ label: b.titel, tekst: b.tekst }));
 ---
 <Pagina titel={t.meta_titel} omschrijving={t.omschrijving}>
   <Opening titel={t.titel} lead={t.lead}>
@@ -28,15 +33,19 @@ const laatste = t.stappen.length - 1;
     </nav>
   </Opening>
 
-  <Stappen titel={t.route_titel} stappen={t.stappen} banen={t.banen} />
-  <Kostenvlak titel={t.kosten_titel} intro={t.kosten_intro} />
-  <Overstap volgende={t.volgende} midden />
+  <Route titel={t.route_titel} stappen={t.stappen} banen={t.banen} />
+
+  <Kostenkamer titel={t.kosten_titel} lead={t.kosten_intro}>
+    <Kostenkaart kop={bedrijf.naam} rijen={rijen} kaarten={ids} prijzen={ids} />
+  </Kostenkamer>
+
+  <Einde volgende={t.volgende} />
 </Pagina>
 
 <style>
   .route {
     width: 100%;
-    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
   }
   .route ol {
     display: grid;

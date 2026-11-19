@@ -1,0 +1,159 @@
+---
+import Pagina from '../components/v3/Pagina.astro';
+import Opening from '../components/v3/Opening.astro';
+import Bewijs from '../components/v3/Bewijs.astro';
+import Uitspraak from '../components/v3/Uitspraak.astro';
+import Einde from '../components/v3/Einde.astro';
+import diensten from '../content/v3-diensten.json';
+import teksten from '../content/teksten/v3-paginas.json';
+
+const d = diensten.find((x) => x.id === 'financien')!;
+const p = d.pagina;
+const t = teksten.dienst;
+const golven = p.golf.boven.map((boven, i) => ({ boven, onder: p.golf.onder[i] }));
+---
+<Pagina titel={d.titel} omschrijving={p.omschrijving}>
+  <Opening titel={d.titel} lead={p.lead} stappen={[{ href: '/#diensten', label: t.kruimel }]} onderwerp={d.titel}>
+    <Bewijs />
+  </Opening>
+
+  <section class="gf kamer" id="beweging" aria-labelledby="gf-titel" data-kamer>
+    <div class="maat">
+      <div class="gf-figuur">
+        {golven.map((g) => (
+          <div class="gf-golf">
+            <svg viewBox="0 0 500 200" aria-hidden="true" focusable="false" data-teken>
+              <path class="gf-rust" d="M0 100H500" data-stil />
+              <path d="M0 100C40.8 59 79.8 20 125 20S209.2 59 250 100S329.8 180 375 180S459.2 141 500 100" />
+            </svg>
+            <span class="gf-boven">{g.boven}</span>
+            <span class="gf-onder">{g.onder}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="gf-tekst">
+        <h2 id="gf-titel" data-regels>{p.uitleg_titel}</h2>
+        <p class="lead" data-onthul>{p.uitleg}</p>
+        <ul data-onthul>
+          {d.situaties.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Uitspraak id="beloning" kleur="navy" groot titel={p.beloning_titel} regels={[p.beloning_kern]} slotregel={p.beloning.join(' ')} />
+
+  <Einde volgende={t.volgende} onderwerp={d.titel} />
+</Pagina>
+
+<style>
+  .gf {
+    padding-block: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .gf-figuur {
+    display: grid;
+  }
+  .gf-golf {
+    position: relative;
+    padding-block: 2.25rem;
+  }
+  .gf-golf svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    fill: none;
+    stroke: var(--sky-deep);
+    stroke-width: 1.5px;
+  }
+  .gf-golf path {
+    vector-effect: non-scaling-stroke;
+  }
+  .gf-golf .gf-rust {
+    stroke: color-mix(in srgb, var(--navy) 28%, transparent);
+  }
+  .gf-golf span {
+    position: absolute;
+    font-family: var(--font-kop);
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    translate: -50% 0;
+  }
+  .gf-boven {
+    top: 0.25rem;
+    left: 25%;
+    color: var(--sky-deep);
+  }
+  .gf-onder {
+    bottom: 0.25rem;
+    left: 75%;
+    color: var(--brown);
+  }
+
+  .gf-tekst {
+    display: grid;
+    justify-items: center;
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    text-align: center;
+  }
+  .gf-tekst h2 {
+    max-width: 14ch;
+    font-size: var(--h2);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .gf-tekst .lead {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    text-wrap: balance;
+  }
+  .gf-tekst ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 2rem;
+    max-width: 46rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .gf-tekst li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .gf-tekst li::before {
+    content: '';
+    width: 0.6rem;
+    height: 1.5px;
+    background: var(--sky-deep);
+  }
+
+  @media (max-width: 47.99rem) {
+    .gf-golf + .gf-golf {
+      margin-top: 1.25rem;
+    }
+    .gf-boven {
+      left: 0;
+      translate: none;
+    }
+    .gf-onder {
+      left: auto;
+      right: 0;
+      translate: none;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .gf-figuur {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

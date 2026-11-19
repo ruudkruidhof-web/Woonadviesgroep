@@ -1,0 +1,62 @@
+---
+import { huis } from './merk';
+
+const { naam } = Astro.props;
+
+// Het huispad is 448 breed (x 32 tot 480) en 342 hoog (y 108 tot 450).
+const plaats = (links: number, breedte: number, grond = 140) => {
+  const s = breedte / 448;
+  return `translate(${(links - 32 * s).toFixed(2)} ${(grond - 450 * s).toFixed(2)}) scale(${s.toFixed(4)})`;
+};
+---
+<svg class="tk" viewBox="0 0 280 160" aria-hidden="true" focusable="false" data-teken>
+  {naam === 'eerste' && (
+    <Fragment>
+      <path d="M10 140H270" />
+      <path d={huis} transform={plaats(65, 150)} />
+      <circle class="tk-knoop" cx="140" cy="25.5" r="3.5" />
+    </Fragment>
+  )}
+  {naam === 'volgende' && (
+    <Fragment>
+      <path d="M10 140H270" />
+      <path d={huis} transform={plaats(20, 90)} />
+      <path d={huis} transform={plaats(125, 140)} />
+      <path d="M65 71.3Q118 2 195 33.1" />
+      <circle class="tk-knoop" cx="65" cy="71.3" r="3.5" />
+      <circle class="tk-knoop" cx="195" cy="33.1" r="3.5" />
+    </Fragment>
+  )}
+  {naam === 'scheiding' && (
+    <Fragment>
+      <path d="M10 140H270" />
+      <path d={huis} transform={plaats(18, 118)} />
+      <path class="tk-stippel" d={huis} data-stil transform={plaats(144, 118)} />
+      <circle class="tk-knoop" cx="77" cy="49.9" r="3.5" />
+    </Fragment>
+  )}
+</svg>
+
+<style>
+  .tk {
+    display: block;
+    width: min(100%, 15rem);
+    height: auto;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+  }
+  .tk path {
+    vector-effect: non-scaling-stroke;
+  }
+  .tk .tk-stippel {
+    stroke-dasharray: 3 5;
+    opacity: 0.75;
+  }
+  .tk-knoop {
+    fill: currentColor;
+    stroke: none;
+  }
+</style>

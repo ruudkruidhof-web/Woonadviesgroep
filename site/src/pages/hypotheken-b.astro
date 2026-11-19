@@ -1,0 +1,74 @@
+---
+import Pagina from '../components/v3/Pagina.astro';
+import Kruimels from '../components/v3/Kruimels.astro';
+import Bewijs from '../components/v3/Bewijs.astro';
+import Situaties from '../components/v3/Situaties.astro';
+import Uitspraak from '../components/v3/Uitspraak.astro';
+import Kostenkamer from '../components/v3/Kostenkamer.astro';
+import Kostenkaart from '../components/v3/Kostenkaart.astro';
+import Einde from '../components/v3/Einde.astro';
+import { kostenrijen } from '../components/v3/merk';
+import diensten from '../content/v3-diensten.json';
+import teksten from '../content/teksten/v3-paginas.json';
+
+const d = diensten.find((x) => x.id === 'hypotheken')!;
+const p = d.pagina;
+---
+<Pagina titel={d.titel} omschrijving={p.omschrijving}>
+  <Situaties titel={p.situaties_titel} items={p.situaties} knop={p.situaties_knop} onderwerp={d.titel}>
+    <div class="ob">
+      <Kruimels hier={d.titel} stappen={[{ href: '/#diensten', label: teksten.dienst.kruimel }]} />
+      <h1>{d.titel}</h1>
+      <p class="lead">{p.lead}</p>
+      <Bewijs items={p.bewijs} licht />
+    </div>
+  </Situaties>
+
+  <Uitspraak id="advies" titel={p.advies_titel} lead={p.advies_lead} regels={p.advies} staart={p.advies_staart} />
+
+  <Kostenkamer titel={p.kosten_titel} lead={p.kosten_lead} tekst={p.kosten}>
+    <Kostenkaart kop={d.titel} rijen={kostenrijen(p.kaart)} kaarten={[p.kaart]} prijzen={[p.kaart]} />
+  </Kostenkamer>
+
+  <Einde volgende={teksten.dienst.volgende} onderwerp={d.titel} />
+</Pagina>
+
+<style>
+  .ob {
+    display: grid;
+    justify-items: center;
+    margin-bottom: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    padding-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    text-align: center;
+  }
+  .ob :global(.kruimels ol) {
+    justify-content: center;
+    color: #bcd2e1;
+  }
+  .ob :global(.kruimels a:hover) {
+    color: #fff;
+  }
+  .ob h1 {
+    margin-top: 1rem;
+    font-size: min(clamp(3.25rem, 1.8rem + 5.8vw, 6.75rem), 15vw);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+  .ob .lead {
+    max-width: 36rem;
+    margin-top: 1.75rem;
+    color: var(--sky-wash);
+    text-wrap: balance;
+  }
+  .ob :global(.bw) {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 30rem) {
+    .ob h1 {
+      hyphens: auto;
+    }
+  }
+</style>
